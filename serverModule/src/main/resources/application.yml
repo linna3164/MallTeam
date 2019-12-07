@@ -1,0 +1,20 @@
+server:
+  port: 8085
+#eureka配置
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      #实现高可用
+      defaultZone: http://localhost:8762/eureka/
+    #不将自己注册到服务中
+    register-with-eureka: false
+    fetch-registry: false   # 是否拉取其它服务的信息，默认是true
+
+#服务名称
+spring:
+  application:
+    name: mingeraServer
+
+

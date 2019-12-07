@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xmu.log.LogMapper">
+
+    <resultMap id="productMap" type="product" autoMapping="true">
+        <id property="id" column="id"/>
+        <association property="desc" column="goods_id" select="findGoodsById" fetchType="lazy"/>
+    </resultMap>
+
+    <resultMap id="goodsMap" type="goods" autoMapping="true">
+        <id property="id" column="id"></id>
+        <collection property="products" column="id" select="listProductByGoodsId" fetchType="lazy"/>
+    </resultMap>
+
+
+
+    <insert id="addLog" parameterMap="log" useGeneratedKeys="true" keyProperty="id">
+        insert into log(admin_id, ip, type, action, status, gmt_create, gmt_modified, action_id)
+        values (#{orderSn},#{orderStatus}, #{consignee}, #{mobile}, #{message}, #{goodPrice}, #{couponPrice}, #{freightPrice}, #{integralPrice}, #{shipSn}, #{shipChannel}, #{shipTime}, #{confirmTime}, #{endTime}, #{province}, #{city}, #{county}, #{addressDetail}, #{addTime}, #{updateTime}, #{beDeleted},#{quantity})
+    </insert>
+
+</mapper>
