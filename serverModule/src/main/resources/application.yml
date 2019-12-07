@@ -7,7 +7,7 @@ eureka:
   client:
     service-url:
       #实现高可用
-      defaultZone: http://localhost:8762/eureka/
+      defaultZone: http://localhost:8085/eureka/
     #不将自己注册到服务中
     register-with-eureka: false
     fetch-registry: false   # 是否拉取其它服务的信息，默认是true
