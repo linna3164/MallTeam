@@ -28,6 +28,6 @@ public class LogController implements com.xmu.log.standard.LogController {
     }
 
     public Object addLog(Log log){
-
+        return null;
     }
 }
