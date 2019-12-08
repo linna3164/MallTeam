@@ -26,4 +26,8 @@ public class LogController implements com.xmu.log.standard.LogController {
     public String contactX(String sort,String order){
         return  sort.concat(" ").concat(order);
     }
+
+    public Object addLog(Log log){
+
+    }
 }
