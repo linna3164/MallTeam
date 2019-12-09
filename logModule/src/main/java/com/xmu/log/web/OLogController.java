@@ -1,13 +1,15 @@
 package com.xmu.log.web;
 
 import com.github.pagehelper.PageHelper;
+import com.xmu.log.domain.OLog;
 import com.xmu.log.service.LogService;
+import com.xmu.log.standard.Log;
 import com.xmu.log.validator.Order;
 import com.xmu.log.validator.Sort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 
-public class LogController implements com.xmu.log.standard.LogController {
+public class OLogController implements com.xmu.log.standard.LogController {
 
     @Autowired
     LogService logService;
@@ -19,7 +21,6 @@ public class LogController implements com.xmu.log.standard.LogController {
         String columnOrder=contactX(sort,order);
         PageHelper.orderBy(columnOrder); //进行分页结果的排序，name为字段名，排序规则DESC/ASC
         String st="d";
-
         return null;
     }
 
@@ -27,7 +28,8 @@ public class LogController implements com.xmu.log.standard.LogController {
         return  sort.concat(" ").concat(order);
     }
 
-    public Object addLog(Log log){
-        return null;
+    public void addLog(Log log){
+        OLog oLog=new OLog(log);
+        logService.addLog(oLog);
     }
 }
