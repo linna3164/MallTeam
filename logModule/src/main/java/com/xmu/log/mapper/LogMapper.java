@@ -1,6 +1,8 @@
 package com.xmu.log.mapper;
 
-import com.xmu.log.domain.Log;
+import com.xmu.log.domain.OLog;
+import com.xmu.log.standard.Admin;
+import com.xmu.log.standard.Log;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +13,7 @@ import java.util.List;
 public interface LogMapper {
 
 
-    List<Log> list(String name);
+    OLog listLog(Admin admin);
 
-    Log addLog(Log log);
+    int addLog(OLog oLog);
 }

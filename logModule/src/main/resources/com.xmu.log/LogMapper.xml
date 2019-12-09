@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xmu.log.mapper.LogMapper">
+
+    <select id="listLog" resultType="olog" parameterType="String">
+        select id,
+               admin_id,
+               ip,
+               type,
+               action,
+               status,
+               gmt_create,
+               gmt_modified,
+               action_id
+        from log where admin_id=#{id}
+    </select>
+
+
+    <insert id="addLog" parameterType="olog" useGeneratedKeys="true" keyProperty="id">
+        insert into log(admin_id, ip, type, action, status, gmt_create, gmt_modified, action_id)
+        values (#{adminId},#{ip}, #{type}, #{action}, #{statusCode}, #{gmtCreate}, #{gmtModified}, #{actionId})
+    </insert>
+
+</mapper>

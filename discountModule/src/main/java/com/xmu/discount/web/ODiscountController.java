@@ -1,8 +1,11 @@
 package com.xmu.discount.web;
 
+import com.xmu.discount.standard.Coupon;
 import com.xmu.discount.standard.DiscountController;
+import com.xmu.discount.standard.GrouponRule;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 public class ODiscountController implements DiscountController {
 
@@ -17,7 +20,7 @@ public class ODiscountController implements DiscountController {
     }
 
     @Override
-    public Object create(LitemallCoupon coupon) {
+    public Object create(Coupon coupon) {
         return null;
     }
 
@@ -27,12 +30,12 @@ public class ODiscountController implements DiscountController {
     }
 
     @Override
-    public Object update(Integer id, LitemallCoupon coupon) {
+    public Object update(Integer id, Coupon coupon) {
         return null;
     }
 
     @Override
-    public Object delete(Integer id, LitemallCoupon coupon) {
+    public Object delete(Integer id, Coupon coupon) {
         return null;
     }
 
@@ -57,17 +60,17 @@ public class ODiscountController implements DiscountController {
     }
 
     @Override
-    public Object update(LitemallGrouponRules grouponRules) {
+    public Object update(GrouponRule grouponRules) {
         return null;
     }
 
     @Override
-    public Object create(LitemallGrouponRules grouponRules) {
+    public Object create(GrouponRule grouponRules) {
         return null;
     }
 
     @Override
-    public Object delete(LitemallGrouponRules grouponRules) {
+    public Object delete(GrouponRule grouponRules) {
         return null;
     }
 
