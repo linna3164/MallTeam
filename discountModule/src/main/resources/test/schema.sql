@@ -40,3 +40,41 @@ CREATE TABLE `coupon_rule` (
                              `is_deleted` tinyint(1) unsigned DEFAULT '0',
                              PRIMARY KEY (`id`)
 );
+
+
+
+-- ----------------------------
+-- Table structure for groupon_rule
+-- ----------------------------
+DROP TABLE IF EXISTS `groupon_rule`;
+CREATE TABLE `groupon_rule` (
+                              `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT,
+                              `gmt_create` datetime(2) DEFAULT NULL,
+                              `gmt_modified` datetime(2) DEFAULT NULL,
+                              `is_deleted` tinyint(1) unsigned DEFAULT '0',
+                              `start_time` datetime(2) DEFAULT NULL,
+                              `end_time` datetime(2) DEFAULT NULL,
+                              `status` tinyint(2) unsigned DEFAULT NULL,
+                              `groupon_level_strategy` varchar(255) DEFAULT NULL,
+                              `goods_id` bigint(11) unsigned DEFAULT NULL,
+                              PRIMARY KEY (`id`)
+);
+
+
+-- ----------------------------
+-- Table structure for presale_rule
+-- ----------------------------
+DROP TABLE IF EXISTS `presale_rule`;
+CREATE TABLE `presale_rule` (
+                              `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT,
+                              `strategy` varchar(5000) DEFAULT NULL,
+                              `product_id` bigint(11) unsigned NOT NULL,
+                              `start_time` datetime DEFAULT NULL,
+                              `end_time` datetime DEFAULT NULL,
+                              `status` tinyint(1) unsigned DEFAULT '0',
+                              `gmt_create` datetime(2) DEFAULT NULL,
+                              `gmt_modified` datetime(2) DEFAULT NULL,
+                              `is_deleted` tinyint(1) unsigned DEFAULT '0',
+                              `deposit` decimal(10,2) DEFAULT NULL,
+                              PRIMARY KEY (`id`)
+);

@@ -34,15 +34,32 @@
     <insert id="addCoupon" parameterType="couponDto" useGeneratedKeys="true" keyProperty="id">
         insert into coupon(id, user_id, coupon_rule_id, coupon_sn, begin_time, end_time, used_time, name, pic_url, gmt_create, gmt_modified, is_deleted, status)
         values
-            (#{id}, #{userId}, #{couponRuleId}, #{couponSn}, #{beginTime}, #{endTime}, #{usedTime}, #{name}, #{picUrl}, #{gmtCreate}, #{gmtModified}, #{isDeleted}, #{status})
+            (#{id}, #{userId}, #{couponRuleId}, #{couponSn}, #{beginTime}, #{endTime}, #{usedTime}, #{name}, #{picUrl}, #{gmtCreate}, #{gmtModified}, #{beDeleted}, #{status})
     </insert>
 
     <insert id="addCouponRule" parameterType="couponRuleDto" useGeneratedKeys="true" keyProperty="id">
         insert into coupon_rule(id, name, brief, begin_time, end_time, pic_url, valid_period, strategy, total, goods_list1, goods_list2, gmt_create, gmt_modified, is_deleted)
         values
-            (#{id}, #{name}, #{brief}, #{beginTime}, #{endTime}, #{picUrl}, #{validPeriod}, #{strategy}, #{total}, #{goodList1}, #{goodList2}, #{gmtCreate}, #{gmtModified}, #{isDeleted})
+            (#{id}, #{name}, #{brief}, #{beginTime}, #{endTime}, #{picUrl}, #{validPeriod}, #{strategy}, #{total}, #{goodList1}, #{goodList2}, #{gmtCreate}, #{gmtModified}, #{beDeleted})
     </insert>
 
-
-
+    <update id="updateCouponRuleById" parameterType="CouponRuleDto">
+        update coupon_rule
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name!=null">name=#{name},</if>
+            <if test="brief!=null">brief=#{brief},</if>
+            <if test="beginTime!=null">begin_time=#{beginTime},</if>
+            <if test="endTime!=null">end_time=#{endTime},</if>
+            <if test="picUrl!=null">pic_Url=#{picUrl},</if>
+            <if test="validPeriod!=null">valid_Period=#{validPeriod},</if>
+            <if test="strategy!=null">strategy=#{strategy},</if>
+            <if test="total!=null">total=#{total},</if>
+            <if test="goodList1!=null">good_list1=#{goodList1},</if>
+            <if test="goodList2!=null">good_list2=#{goodList2},</if>
+            <if test="gmtCreate!=null">gmt_create=#{gmtCreate},</if>
+            <if test="gmtModified!=null">gmt_modified=#{gmtModified},</if>
+            <if test="beDeleted!=null">id_deleted=#{beDeleted},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
 </mapper>
