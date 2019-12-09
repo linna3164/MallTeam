@@ -42,5 +42,19 @@ public interface CouponMapper {
      */
     int addCouponRule(CouponRuleDto couponRuleDto);
 
+    /**
+     * 修改优惠券规则
+     * @param couponRuleDto
+     * @return
+     */
+    int updateCouponRuleById(CouponRuleDto couponRuleDto);
+
+    /**
+     * 修改优惠券
+     * @param couponDto
+     * @return
+     */
+    int updateCouponById(CouponDto couponDto);
+
 
 }

@@ -2,48 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xmu.discount.mapper.CouponMapper">
 
-    <select id="getCouponById" parameterType="Integer" resultType="couponDto">
-            select id,
-                    user_id,
-                   coupon_rule_id,
-                   coupon_sn,
-                    begin_time,
-                    end_time,
-                    used_time,
-                    name,
-                    pic_url,
-                    gmt_create,
-                    gmt_modified,
-                    is_deleted,
-                    status
-
-                    from coupon where id = #{id}
-    </select>
-
     <select id="getCouponRuleById" parameterType="Integer" resultType="couponRuleDto">
-                select id,
-                       name,
-                       brief,
-                       begin_time,
-                       end_time,
-                       pic_url,
-                       valid_period,
-                       strategy,
-                       total,
-                       goods_list1,
-                       goods_list2,
-                       gmt_create,
-                       gmt_modified,
-                       is_deleted
-
+            select id,
+                   name,
+                   descr,
+                   begin_time,
+                   pic_url,
+                   brief,
+                   valid_period,
+                   goods_ids1 as goods_ids,
+                   add_time,
+                   update_time,
+                   be_deleted,
+                    strategy
                     from coupon_rule where id = #{id}
     </select>
-
-    <insert id="addCoupon" parameterType="couponDto" useGeneratedKeys="true" keyProperty="id">
-        insert into coupon(id, user_id, coupon_rule_id, coupon_sn, begin_time, end_time, used_time, name, pic_url, gmt_create, gmt_modified, is_deleted, status)
-        values
-            (#{id}, #{userId}, #{couponRuleId}, #{couponSn}, #{beginTime}, #{endTime}, #{usedTime}, #{name}, #{picUrl}, #{gmtCreate}, #{gmtModified}, #{beDeleted}, #{status})
-    </insert>
 
     <insert id="addCouponRule" parameterType="couponRuleDto" useGeneratedKeys="true" keyProperty="id">
         insert into coupon_rule(id, name, brief, begin_time, end_time, pic_url, valid_period, strategy, total, goods_list1, goods_list2, gmt_create, gmt_modified, is_deleted)
