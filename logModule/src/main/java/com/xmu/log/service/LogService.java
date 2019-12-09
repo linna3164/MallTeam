@@ -1,16 +1,15 @@
 package com.xmu.log.service;
 
 
-import com.xmu.log.domain.OLog;
-import com.xmu.log.standard.Log;
+import com.xmu.log.domain.LogDto;
 
 import java.util.List;
 
 public interface LogService {
 
-    List<OLog> listLog(String name);
+    List<LogDto> listLog(String name);
 
-    OLog addLog(OLog olog);
+    LogDto addLog(LogDto olog);
 
 //    boolean deleteLog(Log log);
 

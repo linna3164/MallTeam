@@ -1,13 +1,10 @@
 package com.xmu.log.web;
 
 import com.github.pagehelper.PageHelper;
-import com.xmu.log.domain.OLog;
+import com.xmu.log.domain.LogDto;
 import com.xmu.log.service.LogService;
 import com.xmu.log.standard.Log;
-import com.xmu.log.validator.Order;
-import com.xmu.log.validator.Sort;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestParam;
 
 public class OLogController implements com.xmu.log.standard.LogController {
 
@@ -29,7 +26,7 @@ public class OLogController implements com.xmu.log.standard.LogController {
     }
 
     public void addLog(Log log){
-        OLog oLog=new OLog(log);
+        LogDto oLog=new LogDto(log);
         logService.addLog(oLog);
     }
 }

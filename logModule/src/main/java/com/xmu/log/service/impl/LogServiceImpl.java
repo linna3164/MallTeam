@@ -1,9 +1,8 @@
 package com.xmu.log.service.impl;
 
 import com.xmu.log.dao.LogDao;
-import com.xmu.log.domain.OLog;
+import com.xmu.log.domain.LogDto;
 import com.xmu.log.service.LogService;
-import com.xmu.log.standard.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -14,12 +13,12 @@ public class LogServiceImpl implements LogService {
     LogDao logDao;
 
     @Override
-    public List<OLog> listLog(String name) {
+    public List<LogDto> listLog(String name) {
         return logDao.listLog(name);
     }
 
     @Override
-    public OLog addLog(OLog oLog) {
+    public LogDto addLog(LogDto oLog) {
         return logDao.addLog(oLog);
     }
 }

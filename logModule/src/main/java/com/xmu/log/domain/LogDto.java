@@ -11,11 +11,11 @@ import java.util.Objects;
  *
  */
 @Alias("olog")
-public class OLog extends Log {
+public class LogDto extends Log {
 
     private Admin admin;
 
-    public OLog(Log log){
+    public LogDto(Log log){
         super();
         super.setAction(log.getAction());
         super.setAdminId(log.getAdminId());
