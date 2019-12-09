@@ -1,11 +1,22 @@
 package com.xmu.discount.domain;
 
 import com.xmu.discount.standard.Coupon;
+import org.apache.ibatis.type.Alias;
 
 import java.time.LocalDateTime;
 
-public class OCoupon extends Coupon {
+@Alias("couponDto")
+public class CouponDto extends Coupon {
 
+
+    /**
+     * 优惠券的状态
+     */
+    Status status;
+    /**
+     * 所属的优惠卷类别enum（未用，已用，过期）
+     */
+    CouponRuleDto couponRuleDto;
     /**
      * 优惠卷的状态
      */
@@ -88,7 +99,25 @@ public class OCoupon extends Coupon {
         }
     }
 
-    public OCoupon() {
-        super.setStatusCode();   Status.NOT_USED.getValue();
+    public CouponDto() {
+        super.setStatusCode(false);
+        this.setStatus(Status.NOT_USED);
+    }
+
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public CouponRuleDto getCouponRuleDto() {
+        return couponRuleDto;
+    }
+
+    public void setCouponRuleDto(CouponRuleDto couponRuleDto) {
+        this.couponRuleDto = couponRuleDto;
     }
 }

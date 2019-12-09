@@ -1,5 +1,6 @@
 package com.xmu.discount.domain;
 
+import org.apache.ibatis.type.Alias;
 import xmu.oomall.domain.order.Order;
 import xmu.oomall.domain.order.OrderItem;
 import xmu.oomall.domain.payment.Payment;
