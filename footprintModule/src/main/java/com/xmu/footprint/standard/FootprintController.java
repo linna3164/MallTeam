@@ -1,19 +1,19 @@
-//package com.xmu.footprint.standard;
-//
-////import io.swagger.annotations.ApiOperation;
-//import org.springframework.web.bind.annotation.*;
-//
-///**
-// * @Author zhc
-// * @create 2019/12/3 18:30
-// */
-//
-//
-//@RestController
-//@RequestMapping("/footprint")
-//
-//public interface FootprintController {
-//
+package com.xmu.footprint.standard;
+
+//import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.*;
+
+/**
+ * @Author zhc
+ * @create 2019/12/3 18:30
+ */
+
+
+@RestController
+@RequestMapping("")
+
+public interface FootprintController {
+
 //	/**
 //	*获取足迹信息
 //	*/
@@ -26,29 +26,34 @@
 //                       @RequestParam(defaultValue = "desc") String order);
 ////                       @Sort @RequestParam(defaultValue = "add_time") String sort,
 ////                      @Order @RequestParam(defaultValue = "desc") String order;
-//
-//	/**
-//     * 删除用户足迹
-//     *
-//     * @param userId 用户ID
-//     * @param body   请求内容， { id: xxx }
-//     * @return 删除操作结果
-//     */
-////    @ApiOperation("删除用户足迹 /delete")
-//    @DeleteMapping("{id}")
+
+	/**
+     * 删除用户足迹
+     *
+     * @param userId 用户ID
+     * @param body   请求内容， { id: xxx }
+     * @return 删除操作结果
+     */
+//    @ApiOperation("删除用户足迹 /delete")
+    @DeleteMapping("/footprint{id}")
 //    public Object delete(@LoginUser Integer userId, @RequestBody String body);
-//
-//    /**
-//     * 用户足迹列表
-//     *
-//     * @param page 分页页数
-//     * @param limit 分页大小
-//     * @return 用户足迹列表
-//     */
-////    @ApiOperation("获得用户足迹列表 /list")
+    public Object delete(@PathVariable Integer id);
+
+    /**
+     * 用户足迹列表
+     *
+     * @param page 分页页数
+     * @param limit 分页大小
+     * @return 用户足迹列表
+     */
+//    @ApiOperation("获得用户足迹列表 /list")
 //    @GetMapping("")
 //    public Object list(@LoginUser Integer userId,
 //                       @RequestParam(defaultValue = "1") Integer page,
 //                       @RequestParam(defaultValue = "10") Integer limit);
-//
-//}
+    @GetMapping("")
+//    public Object list(@RequestParam(defaultValue = "1") Integer page,
+//                       @RequestParam(defaultValue = "10") Integer limit);
+    public  Object findListByUserId(Integer id);
+
+}
