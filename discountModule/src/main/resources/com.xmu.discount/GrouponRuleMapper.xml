@@ -2,41 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xmu.discount.mapper.CouponMapper">
 
-    <select id="getCouponRuleById" parameterType="Integer" resultType="couponRuleDto">
+    <select id="getGrouponRuleById" parameterType="Integer" resultType="grouponRuleDto">
             select id,
-                   name,
-                   descr,
-                   begin_time,
-                   pic_url,
-                   brief,
-                   valid_period,
-                   goods_ids1 as goods_ids,
-                   add_time,
-                   update_time,
-                   be_deleted,
-                    strategy
-                    from coupon_rule where id = #{id}
+                   start_time,
+                   end_time,
+                   status,
+                   groupon_level_strategy,
+                   goods_id,
+                   gmt_create,
+                    gmt_modified,
+                    is_deleted
+
+                    from groupon_rule where id = #{id}
     </select>
 
-    <insert id="addCouponRule" parameterType="couponRuleDto" useGeneratedKeys="true" keyProperty="id">
-        insert into coupon_rule(id, name, brief, begin_time, end_time, pic_url, valid_period, strategy, total, goods_list1, goods_list2, gmt_create, gmt_modified, is_deleted)
+    <insert id="addGrouponRuleDto" parameterType="grouponRuleDto" useGeneratedKeys="true" keyProperty="id">
+        insert into groupon_rule(id,start_time,end_time,status,groupon_level_strategy,goods_id,gmt_create,gmt_modified,is_deleted)
         values
-            (#{id}, #{name}, #{brief}, #{beginTime}, #{endTime}, #{picUrl}, #{validPeriod}, #{strategy}, #{total}, #{goodList1}, #{goodList2}, #{gmtCreate}, #{gmtModified}, #{beDeleted})
+            (#{id}, #{startTime}, #{endTime}, #{statusCode}, #{grouponLevelStrategy}, #{goodsId}, #{gmtCreate}, #{gmtModified}, #{beDeleted})
     </insert>
 
-    <update id="updateCouponRuleById" parameterType="CouponRuleDto">
-        update coupon_rule
+    <update id="updateGrouponRuleById" parameterType="grouponRuleDto">
+        update groupon_rule
         <trim prefix="set" suffixOverrides=",">
-            <if test="name!=null">name=#{name},</if>
-            <if test="brief!=null">brief=#{brief},</if>
-            <if test="beginTime!=null">begin_time=#{beginTime},</if>
+            <if test="startTime!=null">start_time=#{startTime},</if>
             <if test="endTime!=null">end_time=#{endTime},</if>
-            <if test="picUrl!=null">pic_Url=#{picUrl},</if>
-            <if test="validPeriod!=null">valid_Period=#{validPeriod},</if>
-            <if test="strategy!=null">strategy=#{strategy},</if>
-            <if test="total!=null">total=#{total},</if>
-            <if test="goodList1!=null">good_list1=#{goodList1},</if>
-            <if test="goodList2!=null">good_list2=#{goodList2},</if>
+            <if test="statusCode!=null">status=#{statusCode},</if>
+            <if test="grouponLevelStrategy!=null">groupon_level_strategy=#{grouponLevelStrategy},</if>
+            <if test="goodsId!=null">goods_id=#{goodsId},</if>
             <if test="gmtCreate!=null">gmt_create=#{gmtCreate},</if>
             <if test="gmtModified!=null">gmt_modified=#{gmtModified},</if>
             <if test="beDeleted!=null">id_deleted=#{beDeleted},</if>

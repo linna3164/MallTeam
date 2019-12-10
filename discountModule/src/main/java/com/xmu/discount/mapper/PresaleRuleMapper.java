@@ -12,28 +12,28 @@ public interface PresaleRuleMapper {
 
 
     /**
-     * 用id找团购规则
+     * 用id找预售规则
      * @param id
      * @return
      */
     PresaleRuleDto getPresaleRuleById(Integer id);
 
     /**
-     * 添加团购规则
+     * 添加预售规则
      * @param id
      * @return
      */
-    int addPresaleRuleDto(Integer id);
+    int addPresaleRuleDto(PresaleRuleDto presaleRuleDto);
 
     /**
-     * 查询一个商品的团购规则
+     * 查询一个商品的预售规则
      * @param goodsId
      * @return
      */
     List<PresaleRuleDto> listPresaleRuleByGoodsId(Integer goodsId);
 
     /**
-     * 修改团购规则
+     * 修改预售规则
      * @return
      */
     int updatePresaleRuleById(PresaleRuleDto presaleRuleDto);
