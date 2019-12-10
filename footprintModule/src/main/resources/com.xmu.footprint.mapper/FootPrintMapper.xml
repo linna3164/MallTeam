@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xmu.footprint.mapper.FootPrintMapper">
+    
+    <insert id="addFootPrint" parameterType="FootPrint" useGeneratedKeys="true" keyProperty="id">
+        insert into footprint_item(birthTime,userId,goodsId,gmtCreate)
+        value(#{birthTime},#{userId},#{goodsId},#{gmtCreate})
+    </insert>
+    
+    <delete id="deleteFootPrint" parameterType="FootPrint">
+        delete from footprint_item where id = #{id}
+    </delete>
+
+    <!--<update id="deleteFootPrint" parameterType="FootPrint">-->
+        <!--update footprint_item-->
+        <!--set is_deleted = true-->
+        <!--where id = #{id}-->
+    <!--</update>-->
+
+    <select id="findFootPrintById" parameterType="Integer" resultType="FootPrint">
+        select * from footprint_item where id = #{id};
+    </select>
+
+    <select id="findListByUserId" parameterType="Integer" resultType="FootPrint">
+        select * from footprint_item where userId = #{id}
+    </select>
+
+
+</mapper>

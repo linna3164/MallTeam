@@ -1,0 +1,17 @@
+
+server:
+  port: 8088
+
+##应用(服务)名称
+#spring.application.name=FootPrint
+##注册中心地址
+#eureka.client.service-url.defaultZone=http://localhost:8085/eureka/
+
+mybatis:
+  #domain对象的包
+  type-aliases-package: com.xmu.footprint.domain
+  #mapper。xml所在的位置
+  mapper-locations: classpath:com.xmu.footprint.mapper/*.xml
+  configuration:
+    #自动将SQL中查出来的带下划线的字段，转换为驼峰标志，再去匹配类中的属性
+    map-underscore-to-camel-case: true
