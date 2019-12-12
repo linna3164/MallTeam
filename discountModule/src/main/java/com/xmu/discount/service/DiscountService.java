@@ -19,4 +19,17 @@ public interface DiscountService {
      */
     Boolean isValid(Promotion promotion);
 
+    /**
+     * 获得商品当前的促销活动
+     * @param goodsId
+     * @return
+     */
+    Promotion getCurrentPromotionByGoodsId(Integer goodsId);
+
+    /**
+     * 添加优惠活动
+     * @param promotion
+     * @return
+     */
+    Promotion addPromotion(Promotion promotion);
 }

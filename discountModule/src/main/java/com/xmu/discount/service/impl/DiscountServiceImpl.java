@@ -60,5 +60,31 @@ public class DiscountServiceImpl implements DiscountService {
     public Boolean isValid(Promotion promotion) {
         List<Promotion> promotions=this.listProimotionByGoodsId(promotion.getPromotionGoodsId());//活动商品的所有促销活动
         //TODO:判断promotion的时间不能和其他的促销活动有交集
+        return promotion.isValid(promotions);
+
+    }
+
+
+    /**
+     * 获得商品当前正在进行的促销活动
+     * @param goodsId
+     * @return
+     */
+    @Override
+    public Promotion getCurrentPromotionByGoodsId(Integer goodsId) {
+        List<Promotion> promotions=this.listProimotionByGoodsId(goodsId);//活动商品的所有促销活动
+        //TODO:结束时间大于当前时间，开始时间小于当前时间？？不确定这个逻辑是否正确
+    }
+
+    /**
+     * 添加优惠活动
+     * @param promotion
+     * @return
+     */
+    @Override
+    public Promotion addPromotion(Promotion promotion){
+        if(this.isValid(promotion)){
+
+        }
     }
 }

@@ -12,6 +12,7 @@ import xmu.oomall.util.JacksonUtil;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 促销活动
@@ -52,4 +53,13 @@ public abstract class Promotion implements Serializable {
      * @return
      */
     public abstract Integer getPromotionGoodsId();
+
+    /**
+     * 判断这个promotion是否可添加
+     * @param promotions
+     * @return
+     */
+    public boolean isValid(List<Promotion> promotions){
+
+    }
 }
