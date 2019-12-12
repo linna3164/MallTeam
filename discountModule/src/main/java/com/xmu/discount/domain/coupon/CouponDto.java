@@ -1,5 +1,6 @@
-package com.xmu.discount.domain;
+package com.xmu.discount.domain.coupon;
 
+import com.xmu.discount.domain.coupon.CouponRuleDto;
 import com.xmu.discount.standard.Coupon;
 import org.apache.ibatis.type.Alias;
 

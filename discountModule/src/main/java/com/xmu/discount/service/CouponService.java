@@ -1,6 +1,6 @@
 package com.xmu.discount.service;
 
-import com.xmu.discount.domain.CouponDto;
+import com.xmu.discount.domain.coupon.CouponDto;
 import org.springframework.stereotype.Service;
 import xmu.oomall.domain.coupon.Coupon;
 

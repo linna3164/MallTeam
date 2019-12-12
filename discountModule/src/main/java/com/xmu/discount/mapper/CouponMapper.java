@@ -1,9 +1,11 @@
 package com.xmu.discount.mapper;
 
-import com.xmu.discount.domain.CouponDto;
-import com.xmu.discount.domain.CouponRuleDto;
+import com.xmu.discount.domain.coupon.CouponDto;
+import com.xmu.discount.domain.coupon.CouponRuleDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * @Author: Ming Qiu
@@ -57,4 +59,13 @@ public interface CouponMapper {
     int updateCouponById(CouponDto couponDto);
 
 
+    /**
+     * 根据优惠券规则id和用户id查找优惠券
+     * @param couponRuleDtoId
+     * @param userId
+     * @return
+     */
+    List<CouponDto> listCouponByCouponRuleId(Integer couponRuleDtoId, Integer userId);
+
+    List<>
 }

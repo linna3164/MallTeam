@@ -1,8 +1,8 @@
-package com.xmu.discount.domain;
+package com.xmu.discount.domain.coupon;
 
+import com.xmu.discount.domain.others.OrderItemDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xmu.oomall.domain.order.OrderItem;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.List;
  * @author: Ming Qiu
  * @date: Created in 15:47 2019/11/5
  * */
-public abstract class AbstractCouponStrategy {
+    public abstract class AbstractCouponStrategy {
     private Logger logger = LoggerFactory.getLogger(AbstractCouponStrategy.class);
 
     /**
@@ -45,24 +45,24 @@ public abstract class AbstractCouponStrategy {
      * 获得优惠的费用
      * @param validItems 订单中可以用于优惠卷的明细
      * @param couponSn 优惠卷序号
-     * @return 更新的订单列表，包含可能因为误差拆开的明细
+     * @return 更新的订单列表(validItems)，包含可能因为误差拆开的明细(newItems)
      */
-    public List<OrderItem> cacuDiscount(List<OrderItem> validItems, String couponSn){
+    public List<OrderItemDto> cacuDiscount(List<OrderItemDto> validItems, String couponSn){
         logger.debug("cacuDiscount的参数： validItems"+ validItems +" couponSn = "+couponSn);
         //优惠商品的总价和数量
-        BigDecimal totalPrice = BigDecimal.ZERO;
-        Integer totalQuantity = 0;
+        BigDecimal totalPrice = BigDecimal.ZERO;//可用优惠券明细的订单item的总价
+        Integer totalQuantity = 0;//可用优惠券明细的订单item的总数量
 
         //优惠的货品
-        List<OrderItem> discountItems = new ArrayList<>(validItems.size());
+        List<OrderItemDto> discountItems = new ArrayList<>(validItems.size());
 
-        Iterator<OrderItem> itemIterator = validItems.iterator();
+        Iterator<OrderItemDto> itemIterator = validItems.iterator();
 
         while (itemIterator.hasNext()){
-            OrderItem item = itemIterator.next();
+            OrderItemDto item = itemIterator.next();
             logger.debug("总价 totalPrice="+ totalPrice + " 总数 totalQuantitiy = "+totalQuantity);
-            totalPrice = totalPrice.add(item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity())));
-            totalQuantity += item.getQuantity();
+            totalPrice = totalPrice.add(item.getPrice().multiply(BigDecimal.valueOf(item.getNumber())));//可优惠总价
+            totalQuantity += item.getNumber();
             discountItems.add(item);
         }
 
@@ -72,20 +72,21 @@ public abstract class AbstractCouponStrategy {
         logger.debug("优惠门槛 enough = "+enough);
 
         //计算优惠后的价格
-        List<OrderItem> newItems = new ArrayList<>();
+        List<OrderItemDto> newItems = new ArrayList<>();
         BigDecimal dealTotalPrice = BigDecimal.ZERO;
         if (enough) {
-            for (OrderItem item: discountItems){
+            for (OrderItemDto item: discountItems){
                 //按照比例分配，可能会出现精度误差，在后面补偿到第一个货品上
-                BigDecimal dealPrice = this.getDealPrice(item.getPrice(), totalPrice);
+                BigDecimal dealPrice = this.getDealPrice(item.getPrice(), totalPrice);//每一项商品的每一项
                 item.setPromotionSn(couponSn);
                 logger.debug("优惠价格 dealPrice="+ dealPrice);
                 item.setDealPrice(dealPrice);
-                dealTotalPrice = dealTotalPrice.add(dealPrice.multiply(BigDecimal.valueOf(item.getQuantity())));
+                dealTotalPrice = dealTotalPrice.add(dealPrice.multiply(BigDecimal.valueOf(item.getNumber())));//每一项的优惠价格
                 logger.debug("总优惠价 dealTotalPrice="+ dealTotalPrice);
                 logger.debug("优惠明细 item="+ item);
             }
 
+            //计算误差
             BigDecimal error = this.getError(totalPrice, dealTotalPrice);
             logger.debug("误差 error="+ error);
             if (error.compareTo(BigDecimal.ZERO) != 0){
@@ -93,8 +94,8 @@ public abstract class AbstractCouponStrategy {
                 //寻找数量为1的明细，将误差补偿在此明细上，否则拆开一个现有明细
 
                 Boolean gotIt = false;
-                for (OrderItem item : validItems){
-                    if (item.getQuantity() == 1){
+                for (OrderItemDto item : validItems){
+                    if (item.getNumber() == 1){
                         BigDecimal dealPrice = item.getDealPrice();
                         item.setDealPrice(dealPrice.add(error));
                         gotIt = true;
@@ -104,12 +105,12 @@ public abstract class AbstractCouponStrategy {
 
                 if (!gotIt){
                     //无数量为1的明细，拆第一个
-                    OrderItem item = validItems.get(0);
-                    Integer quantity = item.getQuantity();
-                    item.setQuantity(quantity - 1);
+                    OrderItemDto item = validItems.get(0);
+                    Integer quantity = item.getNumber();
+                    item.setNumber(quantity - 1);
                     try {
-                        OrderItem newItem = (OrderItem) item.clone();
-                        newItem.setQuantity(1);
+                        OrderItemDto newItem = (OrderItemDto) item.clone();
+                        newItem.setNumber(1);
                         BigDecimal dealPrice = newItem.getDealPrice();
                         newItem.setDealPrice(dealPrice.add(error));
                         newItems.add(newItem);

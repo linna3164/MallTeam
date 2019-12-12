@@ -1,4 +1,4 @@
-package com.xmu.discount.domain;
+package com.xmu.discount.domain.discount;
 
 import org.apache.ibatis.type.Alias;
 import xmu.oomall.domain.order.Order;

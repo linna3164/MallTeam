@@ -37,4 +37,18 @@
         </trim>
         WHERE id=#{id}
     </update>
+
+    <select id="listPresaleRuleByGoodsId" parameterType="Integer" resultType="presaleRuleDto">
+        select id,
+               strategy,
+               product_id,
+               start_time,
+               end_time,
+               status,
+               gmt_create,
+               gmt_modified,
+               is_deleted,
+               deposit
+        from presale_rule where id = #{id}
+    </select>
 </mapper>

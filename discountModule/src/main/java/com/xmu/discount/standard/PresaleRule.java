@@ -18,6 +18,14 @@ public class PresaleRule {
      */
     private LocalDateTime startTime;
     /**
+     * 预付结束时间
+     */
+    private LocalDateTime adEndTime;
+    /**
+     * 尾款开始时间
+     */
+    private LocalDateTime finalStartTime;
+    /**
      *预售结束时间
      */
     private LocalDateTime endTime;
@@ -26,17 +34,17 @@ public class PresaleRule {
      */
     private Boolean statusCode;
     /**
-     * 预售策略
+     *预售商品id
      */
-    private String strategy;
-    /**
-     *预售产品id
-     */
-    private Integer productId;
+    private Integer goodsId;
     /**
      *定金
      */
     private BigDecimal deposit;
+    /**
+     * 尾款金额
+     */
+    private BigDecimal finalPayment;
 
     private LocalDateTime gmtCreate;
     private LocalDateTime gmtModified;
@@ -47,11 +55,13 @@ public class PresaleRule {
         return "PresaleRule{" +
                 "id=" + id +
                 ", startTime=" + startTime +
+                ", adEndTime=" + adEndTime +
+                ", finalStartTime=" + finalStartTime +
                 ", endTime=" + endTime +
                 ", statusCode=" + statusCode +
-                ", strategy='" + strategy + '\'' +
-                ", productId=" + productId +
+                ", goodsId=" + goodsId +
                 ", deposit=" + deposit +
+                ", finalPayment=" + finalPayment +
                 ", gmtCreate=" + gmtCreate +
                 ", gmtModified=" + gmtModified +
                 ", beDeleted=" + beDeleted +
@@ -87,6 +97,22 @@ public class PresaleRule {
         this.startTime = startTime;
     }
 
+    public LocalDateTime getAdEndTime() {
+        return adEndTime;
+    }
+
+    public void setAdEndTime(LocalDateTime adEndTime) {
+        this.adEndTime = adEndTime;
+    }
+
+    public LocalDateTime getFinalStartTime() {
+        return finalStartTime;
+    }
+
+    public void setFinalStartTime(LocalDateTime finalStartTime) {
+        this.finalStartTime = finalStartTime;
+    }
+
     public LocalDateTime getEndTime() {
         return endTime;
     }
@@ -103,20 +129,12 @@ public class PresaleRule {
         this.statusCode = statusCode;
     }
 
-    public String getStrategy() {
-        return strategy;
+    public Integer getGoodsId() {
+        return goodsId;
     }
 
-    public void setStrategy(String strategy) {
-        this.strategy = strategy;
-    }
-
-    public Integer getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Integer productId) {
-        this.productId = productId;
+    public void setGoodsId(Integer goodsId) {
+        this.goodsId = goodsId;
     }
 
     public BigDecimal getDeposit() {
@@ -125,6 +143,14 @@ public class PresaleRule {
 
     public void setDeposit(BigDecimal deposit) {
         this.deposit = deposit;
+    }
+
+    public BigDecimal getFinalPayment() {
+        return finalPayment;
+    }
+
+    public void setFinalPayment(BigDecimal finalPayment) {
+        this.finalPayment = finalPayment;
     }
 
     public LocalDateTime getGmtCreate() {

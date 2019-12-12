@@ -1,6 +1,6 @@
 package com.xmu.discount.mapper;
 
-import com.xmu.discount.domain.PresaleRuleDto;
+import com.xmu.discount.domain.discount.PresaleRuleDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 

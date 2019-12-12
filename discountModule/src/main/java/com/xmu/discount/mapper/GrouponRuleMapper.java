@@ -1,6 +1,6 @@
 package com.xmu.discount.mapper;
 
-import com.xmu.discount.domain.GrouponRuleDto;
+import com.xmu.discount.domain.discount.GrouponRuleDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +19,7 @@ public interface GrouponRuleMapper {
 
     /**
      * 添加团购规则
-     * @param id
+     * @param grouponRuleDto
      * @return
      */
     int addGrouponRuleDto(GrouponRuleDto grouponRuleDto);

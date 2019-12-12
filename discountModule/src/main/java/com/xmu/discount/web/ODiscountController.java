@@ -85,7 +85,11 @@ public class ODiscountController implements DiscountController {
     }
 
     @Override
-    public Object my(Integer userId, Integer showType) {
+    public Object my( Product product ,Integer number,Integer userId, Integer showType) {
+//        Order order=new Order();
+        OrderItem orderItem=new OrderItem(Product product,Integer number );
+
+//        order.setOrderItem(orderItem);
         return null;
     }
 }
