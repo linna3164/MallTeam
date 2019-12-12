@@ -1,7 +1,7 @@
 package com.xmu.discount.dao;
 
-import com.xmu.discount.domain.coupon.Coupon;
-import com.xmu.discount.domain.coupon.CouponRule;
+import com.xmu.discount.domain.coupon.CouponDto;
+import com.xmu.discount.domain.coupon.CouponRuleDto;
 import com.xmu.discount.mapper.CouponMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

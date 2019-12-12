@@ -17,6 +17,7 @@ public interface GrouponRuleMapper {
      */
     GrouponRule getGrouponRuleById(Integer id);
 
+
     /**
      * 添加团购规则
      * @param grouponRule
@@ -30,6 +31,12 @@ public interface GrouponRuleMapper {
      * @return
      */
     List<GrouponRule> listGrouponRuleByGoodsId(Integer goodsId);
+
+    /**
+     * 获得所有团购规则
+     * @return
+     */
+    List<GrouponRuleDto> getGrouponRules();
 
     /**
      * 修改团购规则
