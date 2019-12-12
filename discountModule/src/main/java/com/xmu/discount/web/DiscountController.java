@@ -2,6 +2,7 @@ package com.xmu.discount.web;
 
 import com.xmu.discount.domain.coupon.CouponRule;
 import com.xmu.discount.domain.discount.GrouponRule;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public interface DiscountController {
      *改动:修改参数名称(id->couponRuleId)
      */
     @GetMapping("/couponRule/{id}/user/{id}/coupon")
-    public Object listuser(Integer userId, Integer couponRuleId, Short status,
+    public Object listuser(@Param("userId")Integer userId, @Param("couponRuleId")Integer couponRuleId, Short status,
                            @RequestParam(defaultValue = "1") Integer page,
                            @RequestParam(defaultValue = "10") Integer limit,
 //                         @Sort @RequestParam(defaultValue = "add_time") String sort,
@@ -154,7 +155,7 @@ public interface DiscountController {
      */
     @PutMapping("/grouponRules/{id}")
     public Object update(@RequestBody GrouponRule grouponRule,
-                         @Pathvariable Integer id);
+                         @PathVariable Integer id);
 
     /**
      *创建一个新的团购规则/create
@@ -168,7 +169,7 @@ public interface DiscountController {
      * @return 无
      */
     @DeleteMapping("/grouponRules/{id}")
-    public Object delete(@Pathvariable Integer grouponRuleId);
+    public Object delete(@PathVariable Integer grouponRuleId);
 
     /**
      * 获取团购规则列表详细信息/listRecord

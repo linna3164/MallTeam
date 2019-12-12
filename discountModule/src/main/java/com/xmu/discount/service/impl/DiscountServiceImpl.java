@@ -2,6 +2,8 @@ package com.xmu.discount.service.impl;
 
 import com.xmu.discount.dao.GrouponRuleDao;
 import com.xmu.discount.dao.PresaleRuleDao;
+import com.xmu.discount.domain.discount.GrouponRule;
+import com.xmu.discount.domain.discount.PresaleRule;
 import com.xmu.discount.domain.discount.Promotion;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.others.domain.Payment;
@@ -25,10 +27,11 @@ public class DiscountServiceImpl implements DiscountService {
         List<Promotion> promotions=this.listProimotionByGoodsId(order.getOrderItemList().get(0).getProduct().getGoodsId());
         if(promotions.size()==0){//没有促销活动
             //TODO:报错
-
+           return null;
         }
         else  if(promotions.size()>1){//促销活动大于1个
             //TODO:报错
+            return null;
         }
         else{
            return  promotions.get(0).getPayment(order);
@@ -89,6 +92,7 @@ public class DiscountServiceImpl implements DiscountService {
         }
         else  if(promotions.size()>1){//促销活动大于1个
             //TODO:报错
+
             return null;
         }
         else{
@@ -106,5 +110,51 @@ public class DiscountServiceImpl implements DiscountService {
         if(this.isValid(promotion)){
 
         }
+        return null;
+    }
+
+    @Override
+    public GrouponRule getGrouponRuleById(Integer id) {
+        return (GrouponRule) grouponRuleDao.getGrouponRuleById(id);
+    }
+
+    @Override
+    public int addGrouponRule(GrouponRule grouponRule) {
+        return grouponRuleDao.addGrouponRule(grouponRule);
+    }
+
+    @Override
+    public List<Promotion> listGrouponRuleByGoodsId(Integer goodsId) {
+        return grouponRuleDao.listGrouponRuleByGoodsId(goodsId);
+    }
+
+    @Override
+    public List<Promotion> getGrouponRules() {
+        return grouponRuleDao.getGroupRules();
+    }
+
+    @Override
+    public int updateGrouponRuleById(GrouponRule grouponRule) {
+        return grouponRuleDao.updateGrouponRuleById(grouponRule);
+    }
+
+    @Override
+    public Promotion getPresaleRuleById(Integer id) {
+        return presaleRuleDao.getPresaleRuleById(id);
+    }
+
+    @Override
+    public int addPresaleRule(PresaleRule presaleRule) {
+        return presaleRuleDao.addPresaleRule(presaleRule);
+    }
+
+    @Override
+    public List<Promotion> listPresaleRuleByGoodsId(Integer goodsId) {
+        return presaleRuleDao.listPresaleRuleByGoodsId(goodsId);
+    }
+
+    @Override
+    public int updatePresaleRuleById(PresaleRule presaleRule) {
+        return presaleRuleDao.updatePresaleRuleById(presaleRule);
     }
 }

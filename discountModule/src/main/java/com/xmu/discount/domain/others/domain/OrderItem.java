@@ -10,10 +10,15 @@ import lombok.ToString;
  * @Description:订单明细对象
  * @Data:Created in 14:50 2019/12/11
  **/
-@Getter
+
 @Setter
 @ToString
 @EqualsAndHashCode(callSuper = true)
 public class OrderItem extends OrderItemPo {
+
     private Product product;
+
+    public Product getProduct() {
+        return product;
+    }
 }

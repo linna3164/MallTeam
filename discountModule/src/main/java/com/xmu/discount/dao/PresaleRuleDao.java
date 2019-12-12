@@ -20,10 +20,22 @@ public class PresaleRuleDao {
      * @param id
      * @return
      */
-    public  PresaleRule getPresaleRuleById(Integer id){
+    public  Promotion getPresaleRuleById(Integer id){
         return presaleRuleMapper.getPresaleRuleById(id);
     }
 
+    /**
+     * 查看所有预售规则
+     * @return
+     */
+    public List<Promotion> getPresaleRules(){
+        List<Promotion> promotions=new ArrayList<Promotion>();
+        List<PresaleRule> presaleRules=presaleRuleMapper.getPresaleRules();
+        for(PresaleRule p:presaleRules){
+            promotions.add(p);
+        }
+        return promotions;
+    }
     /**
      * 添加预售规则
      * @param presaleRule

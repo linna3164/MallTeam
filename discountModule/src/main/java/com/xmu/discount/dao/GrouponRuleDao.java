@@ -24,6 +24,16 @@ public class GrouponRuleDao {
         return grouponRuleMapper.getGrouponRuleById(id);
     }
 
+    public List<Promotion> getGroupRules(){
+        List<GrouponRule> grouponRules=grouponRuleMapper.getGrouponRules();
+        List<Promotion> promotions=new ArrayList<Promotion>();
+        for(GrouponRule g:grouponRules)
+        {
+            promotions.add(g);
+        }
+        return promotions;
+    }
+
     /**
      * 添加团购规则
      * @param grouponRule
