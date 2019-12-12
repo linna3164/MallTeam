@@ -155,6 +155,7 @@ public class DiscountServiceImpl implements DiscountService {
 
     @Override
     public int updatePresaleRuleById(PresaleRule presaleRule) {
+        //Todo:判断开始
         return presaleRuleDao.updatePresaleRuleById(presaleRule);
     }
 

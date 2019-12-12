@@ -30,15 +30,28 @@ public class CouponServiceImpl implements CouponService {
     }
 
 
+    /**
+     * 用户领取优惠券
+     * @param coupon
+     * @return
+     */
     @Override
     public Coupon addCoupon(Coupon coupon) {
         List<Coupon> coupons=couponDao.listCouponByCouponRuleIdAndUserId(coupon.getCouponRuleId(),coupon.getUserId());
         CouponRule couponRule=couponDao.getCouponRuleById(coupon.getCouponRuleId());
-        //用户已经领取过了
-        if(coupons.size()>0){
-            //TODO:不能领取
+        if(couponRule==null){
+            //TODO:优惠券规则不存在,报错
         }
-        else if()
+        coupon.setCouponRule(couponRule);
+        //用户还没领取过
+        if(coupons.size()>0){
+            //优惠券规则可被领取
+            if (couponRule.canGet()){
+                couponDao.addCoupon(coupon);
+                return coupon;
+            }
+
+        }
         return null;
     }
 

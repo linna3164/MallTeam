@@ -41,7 +41,9 @@ public class CouponRulePo {
      */
     private String picUrl;
     /**
-     * 优惠券规则的有效期(即有效的天数)
+     * 优惠卷有效时间，单位天，
+     * 负数表示绝对时间，即优惠卷开始领取时间后的天数，
+     * 正数表示相对时间，即用户实际领取优惠卷后的天数
      */
     private Integer validPeriod;
     /**

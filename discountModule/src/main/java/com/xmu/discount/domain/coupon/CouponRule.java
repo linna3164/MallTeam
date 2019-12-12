@@ -19,17 +19,79 @@ public class CouponRule {
 
     private Object couponStrategy;//标准组
     private CouponRulePo realObj;
+    /**
+     * 时间类型
+     */
+    private TimeStatus timeStatus;
 
     /**
-     * 优惠券能否被领取
-     * @return
+     * 优惠卷规则的时间类型
      */
-    public boolean canGet(){
+    public enum TimeStatus {
+        /**
+         * 未用
+         */
+        LIMIT("限制时间", 0),
+        /**
+         * 已用
+         */
+        PERIOD("时期", 1);
 
+        /**
+         * 值
+         */
+        private final Integer value;
+
+        /**
+         * 名称
+         */
+        private final String name;
+
+        /**
+         * 构造函数
+         * @param name 名称
+         * @param value 值
+         */
+        TimeStatus(String name, Integer value) {
+            this.value = value;
+            this.name = name;
+        }
+
+        /**
+         * 获得值
+         * @return 值
+         */
+        public Integer getValue() {
+            return this.value;
+        }
+
+        /**
+         * 获得名称
+         * @return 名
+         */
+        public String getName() {
+            return this.name;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
     }
 
     /**
-     * 优惠券是否有剩余
+     * 优惠券规则能否被领取
+     * @return
+     */
+    public boolean canGet(){
+        if(this.isLeft()&&this.isWithinTime()){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 优惠券规则是否有剩余
      * @return
      */
     public boolean isLeft(){
@@ -37,11 +99,13 @@ public class CouponRule {
     }
 
     /**
-     * 是否在限领时间内
+     * 优惠券规则是否过期
      * @return
      */
     public boolean isWithinTime(){
-
+        LocalDateTime now = LocalDateTime.now();
+        return this.getBeginTime().isBefore(now)&&
+                this.getEndTime().isAfter(now);
     }
 
     /**
@@ -183,9 +247,19 @@ public class CouponRule {
 
 
 
+
     /****************************************************
      * 生成代码
      ****************************************************/
+
+    public TimeStatus getTimeStatus() {
+        if()
+        return timeStatus;
+    }
+
+    public void setTimeStatus(TimeStatus timeStatus) {
+        this.timeStatus = timeStatus;
+    }
 
     public static Logger getLogger() {
         return logger;

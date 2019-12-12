@@ -118,6 +118,22 @@ public class Coupon {
     }
 
     /**
+     * 生成beginTime和endTime
+     */
+    public void setTimes(){
+        CouponRule.TimeStatus timeStatus=this.getCouponRule().getTimeStatus();
+        if(timeStatus.equals(CouponRule.TimeStatus.LIMIT)){
+            this.setBeginTime(this.getCouponRule().getBeginTime());
+            this.setEndTime(this.getCouponRule().getEndTime());
+        }
+        else if(timeStatus.equals(CouponRule.TimeStatus.PERIOD)){
+            LocalDateTime now = LocalDateTime.now();
+            this.setBeginTime(now);
+            this.setEndTime(now.plusDays(this.getCouponRule().getValidPeriod()));
+        }
+    }
+
+    /**
      * 判断某个优惠卷是否能用
      * @return
      */
