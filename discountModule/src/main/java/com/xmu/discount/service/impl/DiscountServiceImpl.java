@@ -2,10 +2,10 @@ package com.xmu.discount.service.impl;
 
 import com.xmu.discount.dao.GrouponRuleDao;
 import com.xmu.discount.dao.PresaleRuleDao;
-import com.xmu.discount.domain.others.Order;
 import com.xmu.discount.domain.discount.Promotion;
+import com.xmu.discount.domain.others.domain.Order;
+import com.xmu.discount.domain.others.domain.Payment;
 import com.xmu.discount.service.DiscountService;
-import com.xmu.discount.standard.Payment;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -21,8 +21,16 @@ public class DiscountServiceImpl implements DiscountService {
 
     @Override
     public Payment getPayment(Order order) {
-        Promotion promotion=this.getPromotion(goodsId);
-        promotion.getPayment(Order order);
+        List<Promotion> promotions=this.listProimotionByGoodsId(order.getOrderItemList().get(0).getProduct().getGoodsId());
+        if(promotions.size()==0){//没有促销活动
+            //TODO:报错
+        }
+        else  if(promotions.size()>1){//促销活动大于1个
+            //TODO:报错
+        }
+        else{
+           return  promotions.get(0).getPayment(order);
+        }
     }
 
     /**
@@ -30,7 +38,8 @@ public class DiscountServiceImpl implements DiscountService {
      * @param goodsId
      * @return
      */
-    public List<Promotion> getPromotion(Integer goodsId){
+    @Override
+    public List<Promotion> listProimotionByGoodsId(Integer goodsId){
         List<Promotion> grouponRule=grouponRuleDao.listGrouponRuleByGoodsId(goodsId);
         List<Promotion> presaleRule=presaleRuleDao.listPresaleRuleByGoodsId(goodsId);
 
@@ -41,4 +50,15 @@ public class DiscountServiceImpl implements DiscountService {
         return promotions;
     }
 
+
+    /**
+     * 判断这个促销活动是否可添加
+     * @param promotion
+     * @return
+     */
+    @Override
+    public Boolean isValid(Promotion promotion) {
+        List<Promotion> promotions=this.listProimotionByGoodsId(promotion.getPromotionGoodsId());//活动商品的所有促销活动
+        //TODO:判断promotion的时间不能和其他的促销活动有交集
+    }
 }

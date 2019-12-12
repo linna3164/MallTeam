@@ -18,5 +18,5 @@ public interface CouponService {
      * @param id
      * @return
      */
-    public Coupon findCouponById(Integer id);
+    Coupon findCouponById(Integer id);
 }

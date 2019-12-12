@@ -115,6 +115,16 @@ public class PresaleRule extends Promotion {
     }
 
 
+    /**
+     * 获取促销商品id
+     * @return
+     */
+    @Override
+    protected Integer getPromotionGoodsId() {
+        return this.getGoodsId();
+    }
+
+
     //*****生成代码******
 
 

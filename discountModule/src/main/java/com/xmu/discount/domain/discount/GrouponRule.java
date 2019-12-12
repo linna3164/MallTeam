@@ -47,6 +47,26 @@ public class GrouponRule extends Promotion {
         Order
     }
 
+    @Override
+    protected LocalDateTime getPromotionStartTime() {
+        return this.getStartTime();
+    }
+
+    @Override
+    protected LocalDateTime getPromotionEndTime() {
+        return this.getEndTime();
+    }
+
+
+    /**
+     * 获取促销商品id
+     * @return
+     */
+    @Override
+    protected Integer getPromotionGoodsId() {
+        return this.getGoodsId();
+    }
+
     //******生成代码*****
 
 

@@ -25,25 +25,31 @@ public abstract class Promotion implements Serializable {
     /**
      * 判断当前促销活动是否在进行
      */
-    protected abstract boolean isValiable();
+    public abstract boolean isValiable();
 
     /**
      * 返回应付金额
      * @param order 订单
      * @return
      */
-    protected abstract Payment getPayment(Order order);
+    public abstract Payment getPayment(Order order);
 
     /**
      * 获得促销开始的时间
      * @return
      */
-    protected abstract LocalDateTime getPromotionStartTime();
+    public abstract LocalDateTime getPromotionStartTime();
 
     /**
      * 获得促销结束的时间
      * @return
      */
-    protected  abstract LocalDateTime getPromotionEndTime();
+    public   abstract LocalDateTime getPromotionEndTime();
 
+
+    /**
+     * 获取促销商品id
+     * @return
+     */
+    public abstract Integer getPromotionGoodsId();
 }
