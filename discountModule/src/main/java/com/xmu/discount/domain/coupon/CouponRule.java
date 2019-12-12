@@ -21,6 +21,30 @@ public class CouponRule {
     private CouponRulePo realObj;
 
     /**
+     * 优惠券能否被领取
+     * @return
+     */
+    public boolean canGet(){
+
+    }
+
+    /**
+     * 优惠券是否有剩余
+     * @return
+     */
+    public boolean isLeft(){
+        return this.getCollectedNum()<this.getTotal();
+    }
+
+    /**
+     * 是否在限领时间内
+     * @return
+     */
+    public boolean isWithinTime(){
+
+    }
+
+    /**
      * 获得能用于此优惠卷的明细  ok
      * @param items 订单明细
      * @return 适用的订单明细

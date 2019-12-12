@@ -28,11 +28,11 @@ public class CouponDao {
     private CouponMapper couponMapper;
 
     /**
-     * 用id找一张优惠卷
-     * @param id 一张优惠卷id
-     * @return 优惠卷
+     * 用ID获取优惠券
+     * @param id 优惠券id
+     * @return 优惠券，带优惠券的优惠券规则一起返回
      */
-    Coupon getCouponById(Integer id){
+    public Coupon getCouponById(Integer id){
       Coupon coupon=couponMapper.getCouponById(id);
       CouponRule couponRule=couponMapper.getCouponRuleById(coupon.getCouponRuleId());
       coupon.setCouponRule(couponRule);
@@ -44,7 +44,7 @@ public class CouponDao {
      * @param id 优惠卷规则id
      * @return 优惠
      */
-    CouponRule getCouponRuleById(Integer id){
+    public CouponRule getCouponRuleById(Integer id){
         CouponRule couponRule=couponMapper.getCouponRuleById(id);
         return couponRule;
     };
@@ -53,7 +53,7 @@ public class CouponDao {
      * 查看所有被领取的优惠券
      * @return
      */
-    List<Coupon> getCoupons(){
+    public List<Coupon> getCoupons(){
         return couponMapper.getCoupons();
     };
 
@@ -61,7 +61,7 @@ public class CouponDao {
      * 查看所有类型的优惠券
      * @return
      */
-    List<CouponRule> getCouponRules(){
+    public List<CouponRule> getCouponRules(){
         return couponMapper.getCouponRules();
     };
 
@@ -70,7 +70,7 @@ public class CouponDao {
      * @param coupon
      * @return
      */
-    int addCoupon(Coupon coupon){
+    public int addCoupon(Coupon coupon){
         return couponMapper.addCoupon(coupon);
     };
 
@@ -79,7 +79,7 @@ public class CouponDao {
      * @param couponRule
      * @return
      */
-    int addCouponRule(CouponRule couponRule){
+    public int addCouponRule(CouponRule couponRule){
         return couponMapper.addCouponRule(couponRule);
     };
 
@@ -88,7 +88,7 @@ public class CouponDao {
      * @param couponRule
      * @return
      */
-    int updateCouponRuleById(CouponRule couponRule){
+    public int updateCouponRuleById(CouponRule couponRule){
         return couponMapper.updateCouponRuleById(couponRule);
     };
 
@@ -97,7 +97,7 @@ public class CouponDao {
      * @param coupon
      * @return
      */
-    int updateCouponById(Coupon coupon)
+    public int updateCouponById(Coupon coupon)
     {
         return couponMapper.updateCouponById(coupon);
     };
@@ -109,7 +109,7 @@ public class CouponDao {
      * @param userId
      * @return
      */
-    List<Coupon> listCouponByCouponRuleId(Integer couponRuleId, Integer userId){
+    public List<Coupon> listCouponByCouponRuleIdAndUserId(Integer couponRuleId, Integer userId){
           return  couponMapper.listCouponByCouponRuleId()
     };
 
