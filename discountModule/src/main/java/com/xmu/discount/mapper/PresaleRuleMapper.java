@@ -19,8 +19,13 @@ public interface PresaleRuleMapper {
     PresaleRule getPresaleRuleById(Integer id);
 
     /**
+     * 查看所有预售规则
+     * @return
+     */
+    List<PresaleRule> getPresaleRules();
+    /**
      * 添加预售规则
-     * @param Integer
+     * @param int
      * @return
      */
     int addPresaleRule(PresaleRule presaleRule);
