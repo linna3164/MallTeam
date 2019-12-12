@@ -1,6 +1,8 @@
 package com.xmu.discount.service;
 
-import com.xmu.discount.domain.others.Order;
+import com.xmu.discount.domain.discount.Promotion;
+import com.xmu.discount.domain.others.domain.Order;
+import com.xmu.discount.domain.others.domain.Payment;
 
 public interface DiscountService {
 

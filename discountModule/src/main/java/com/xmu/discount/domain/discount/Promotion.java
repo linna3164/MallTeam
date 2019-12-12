@@ -1,6 +1,8 @@
 package com.xmu.discount.domain.discount;
 
 import com.xmu.discount.domain.others.Order;
+import com.xmu.discount.domain.others.domain.Order;
+import com.xmu.discount.domain.others.domain.Payment;
 import com.xmu.discount.standard.Payment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +11,7 @@ import xmu.oomall.domain.payment.Payment;
 import xmu.oomall.util.JacksonUtil;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * 促销活动
@@ -31,6 +34,16 @@ public abstract class Promotion implements Serializable {
      */
     protected abstract Payment getPayment(Order order);
 
+    /**
+     * 获得促销开始的时间
+     * @return
+     */
+    protected abstract LocalDateTime getPromotionStartTime();
 
+    /**
+     * 获得促销结束的时间
+     * @return
+     */
+    protected  abstract LocalDateTime getPromotionEndTime();
 
 }

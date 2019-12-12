@@ -1,6 +1,8 @@
 package com.xmu.discount.domain.discount;
 
 import com.xmu.discount.domain.others.Order;
+import com.xmu.discount.domain.others.domain.Order;
+import com.xmu.discount.domain.others.domain.Payment;
 import com.xmu.discount.standard.Payment;
 import org.apache.ibatis.type.Alias;
 
@@ -92,6 +94,26 @@ public class PresaleRule extends Promotion {
         }
 
     }
+
+    /**
+     * 获得促销开始的时间
+     * @return
+     */
+    @Override
+    protected LocalDateTime getPromotionStartTime() {
+
+        return this.getStartTime();
+    }
+
+    /**
+     * 获得促销结束的时间
+     * @return
+     */
+    @Override
+    protected LocalDateTime getPromotionEndTime() {
+        return this.getEndTime();
+    }
+
 
     //*****生成代码******
 
