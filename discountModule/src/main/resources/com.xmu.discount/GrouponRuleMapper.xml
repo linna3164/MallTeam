@@ -32,7 +32,7 @@
             <if test="goodsId!=null">goods_id=#{goodsId},</if>
             <if test="gmtCreate!=null">gmt_create=#{gmtCreate},</if>
             <if test="gmtModified!=null">gmt_modified=#{gmtModified},</if>
-            <if test="beDeleted!=null">id_deleted=#{beDeleted},</if>
+            <if test="beDeleted!=null">is_deleted=#{beDeleted},</if>
         </trim>
         WHERE id=#{id}
     </update>
