@@ -17,6 +17,7 @@ public interface DiscountController {
 
     /**
      *管理员根据条件查找优惠券/adminList
+     * @return List<couponRule>
      */
     @GetMapping("/couponRules")
     public Object adminList(String name, Short type, Short status,
@@ -133,51 +134,57 @@ public interface DiscountController {
      *
      * @param page 分页页数
      * @param limit 分页大小
-     * @return 团购规则列表
+     * @return 团购规则列表 List<GrouponRule>
      */
-    @GetMapping("/grouponRules")
+    @GetMapping("/goods/{id}/grouponRules")
     public Object grouponList(@RequestParam(defaultValue = "1") Integer page,
                               @RequestParam(defaultValue = "10") Integer limit,
 //                     @Sort @RequestParam(defaultValue = "add_time") String sort,
-//                     @Order @RequestParam(defaultValue = "desc") String order);
-                              @RequestParam(defaultValue = "add_time") String sort,
-                              @RequestParam(defaultValue = "desc") String order);
+//                     @Order @RequestParam(defaultValue = "desc") String order),
+//                              @RequestParam(defaultValue = "add_time") String sort,
+//                              @RequestParam(defaultValue = "desc") String order,
+                              @Pathvariable Integer grouponRuleId);
 
 
     /**
      *修改团购规则信息/update
+     * @return GrouponRule
      */
     @PutMapping("/grouponRules/{id}")
-    public Object update(@RequestBody GrouponRule grouponRule);
+    public Object update(@RequestBody GrouponRule grouponRule,
+                         @Pathvariable Integer id);
 
     /**
      *创建一个新的团购规则/create
+     *@return GrouponRule
      */
     @PostMapping("/grouponRules")
     public Object create(@RequestBody GrouponRule grouponRule);
 
     /**
      *删除一个团购规则/delete
+     * @return 无
      */
     @DeleteMapping("/grouponRules/{id}")
-    public Object delete(@RequestBody GrouponRule grouponRule);
+    public Object delete(@Pathvariable Integer grouponRuleId);
 
     /**
      * 获取团购规则列表详细信息/listRecord
      * @param grouponRuleId 团购活动规则ID
-     * @return 团购活动详情
+     * @return 团购活动详情 GrouponRule
      */
     @GetMapping("/grouponRules/{id}")
     public Object detail(@PathVariable Integer grouponRuleId);
 
-
-    @GetMapping("/gouponRules")
-    public Object groupGoodsList(@RequestParam(defaultValue = "1") Integer page,
-                                 @RequestParam(defaultValue = "10") Integer limit,
+//
+//    @GetMapping("/gouponRules")
+//    public Object groupGoodsList(@RequestParam(defaultValue = "1") Integer page,
+//                                 @RequestParam(defaultValue = "10") Integer limit,
 //                     @Sort @RequestParam(defaultValue = "add_time") String sort,
 //                     @Order @RequestParam(defaultValue = "desc") String order);
-                                 @RequestParam(defaultValue = "add_time") String sort,
-                                 @RequestParam(defaultValue = "desc") String order);
+//                                 @RequestParam(defaultValue = "add_time") String sort,
+//                                 @RequestParam(defaultValue = "desc") String order);
+
 
 
     /**
