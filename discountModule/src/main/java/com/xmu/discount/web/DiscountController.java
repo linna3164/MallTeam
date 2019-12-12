@@ -97,7 +97,7 @@ public interface DiscountController {
      * @return
      */
     @GetMapping("/couponRules/{id}")
-    public Object mylist(@LoginUser Integer userId,
+    public Object mylist( Integer userId,
                          Short status,
                          @RequestParam(defaultValue = "1") Integer page,
                          @RequestParam(defaultValue = "10") Integer limit,
@@ -145,7 +145,7 @@ public interface DiscountController {
 //                     @Order @RequestParam(defaultValue = "desc") String order),
 //                              @RequestParam(defaultValue = "add_time") String sort,
 //                              @RequestParam(defaultValue = "desc") String order,
-                              @Pathvariable Integer grouponRuleId);
+                              @PathVariable Integer grouponRuleId);
 
 
     /**

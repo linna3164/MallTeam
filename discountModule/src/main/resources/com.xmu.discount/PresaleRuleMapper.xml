@@ -9,6 +9,8 @@
         select id,
                strategy,
                goods_id,
+               final_start_time,
+               ad_end_time,
                start_time,
                end_time,
                status,

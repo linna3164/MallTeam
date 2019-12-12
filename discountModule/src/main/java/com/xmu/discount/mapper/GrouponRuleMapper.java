@@ -36,7 +36,7 @@ public interface GrouponRuleMapper {
      * 获得所有团购规则
      * @return
      */
-    List<GrouponRuleDto> getGrouponRules();
+    List<GrouponRule> getGrouponRules();
 
     /**
      * 修改团购规则

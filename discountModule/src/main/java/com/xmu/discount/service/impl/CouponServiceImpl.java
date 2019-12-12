@@ -24,4 +24,6 @@ public class CouponServiceImpl implements CouponService {
     public Coupon findCouponById(Integer id) {
         return couponDao.getCouponById(id);
     }
+
+
 }
