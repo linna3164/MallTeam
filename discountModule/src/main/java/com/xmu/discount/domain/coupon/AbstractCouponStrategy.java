@@ -1,6 +1,7 @@
 package com.xmu.discount.domain.coupon;
 
-import com.xmu.discount.domain.others.OrderItemDto;
+import com.xmu.discount.domain.others.OrderItem;
+import com.xmu.discount.domain.others.domain.OrderItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,19 +48,19 @@ import java.util.List;
      * @param couponSn 优惠卷序号
      * @return 更新的订单列表(validItems)，包含可能因为误差拆开的明细(newItems)
      */
-    public List<OrderItemDto> cacuDiscount(List<OrderItemDto> validItems, String couponSn){
+    public List<OrderItem> cacuDiscount(List<OrderItem> validItems, String couponSn){
         logger.debug("cacuDiscount的参数： validItems"+ validItems +" couponSn = "+couponSn);
         //优惠商品的总价和数量
         BigDecimal totalPrice = BigDecimal.ZERO;//可用优惠券明细的订单item的总价
         Integer totalQuantity = 0;//可用优惠券明细的订单item的总数量
 
         //优惠的货品
-        List<OrderItemDto> discountItems = new ArrayList<>(validItems.size());
+        List<OrderItem> discountItems = new ArrayList<>(validItems.size());
 
-        Iterator<OrderItemDto> itemIterator = validItems.iterator();
+        Iterator<OrderItem> itemIterator = validItems.iterator();
 
         while (itemIterator.hasNext()){
-            OrderItemDto item = itemIterator.next();
+            OrderItem item = itemIterator.next();
             logger.debug("总价 totalPrice="+ totalPrice + " 总数 totalQuantitiy = "+totalQuantity);
             totalPrice = totalPrice.add(item.getPrice().multiply(BigDecimal.valueOf(item.getNumber())));//可优惠总价
             totalQuantity += item.getNumber();
@@ -72,13 +73,13 @@ import java.util.List;
         logger.debug("优惠门槛 enough = "+enough);
 
         //计算优惠后的价格
-        List<OrderItemDto> newItems = new ArrayList<>();
+        List<OrderItem> newItems = new ArrayList<>();
         BigDecimal dealTotalPrice = BigDecimal.ZERO;
         if (enough) {
-            for (OrderItemDto item: discountItems){
+            for (OrderItem item: discountItems){
                 //按照比例分配，可能会出现精度误差，在后面补偿到第一个货品上
                 BigDecimal dealPrice = this.getDealPrice(item.getPrice(), totalPrice);//每一项商品的每一项
-                item.setPromotionSn(couponSn);
+//                item.setPromotionSn(couponSn);
                 logger.debug("优惠价格 dealPrice="+ dealPrice);
                 item.setDealPrice(dealPrice);
                 dealTotalPrice = dealTotalPrice.add(dealPrice.multiply(BigDecimal.valueOf(item.getNumber())));//每一项的优惠价格
@@ -94,7 +95,7 @@ import java.util.List;
                 //寻找数量为1的明细，将误差补偿在此明细上，否则拆开一个现有明细
 
                 Boolean gotIt = false;
-                for (OrderItemDto item : validItems){
+                for (OrderItem item : validItems){
                     if (item.getNumber() == 1){
                         BigDecimal dealPrice = item.getDealPrice();
                         item.setDealPrice(dealPrice.add(error));
@@ -105,11 +106,11 @@ import java.util.List;
 
                 if (!gotIt){
                     //无数量为1的明细，拆第一个
-                    OrderItemDto item = validItems.get(0);
+                    OrderItem item = validItems.get(0);
                     Integer quantity = item.getNumber();
                     item.setNumber(quantity - 1);
                     try {
-                        OrderItemDto newItem = (OrderItemDto) item.clone();
+                        OrderItem newItem = (OrderItem) item.clone();
                         newItem.setNumber(1);
                         BigDecimal dealPrice = newItem.getDealPrice();
                         newItem.setDealPrice(dealPrice.add(error));

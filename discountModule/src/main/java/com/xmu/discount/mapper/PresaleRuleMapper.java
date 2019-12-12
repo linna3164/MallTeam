@@ -1,6 +1,6 @@
 package com.xmu.discount.mapper;
 
-import com.xmu.discount.domain.discount.PresaleRuleDto;
+import com.xmu.discount.domain.discount.PresaleRule;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
@@ -16,25 +16,25 @@ public interface PresaleRuleMapper {
      * @param id
      * @return
      */
-    PresaleRuleDto getPresaleRuleById(Integer id);
+    PresaleRule getPresaleRuleById(Integer id);
 
     /**
      * 添加预售规则
      * @param id
      * @return
      */
-    int addPresaleRuleDto(PresaleRuleDto presaleRuleDto);
+    int addPresaleRule(PresaleRule presaleRule);
 
     /**
      * 查询一个商品的预售规则
      * @param goodsId
      * @return
      */
-    List<PresaleRuleDto> listPresaleRuleByGoodsId(Integer goodsId);
+    List<PresaleRule> listPresaleRuleByGoodsId(Integer goodsId);
 
     /**
      * 修改预售规则
      * @return
      */
-    int updatePresaleRuleById(PresaleRuleDto presaleRuleDto);
+    int updatePresaleRuleById(PresaleRule presaleRule);
 }

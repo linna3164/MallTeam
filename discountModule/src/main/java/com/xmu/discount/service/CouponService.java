@@ -1,6 +1,6 @@
 package com.xmu.discount.service;
 
-import com.xmu.discount.domain.coupon.CouponDto;
+import com.xmu.discount.domain.coupon.Coupon;
 import org.springframework.stereotype.Service;
 import xmu.oomall.domain.coupon.Coupon;
 
@@ -18,5 +18,5 @@ public interface CouponService {
      * @param id
      * @return
      */
-    public CouponDto findCouponById(Integer id);
+    public Coupon findCouponById(Integer id);
 }

@@ -1,7 +1,7 @@
 package com.xmu.discount.mapper;
 
-import com.xmu.discount.domain.coupon.CouponDto;
-import com.xmu.discount.domain.coupon.CouponRuleDto;
+import com.xmu.discount.domain.coupon.Coupon;
+import com.xmu.discount.domain.coupon.CouponRule;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
@@ -21,51 +21,51 @@ public interface CouponMapper {
      * @param id 一张优惠卷id
      * @return 优惠卷
      */
-    CouponDto getCouponById(Integer id);
+    Coupon getCouponById(Integer id);
 
     /**
      * 用id找优惠卷规则
      * @param id 优惠卷规则id
      * @return 优惠
      */
-    CouponRuleDto getCouponRuleById(Integer id);
+    CouponRule getCouponRuleById(Integer id);
 
     /**
      * 新增优惠券
-     * @param couponDto
+     * @param coupon
      * @return
      */
-    int addCoupon(CouponDto couponDto);
+    int addCoupon(Coupon coupon);
 
     /**
      * 新增优惠券规则
-     * @param couponRuleDto
+     * @param couponRule
      * @return
      */
-    int addCouponRule(CouponRuleDto couponRuleDto);
+    int addCouponRule(CouponRule couponRule);
 
     /**
      * 修改优惠券规则
-     * @param couponRuleDto
+     * @param couponRule
      * @return
      */
-    int updateCouponRuleById(CouponRuleDto couponRuleDto);
+    int updateCouponRuleById(CouponRule couponRule);
 
     /**
      * 修改优惠券
-     * @param couponDto
+     * @param coupon
      * @return
      */
-    int updateCouponById(CouponDto couponDto);
+    int updateCouponById(Coupon coupon);
 
 
     /**
      * 根据优惠券规则id和用户id查找优惠券
-     * @param couponRuleDtoId
+     * @param couponRuleId
      * @param userId
      * @return
      */
-    List<CouponDto> listCouponByCouponRuleId(Integer couponRuleDtoId, Integer userId);
+    List<Coupon> listCouponByCouponRuleId(Integer couponRuleId, Integer userId);
 
     List<>
 }

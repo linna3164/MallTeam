@@ -1,6 +1,6 @@
 package com.xmu.discount.dao;
 
-import com.xmu.discount.domain.discount.GrouponRuleDto;
+import com.xmu.discount.domain.discount.GrouponRule;
 import com.xmu.discount.domain.discount.Promotion;
 import com.xmu.discount.mapper.GrouponRuleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +26,11 @@ public class GrouponRuleDao {
 
     /**
      * 添加团购规则
-     * @param grouponRuleDto
+     * @param grouponRule
      * @return
      */
-    public int addGrouponRuleDto(GrouponRuleDto grouponRuleDto){
-        return grouponRuleMapper.addGrouponRuleDto(grouponRuleDto);
+    public int addGrouponRule(GrouponRule grouponRule){
+        return grouponRuleMapper.addGrouponRule(grouponRule);
     }
 
     /**
@@ -40,8 +40,8 @@ public class GrouponRuleDao {
      */
     public List<Promotion> listGrouponRuleByGoodsId(Integer goodsId){
         List<Promotion>promotions=new ArrayList<>();
-        List<GrouponRuleDto> grouponRuleDtos=grouponRuleMapper.listGrouponRuleByGoodsId(goodsId);
-        for(Promotion promotionItem:grouponRuleDtos){
+        List<GrouponRule> grouponRule=grouponRuleMapper.listGrouponRuleByGoodsId(goodsId);
+        for(Promotion promotionItem:grouponRule){
             promotions.add(promotionItem);
         }
         return promotions;
@@ -51,7 +51,7 @@ public class GrouponRuleDao {
      * 修改团购规则
      * @return
      */
-    public int updateGrouponRuleById(GrouponRuleDto grouponRuleDto){
-        return grouponRuleMapper.updateGrouponRuleById(grouponRuleDto);
+    public int updateGrouponRuleById(GrouponRule grouponRule){
+        return grouponRuleMapper.updateGrouponRuleById(grouponRule);
     }
 }

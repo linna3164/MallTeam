@@ -1,7 +1,7 @@
 package com.xmu.discount.service.impl;
 
 import com.xmu.discount.dao.CouponDao;
-import com.xmu.discount.domain.coupon.CouponDto;
+import com.xmu.discount.domain.coupon.Coupon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xmu.oomall.dao.CouponDao;
@@ -21,7 +21,7 @@ public class CouponServiceImpl implements CouponService {
     private CouponDao couponDao;
 
     @Override
-    public CouponDto findCouponById(Integer id) {
+    public Coupon findCouponById(Integer id) {
         return couponDao.getCouponById(id);
     }
 }

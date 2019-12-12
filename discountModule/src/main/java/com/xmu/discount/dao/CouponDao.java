@@ -1,7 +1,7 @@
 package com.xmu.discount.dao;
 
-import com.xmu.discount.domain.coupon.CouponDto;
-import com.xmu.discount.domain.coupon.CouponRuleDto;
+import com.xmu.discount.domain.coupon.Coupon;
+import com.xmu.discount.domain.coupon.CouponRule;
 import com.xmu.discount.mapper.CouponMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -28,9 +28,9 @@ public class CouponDao {
      * @param id 优惠券id
      * @return 优惠券，带优惠券的优惠券规则一起返回
      */
-    public CouponDto getCouponById(Integer id) {
-        CouponDto coupon = couponMapper.getCouponById(id);
-        CouponRuleDto couponRulePo = couponMapper.getCouponRuleById(coupon.getCouponRuleId());
+    public Coupon getCouponById(Integer id) {
+        Coupon coupon = couponMapper.getCouponById(id);
+        CouponRule couponRulePo = couponMapper.getCouponRuleById(coupon.getCouponRuleId());
         coupon.setCouponRule(couponRule);
         return coupon;
     }

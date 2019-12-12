@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xmu.discount.mapper.PresaleRuleMapper">
 
-    <select id="getPresaleRuleById" parameterType="Integer" resultType="presaleRuleDto">
+    <select id="getPresaleRuleById" parameterType="Integer" resultType="presaleRule">
             select id,
                     strategy,
                     product_id,
@@ -16,13 +16,13 @@
                     from presale_rule where id = #{id}
     </select>
 
-    <insert id="addPresaleRuleDto" parameterType="presaleRuleDto" useGeneratedKeys="true" keyProperty="id">
+    <insert id="addPresaleRule" parameterType="presaleRule" useGeneratedKeys="true" keyProperty="id">
         insert into presale_rule(id,strategy,product_id,start_time,end_time,status,gmt_create,gmt_modified,is_deleted,deposit)
         values
             (#{id}, #{strategy}, #{productId}, #{startTime}, #{endTime}, #{statusCode},  #{gmtCreate}, #{gmtModified}, #{beDeleted},#{deposit})
     </insert>
 
-    <update id="updatePresaleRuleById" parameterType="presaleRuleDto">
+    <update id="updatePresaleRuleById" parameterType="presaleRule">
         update presale_rule
         <trim prefix="set" suffixOverrides=",">
             <if test="strategy!=null">strategy=#{strategy},</if>
@@ -38,7 +38,7 @@
         WHERE id=#{id}
     </update>
 
-    <select id="listPresaleRuleByGoodsId" parameterType="Integer" resultType="presaleRuleDto">
+    <select id="listPresaleRuleByGoodsId" parameterType="Integer" resultType="presaleRule">
         select id,
                strategy,
                product_id,

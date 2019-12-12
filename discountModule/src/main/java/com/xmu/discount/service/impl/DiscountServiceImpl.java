@@ -2,7 +2,7 @@ package com.xmu.discount.service.impl;
 
 import com.xmu.discount.dao.GrouponRuleDao;
 import com.xmu.discount.dao.PresaleRuleDao;
-import com.xmu.discount.domain.others.OrderDto;
+import com.xmu.discount.domain.others.Order;
 import com.xmu.discount.domain.discount.Promotion;
 import com.xmu.discount.service.DiscountService;
 import com.xmu.discount.standard.Payment;
@@ -20,9 +20,9 @@ public class DiscountServiceImpl implements DiscountService {
     PresaleRuleDao presaleRuleDao;
 
     @Override
-    public Payment getPayment(OrderDto orderDto) {
+    public Payment getPayment(Order order) {
         Promotion promotion=this.getPromotion(goodsId);
-        promotion.getPayment(OrderDto orderDto);
+        promotion.getPayment(Order order);
     }
 
     /**
@@ -31,12 +31,12 @@ public class DiscountServiceImpl implements DiscountService {
      * @return
      */
     public List<Promotion> getPromotion(Integer goodsId){
-        List<Promotion> grouponRuleDtos=grouponRuleDao.listGrouponRuleByGoodsId(goodsId);
-        List<Promotion> presaleRuleDtos=presaleRuleDao.listPresaleRuleByGoodsId(goodsId);
+        List<Promotion> grouponRule=grouponRuleDao.listGrouponRuleByGoodsId(goodsId);
+        List<Promotion> presaleRule=presaleRuleDao.listPresaleRuleByGoodsId(goodsId);
 
         List<Promotion>promotions=new ArrayList<>();
-        promotions.addAll(grouponRuleDtos);
-        promotions.addAll(presaleRuleDtos);
+        promotions.addAll(grouponRule);
+        promotions.addAll(presaleRule);
 
         return promotions;
     }
