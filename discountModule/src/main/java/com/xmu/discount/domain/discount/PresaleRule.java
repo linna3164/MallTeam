@@ -1,9 +1,9 @@
 package com.xmu.discount.domain.discount;
 
-import com.xmu.discount.domain.others.Order;
+
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.others.domain.Payment;
-import com.xmu.discount.standard.Payment;
+
 import org.apache.ibatis.type.Alias;
 
 import java.math.BigDecimal;
@@ -93,6 +93,16 @@ public class PresaleRule extends Promotion {
             }
         }
 
+    }
+
+    @Override
+    public boolean isValiable() {
+        return false;
+    }
+
+    @Override
+    public Payment getPayment(Order order) {
+        return null;
     }
 
     /**

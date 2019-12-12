@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xmu.discount.mapper.PresaleRuleMapper">
+    <resultMap id="PresaleRule" type="presaleRule">
+        <result property="beDeleted" column="is_deleted"/>
+    </resultMap>
 
-
-
-    <select id="getPresaleRuleById" parameterType="Integer" resultType="presaleRule">
+    <select id="getPresaleRuleById" parameterType="Integer" resultMap="PresaleRule">
         select id,
                strategy,
-               product_id,
+               goods_id,
                start_time,
                end_time,
                status,
@@ -34,7 +35,7 @@
             <if test="statusCode!=null">status=#{statusCode},</if>
             <if test="gmtCreate!=null">gmt_create=#{gmtCreate},</if>
             <if test="gmtModified!=null">gmt_modified=#{gmtModified},</if>
-            <if test="beDeleted!=null">id_deleted=#{beDeleted},</if>
+            <if test="beDeleted!=null">is_deleted=#{beDeleted},</if>
             <if test="deposit!=null">deposit=#{deposit},</if>
         </trim>
         WHERE id=#{id}
@@ -43,7 +44,7 @@
     <select id="listPresaleRuleByGoodsId" parameterType="Integer" resultType="presaleRule">
         select id,
                strategy,
-               product_id,
+               goods_id,
                start_time,
                end_time,
                status,
@@ -51,6 +52,6 @@
                gmt_modified,
                is_deleted,
                deposit
-        from presale_rule where id = #{id}
+        from presale_rule where  goods_id= #{goodsId}
     </select>
 </mapper>

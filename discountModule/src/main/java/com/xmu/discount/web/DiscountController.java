@@ -1,5 +1,7 @@
-package com.xmu.discount.standard;
+package com.xmu.discount.web;
 
+import com.xmu.discount.domain.coupon.CouponRule;
+import com.xmu.discount.domain.discount.GrouponRule;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

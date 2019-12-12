@@ -1,12 +1,15 @@
 package com.xmu.discount.domain.discount;
 
-import com.xmu.discount.domain.others.Order;
+
 import com.xmu.discount.domain.others.domain.Order;
+import com.xmu.discount.domain.others.domain.OrderItem;
 import com.xmu.discount.domain.others.domain.Payment;
-import com.xmu.discount.standard.Payment;
+
 import org.apache.ibatis.type.Alias;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Alias("grouponRule")
@@ -27,15 +30,35 @@ public class GrouponRule extends Promotion {
 
     }
 
+    @Override
+    public boolean isValiable() {
+        return false;
+    }
+
     /**
      * 返回商品的价格
      * @param order 订单
      * @return
      */
     @Override
-    protected Payment getPayment(Order order) {
+    public Payment getPayment(Order order) {
         //TODO:return  商品价格*数量
-
+        List<OrderItem> oi = order.getOrderItemList();
+        BigDecimal finalPrice = new BigDecimal(0);
+        if(oi.size()!=1){
+             return null;
+        }
+        else {
+           OrderItem o=oi.get(0);
+           int num = o.getNumber();
+           BigDecimal price = o.getDealPrice();
+           finalPrice = finalPrice.add(price.multiply(new BigDecimal(num)));
+            Payment payment = new Payment();
+            payment.setActualPrice(finalPrice);
+            payment.setBeginTime(LocalDateTime.now());
+            payment.setGmtCreate(LocalDateTime.now());
+            return payment;
+        }
     }
 
 
@@ -44,16 +67,16 @@ public class GrouponRule extends Promotion {
      * @return
      */
     protected Payment refund(Order order){
-        Order
+
     }
 
     @Override
-    protected LocalDateTime getPromotionStartTime() {
+    public LocalDateTime getPromotionStartTime() {
         return this.getStartTime();
     }
 
     @Override
-    protected LocalDateTime getPromotionEndTime() {
+    public LocalDateTime getPromotionEndTime() {
         return this.getEndTime();
     }
 
@@ -63,7 +86,7 @@ public class GrouponRule extends Promotion {
      * @return
      */
     @Override
-    protected Integer getPromotionGoodsId() {
+    public Integer getPromotionGoodsId() {
         return this.getGoodsId();
     }
 

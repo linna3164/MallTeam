@@ -60,6 +60,18 @@ public abstract class Promotion implements Serializable {
      * @return
      */
     public boolean isValid(List<Promotion> promotions){
+        LocalDateTime startTime=this.getPromotionStartTime();
+        LocalDateTime endTime=this.getPromotionEndTime();
+        for(Promotion p:promotions){
+            LocalDateTime s=p.getPromotionStartTime();
+            LocalDateTime e=p.getPromotionEndTime();
+            if(p.getPromotionStartTime().isAfter(this.getPromotionEndTime())||p.getPromotionEndTime().isBefore(this.getPromotionStartTime()))
+                continue;
+            else {
+                return false;
+            }
+        }
+        return  true;
 
     }
 }
