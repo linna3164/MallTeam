@@ -31,7 +31,7 @@ public class CouponDao {
     public CouponDto getCouponById(Integer id) {
         CouponDto coupon = couponMapper.getCouponById(id);
         CouponRuleDto couponRulePo = couponMapper.getCouponRuleById(coupon.getCouponRuleId());
-        coupon.setCouponRule(couponRule);
+        coupon.setCouponRuleDto(couponRulePo);
         return coupon;
     }
 

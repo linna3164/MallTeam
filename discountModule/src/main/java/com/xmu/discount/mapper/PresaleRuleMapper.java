@@ -20,7 +20,7 @@ public interface PresaleRuleMapper {
 
     /**
      * 添加预售规则
-     * @param id
+     * @param presaleRuleDto
      * @return
      */
     int addPresaleRuleDto(PresaleRuleDto presaleRuleDto);

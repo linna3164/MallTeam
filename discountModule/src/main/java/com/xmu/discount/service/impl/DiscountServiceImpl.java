@@ -22,7 +22,12 @@ public class DiscountServiceImpl implements DiscountService {
     @Override
     public Payment getPayment(OrderDto orderDto) {
         Promotion promotion=this.getPromotion(goodsId);
-        promotion.getPayment(OrderDto orderDto);
+        promotion.getPayment(OrderDto.orderDto);
+    }
+
+    @Override
+    public Promotion getProimotion(Integer goodsId) {
+        return null;
     }
 
     /**

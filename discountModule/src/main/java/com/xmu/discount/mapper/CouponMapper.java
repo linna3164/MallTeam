@@ -31,11 +31,24 @@ public interface CouponMapper {
     CouponRuleDto getCouponRuleById(Integer id);
 
     /**
+     * 获得所有优惠券规则
+     * @return
+     */
+    List<CouponRuleDto> getCouponRules();
+
+    /**
+     * 获得所有的优惠券列表
+     * @return
+     */
+    List<CouponDto> getCoupons();
+
+    /**
      * 新增优惠券
      * @param couponDto
      * @return
      */
     int addCoupon(CouponDto couponDto);
+
 
     /**
      * 新增优惠券规则
@@ -50,6 +63,7 @@ public interface CouponMapper {
      * @return
      */
     int updateCouponRuleById(CouponRuleDto couponRuleDto);
+
 
     /**
      * 修改优惠券
@@ -66,6 +80,4 @@ public interface CouponMapper {
      * @return
      */
     List<CouponDto> listCouponByCouponRuleId(Integer couponRuleDtoId, Integer userId);
-
-    List<>
 }
