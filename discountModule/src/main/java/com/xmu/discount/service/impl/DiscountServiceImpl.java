@@ -119,8 +119,13 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
-    public int addGrouponRule(GrouponRule grouponRule) {
-        return grouponRuleDao.addGrouponRule(grouponRule);
+    public Promotion addGrouponRule(GrouponRule grouponRule) {
+        grouponRule.setBeDeleted(false);
+        grouponRule.setGmtCreate(LocalDateTime.now());
+        int success=grouponRuleDao.addGrouponRule(grouponRule);
+        if(success==0) return null;
+        else return grouponRule;
+
     }
 
     @Override
@@ -134,8 +139,30 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
-    public int updateGrouponRuleById(GrouponRule grouponRule) {
-        return grouponRuleDao.updateGrouponRuleById(grouponRule);
+    public Promotion updateGrouponRuleById(GrouponRule grouponRule) {
+        if(grouponRule.getStartTime().isAfter(LocalDateTime.now())){
+            grouponRule.setGmtModified(LocalDateTime.now());
+        int success=grouponRuleDao.updateGrouponRuleById(grouponRule);
+        if(success==0) return null;
+        else return grouponRuleDao.getGrouponRuleById(grouponRule.getId());
+        }
+        else return null;
+
+    }
+
+    @Override
+    public Promotion deleteGroupRuleById(Integer id) {
+        if( grouponRuleDao.getGrouponRuleById(id).getPromotionStartTime().isAfter(LocalDateTime.now())){
+        GrouponRule g1=new GrouponRule();
+        g1.setId(id);
+        g1.setBeDeleted(true);
+        g1.setGmtModified(LocalDateTime.now());
+        int success=grouponRuleDao.updateGrouponRuleById(g1);
+        if(success==0) return null;
+        else return grouponRuleDao.getGrouponRuleById(id);
+        }
+        else return null;
+
     }
 
     @Override
@@ -144,8 +171,12 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
-    public int addPresaleRule(PresaleRule presaleRule) {
-        return presaleRuleDao.addPresaleRule(presaleRule);
+    public Promotion addPresaleRule(PresaleRule presaleRule) {
+        presaleRule.setBeDeleted(false);
+        presaleRule.setGmtCreate(LocalDateTime.now());
+       int success=presaleRuleDao.addPresaleRule(presaleRule);
+       if(success==0) return null;
+       else  return presaleRule;
     }
 
     @Override
@@ -154,15 +185,32 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
-    public int updatePresaleRuleById(PresaleRule presaleRule) {
-        //Todo:判断开始
-        return presaleRuleDao.updatePresaleRuleById(presaleRule);
+    public Promotion updatePresaleRuleById(PresaleRule presaleRule) {
+        if(presaleRule.getPromotionStartTime().isAfter(LocalDateTime.now())) {
+            presaleRule.setGmtModified(LocalDateTime.now());
+            int success = presaleRuleDao.updatePresaleRuleById(presaleRule);
+            if (success == 0) return null;
+            else return presaleRuleDao.getPresaleRuleById(presaleRule.getId());
+        }
+        else return null;
+    }
+
+    @Override
+    public Promotion deletePresaleRuleById(Integer id) {
+        if(presaleRuleDao.getPresaleRuleById(id).getPromotionStartTime().isAfter(LocalDateTime.now()))
+        {
+            PresaleRule presaleRule=new PresaleRule();
+            presaleRule.setGmtModified(LocalDateTime.now());
+            presaleRule.setId(id);
+            presaleRule.setBeDeleted(true);
+            int success=presaleRuleDao.updatePresaleRuleById(presaleRule);
+            if(success==0) return null;
+            else return presaleRuleDao.getPresaleRuleById(id);
+        }
+
+        else return null;
     }
 
 
-    /**
-     * 删除团购规则
-     */
-    deleteGrouponRule
 
 }
