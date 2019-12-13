@@ -4,6 +4,8 @@ import com.xmu.discount.domain.coupon.Coupon;
 import com.xmu.discount.domain.coupon.CouponRule;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 /**
  * @Author: Ming Qiu
@@ -33,10 +35,10 @@ public interface CouponService {
      * @param id
      * @return
      */
-    CouponRule deleteCouponRuleById(Integer id);
+    boolean deleteCouponRuleById(Integer id);
 
     /**
-     * 管理员新增优惠券规则--
+     * 管理员新增优惠券规则--可以
      * @param couponRule
      * @return
      */
@@ -48,4 +50,23 @@ public interface CouponService {
      * @return
      */
     CouponRule updateCouponRule(CouponRule couponRule);
+
+    /**
+     * 用户查找已经过期的优惠券
+     * @param userId
+     * @return
+     */
+    List<Coupon> listOverDueCouponOfUser(Integer userId);
+
+    /**
+     * 用户查找已使用的优惠券
+     */
+    List<Coupon> listUsedCouponOfUser(Integer userId);
+
+    /**
+     * 用户查找未使用的优惠券
+     * @param userId
+     * @return
+     */
+    List<Coupon> listUnUsedCouponOfUser(Integer userId);
 }

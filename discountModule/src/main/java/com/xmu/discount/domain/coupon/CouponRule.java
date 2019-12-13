@@ -257,9 +257,18 @@ public class CouponRule {
     }
 
 
+    public CouponRule() {
+    }
+
+    public CouponRule(Integer id,boolean beDeleted){
+        this.setBeDeleted(beDeleted);
+        this.setId(id);
+    }
+
     /****************************************************
      * 生成代码
      ****************************************************/
+
 
 
 

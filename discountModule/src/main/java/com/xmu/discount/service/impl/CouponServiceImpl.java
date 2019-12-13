@@ -61,17 +61,47 @@ public class CouponServiceImpl implements CouponService {
      * @return
      */
     @Override
-    public CouponRule deleteCouponRuleById(Integer id) {
-
+    public boolean deleteCouponRuleById(Integer id) {
+        CouponRule couponRule=new CouponRule(id,true);
+        couponDao.updateCouponRuleById(couponRule);
+        return true;
     }
 
+    /**
+     * 管理员新增优惠券规则
+     * @param couponRule
+     * @return
+     */
     @Override
     public CouponRule addCouponRule(CouponRule couponRule) {
+        couponDao.addCouponRule(couponRule);
+        return couponRule;
+    }
+
+    /**
+     * 管理员修改优惠券规则
+     * @param couponRule
+     * @return
+     */
+    @Override
+    public CouponRule updateCouponRule(CouponRule couponRule) {
+        couponDao.updateCouponRuleById(couponRule);
+        return couponRule;
+    }
+
+
+    @Override
+    public List<Coupon> listOverDueCouponOfUser(Integer userId) {
         return null;
     }
 
     @Override
-    public CouponRule updateCouponRule(CouponRule couponRule) {
+    public List<Coupon> listUsedCouponOfUser(Integer userId) {
+        return null;
+    }
+
+    @Override
+    public List<Coupon> listUnUsedCouponOfUser(Integer userId) {
         return null;
     }
 }
