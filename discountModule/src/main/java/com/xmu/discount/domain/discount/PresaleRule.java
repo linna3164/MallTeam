@@ -75,25 +75,25 @@ public class PresaleRule extends Promotion {
     }
 
 
-    /**
-     * 通过订单判断付款到哪个阶段了
-     * @return
-     */
-    @Override
-    protected Payment calcuPayment(Order order) {
-        //TODO:
-        if(){//orderItem价格为空，付订单
-            if(isAdPayValiable()){//可付定金
-
-            }
-        }
-        else if(){//orderItem价格等于定金，付尾款
-            if(isFinalPayValiable()){//可付尾款
-
-            }
-        }
-
-    }
+//    /**
+//     * 通过订单判断付款到哪个阶段了
+//     * @return
+//     */
+//    @Override
+//    protected Payment calcuPayment(Order order) {
+//        //TODO:
+//        if(){//orderItem价格为空，付订单
+//            if(isAdPayValiable()){//可付定金
+//
+//            }
+//        }
+//        else if(){//orderItem价格等于定金，付尾款
+//            if(isFinalPayValiable()){//可付尾款
+//
+//            }
+//        }
+//
+//    }
 
     @Override
     public boolean isValiable() {
@@ -110,7 +110,7 @@ public class PresaleRule extends Promotion {
      * @return
      */
     @Override
-    protected LocalDateTime getPromotionStartTime() {
+    public LocalDateTime getPromotionStartTime() {
 
         return this.getStartTime();
     }
@@ -120,7 +120,7 @@ public class PresaleRule extends Promotion {
      * @return
      */
     @Override
-    protected LocalDateTime getPromotionEndTime() {
+    public LocalDateTime getPromotionEndTime() {
         return this.getEndTime();
     }
 
@@ -130,7 +130,7 @@ public class PresaleRule extends Promotion {
      * @return
      */
     @Override
-    protected Integer getPromotionGoodsId() {
+    public Integer getPromotionGoodsId() {
         return this.getGoodsId();
     }
 

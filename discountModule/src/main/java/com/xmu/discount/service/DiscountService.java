@@ -5,9 +5,11 @@ import com.xmu.discount.domain.discount.PresaleRule;
 import com.xmu.discount.domain.discount.Promotion;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.others.domain.Payment;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public interface DiscountService {
 
     Payment getPayment(Order order);
@@ -47,7 +49,7 @@ public interface DiscountService {
      * @param grouponRule
      * @return
      */
-    int addGrouponRule(GrouponRule grouponRule);
+    Promotion addGrouponRule(GrouponRule grouponRule);
 
     /**
      * 查询一个商品的团购规则
@@ -66,7 +68,9 @@ public interface DiscountService {
      * 修改团购规则
      * @return
      */
-    int updateGrouponRuleById(GrouponRule grouponRule);
+    Promotion updateGrouponRuleById(GrouponRule grouponRule);
+
+    Promotion deleteGroupRuleById(Integer id);
 
     /**
      * 用id找预售规则
@@ -80,7 +84,7 @@ public interface DiscountService {
      * @param int
      * @return
      */
-    int addPresaleRule(PresaleRule presaleRule);
+    Promotion addPresaleRule(PresaleRule presaleRule);
 
     /**
      * 查询一个商品的预售规则
@@ -93,6 +97,8 @@ public interface DiscountService {
      * 修改预售规则
      * @return
      */
-    int updatePresaleRuleById(PresaleRule presaleRule);
+    Promotion updatePresaleRuleById(PresaleRule presaleRule);
+
+    Promotion deletePresaleRuleById(Integer id);
 
 }

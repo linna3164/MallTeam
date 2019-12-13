@@ -2,9 +2,14 @@ package com.xmu.discount.web;
 
 import com.xmu.discount.domain.coupon.CouponRule;
 import com.xmu.discount.domain.discount.GrouponRule;
+import com.xmu.discount.service.CouponService;
+import com.xmu.discount.service.DiscountService;
+import com.xmu.discount.util.ResponseUtil;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -16,8 +21,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/discount")
 
-public interface DiscountController {
+public class DiscountController {
 
+    @Autowired
+    private DiscountService discountService;
+    private CouponService couponService;
     /**
      *管理员根据条件查找优惠券/adminList
      * @return List<couponRule>
@@ -29,7 +37,9 @@ public interface DiscountController {
 //                       @Sort @RequestParam(defaultValue = "add_time") String sort,
 //                       @Order @RequestParam(defaultValue = "desc") String order);
                             @RequestParam(defaultValue = "add_time") String sort,
-                            @RequestParam(defaultValue = "desc") String order);
+                            @RequestParam(defaultValue = "desc") String order){
+        return null;
+    };
 
     /**
      *查找某种优惠券被某个用户的领取情况/listuser
@@ -42,31 +52,41 @@ public interface DiscountController {
 //                         @Sort @RequestParam(defaultValue = "add_time") String sort,
 //                         @Order @RequestParam(defaultValue = "desc") String order);
                            @RequestParam(defaultValue = "add_time") String sort,
-                           @RequestParam(defaultValue = "desc") String order);
+                           @RequestParam(defaultValue = "desc") String order){
+        return null;
+    };
 
     /**
      *添加一种优惠券规则/create
      */
     @PostMapping("/couponRules")
-    public Object create(@RequestBody CouponRule couponRule);
+    public Object create(@RequestBody CouponRule couponRule){
+        return null;
+    };
 
     /**
      *查看一种优惠券规则/read
      */
     @GetMapping("/couponRules/{id}")
-    public Object read(@PathVariable Integer couponRuleId);
+    public Object read(@PathVariable Integer couponRuleId){
+        return couponService.findCouponById(couponRuleId);
+    };
 
     /**
      *修改优惠券规则信息/update
      */
     @PutMapping("/couponRules/{id}")
-    public Object update(@PathVariable Integer couponRuleId, @RequestBody CouponRule couponRule);
+    public Object update(@PathVariable Integer couponRuleId, @RequestBody CouponRule couponRule){
+        return couponService.updateCouponRule(couponRule);
+    };
 
     /**
      *删除一种优惠券规则/delete
      */
     @DeleteMapping("/couponRules/{id}")
-    public Object delete(@PathVariable Integer couponRuleId, @RequestBody CouponRule couponRule);
+    public Object delete(@PathVariable Integer couponRuleId, @RequestBody CouponRule couponRule){
+        return couponService.deleteCouponRuleById(couponRuleId);
+    };
 
 
     /**
@@ -84,7 +104,9 @@ public interface DiscountController {
 //                     @Sort @RequestParam(defaultValue = "add_time") String sort,
 //                     @Order @RequestParam(defaultValue = "desc") String order);
                                  @RequestParam(defaultValue = "add_time") String sort,
-                                 @RequestParam(defaultValue = "desc") String order);
+                                 @RequestParam(defaultValue = "desc") String order){
+        return null;
+    };
 
     /**
      * 查看自己的优惠券 /mylist
@@ -105,7 +127,9 @@ public interface DiscountController {
 //                     @Sort @RequestParam(defaultValue = "add_time") String sort,
 //                     @Order @RequestParam(defaultValue = "desc") String order);
                          @RequestParam(defaultValue = "add_time") String sort,
-                         @RequestParam(defaultValue = "desc") String order);
+                         @RequestParam(defaultValue = "desc") String order){
+        return null;
+    };
 
 
     /**
@@ -116,7 +140,9 @@ public interface DiscountController {
      * @return
      */
     @GetMapping("/couponRules/availableCoupons")
-    public Object selectlist(@LoginUser Integer userId, List<Integer> cartItemIds);
+    public Object selectlist(@LoginUser Integer userId, List<Integer> cartItemIds){
+        return null;
+    };
 
 
     /**
@@ -127,7 +153,10 @@ public interface DiscountController {
      * @return 操作结果
      */
     @PostMapping("/couponRules")
-    public Object receive(@LoginUser Integer userId, @RequestBody String body);
+    public Object receive(@LoginUser Integer userId, @RequestBody CouponRule couponRule)
+    {
+        return couponService.addCoupon(couponRule);
+    };
 
 
 
@@ -146,7 +175,10 @@ public interface DiscountController {
 //                     @Order @RequestParam(defaultValue = "desc") String order),
 //                              @RequestParam(defaultValue = "add_time") String sort,
 //                              @RequestParam(defaultValue = "desc") String order,
-                              @PathVariable Integer grouponRuleId);
+                              @PathVariable Integer grouponRuleId){
+        return discountService.getGrouponRules();
+    };
+
 
 
     /**
@@ -155,21 +187,28 @@ public interface DiscountController {
      */
     @PutMapping("/grouponRules/{id}")
     public Object update(@RequestBody GrouponRule grouponRule,
-                         @PathVariable Integer id);
+                         @PathVariable Integer id)
+    {
+        return discountService.updateGrouponRuleById(grouponRule);
+    };
 
     /**
      *创建一个新的团购规则/create
      *@return GrouponRule
      */
     @PostMapping("/grouponRules")
-    public Object create(@RequestBody GrouponRule grouponRule);
+    public Object create(@RequestBody GrouponRule grouponRule){
+            return  discountService.addGrouponRule(grouponRule);
+    };
 
     /**
      *删除一个团购规则/delete
      * @return 无
      */
     @DeleteMapping("/grouponRules/{id}")
-    public Object delete(@PathVariable Integer grouponRuleId);
+    public Object delete(@PathVariable Integer grouponRuleId){
+        return discountService.
+    };
 
     /**
      * 获取团购规则列表详细信息/listRecord
