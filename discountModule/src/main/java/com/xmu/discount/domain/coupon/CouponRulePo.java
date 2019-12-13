@@ -72,6 +72,11 @@ public class CouponRulePo {
      * eg. {"goodsIds": [1, 2, 3, 4, 5]}
      */
     private String goodsList2;
+    /**
+     * 是否是失效的优惠活动
+     */
+    private Integer statusCode;
+
     private LocalDateTime gmtCreate;
     private LocalDateTime gmtModified;
     private Boolean beDeleted;

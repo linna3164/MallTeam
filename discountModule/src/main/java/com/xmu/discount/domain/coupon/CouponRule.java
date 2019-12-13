@@ -79,12 +79,13 @@ public class CouponRule {
         }
     }
 
+
     /**
      * 优惠券规则能否被领取
      * @return
      */
     public boolean canGet(){
-        if(this.isLeft()&&this.isWithinTime()){
+        if(this.isLeft()&&this.isWithinTime()&&this.getStatusCode()==1){
             return true;
         }
         return false;
@@ -415,5 +416,13 @@ public class CouponRule {
 
     public void setGoodsList1(String goodsList1) {
         realObj.setGoodsList1(goodsList1);
+    }
+
+    public void setStatusCode(Integer statusCode) {
+        realObj.setStatusCode(statusCode);
+    }
+
+    public Integer getStatusCode() {
+        return realObj.getStatusCode();
     }
 }

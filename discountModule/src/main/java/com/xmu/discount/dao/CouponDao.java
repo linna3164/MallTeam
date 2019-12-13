@@ -113,6 +113,13 @@ public class CouponDao {
           return  couponMapper.listCouponByCouponRuleId()
     };
 
-
-
+    /**
+     * 获取用户的所有优惠券
+     * @param userId
+     * @return
+     */
+    public List<Coupon> listCouponOfUser(Integer userId){
+        List<Coupon> coupons=couponMapper.listCouponOfUser(userId);
+        return coupons;
+    }
 }

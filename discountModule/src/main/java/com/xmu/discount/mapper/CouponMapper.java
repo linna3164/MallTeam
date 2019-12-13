@@ -18,6 +18,7 @@ import java.util.List;
 public interface CouponMapper {
     /**
      * 用id找一张优惠卷
+     *
      * @param id 一张优惠卷id
      * @return 优惠卷
      */
@@ -25,6 +26,7 @@ public interface CouponMapper {
 
     /**
      * 用id找优惠卷规则
+     *
      * @param id 优惠卷规则id
      * @return 优惠
      */
@@ -32,18 +34,21 @@ public interface CouponMapper {
 
     /**
      * 查看所有被领取的优惠券
+     *
      * @return
      */
     List<Coupon> getCoupons();
 
     /**
      * 查看所有类型的优惠券
+     *
      * @return
      */
     List<CouponRule> getCouponRules();
 
     /**
      * 新增优惠券
+     *
      * @param coupon
      * @return
      */
@@ -51,6 +56,7 @@ public interface CouponMapper {
 
     /**
      * 新增优惠券规则
+     *
      * @param couponRule
      * @return
      */
@@ -58,6 +64,7 @@ public interface CouponMapper {
 
     /**
      * 修改优惠券规则
+     *
      * @param couponRule
      * @return
      */
@@ -65,6 +72,7 @@ public interface CouponMapper {
 
     /**
      * 修改优惠券
+     *
      * @param coupon
      * @return
      */
@@ -73,11 +81,20 @@ public interface CouponMapper {
 
     /**
      * 根据优惠券规则id和用户id查找优惠券
+     *
      * @param couponRuleId
      * @param userId
      * @return
      */
     List<Coupon> listCouponByCouponRuleId(Integer couponRuleId, Integer userId);
+
+
+    /**
+     * 获取用户的所有优惠券
+     * @param userId
+     * @return
+     */
+    List<Coupon> listCouponOfUser(Integer userId);
 
 
 }

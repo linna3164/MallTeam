@@ -10,6 +10,7 @@ import xmu.oomall.dao.CouponDao;
 import xmu.oomall.domain.coupon.Coupon;
 import xmu.oomall.service.CouponService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -90,18 +91,52 @@ public class CouponServiceImpl implements CouponService {
     }
 
 
+    /**
+     * 用户获取过期的优惠券
+     * @param userId
+     * @return
+     */
     @Override
     public List<Coupon> listOverDueCouponOfUser(Integer userId) {
-        return null;
+
+        return this.listCouponOfUserByStatus(userId, Coupon.Status.EXPIRED);
     }
 
+    /**
+     * 用户获取已使用的优惠券
+     * @param userId
+     * @return
+     */
     @Override
     public List<Coupon> listUsedCouponOfUser(Integer userId) {
-        return null;
+
+        return this.listCouponOfUserByStatus(userId, Coupon.Status.USED);
     }
 
+    /**
+     * 用户获取未使用的优惠券
+     * @param userId
+     * @return
+     */
     @Override
     public List<Coupon> listUnUsedCouponOfUser(Integer userId) {
-        return null;
+        return this.listCouponOfUserByStatus(userId, Coupon.Status.NOT_USED);
+    }
+
+    /**
+     * 获得用户某种状态的优惠券
+     * @param userId 用户ID
+     * @param status 优惠券状态
+     * @return  带CouponRule对象
+     */
+    public List<Coupon> listCouponOfUserByStatus(Integer userId, Coupon.Status status){
+        List<Coupon> coupons=couponDao.listCouponOfUser(userId);
+        List<Coupon> res=new ArrayList<>();
+        for(Coupon coupon:coupons){
+            if(coupon.getStatus().equals(status)){
+                res.add(coupon);
+            }
+        }
+        return res;
     }
 }
