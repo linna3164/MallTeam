@@ -50,14 +50,19 @@ public class CouponServiceImpl implements CouponService {
                 couponDao.addCoupon(coupon);
                 return coupon;
             }
-
         }
         return null;
     }
 
+
+    /**
+     * 管理员删除优惠券规则
+     * @param id
+     * @return
+     */
     @Override
     public CouponRule deleteCouponRuleById(Integer id) {
-        return null;
+
     }
 
     @Override

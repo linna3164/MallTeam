@@ -246,16 +246,22 @@ public class CouponRule {
     }
 
 
+    public TimeStatus getTimeStatus() {
+        if(this.getValidPeriod()>0){
+            return TimeStatus.PERIOD;
+        }
+        else{
+            return TimeStatus.LIMIT;
+        }
+
+    }
 
 
     /****************************************************
      * 生成代码
      ****************************************************/
 
-    public TimeStatus getTimeStatus() {
-        if()
-        return timeStatus;
-    }
+
 
     public void setTimeStatus(TimeStatus timeStatus) {
         this.timeStatus = timeStatus;
