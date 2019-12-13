@@ -81,7 +81,7 @@ public class CouponRule {
 
 
     /**
-     * 优惠券规则能否被领取
+     * 优惠券规则能否被领取（有剩余张数，在活动时间内，不是失效的）
      * @return
      */
     public boolean canGet(){

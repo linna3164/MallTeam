@@ -10,6 +10,7 @@ import xmu.oomall.dao.CouponDao;
 import xmu.oomall.domain.coupon.Coupon;
 import xmu.oomall.service.CouponService;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public Coupon findCouponById(Integer id) {
+
         return couponDao.getCouponById(id);
     }
 
@@ -57,14 +59,22 @@ public class CouponServiceImpl implements CouponService {
 
 
     /**
-     * 管理员删除优惠券规则
+     * 管理员删除优惠券规则（活动生效后不能删除和修改）
      * @param id
      * @return
      */
     @Override
     public boolean deleteCouponRuleById(Integer id) {
-        CouponRule couponRule=new CouponRule(id,true);
-        couponDao.updateCouponRuleById(couponRule);
+        CouponRule couponRule=couponDao.getCouponRuleById(id);
+
+        //当前时间
+        LocalDateTime now=LocalDateTime.now();
+        if(couponRule.getBeginTime().isBefore(now)){
+
+        }
+        //判断活动是否开始
+        if()
+        couponDao.deleteCouponRuleById(id);
         return true;
     }
 
