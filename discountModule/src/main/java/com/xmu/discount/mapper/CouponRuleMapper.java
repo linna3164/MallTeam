@@ -1,9 +1,13 @@
 package com.xmu.discount.mapper;
 
 import com.xmu.discount.domain.coupon.CouponRule;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Mapper
+@Component
 public interface CouponRuleMapper {
     /**
      * 用id找优惠卷规则
@@ -35,4 +39,5 @@ public interface CouponRuleMapper {
      * @return
      */
     int updateCouponRuleById(CouponRule couponRule);
+
 }
