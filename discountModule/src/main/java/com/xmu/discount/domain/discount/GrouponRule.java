@@ -17,23 +17,7 @@ public class GrouponRule extends Promotion {
 
     private GrouponRulePo realObj;
 
-    /**
-     * 团购是否在进行中
-     * @param order
-     * @return
-     */
-    protected boolean isValiable(Order order) {
 
-        LocalDateTime now = LocalDateTime.now();
-        return (this.getStartTime().isBefore(now) &&
-                this.getEndTime().isAfter(now));
-
-    }
-
-    @Override
-    public boolean isValiable() {
-        return false;
-    }
 
     /**
      * 返回商品的价格

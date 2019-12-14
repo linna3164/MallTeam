@@ -75,6 +75,7 @@ public class PresaleRule extends Promotion {
     }
 
 
+
 //    /**
 //     * 通过订单判断付款到哪个阶段了
 //     * @return
@@ -95,10 +96,7 @@ public class PresaleRule extends Promotion {
 //
 //    }
 
-    @Override
-    public boolean isValiable() {
-        return false;
-    }
+
 
     @Override
     public Payment getPayment(Order order) {
@@ -133,6 +131,9 @@ public class PresaleRule extends Promotion {
     public Integer getPromotionGoodsId() {
         return this.getGoodsId();
     }
+
+
+
 
 
     //*****生成代码******

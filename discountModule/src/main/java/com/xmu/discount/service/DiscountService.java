@@ -12,6 +12,10 @@ import java.util.List;
 @Service
 public interface DiscountService {
 
+
+    void deletePromotionById(Promotion promotion);
+
+
     Payment getPayment(Order order);
 
     List<Promotion> listProimotionByGoodsId(Integer goodsId);

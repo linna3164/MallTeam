@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class PresaleRuleDao {
+public class PresaleRuleDao implements PromotionDao{
 
     @Autowired
     public  PresaleRuleMapper presaleRuleMapper;
@@ -20,7 +20,8 @@ public class PresaleRuleDao {
      * @param id
      * @return
      */
-    public  Promotion getPresaleRuleById(Integer id){
+    @Override
+    public Promotion getPromotionById(Integer id) {
         return presaleRuleMapper.getPresaleRuleById(id);
     }
 
@@ -28,7 +29,8 @@ public class PresaleRuleDao {
      * 查看所有预售规则
      * @return
      */
-    public List<Promotion> getPresaleRules(){
+    @Override
+    public List<Promotion> getPromotionRules() {
         List<Promotion> promotions=new ArrayList<Promotion>();
         List<PresaleRule> presaleRules=presaleRuleMapper.getPresaleRules();
         for(PresaleRule p:presaleRules){
@@ -36,13 +38,16 @@ public class PresaleRuleDao {
         }
         return promotions;
     }
+
     /**
      * 添加预售规则
-     * @param presaleRule
+     * @param promotionRule
      * @return
      */
-    public  int addPresaleRule(PresaleRule presaleRule){
-        return presaleRuleMapper.addPresaleRule(presaleRule);
+    @Override
+    public int addPromotionRule(Promotion promotionRule) {
+        return presaleRuleMapper.addPresaleRule((PresaleRule) promotionRule);
+
     }
 
     /**
@@ -50,12 +55,11 @@ public class PresaleRuleDao {
      * @param goodsId
      * @return
      */
-    public List<Promotion> listPresaleRuleByGoodsId(Integer goodsId){
+    @Override
+    public List<Promotion> listPromotionByGoodsId(Integer goodsId) {
         List<Promotion>promotions=new ArrayList<>();
-        List<PresaleRule> presaleRule=presaleRuleMapper.listPresaleRuleByGoodsId(goodsId);
-        for(Promotion promotionItem:presaleRule){
-            promotions.add(promotionItem);
-        }
+        List<PresaleRule> presaleRules=presaleRuleMapper.listPresaleRuleByGoodsId(goodsId);
+        promotions.addAll(presaleRules);
         return promotions;
     }
 
@@ -63,7 +67,11 @@ public class PresaleRuleDao {
      * 修改预售规则
      * @return
      */
-    public int updatePresaleRuleById(PresaleRule presaleRule){
-        return presaleRuleMapper.updatePresaleRuleById(presaleRule);
+    @Override
+    public int updatePromotionRuleById(Promotion promotionRule) {
+        return presaleRuleMapper.updatePresaleRuleById((PresaleRule) promotionRule);
     }
+
+
+
 }

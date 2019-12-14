@@ -2,13 +2,16 @@ package com.xmu.discount.service.impl;
 
 import com.xmu.discount.dao.GrouponRuleDao;
 import com.xmu.discount.dao.PresaleRuleDao;
+import com.xmu.discount.dao.PromotionDao;
 import com.xmu.discount.domain.discount.GrouponRule;
 import com.xmu.discount.domain.discount.PresaleRule;
 import com.xmu.discount.domain.discount.Promotion;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.others.domain.Payment;
 import com.xmu.discount.service.DiscountService;
+import com.xmu.discount.util.SpringContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,6 +25,47 @@ public class DiscountServiceImpl implements DiscountService {
     @Autowired
     PresaleRuleDao presaleRuleDao;
 
+
+    /**
+     *
+     */
+
+    /**
+     * 删除促销活动
+     * @param promotion
+     * @return
+     */
+    @Override
+    public void deletePromotionById(Promotion promotion){
+        if(promotion.isOkToDelete())
+        {
+            //TODO：调用DAO层的delete方法
+        }
+    }
+
+    /**
+     * 修改促销活动
+     * @param promotion
+     * @return
+     */
+    public Promotion updatePromotion(Promotion promotion){
+        if(promotion.isOkToUpdate()){
+            //TODO：调用DAO层的update方法
+            String daoName=getDaoClassName(promotion);
+            ((PromotionDao)SpringContextUtil.getBean(daoName)).updatePromotionRuleById(promotion);
+
+        }
+    }
+
+    public String getDaoClassName(Promotion promotion){
+        return promotion.getClass().getSimpleName()+"DAO";
+    }
+
+    /**
+     *
+     * @param order
+     * @return
+     */
     @Override
     public Payment getPayment(Order order) {
         List<Promotion> promotions=this.listProimotionByGoodsId(order.getOrderItemList().get(0).getProduct().getGoodsId());
@@ -55,20 +99,6 @@ public class DiscountServiceImpl implements DiscountService {
         return promotions;
     }
 
-
-    /**
-     * 判断这个促销活动是否可添加
-     * @param promotion
-     * @return
-     */
-    @Override
-    public Boolean isValid(Promotion promotion) {
-        List<Promotion> promotions=this.listProimotionByGoodsId(promotion.getPromotionGoodsId());//活动商品的所有促销活动
-        //TODO:判断promotion的时间不能和其他的促销活动有交集
-
-        return promotion.isValid(promotions);
-
-    }
 
 
     /**
@@ -107,109 +137,16 @@ public class DiscountServiceImpl implements DiscountService {
      */
     @Override
     public Promotion addPromotion(Promotion promotion){
-        if(this.isValid(promotion)){
-
+        //获得商品的所有促销活动
+        List<Promotion> promotions=this.listProimotionByGoodsId(promotion.getPromotionGoodsId());
+        if(promotion.isOkToAdd(promotions)){
+            //调用DAO层的add方法。
         }
-        return null;
+        return promotion;
     }
 
-    @Override
-    public GrouponRule getGrouponRuleById(Integer id) {
-        return (GrouponRule) grouponRuleDao.getGrouponRuleById(id);
-    }
 
-    @Override
-    public Promotion addGrouponRule(GrouponRule grouponRule) {
-        grouponRule.setBeDeleted(false);
-        grouponRule.setGmtCreate(LocalDateTime.now());
-        int success=grouponRuleDao.addGrouponRule(grouponRule);
-        if(success==0) return null;
-        else return grouponRule;
 
-    }
-
-    @Override
-    public List<Promotion> listGrouponRuleByGoodsId(Integer goodsId) {
-        return grouponRuleDao.listGrouponRuleByGoodsId(goodsId);
-    }
-
-    @Override
-    public List<Promotion> getGrouponRules() {
-        return grouponRuleDao.getGroupRules();
-    }
-
-    @Override
-    public Promotion updateGrouponRuleById(GrouponRule grouponRule) {
-        if(grouponRule.getStartTime().isAfter(LocalDateTime.now())){
-            grouponRule.setGmtModified(LocalDateTime.now());
-        int success=grouponRuleDao.updateGrouponRuleById(grouponRule);
-        if(success==0) return null;
-        else return grouponRuleDao.getGrouponRuleById(grouponRule.getId());
-        }
-        else return null;
-
-    }
-
-    @Override
-    public Promotion deleteGroupRuleById(Integer id) {
-        if( grouponRuleDao.getGrouponRuleById(id).getPromotionStartTime().isAfter(LocalDateTime.now())){
-        GrouponRule g1=new GrouponRule();
-        g1.setId(id);
-        g1.setBeDeleted(true);
-        g1.setGmtModified(LocalDateTime.now());
-        int success=grouponRuleDao.updateGrouponRuleById(g1);
-        if(success==0) return null;
-        else return grouponRuleDao.getGrouponRuleById(id);
-        }
-        else return null;
-
-    }
-
-    @Override
-    public Promotion getPresaleRuleById(Integer id) {
-        return presaleRuleDao.getPresaleRuleById(id);
-    }
-
-    @Override
-    public Promotion addPresaleRule(PresaleRule presaleRule) {
-        presaleRule.setBeDeleted(false);
-        presaleRule.setGmtCreate(LocalDateTime.now());
-       int success=presaleRuleDao.addPresaleRule(presaleRule);
-       if(success==0) return null;
-       else  return presaleRule;
-    }
-
-    @Override
-    public List<Promotion> listPresaleRuleByGoodsId(Integer goodsId) {
-        return presaleRuleDao.listPresaleRuleByGoodsId(goodsId);
-    }
-
-    @Override
-    public Promotion updatePresaleRuleById(PresaleRule presaleRule) {
-        if(presaleRule.getPromotionStartTime().isAfter(LocalDateTime.now())) {
-            presaleRule.setGmtModified(LocalDateTime.now());
-            int success = presaleRuleDao.updatePresaleRuleById(presaleRule);
-            if (success == 0) return null;
-            else return presaleRuleDao.getPresaleRuleById(presaleRule.getId());
-        }
-        else return null;
-    }
-
-    @Override
-    public Promotion deletePresaleRuleById(Integer id) {
-        if(presaleRuleDao.getPresaleRuleById(id).getPromotionStartTime().isAfter(LocalDateTime.now()))
-        {
-            PresaleRule presaleRule=new PresaleRule();
-            presaleRule.setGmtModified(LocalDateTime.now());
-            presaleRule.setId(id);
-            presaleRule.setBeDeleted(true);
-            int success=presaleRuleDao.updatePresaleRuleById(presaleRule);
-            if(success==0) return null;
-            else return presaleRuleDao.getPresaleRuleById(id);
-        }
-
-        else return null;
-    }
 
 
 

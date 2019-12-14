@@ -20,13 +20,87 @@ import java.util.List;
  * @date 2019/11/26 10:39
  */
 public abstract class Promotion implements Serializable {
-    private static final Logger logger = LoggerFactory.getLogger(com.xmu.discount.standard.Order.class);
+//    private static final Logger logger = LoggerFactory.getLogger();
+
+    /**
+     * 促销活动是否可修改
+     * @return
+     */
+    public boolean isOkToUpdate(){
+        if(this.isAlreadyStart()){
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 促销活动是否可删除
+     * @return
+     */
+    public boolean isOkToDelete(){
+        if(this.isAlreadyStart()){
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 促销活动和其他活动是否有冲突
+     * @param promotions
+     * @return
+     */
+    public boolean isNoConflict(List<Promotion> promotions){
+        for(Promotion promotion:promotions){
+            //时间和其他促销活动无冲突
+            if(this.getPromotionEndTime().isBefore(promotion.getPromotionStartTime())||this.getPromotionStartTime().isAfter(promotion.getPromotionEndTime())){
+                continue;
+            }
+            else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 是否能加入 promotions(时间有效，并且和其他promotions没有冲突)
+     * @param promotions
+     * @return
+     */
+    public boolean isOkToAdd(List<Promotion> promotions){
+        if(this.isValid()&&this.isNoConflict(promotions)){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 促销活动是否有效（开始时间小于结束时间）
+     * @return
+     */
+    public boolean isValid(){
+        return this.getPromotionStartTime().isBefore(this.getPromotionEndTime());
+    }
+
+    /**
+     * 促销活动是否已开始
+     * @return
+     */
+    public  boolean isAlreadyStart(){
+        LocalDateTime now = LocalDateTime.now();
+        return (this.getPromotionStartTime().isBefore(now));
+    }
 
 
     /**
-     * 判断当前促销活动是否在进行
+     * 促销活动是否在进行
      */
-    public abstract boolean isValiable();
+    public  boolean isGoingOn(){
+
+        LocalDateTime now = LocalDateTime.now();
+        return (this.getPromotionStartTime().isBefore(now) &&
+                this.getPromotionEndTime().isAfter(now));
+    }
 
     /**
      * 返回应付金额
@@ -65,13 +139,14 @@ public abstract class Promotion implements Serializable {
         for(Promotion p:promotions){
             LocalDateTime s=p.getPromotionStartTime();
             LocalDateTime e=p.getPromotionEndTime();
-            if(p.getPromotionStartTime().isAfter(this.getPromotionEndTime())||p.getPromotionEndTime().isBefore(this.getPromotionStartTime()))
+            if(p.getPromotionStartTime().isAfter(this.getPromotionEndTime())||p.getPromotionEndTime().isBefore(this.getPromotionStartTime())) {
                 continue;
-            else {
+            } else {
                 return false;
             }
         }
         return  true;
 
     }
+
 }

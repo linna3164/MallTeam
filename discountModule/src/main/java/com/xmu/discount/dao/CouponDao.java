@@ -39,15 +39,7 @@ public class CouponDao {
       return coupon;
     };
 
-    /**
-     * 用id找优惠卷规则
-     * @param id 优惠卷规则id
-     * @return 优惠
-     */
-    public CouponRule getCouponRuleById(Integer id){
-        CouponRule couponRule=couponMapper.getCouponRuleById(id);
-        return couponRule;
-    };
+
 
     /**
      * 查看所有被领取的优惠券
@@ -74,23 +66,9 @@ public class CouponDao {
         return couponMapper.addCoupon(coupon);
     };
 
-    /**
-     * 新增优惠券规则
-     * @param couponRule
-     * @return
-     */
-    public int addCouponRule(CouponRule couponRule){
-        return couponMapper.addCouponRule(couponRule);
-    };
 
-    /**
-     * 修改优惠券规则
-     * @param couponRule
-     * @return
-     */
-    public int updateCouponRuleById(CouponRule couponRule){
-        return couponMapper.updateCouponRuleById(couponRule);
-    };
+
+
 
     /**
      * 修改优惠券

@@ -1,5 +1,6 @@
 package com.xmu.discount.domain.coupon;
 
+import com.xmu.discount.domain.discount.Promotion;
 import com.xmu.discount.domain.others.domain.Goods;
 import com.xmu.discount.domain.others.domain.GoodsPo;
 import com.xmu.discount.domain.others.domain.Order;
@@ -8,11 +9,12 @@ import com.xmu.discount.util.JacksonUtil;
 import org.apache.ibatis.type.Alias;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.net.ProgressMonitor;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class CouponRule {
+public class CouponRule extends Promotion {
 
     private static final Logger logger = LoggerFactory.getLogger(CouponRule.class);
     private static final Integer MAXIDNUMS=2500;
@@ -53,6 +55,74 @@ public class CouponRule {
          * @param value 值
          */
         TimeStatus(String name, Integer value) {
+            this.value = value;
+            this.name = name;
+        }
+
+        /**
+         * 获得值
+         * @return 值
+         */
+        public Integer getValue() {
+            return this.value;
+        }
+
+        /**
+         * 获得名称
+         * @return 名
+         */
+        public String getName() {
+            return this.name;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
+    }
+
+    /**
+     * 活动状态
+     */
+    private ActiveStatus activeStatus;
+
+    /**
+     * 优惠卷的活动状态
+     */
+    public enum ActiveStatus {
+        /**
+         * 未开始
+         */
+        NOTSTART("未开始", 0),
+        /**
+         * 进行中
+         */
+        INPROCESS("进行中", 1),
+        /**
+         * 已结束
+         */
+        DONE("已结束", 2),
+        /**
+         * 失效
+         */
+        DISABLED("失效",3);
+
+        /**
+         * 值
+         */
+        private final Integer value;
+
+        /**
+         * 名称
+         */
+        private final String name;
+
+        /**
+         * 构造函数
+         * @param name 名称
+         * @param value 值
+         */
+        ActiveStatus(String name, Integer value) {
             this.value = value;
             this.name = name;
         }
@@ -257,8 +327,18 @@ public class CouponRule {
 
     }
 
+    public ActiveStatus getActiveStatus() {
+        //通过属性判断是否失效
+        if(){
+
+        }
+        else if()
+    }
+
+
 
     public CouponRule() {
+
     }
 
     public CouponRule(Integer id,boolean beDeleted){
@@ -271,7 +351,9 @@ public class CouponRule {
      ****************************************************/
 
 
-
+    public void setActiveStatus(ActiveStatus activeStatus) {
+        this.activeStatus = activeStatus;
+    }
 
     public void setTimeStatus(TimeStatus timeStatus) {
         this.timeStatus = timeStatus;

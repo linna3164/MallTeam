@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class GrouponRuleDao {
+public class GrouponRuleDao implements PromotionDao{
 
     @Autowired
     public GrouponRuleMapper grouponRuleMapper;
@@ -20,27 +20,34 @@ public class GrouponRuleDao {
      * @param id
      * @return
      */
-    public Promotion getGrouponRuleById(Integer id){
+    @Override
+    public Promotion getPromotionById(Integer id) {
         return grouponRuleMapper.getGrouponRuleById(id);
     }
 
-    public List<Promotion> getGroupRules(){
+    /**
+     * 查看所有的团购规则
+     * @return
+     */
+    @Override
+    public List<Promotion> getPromotionRules() {
         List<GrouponRule> grouponRules=grouponRuleMapper.getGrouponRules();
         List<Promotion> promotions=new ArrayList<Promotion>();
-        for(GrouponRule g:grouponRules)
+        for(GrouponRule grouponRule:grouponRules)
         {
-            promotions.add(g);
+            promotions.add(grouponRule);
         }
         return promotions;
     }
 
     /**
      * 添加团购规则
-     * @param grouponRule
+     * @param promotionRule
      * @return
      */
-    public int addGrouponRule(GrouponRule grouponRule){
-        return grouponRuleMapper.addGrouponRule(grouponRule);
+    @Override
+    public int addPromotionRule(Promotion promotionRule) {
+        return grouponRuleMapper.addGrouponRule((GrouponRule)promotionRule);
     }
 
     /**
@@ -48,12 +55,11 @@ public class GrouponRuleDao {
      * @param goodsId
      * @return
      */
-    public List<Promotion> listGrouponRuleByGoodsId(Integer goodsId){
+    @Override
+    public List<Promotion> listPromotionByGoodsId(Integer goodsId) {
         List<Promotion>promotions=new ArrayList<>();
-        List<GrouponRule> grouponRule=grouponRuleMapper.listGrouponRuleByGoodsId(goodsId);
-        for(Promotion promotionItem:grouponRule){
-            promotions.add(promotionItem);
-        }
+        List<GrouponRule> grouponRules=grouponRuleMapper.listGrouponRuleByGoodsId(goodsId);
+        promotions.addAll(grouponRules);
         return promotions;
     }
 
@@ -61,7 +67,15 @@ public class GrouponRuleDao {
      * 修改团购规则
      * @return
      */
-    public int updateGrouponRuleById(GrouponRule grouponRule){
-        return grouponRuleMapper.updateGrouponRuleById(grouponRule);
+    @Override
+    public int updatePromotionRuleById(Promotion promotionRule) {
+        return 0;
     }
+
+
+
+
+
+
+
 }
