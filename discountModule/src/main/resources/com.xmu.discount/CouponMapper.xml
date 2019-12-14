@@ -98,7 +98,23 @@
                gmt_modified,
                is_deleted,
                status
-        from coupon where coupon_rule_id = #{id}
+        from coupon where coupon_rule_id = #{id} and is_deleted=0
+    </select>
 
+    <select id="listCouponOfUser" parameterType="Integer" resultMap="coupon">
+            select id,
+               user_id,
+               coupon_rule_id,
+               coupon_sn,
+               begin_time,
+               end_time,
+               used_time,
+               name,
+               pic_url,
+               gmt_create,
+               gmt_modified,
+               is_deleted,
+               status
+        from coupon where user_id = #{user_id} and is_deleted=0
     </select>
 </mapper>
