@@ -101,11 +101,5 @@ public class CouponDao {
         return coupons;
     }
 
-    /**
-     * 删除优惠券规则
-     */
-    public void deleteCouponRuleById(Integer id){
-        CouponRule couponRule=new CouponRule(id,true);
-        couponMapper.updateCouponRuleById(couponRule);
-    }
+
 }

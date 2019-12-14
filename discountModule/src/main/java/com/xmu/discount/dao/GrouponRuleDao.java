@@ -1,7 +1,7 @@
 package com.xmu.discount.dao;
 
 import com.xmu.discount.domain.discount.GrouponRule;
-import com.xmu.discount.domain.discount.Promotion;
+import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.mapper.GrouponRuleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class GrouponRuleDao implements PromotionDao{
+public class GrouponRuleDao implements PromotionRuleDao {
 
     @Autowired
     public GrouponRuleMapper grouponRuleMapper;
@@ -21,7 +21,7 @@ public class GrouponRuleDao implements PromotionDao{
      * @return
      */
     @Override
-    public Promotion getPromotionById(Integer id) {
+    public PromotionRule getPromotionById(Integer id) {
         return grouponRuleMapper.getGrouponRuleById(id);
     }
 
@@ -30,14 +30,14 @@ public class GrouponRuleDao implements PromotionDao{
      * @return
      */
     @Override
-    public List<Promotion> getPromotionRules() {
+    public List<PromotionRule> getPromotionRules() {
         List<GrouponRule> grouponRules=grouponRuleMapper.getGrouponRules();
-        List<Promotion> promotions=new ArrayList<Promotion>();
+        List<PromotionRule> promotionRules=new ArrayList<PromotionRule>();
         for(GrouponRule grouponRule:grouponRules)
         {
-            promotions.add(grouponRule);
+            promotionRules.add(grouponRule);
         }
-        return promotions;
+        return promotionRules;
     }
 
     /**
@@ -46,7 +46,7 @@ public class GrouponRuleDao implements PromotionDao{
      * @return
      */
     @Override
-    public int addPromotionRule(Promotion promotionRule) {
+    public int addPromotionRule(PromotionRule promotionRule) {
         return grouponRuleMapper.addGrouponRule((GrouponRule)promotionRule);
     }
 
@@ -56,11 +56,11 @@ public class GrouponRuleDao implements PromotionDao{
      * @return
      */
     @Override
-    public List<Promotion> listPromotionByGoodsId(Integer goodsId) {
-        List<Promotion>promotions=new ArrayList<>();
+    public List<PromotionRule> listPromotionByGoodsId(Integer goodsId) {
+        List<PromotionRule>promotionRules=new ArrayList<>();
         List<GrouponRule> grouponRules=grouponRuleMapper.listGrouponRuleByGoodsId(goodsId);
-        promotions.addAll(grouponRules);
-        return promotions;
+        promotionRules.addAll(grouponRules);
+        return promotionRules;
     }
 
     /**
@@ -68,14 +68,17 @@ public class GrouponRuleDao implements PromotionDao{
      * @return
      */
     @Override
-    public int updatePromotionRuleById(Promotion promotionRule) {
+    public int updatePromotionRuleById(PromotionRule promotionRule) {
         return 0;
     }
 
 
+    /**
+     * 删除团购规则
+     * @param id
+     */
+    @Override
+    public void deletePromotionRuleById(Integer id) {
 
-
-
-
-
+    }
 }

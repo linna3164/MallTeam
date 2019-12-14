@@ -1,20 +1,17 @@
 package com.xmu.discount.domain.coupon;
 
-import com.xmu.discount.domain.discount.Promotion;
-import com.xmu.discount.domain.others.domain.Goods;
+import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.domain.others.domain.GoodsPo;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.others.domain.OrderItem;
 import com.xmu.discount.util.JacksonUtil;
-import org.apache.ibatis.type.Alias;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.net.ProgressMonitor;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class CouponRule extends Promotion {
+public class CouponRule extends PromotionRule {
 
     private static final Logger logger = LoggerFactory.getLogger(CouponRule.class);
     private static final Integer MAXIDNUMS=2500;

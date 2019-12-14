@@ -4,11 +4,6 @@ import com.xmu.discount.domain.others.Order;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.others.domain.Payment;
 import com.xmu.discount.standard.Payment;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import xmu.oomall.domain.order.Order;
-import xmu.oomall.domain.payment.Payment;
-import xmu.oomall.util.JacksonUtil;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -19,7 +14,7 @@ import java.util.List;
  * @author Ming Qiu
  * @date 2019/11/26 10:39
  */
-public abstract class Promotion implements Serializable {
+public abstract class PromotionRule implements Serializable {
 //    private static final Logger logger = LoggerFactory.getLogger();
 
     /**
@@ -46,13 +41,13 @@ public abstract class Promotion implements Serializable {
 
     /**
      * 促销活动和其他活动是否有冲突
-     * @param promotions
+     * @param promotionRules
      * @return
      */
-    public boolean isNoConflict(List<Promotion> promotions){
-        for(Promotion promotion:promotions){
+    public boolean isNoConflict(List<PromotionRule> promotionRules){
+        for(PromotionRule promotion:promotionRules){
             //时间和其他促销活动无冲突
-            if(this.getPromotionEndTime().isBefore(promotion.getPromotionStartTime())||this.getPromotionStartTime().isAfter(promotion.getPromotionEndTime())){
+            if(this.getPromotionEndTime().isBefore(promotion.getpromotionRulestartTime())||this.getpromotionRulestartTime().isAfter(promotion.getPromotionEndTime())){
                 continue;
             }
             else {
@@ -63,12 +58,12 @@ public abstract class Promotion implements Serializable {
     }
 
     /**
-     * 是否能加入 promotions(时间有效，并且和其他promotions没有冲突)
-     * @param promotions
+     * 是否能加入 promotionRules(时间有效，并且和其他promotionRules没有冲突)
+     * @param promotionRules
      * @return
      */
-    public boolean isOkToAdd(List<Promotion> promotions){
-        if(this.isValid()&&this.isNoConflict(promotions)){
+    public boolean isOkToAdd(List<PromotionRule> promotionRules){
+        if(this.isValid()&&this.isNoConflict(promotionRules)){
             return true;
         }
         return false;
@@ -79,7 +74,7 @@ public abstract class Promotion implements Serializable {
      * @return
      */
     public boolean isValid(){
-        return this.getPromotionStartTime().isBefore(this.getPromotionEndTime());
+        return this.getpromotionRulestartTime().isBefore(this.getPromotionEndTime());
     }
 
     /**
@@ -88,7 +83,7 @@ public abstract class Promotion implements Serializable {
      */
     public  boolean isAlreadyStart(){
         LocalDateTime now = LocalDateTime.now();
-        return (this.getPromotionStartTime().isBefore(now));
+        return (this.getpromotionRulestartTime().isBefore(now));
     }
 
 
@@ -98,7 +93,7 @@ public abstract class Promotion implements Serializable {
     public  boolean isGoingOn(){
 
         LocalDateTime now = LocalDateTime.now();
-        return (this.getPromotionStartTime().isBefore(now) &&
+        return (this.getpromotionRulestartTime().isBefore(now) &&
                 this.getPromotionEndTime().isAfter(now));
     }
 
@@ -113,7 +108,7 @@ public abstract class Promotion implements Serializable {
      * 获得促销开始的时间
      * @return
      */
-    public abstract LocalDateTime getPromotionStartTime();
+    public abstract LocalDateTime getpromotionRulestartTime();
 
     /**
      * 获得促销结束的时间
@@ -130,16 +125,16 @@ public abstract class Promotion implements Serializable {
 
     /**
      * 判断这个promotion是否可添加
-     * @param promotions
+     * @param promotionRules
      * @return
      */
-    public boolean isValid(List<Promotion> promotions){
-        LocalDateTime startTime=this.getPromotionStartTime();
+    public boolean isValid(List<PromotionRule> promotionRules){
+        LocalDateTime startTime=this.getpromotionRulestartTime();
         LocalDateTime endTime=this.getPromotionEndTime();
-        for(Promotion p:promotions){
-            LocalDateTime s=p.getPromotionStartTime();
+        for(PromotionRule p:promotionRules){
+            LocalDateTime s=p.getpromotionRulestartTime();
             LocalDateTime e=p.getPromotionEndTime();
-            if(p.getPromotionStartTime().isAfter(this.getPromotionEndTime())||p.getPromotionEndTime().isBefore(this.getPromotionStartTime())) {
+            if(p.getpromotionRulestartTime().isAfter(this.getPromotionEndTime())||p.getPromotionEndTime().isBefore(this.getpromotionRulestartTime())) {
                 continue;
             } else {
                 return false;

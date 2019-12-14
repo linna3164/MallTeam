@@ -79,7 +79,7 @@ import java.util.List;
             for (OrderItem item: discountItems){
                 //按照比例分配，可能会出现精度误差，在后面补偿到第一个货品上
                 BigDecimal dealPrice = this.getDealPrice(item.getPrice(), totalPrice);//每一项商品的每一项
-//                item.setPromotionSn(couponSn);
+//                item.setpromotionRulesn(couponSn);
                 logger.debug("优惠价格 dealPrice="+ dealPrice);
                 item.setDealPrice(dealPrice);
                 dealTotalPrice = dealTotalPrice.add(dealPrice.multiply(BigDecimal.valueOf(item.getNumber())));//每一项的优惠价格
