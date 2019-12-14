@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Alias("presaleRule")
-public class PresaleRule extends Promotion {
+public class PresaleRule extends PromotionRule {
 
 
     private Integer id;
@@ -108,7 +108,7 @@ public class PresaleRule extends Promotion {
      * @return
      */
     @Override
-    public LocalDateTime getPromotionStartTime() {
+    public LocalDateTime getpromotionRulestartTime() {
 
         return this.getStartTime();
     }

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Alias("grouponRule")
-public class GrouponRule extends Promotion {
+public class GrouponRule extends PromotionRule {
 
     private GrouponRulePo realObj;
 
@@ -55,7 +55,7 @@ public class GrouponRule extends Promotion {
     }
 
     @Override
-    public LocalDateTime getPromotionStartTime() {
+    public LocalDateTime getpromotionRulestartTime() {
         return this.getStartTime();
     }
 
