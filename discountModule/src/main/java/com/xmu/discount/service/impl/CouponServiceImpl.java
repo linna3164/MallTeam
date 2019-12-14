@@ -79,6 +79,14 @@ public class CouponServiceImpl implements CouponService {
     }
 
     /**
+     * 管理员查看所有优惠券规则
+     * @return
+     */
+    public List<CouponRule> listAllCoupon(){
+        return getCouponRules();
+    }
+
+    /**
      * 管理员新增优惠券规则
      * @param couponRule
      * @return
@@ -144,6 +152,23 @@ public class CouponServiceImpl implements CouponService {
         List<Coupon> res=new ArrayList<>();
         for(Coupon coupon:coupons){
             if(coupon.getStatus().equals(status)){
+                res.add(coupon);
+            }
+        }
+        return res;
+    }
+
+    /**
+     * 获得此用户购物车所有可用优惠券
+     * @param userId
+     * @param cartItemList
+     * @return
+     */
+    public List<Coupon> listCouponOfCartItems(Integer userId, List<CartItem> cartItemList){
+        List<Coupon> couponList=couponDao.listCouponOfUser(userId);
+        List<Coupon> res=new ArrayList<Coupon>();
+        for(Coupon coupon:couponList){
+            if(coupon.xxx(cartItemList)){
                 res.add(coupon);
             }
         }
