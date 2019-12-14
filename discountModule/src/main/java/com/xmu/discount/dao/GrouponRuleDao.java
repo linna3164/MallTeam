@@ -64,4 +64,14 @@ public class GrouponRuleDao {
     public int updateGrouponRuleById(GrouponRule grouponRule){
         return grouponRuleMapper.updateGrouponRuleById(grouponRule);
     }
+
+    /**
+     * 删除团购规则
+     * @return
+     */
+    public int deleteGrouponRuleById(Integer id){
+        GrouponRule grouponRule=new GrouponRule(id,true);
+        grouponMapper.updateGrouponRuleById(gouponRule);
+
+    }
 }

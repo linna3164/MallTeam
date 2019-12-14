@@ -66,4 +66,14 @@ public class PresaleRuleDao {
     public int updatePresaleRuleById(PresaleRule presaleRule){
         return presaleRuleMapper.updatePresaleRuleById(presaleRule);
     }
+
+    /**
+     * 删除预售规则
+     * @return
+     */
+    public int deletePresaleRuleById(Integer id){
+        PresaleRule presaleRule=new presaleRule(id,true);
+        presaleMapper.updatePresaleRuleById(presaleRule);
+
+    }
 }
