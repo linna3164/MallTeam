@@ -39,5 +39,5 @@ public interface PromotionRuleDao {
     int updatePromotionRuleById(PromotionRule promotionRule);
 
 
-    void deletePromotionRuleById(PromotionRule promotionRule);
+    void deletePromotionRuleById(Integer id);
 }

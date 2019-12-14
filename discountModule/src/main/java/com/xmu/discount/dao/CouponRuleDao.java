@@ -70,10 +70,10 @@ public class CouponRuleDao implements PromotionRuleDao {
 
     /**
      * 删除优惠券规则
-     * @param promotionRule
+     * @param id
      */
     @Override
-    public void deletePromotionRuleById(PromotionRule promotionRule) {
+    public void deletePromotionRuleById(Integer id) {
         CouponRule couponRule=new CouponRule(id,true);
         couponMapper.updateCouponRuleById(couponRule);
     }

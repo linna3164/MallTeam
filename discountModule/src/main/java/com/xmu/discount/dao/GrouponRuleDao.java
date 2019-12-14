@@ -75,10 +75,10 @@ public class GrouponRuleDao implements PromotionRuleDao {
 
     /**
      * 删除团购规则
-     * @param promotionRule
+     * @param id
      */
     @Override
-    public void deletePromotionRuleById(PromotionRule promotionRule) {
+    public void deletePromotionRuleById(Integer id) {
 
     }
 }

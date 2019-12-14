@@ -36,7 +36,8 @@ public class DiscountServiceImpl implements DiscountService {
     public void deletePromotionById(PromotionRule promotionRule){
         if(promotionRule.isOkToDelete())
         {
-            //TODO：调用DAO层的delete方法
+            String daoName=getDaoClassName(promotionRule);
+            ((PromotionRuleDao)SpringContextUtil.getBean(daoName)).deletePromotionRuleById(promotionRule);
         }
     }
 
@@ -47,7 +48,6 @@ public class DiscountServiceImpl implements DiscountService {
      */
     public PromotionRule updatepromotionRule(PromotionRule promotionRule){
         if(promotionRule.isOkToUpdate()){
-            //TODO：调用DAO层的update方法
             String daoName=getDaoClassName(promotionRule);
             ((PromotionRuleDao)SpringContextUtil.getBean(daoName)).updatePromotionRuleById(promotionRule);
 
@@ -106,7 +106,6 @@ public class DiscountServiceImpl implements DiscountService {
     @Override
     public PromotionRule getCurrentPromotionByGoodsId(Integer goodsId) {
         List<PromotionRule> promotionRules=this.listProimotionByGoodsId(goodsId);//活动商品的所有促销活动
-        //TODO:结束时间大于当前时间，开始时间小于当前时间？？不确定这个逻辑是否正确
         for(PromotionRule p:promotionRules){
             LocalDateTime start=p.getpromotionRulestartTime();
             LocalDateTime end=p.getPromotionEndTime();
@@ -129,17 +128,19 @@ public class DiscountServiceImpl implements DiscountService {
 
     /**
      * 添加优惠活动
-     * @param promotion
+     * @param promotionRule
      * @return
      */
     @Override
-    public PromotionRule addPromotion(PromotionRule promotion){
+    public PromotionRule addPromotion(PromotionRule promotionRule){
         //获得商品的所有促销活动
-        List<PromotionRule> promotionRules=this.listProimotionByGoodsId(promotion.getPromotionGoodsId());
-        if(promotion.isOkToAdd(promotionRules)){
+        List<PromotionRule> promotionRules=this.listProimotionByGoodsId(promotionRule.getPromotionGoodsId());
+        if(promotionRule.isOkToAdd(promotionRules)){
             //调用DAO层的add方法。
+            String daoName=getDaoClassName(promotionRule);
+            ((PromotionRuleDao)SpringContextUtil.getBean(daoName)).updatePromotionRuleById(promotionRule);
         }
-        return promotion;
+        return promotionRule;
     }
 
 

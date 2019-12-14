@@ -3,6 +3,7 @@ package com.xmu.discount.service.impl;
 import com.xmu.discount.dao.GrouponRuleDao;
 import com.xmu.discount.domain.discount.GrouponRule;
 import com.xmu.discount.domain.discount.PromotionRule;
+import com.xmu.discount.domain.others.domain.Payment;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
@@ -12,6 +13,16 @@ public class GrouponServiceImpl {
 
     @Autowired
     GrouponRuleDao grouponRuleDao;
+
+
+    /**
+     * 计算成团人数
+     * @return
+     */
+    public List<Payment> calcuGroupon(){
+
+    }
+
 
 //    @Override
     public GrouponRule getGrouponRuleById(Integer id) {

@@ -4,9 +4,6 @@ import com.xmu.discount.domain.others.Order;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.others.domain.Payment;
 import com.xmu.discount.standard.Payment;
-import xmu.oomall.domain.order.Order;
-import xmu.oomall.domain.payment.Payment;
-import xmu.oomall.util.JacksonUtil;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

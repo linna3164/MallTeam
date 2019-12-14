@@ -75,10 +75,10 @@ public class PresaleRuleDao implements PromotionRuleDao {
 
     /**
      * 删除预售规则
-     * @param promotionRule
+     * @param id
      */
     @Override
-    public void deletePromotionRuleById(PromotionRule promotionRule) {
+    public void deletePromotionRuleById(Integer id) {
 
     }
 }
