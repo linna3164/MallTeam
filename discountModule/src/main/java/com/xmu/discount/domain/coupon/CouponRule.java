@@ -404,9 +404,9 @@ public class CouponRule {
         this.realObj = realObj;
     }
 
-    public boolean canEqual(Object other) {
-        return realObj.canEqual(other);
-    }
+//    public boolean canEqual(Object other) {
+//        return realObj.canEqual(other);
+//    }
 
     public Integer getId() {
         return realObj.getId();
