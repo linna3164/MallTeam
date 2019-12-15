@@ -20,7 +20,7 @@ import java.util.List;
  * @Modified By:
  **/
 @Service
-public class CouponServiceImpl implements CouponService {
+public class CouponServiceImpl {
 
     @Autowired
     private CouponDao couponDao;

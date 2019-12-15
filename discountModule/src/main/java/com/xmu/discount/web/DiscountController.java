@@ -8,16 +8,15 @@ import com.xmu.discount.domain.discount.GrouponRulePo;
 import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.domain.others.domain.CartItem;
 import com.xmu.discount.service.CouponService;
-import com.xmu.discount.service.impl.CouponRuleServiceImpl;
-import com.xmu.discount.service.impl.GrouponServiceImpl;
-import com.xmu.discount.service.impl.PresaleServiceImpl;
-import com.xmu.discount.service.impl.PromotionServiceImpl;
+import com.xmu.discount.service.impl.*;
 import com.xmu.discount.util.ResponseUtil;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -38,7 +37,7 @@ public class DiscountController {
 
 
     @Autowired
-    private CouponService couponService;
+    private CouponServiceImpl couponService;
 
     @Autowired
     private CouponRuleServiceImpl couponRuleService;
@@ -145,7 +144,9 @@ public class DiscountController {
      * @return
      */
     @GetMapping("/coupons/availableCoupons")
-    public List<Coupon> getAvailableCoupons(@RequestBody List<CartItem> cartItems){
+    public List<Coupon> getAvailableCoupons(@RequestBody List<CartItem> cartItems, HttpServletRequest request){
+        Integer userId = Integer.valueOf(request.getHeader("userId"));
+
           return couponService.listAvailableCoupons(cartItems);
     }
 
