@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public abstract class PromotionServiceImpl {
+public  class PromotionServiceImpl {
 
     @Autowired
     public GrouponRuleDao grouponRuleDao;
@@ -31,7 +31,7 @@ public abstract class PromotionServiceImpl {
     /**
      * 活动实效后的行为
      */
-    public  abstract void toDoSomthing(PromotionRule promotionRule);
+//    public  abstract void toDoSomthing(PromotionRule promotionRule);
 
     /**
      * 设置活动实效
