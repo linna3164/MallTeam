@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class PresaleServiceImpl {
+public class PresaleServiceImpl extends PromotionServiceImpl{
 
     @Autowired
     PresaleRuleDao presaleRuleDao;

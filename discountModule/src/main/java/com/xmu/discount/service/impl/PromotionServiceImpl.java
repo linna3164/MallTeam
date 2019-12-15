@@ -6,7 +6,7 @@ import com.xmu.discount.dao.PromotionRuleDao;
 import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.others.domain.Payment;
-import com.xmu.discount.service.DiscountService;
+import com.xmu.discount.service.PromotionService;
 import com.xmu.discount.util.SpringContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DiscountServiceImpl implements DiscountService {
+public abstract class PromotionServiceImpl implements PromotionService {
 
     @Autowired
     GrouponRuleDao grouponRuleDao;
@@ -22,10 +22,33 @@ public class DiscountServiceImpl implements DiscountService {
     @Autowired
     PresaleRuleDao presaleRuleDao;
 
+    /**
+     * 活动实效后的行为
+     */
+    public  abstract void toDoSomthing(PromotionRule promotionRule);
 
     /**
-     *
+     * 设置活动实效
+     * @param promotionRule
      */
+    @Override
+    public void setUnValid(PromotionRule promotionRule) {
+        //只有进行中的促销活动规则可以设置实效
+        if(promotionRule.isGoingOn()){
+            //
+            this.toDoSomthing(promotionRule);
+        }
+    }
+
+    /**
+     * 根据id获取促销规则(controller 传优惠券名)
+     * @param id
+     * @return
+     */
+    @Override
+    public PromotionRule getPromotionById(Integer id,String promotionName) {
+        return ((PromotionRuleDao)SpringContextUtil.getBean(promotionName+"DAO")).getPromotionRuleById(id);
+    }
 
     /**
      * 删除促销活动
@@ -37,7 +60,7 @@ public class DiscountServiceImpl implements DiscountService {
         if(promotionRule.isOkToDelete())
         {
             String daoName=getDaoClassName(promotionRule);
-            ((PromotionRuleDao)SpringContextUtil.getBean(daoName)).deletePromotionRuleById(promotionRule);
+            ((PromotionRuleDao)SpringContextUtil.getBean(daoName)).deletePromotionRuleById(promotionRule.getId());
         }
     }
 
@@ -46,6 +69,7 @@ public class DiscountServiceImpl implements DiscountService {
      * @param promotionRule
      * @return
      */
+    @Override
     public PromotionRule updatepromotionRule(PromotionRule promotionRule){
         if(promotionRule.isOkToUpdate()){
             String daoName=getDaoClassName(promotionRule);

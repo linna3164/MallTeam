@@ -17,6 +17,8 @@ import java.util.List;
 public abstract class PromotionRule implements Serializable {
 //    private static final Logger logger = LoggerFactory.getLogger();
 
+    public abstract Integer getId();
+
     /**
      * 促销活动是否可修改
      * @return

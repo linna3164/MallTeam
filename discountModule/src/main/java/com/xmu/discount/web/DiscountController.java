@@ -3,13 +3,12 @@ package com.xmu.discount.web;
 import com.xmu.discount.domain.coupon.CouponRule;
 import com.xmu.discount.domain.discount.GrouponRule;
 import com.xmu.discount.service.CouponService;
-import com.xmu.discount.service.DiscountService;
-import com.xmu.discount.util.ResponseUtil;
+import com.xmu.discount.service.impl.PromotionServiceImpl;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -24,7 +23,7 @@ import java.util.List;
 public class DiscountController {
 
     @Autowired
-    private DiscountService discountService;
+    private PromotionServiceImpl discountService;
     private CouponService couponService;
     /**
      *管理员根据条件查找优惠券/adminList
@@ -206,8 +205,8 @@ public class DiscountController {
      * @return 无
      */
     @DeleteMapping("/grouponRules/{id}")
-    public Object delete(@PathVariable Integer grouponRuleId){
-        return discountService.
+    public Object delete(@NotNull @PathVariable Integer grouponRuleId){
+        return
     };
 
     /**
