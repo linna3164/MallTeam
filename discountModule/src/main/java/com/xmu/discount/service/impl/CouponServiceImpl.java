@@ -30,7 +30,6 @@ public class CouponServiceImpl {
         return couponDao.getCouponById(id);
     }
 
-    @Override
     public List<Coupon> getCoupons() {
         return couponDao.listCoupons();
     }
@@ -97,7 +96,7 @@ public class CouponServiceImpl {
      * @param cartItems
      * @return
      */
-    @Override
+
     public List<Coupon> listAvailableCoupons(List<CartItem> cartItems) {
         return null;
     }

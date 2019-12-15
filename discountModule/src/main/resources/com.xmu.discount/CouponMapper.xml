@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xmu.discount.mapper.CouponMapper">
-    <resultMap id="coupon" type="coupon">
+    <resultMap id="coupon" type="com.xmu.discount.domain.coupon.Coupon">
         <result property="beDeleted" column="is_deleted"/>
     </resultMap>
 
@@ -63,7 +63,7 @@
         (#{id}, #{userId}, #{couponRuleId}, #{couponSn}, #{beginTime}, #{endTime}, #{usedTime}, #{name}, #{picUrl}, #{gmtCreate}, #{gmtModified}, #{beDeleted}, #{status})
     </insert>
 
-    <update id="updateCouponById" parameterType="coupon">
+    <update id="updateCouponById" parameterType="Coupon">
         update coupon
         <trim prefix="set" suffixOverrides=",">
             <if test="userId!=null">user_id=#{userId},</if>

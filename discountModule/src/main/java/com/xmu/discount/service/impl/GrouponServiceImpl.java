@@ -21,7 +21,7 @@ public class GrouponServiceImpl extends PromotionServiceImpl{
      * 团购活动失效后的行为
      * @param promotionRule
      */
-    @Override
+
     public void toDoSomthing(PromotionRule promotionRule) {
         //TODO:退款，找到改团购活动的订单（根据dealPrice）
     }

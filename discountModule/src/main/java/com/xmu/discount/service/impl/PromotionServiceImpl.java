@@ -39,10 +39,10 @@ public  class PromotionServiceImpl {
      */
     public void setUnValid(PromotionRule promotionRule) {
         //只有进行中的促销活动规则可以设置实效
-        if(promotionRule.isGoingOn()){
-            //
-            this.toDoSomthing(promotionRule);
-        }
+//        if(promotionRule.isGoingOn()){
+//            //
+//            this.toDoSomthing(promotionRule);
+//        }
     }
 
     /**

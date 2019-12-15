@@ -1,4 +1,4 @@
-ï»¿package com.xmu.discount.domain.others.domain;
+package com.xmu.discount.domain.others.domain;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -9,8 +9,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * @Author: æ•°æ®åº“ä¸å¯¹è±¡æ¨¡å‹æ ‡å‡†ç»„
- * @Description: ä»˜æ¬¾è®°å½•
+ * @Author: Êı¾İ¿âÓë¶ÔÏóÄ£ĞÍ±ê×¼×é
+ * @Description: ¸¶¿î¼ÇÂ¼
  * @Date: Created in 16:00 2019/12/11
  **/
 
@@ -22,35 +22,35 @@ public class Payment {
 
     private Integer id;
     /**
-     * ä»˜æ¬¾é‡‘é¢
+     * ¸¶¿î½ğ¶î
      */
     private BigDecimal actualPrice;
      /**
-     * ä»˜æ¬¾æ¸ é“ï¼Œå¾®ä¿¡ï¼Œé“¶è¡Œç­‰ç­‰
+     * ¸¶¿îÇşµÀ£¬Î¢ĞÅ£¬ÒøĞĞµÈµÈ
      */
     private Integer payChannel;
     /**
-     * æ˜¯å¦ä»˜æ¬¾æˆåŠŸ,0ä¸æˆåŠŸï¼Œ1æˆåŠŸ
+     * ÊÇ·ñ¸¶¿î³É¹¦,0²»³É¹¦£¬1³É¹¦
      */
     private Boolean beSuccessful;
     /**
-     * ä»˜æ¬¾æ—¶é—´
+     * ¸¶¿îÊ±¼ä
      */
     private LocalDateTime payTime;
     /**
-     * ä»˜æ¬¾ç¼–å·ï¼Œä»æ”¯ä»˜æ¸ é“è·å¾—çš„
+     * ¸¶¿î±àºÅ£¬´ÓÖ§¸¶ÇşµÀ»ñµÃµÄ
      */
     private String paySn;
     /**
-     * ä»˜æ¬¾çš„å¼€å§‹æ—¶é—´ ï¼ˆåœ¨å¼€å§‹æ—¶é—´å’Œç»“æŸæ—¶é—´ä¹‹é—´æ‰å¯ä»¥ä»˜æ¬¾ï¼‰
+     * ¸¶¿îµÄ¿ªÊ¼Ê±¼ä £¨ÔÚ¿ªÊ¼Ê±¼äºÍ½áÊøÊ±¼äÖ®¼ä²Å¿ÉÒÔ¸¶¿î£©
      */
     private LocalDateTime beginTime;
     /**
-     * ä»˜æ¬¾çš„ç»“æŸæ—¶é—´
+     * ¸¶¿îµÄ½áÊøÊ±¼ä
      */
     private LocalDateTime endTime;
     /**
-     * è®¢å•Id
+     * ¶©µ¥Id
      */
     private Integer orderId;
     private LocalDateTime gmtCreate;

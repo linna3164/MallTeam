@@ -6,6 +6,7 @@ import com.xmu.discount.mapper.GrouponRuleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,6 +68,8 @@ public class GrouponRuleDao implements PromotionRuleDao {
      */
     @Override
     public int updatePromotionRuleById(PromotionRule promotionRule) {
+        GrouponRule grouponRule=new GrouponRule(promotionRule.getId(),LocalDateTime.now());
+        grouponRuleMapper.updateGrouponRuleById(grouponRule);
         return grouponRuleMapper.updateGrouponRuleById((GrouponRule)promotionRule);
     }
 
@@ -78,6 +81,7 @@ public class GrouponRuleDao implements PromotionRuleDao {
     @Override
     public void deletePromotionRuleById(Integer id) {
         GrouponRule grouponRule=new GrouponRule(id,true);
+        grouponRule.setGmtModified(LocalDateTime.now());
         grouponRuleMapper.updateGrouponRuleById(grouponRule);
     }
 }

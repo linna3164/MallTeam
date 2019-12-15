@@ -6,7 +6,7 @@ import org.apache.ibatis.type.Alias;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Alias("coupon")
+@Alias("Coupon")
 public class Coupon {
 
     private Integer id;

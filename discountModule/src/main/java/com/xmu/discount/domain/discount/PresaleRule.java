@@ -5,6 +5,7 @@ import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.others.domain.Payment;
 
 import org.apache.ibatis.type.Alias;
+import org.apache.tomcat.jni.Local;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -58,6 +59,10 @@ public class PresaleRule extends PromotionRule {
         this.setId(id);
     }
 
+    public PresaleRule(Integer id, LocalDateTime time){
+        this.setGmtModified(time);
+        this.setId(id);
+    }
     /**
      * 是否可付定金
      * @return

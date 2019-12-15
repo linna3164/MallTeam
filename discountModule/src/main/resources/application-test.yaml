@@ -1,29 +1,49 @@
+server:
+  port: 8080
+
 spring:
+  application:
+    name: test
   datasource:
-    #JDBC驱动的名称
-    driver-class-name: org.h2.Driver
-    #数据库的JDBC url
-    url: jdbc:h2:mem:test;MODE=MYSQL
-    #数据库用户名
-    data-username: root
-    #数据库密码
-    password: 123456
-    #建表的SQL 初始化数据
-    schema: classpath*:test/schema.sql
-    #当数据库为内嵌数据库时，如h2，则执行初始化SQL
-    initialization-mode: embedded
-    #当上述SQL中有错误时，则终止执行
-    continue-on-error: false
-    #SQL脚本的编码
-    sql-script-encoding: utf-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/oomall?serverTimezone=UTC
+    username: root
+    password: 6892778tt
     druid:
+      #初始化时建立物理连接的个数
+      initial-size: 3
+      #  最小连接池数量
+      min-idle: 3
+      #最大连接池数量
+      max-active: 10
+      #获取连接时最大等待时间
+      max-wait: 60000
+      #配置监控页面访问登录名及密码
+      stat-view-servlet:
+        login-username: admin
+        login-password: 123456
+      filter:
+        stat:
+          #是否开启慢sql查询监控
+          log-slow-sql: true
+          #慢SQL执行时间
+          slow-sql-millis: 100
       validation-query: select 1
-  h2:
-    console:
-      #开启好h2的控制内核
-      enabled: true
-      settings:
-        #不允许远程访问
-        web-allow-others: false
+
+#eureka:
+#  instance:
+#    hostname: localhost
+#    prefer-ip-address: true
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:7878/eureka/
 
 
+mybatis:
+  #domain对象的包
+  type-aliases-package: com.xmu.discount.doamin.coupon
+  #mapper。xml所在的位置
+  mapper-locations: classpath:com.xmu.discount/*.xml
+  configuration:
+    #自动将SQL中查出来的带下划线的字段，转换为驼峰标志，再去匹配类中的属性
+    map-underscore-to-camel-case: true

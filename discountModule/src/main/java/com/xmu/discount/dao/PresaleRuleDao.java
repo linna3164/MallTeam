@@ -6,6 +6,7 @@ import com.xmu.discount.mapper.PresaleRuleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,6 +70,8 @@ public class PresaleRuleDao implements PromotionRuleDao {
      */
     @Override
     public int updatePromotionRuleById(PromotionRule promotionRule) {
+        PresaleRule presaleRule=new PresaleRule(promotionRule.getId(), LocalDateTime.now());
+        presaleRuleMapper.updatePresaleRuleById(presaleRule);
         return presaleRuleMapper.updatePresaleRuleById((PresaleRule) promotionRule);
     }
 
@@ -80,6 +83,7 @@ public class PresaleRuleDao implements PromotionRuleDao {
     @Override
     public void deletePromotionRuleById(Integer id) {
         PresaleRule grouponRule=new PresaleRule(id,true);
+        grouponRule.setGmtModified(LocalDateTime.now());
         presaleRuleMapper.updatePresaleRuleById(grouponRule);
     }
 }

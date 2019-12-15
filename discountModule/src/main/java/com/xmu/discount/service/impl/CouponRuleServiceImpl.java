@@ -71,6 +71,9 @@ public class CouponRuleServiceImpl {
      * @return
      */
     public CouponRule addCouponRule(CouponRule couponRule) {
+        couponRule.setGmtCreate(LocalDateTime.now());
+        couponRule.setBeDeleted(false);
+        couponRule.setGmtModified(LocalDateTime.now());
         couponRuleDao.addCouponRule(couponRule);
         return couponRule;
     }
@@ -81,6 +84,7 @@ public class CouponRuleServiceImpl {
      * @return
      */
     public CouponRule updateCouponRule(CouponRule couponRule) {
+        couponRule.setGmtModified(LocalDateTime.now());
         couponRuleDao.updateCouponRuleById(couponRule);
         return couponRule;
     }

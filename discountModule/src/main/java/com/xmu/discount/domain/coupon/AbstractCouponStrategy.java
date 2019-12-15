@@ -110,12 +110,12 @@ import java.util.List;
                     Integer quantity = item.getNumber();
                     item.setNumber(quantity - 1);
                     try {
-                        OrderItem newItem = (OrderItem) item.clone();
+                        OrderItem newItem = (OrderItem) item;
                         newItem.setNumber(1);
                         BigDecimal dealPrice = newItem.getDealPrice();
                         newItem.setDealPrice(dealPrice.add(error));
                         newItems.add(newItem);
-                    } catch (CloneNotSupportedException e) {
+                    } catch (Exception e) {
                         logger.error(e.getMessage(), e);
                     }
                 }

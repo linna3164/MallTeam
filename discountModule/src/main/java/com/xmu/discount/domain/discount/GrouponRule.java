@@ -67,14 +67,17 @@ public class GrouponRule extends PromotionRule {
                 Payment payment=new Payment();
                 //正数转负数
                 payment.setActualPrice(refundPrice.negate());
-                payment.setOrderId(order.getId());
+                payment.setOrderId(order.getID());
             }
         }
         return payments;
     }
 
 
-
+    public GrouponRule(Integer id,LocalDateTime time){
+        this.setGmtModified(LocalDateTime.now());
+        this.setId(id);
+    }
 
 
     public GrouponRule(Integer id,boolean beDeleted){
