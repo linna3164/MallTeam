@@ -5,7 +5,7 @@ spring:
     #中央数据库或者命令行
     data-username: ooadUser
     password: ooad
-    type: com.alibaba.druid.pool.DruidDataSource #druid连接池：数据库的连接可以设置最大连接数（连接池）、数据库的sql语句写得怎么样？？？。
+   # type: com.alibaba.druid.pool.DruidDataSource #druid连接池：数据库的连接可以设置最大连接数（连接池）、数据库的sql语句写得怎么样？？？。
     druid:
       #初始化时建立物理连接的个数
       initial-size: 3

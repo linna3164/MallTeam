@@ -7,6 +7,7 @@ import com.xmu.discount.util.JacksonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,6 +69,7 @@ public class CouponRuleDao  {
      * @return
      */
     public int updateCouponRuleById(CouponRule couponRule) {
+        couponRule.setGmtModified(LocalDateTime.now());
         return couponRuleMapper.updateCouponRuleById(couponRule);
     }
 
@@ -77,6 +79,7 @@ public class CouponRuleDao  {
      */
     public void deletePromotionRuleById(Integer id) {
         CouponRule couponRule=new CouponRule(id,true);
+        couponRule.setGmtModified(LocalDateTime.now());
         couponRuleMapper.updateCouponRuleById(couponRule);
     }
 }
