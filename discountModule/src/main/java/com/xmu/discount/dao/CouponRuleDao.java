@@ -1,9 +1,7 @@
 package com.xmu.discount.dao;
 
 import com.xmu.discount.domain.coupon.CouponRule;
-import com.xmu.discount.domain.coupon.CouponRulePo;
 import com.xmu.discount.domain.discount.PromotionRule;
-import com.xmu.discount.mapper.CouponMapper;
 import com.xmu.discount.mapper.CouponRuleMapper;
 import com.xmu.discount.util.JacksonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +32,9 @@ public class CouponRuleDao implements PromotionRuleDao {
      * @return
      */
     @Override
-    public List<PromotionRule> getPromotionRules() {
+    public List<PromotionRule> listPromotions() {
         List<PromotionRule>promotionRules=new ArrayList<>();
-        List<CouponRule> couponRules=couponRuleMapper.getCouponRules();
+        List<CouponRule> couponRules=couponRuleMapper.listCouponRules();
         promotionRules.addAll(couponRules);
         return promotionRules;
     }
@@ -60,7 +58,7 @@ public class CouponRuleDao implements PromotionRuleDao {
     public List<PromotionRule> listPromotionRuleByGoodsId(Integer goodsId) {
         //TODO:
         List<PromotionRule> promotionRules=new ArrayList<PromotionRule>();
-        List<CouponRule> couponRules=couponRuleMapper.getCouponRules();
+        List<CouponRule> couponRules=couponRuleMapper.listCouponRules();
         for(CouponRule couponRule:couponRules){
             String list1=couponRule.getGoodsList1();
             String list2=couponRule.getGoodsList2();

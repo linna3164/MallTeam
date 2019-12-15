@@ -1,5 +1,6 @@
 package com.xmu.discount.service.impl;
 
+import com.xmu.discount.dao.CouponRuleDao;
 import com.xmu.discount.dao.GrouponRuleDao;
 import com.xmu.discount.dao.PresaleRuleDao;
 import com.xmu.discount.dao.PromotionRuleDao;
@@ -17,10 +18,13 @@ import java.util.List;
 public abstract class PromotionServiceImpl implements PromotionService {
 
     @Autowired
-    GrouponRuleDao grouponRuleDao;
+    public GrouponRuleDao grouponRuleDao;
 
     @Autowired
-    PresaleRuleDao presaleRuleDao;
+    public PresaleRuleDao presaleRuleDao;
+
+    @Autowired
+    public CouponRuleDao couponRuleDao;
 
     /**
      * 活动实效后的行为
@@ -31,7 +35,6 @@ public abstract class PromotionServiceImpl implements PromotionService {
      * 设置活动实效
      * @param promotionRule
      */
-    @Override
     public void setUnValid(PromotionRule promotionRule) {
         //只有进行中的促销活动规则可以设置实效
         if(promotionRule.isGoingOn()){
@@ -45,7 +48,6 @@ public abstract class PromotionServiceImpl implements PromotionService {
      * @param id
      * @return
      */
-    @Override
     public PromotionRule getPromotionById(Integer id,String promotionName) {
         return ((PromotionRuleDao)SpringContextUtil.getBean(promotionName+"DAO")).getPromotionRuleById(id);
     }
@@ -55,7 +57,6 @@ public abstract class PromotionServiceImpl implements PromotionService {
      * @param promotionRule
      * @return
      */
-    @Override
     public void deletePromotionById(PromotionRule promotionRule){
         if(promotionRule.isOkToDelete())
         {
@@ -69,7 +70,6 @@ public abstract class PromotionServiceImpl implements PromotionService {
      * @param promotionRule
      * @return
      */
-    @Override
     public PromotionRule updatepromotionRule(PromotionRule promotionRule){
         if(promotionRule.isOkToUpdate()){
             String daoName=getDaoClassName(promotionRule);
@@ -87,7 +87,6 @@ public abstract class PromotionServiceImpl implements PromotionService {
      * @param order
      * @return
      */
-    @Override
     public Payment getPayment(Order order) {
         List<PromotionRule> promotionRules=this.listProimotionByGoodsId(order.getOrderItemList().get(0).getProduct().getGoodsId());
         if(promotionRules.size()==0){//没有促销活动
@@ -108,7 +107,6 @@ public abstract class PromotionServiceImpl implements PromotionService {
      * @param goodsId
      * @return
      */
-    @Override
     public List<PromotionRule> listProimotionByGoodsId(Integer goodsId){
         List<PromotionRule> grouponRule=grouponRuleDao.listGrouponRuleByGoodsId(goodsId);
         List<PromotionRule> presaleRule=presaleRuleDao.listPresaleRuleByGoodsId(goodsId);
@@ -127,7 +125,6 @@ public abstract class PromotionServiceImpl implements PromotionService {
      * @param goodsId
      * @return
      */
-    @Override
     public PromotionRule getCurrentPromotionByGoodsId(Integer goodsId) {
         List<PromotionRule> promotionRules=this.listProimotionByGoodsId(goodsId);//活动商品的所有促销活动
         for(PromotionRule p:promotionRules){

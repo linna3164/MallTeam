@@ -31,7 +31,7 @@ public class GrouponRuleDao implements PromotionRuleDao {
      * @return
      */
     @Override
-    public List<PromotionRule> getPromotionRules() {
+    public List<PromotionRule> listPromotions() {
         List<GrouponRule> grouponRules=grouponRuleMapper.getGrouponRules();
         List<PromotionRule> promotionRules=new ArrayList<PromotionRule>();
         promotionRules.addAll(grouponRules);
@@ -67,7 +67,7 @@ public class GrouponRuleDao implements PromotionRuleDao {
      */
     @Override
     public int updatePromotionRuleById(PromotionRule promotionRule) {
-        return 0;
+        return grouponRuleMapper.updateGrouponRuleById((GrouponRule)promotionRule);
     }
 
 
@@ -77,6 +77,7 @@ public class GrouponRuleDao implements PromotionRuleDao {
      */
     @Override
     public void deletePromotionRuleById(Integer id) {
-
+        GrouponRule grouponRule=new GrouponRule(id,true);
+        grouponRuleMapper.updateGrouponRuleById(grouponRule);
     }
 }

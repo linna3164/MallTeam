@@ -18,6 +18,10 @@ public class GrouponRule extends PromotionRule {
     private GrouponRulePo realObj;
 
 
+    public GrouponRule(Integer id,boolean beDeleted){
+        this.setBeDeleted(beDeleted);
+        this.setId(id);
+    }
 
     /**
      * 返回商品的价格

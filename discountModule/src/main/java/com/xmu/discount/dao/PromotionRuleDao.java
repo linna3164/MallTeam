@@ -17,7 +17,7 @@ public interface PromotionRuleDao {
      * 查看所有促销规则
      * @return
      */
-    List<PromotionRule> getPromotionRules();
+    List<PromotionRule> listPromotions();
     /**
      * 添加促销规则
      * @param promotionRule
@@ -39,5 +39,9 @@ public interface PromotionRuleDao {
     int updatePromotionRuleById(PromotionRule promotionRule);
 
 
+    /**
+     * 删除促销活动
+     * @param id
+     */
     void deletePromotionRuleById(Integer id);
 }

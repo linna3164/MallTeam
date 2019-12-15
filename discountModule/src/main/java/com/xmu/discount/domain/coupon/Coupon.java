@@ -45,7 +45,7 @@ public class Coupon {
     /**
      * 优惠券是否已经使用，0未使用，1已使用
      */
-    private Boolean statusCode;
+    private Integer statusCode;//TODO:标准组更新了吗？
 
     private LocalDateTime gmtCreate;
     private LocalDateTime gmtModified;
@@ -73,8 +73,11 @@ public class Coupon {
         /**
          * 过期
          */
-        EXPIRED("过期", 2);
-
+        EXPIRED("过期", 2),
+        /**
+         * 失效
+         */
+        DISABLED("失效",3);
         /**
          * 值
          */
@@ -116,6 +119,10 @@ public class Coupon {
             return name;
         }
     }
+
+
+
+
 
     /**
      * 生成beginTime和endTime
@@ -285,11 +292,11 @@ public class Coupon {
         this.picUrl = picUrl;
     }
 
-    public Boolean getStatusCode() {
+    public Integer getStatusCode() {
         return statusCode;
     }
 
-    public void setStatusCode(Boolean statusCode) {
+    public void setStatusCode(Integer statusCode) {
         this.statusCode = statusCode;
     }
 

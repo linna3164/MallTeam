@@ -29,7 +29,7 @@ public interface CouponMapper {
      *
      * @return
      */
-    List<Coupon> getCoupons();
+    List<Coupon> listCoupons();
 
     /**
      * 新增优惠券
@@ -55,7 +55,7 @@ public interface CouponMapper {
      * @param userId
      * @return
      */
-    List<Coupon> listCouponByCouponRuleId(Integer couponRuleId, Integer userId);
+    List<Coupon> listCouponByCouponRuleIdAndUserId(Integer couponRuleId, Integer userId);
 
 
     /**
@@ -66,5 +66,11 @@ public interface CouponMapper {
     List<Coupon> listCouponOfUser(Integer userId);
 
 
+    /**
+     * 获取优惠券规则下的所有优惠券
+     * @param couponRuleId
+     * @return
+     */
+    List<Coupon> listCouponByCouponRuleId(Integer couponRuleId);
 
 }

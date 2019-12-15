@@ -13,7 +13,17 @@ public class PresaleServiceImpl extends PromotionServiceImpl{
     @Autowired
     PresaleRuleDao presaleRuleDao;
 
-//    @Override
+
+    /**
+     * 预售活动失效后的行为
+     * @param promotionRule
+     */
+    @Override
+    public void toDoSomthing(PromotionRule promotionRule) {
+        //TODO:退款
+    }
+
+    //    @Override
     public PromotionRule getPresaleRuleById(Integer id) {
         return presaleRuleDao.getPresaleRuleById(id);
     }

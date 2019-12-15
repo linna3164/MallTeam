@@ -30,7 +30,7 @@ public class PresaleRuleDao implements PromotionRuleDao {
      * @return
      */
     @Override
-    public List<PromotionRule> getPromotionRules() {
+    public List<PromotionRule> listPromotions() {
         List<PromotionRule> promotionRules=new ArrayList<PromotionRule>();
         List<PresaleRule> presaleRules=presaleRuleMapper.getPresaleRules();
         for(PresaleRule p:presaleRules){
@@ -79,6 +79,7 @@ public class PresaleRuleDao implements PromotionRuleDao {
      */
     @Override
     public void deletePromotionRuleById(Integer id) {
-
+        PresaleRule grouponRule=new PresaleRule(id,true);
+        presaleRuleMapper.updatePresaleRuleById(grouponRule);
     }
 }

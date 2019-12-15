@@ -18,11 +18,11 @@ public interface CouponRuleMapper {
     CouponRule getCouponRuleById(Integer id);
 
     /**
-     * 查看所有类型的优惠券
+     * 查看所有类型的优惠券规则
      *
      * @return
      */
-    List<CouponRule> getCouponRules();
+    List<CouponRule> listCouponRules();
 
     /**
      * 新增优惠券规则

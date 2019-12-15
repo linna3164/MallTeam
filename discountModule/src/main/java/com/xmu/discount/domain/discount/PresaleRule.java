@@ -53,6 +53,11 @@ public class PresaleRule extends PromotionRule {
     private Boolean beDeleted;
 
 
+    public PresaleRule(Integer id,boolean beDeleted){
+        this.setBeDeleted(beDeleted);
+        this.setId(id);
+    }
+
     /**
      * 是否可付定金
      * @return

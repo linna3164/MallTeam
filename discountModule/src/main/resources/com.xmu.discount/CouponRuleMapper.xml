@@ -25,7 +25,7 @@
         from coupon_rule where id = #{id}
     </select>
 
-    <select id="getCouponRules" resultMap="couponRule">
+    <select id="listCouponRules" resultMap="couponRule">
         select id,
                name,
                brief,

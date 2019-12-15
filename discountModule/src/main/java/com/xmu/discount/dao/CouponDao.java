@@ -26,6 +26,15 @@ public class CouponDao {
     private CouponRuleMapper couponRuleMapper;
 
     /**
+     * 获取某种优惠券规则的全部优惠券
+     * @param couponRuleId
+     * @return
+     */
+    public List<Coupon>listCouponByCouponRuleId(Integer couponRuleId){
+        return couponMapper.listCouponByCouponRuleId(couponRuleId);
+    }
+
+    /**
      * 用ID获取优惠券
      * @param id 优惠券id
      * @return 优惠券，带优惠券的优惠券规则一起返回
@@ -43,8 +52,8 @@ public class CouponDao {
      * 查看所有被领取的优惠券
      * @return
      */
-    public List<Coupon> getCoupons(){
-        return couponMapper.getCoupons();
+    public List<Coupon> listCoupons(){
+        return couponMapper.listCoupons();
     };
 
 
@@ -79,7 +88,7 @@ public class CouponDao {
      * @return
      */
     public List<Coupon> listCouponByCouponRuleIdAndUserId(Integer couponRuleId, Integer userId){
-        return  couponMapper.listCouponByCouponRuleId(couponRuleId,userId);
+        return  couponMapper.listCouponByCouponRuleIdAndUserId(couponRuleId,userId);
     };
 
     /**
