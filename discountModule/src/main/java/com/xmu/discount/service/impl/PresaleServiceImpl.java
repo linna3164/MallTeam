@@ -20,7 +20,6 @@ public class PresaleServiceImpl extends PromotionServiceImpl{
      * 预售活动失效后的行为
      * @param promotionRule
      */
-    @Override
     public void toDoSomthing(PromotionRule promotionRule) {
         //TODO:退款
     }

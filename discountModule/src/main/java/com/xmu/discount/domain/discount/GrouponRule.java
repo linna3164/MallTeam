@@ -7,6 +7,7 @@ import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.others.domain.OrderItem;
 import com.xmu.discount.domain.others.domain.Payment;
 
+import com.xmu.discount.exception.UnsupportException;
 import com.xmu.discount.util.JacksonUtil;
 import jdk.nashorn.internal.runtime.JSONFunctions;
 import org.apache.ibatis.type.Alias;
@@ -27,7 +28,7 @@ public class GrouponRule extends PromotionRule {
     private List<Strategy> strategyList;
 
     /**
-     * 计算折扣
+     * 计算折扣(给定时操作做)
      * @param orders
      * @return
      */
@@ -88,15 +89,14 @@ public class GrouponRule extends PromotionRule {
      * @return
      */
     @Override
-    public Payment getPayment(Order order) {
-        //TODO:return  商品价格*数量
-        List<OrderItem> oi = order.getOrderItemList();
+    public Payment getPayment(Order order) throws UnsupportException{
+        List<OrderItem> orderItems = order.getOrderItemList();
         BigDecimal finalPrice = new BigDecimal(0);
-        if(oi.size()!=1){
-             return null;
+        if(orderItems.size()!=1){
+             throw new UnsupportException();
         }
         else {
-           OrderItem o=oi.get(0);
+           OrderItem o=orderItems.get(0);
            int num = o.getNumber();
            BigDecimal price = o.getDealPrice();
            finalPrice = finalPrice.add(price.multiply(new BigDecimal(num)));

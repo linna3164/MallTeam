@@ -19,17 +19,17 @@ public class GrouponServiceImpl extends PromotionServiceImpl{
     @Autowired
     GrouponRuleDao grouponRuleDao;
 
-    /**
-     * 团购活动失效后的行为
-     * @param promotionRule
-     */
-    public List<Payment> toDoSomthing(PromotionRule promotionRule) {
-        //TODO:退款，找到改团购活动的订单（根据dealPrice）
-        List<Order> orders=orderService.listOrdersOfGrouponRule(GrouponRule grouponRule);
-        for(Order order:orders){
-            BigDecimal refundMoney=order.getOrderItemList().get(0).getDealPrice();
-        }
-    }
+//    /**
+//     * 团购活动失效后的行为
+//     * @param promotionRule
+//     */
+//    public List<Payment> toDoSomthing(PromotionRule promotionRule) {
+//        //TODO:退款，找到改团购活动的订单（根据dealPrice）
+//        List<Order> orders=orderService.listOrdersOfGrouponRule(GrouponRule grouponRule);
+//        for(Order order:orders){
+//            BigDecimal refundMoney=order.getOrderItemList().get(0).getDealPrice();
+//        }
+//    }
 
     /**
      * 计算成团人数

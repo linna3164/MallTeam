@@ -68,7 +68,7 @@ public class PresaleRuleDao implements PromotionRuleDao {
      * @return
      */
     @Override
-    public int updatePromotionRuleById(PromotionRule promotionRule) {
+    public boolean updatePromotionRuleById(PromotionRule promotionRule) {
         return presaleRuleMapper.updatePresaleRuleById((PresaleRule) promotionRule);
     }
 

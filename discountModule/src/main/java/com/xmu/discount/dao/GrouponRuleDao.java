@@ -2,6 +2,8 @@ package com.xmu.discount.dao;
 
 import com.xmu.discount.domain.discount.GrouponRule;
 import com.xmu.discount.domain.discount.PromotionRule;
+import com.xmu.discount.exception.PromotionNotFoundException;
+import com.xmu.discount.exception.UpdatedDataFailedException;
 import com.xmu.discount.mapper.GrouponRuleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,8 +23,14 @@ public class GrouponRuleDao implements PromotionRuleDao {
      * @return
      */
     @Override
-    public PromotionRule  getPromotionRuleById(Integer id) {
-        return grouponRuleMapper.getGrouponRuleById(id);
+    public PromotionRule  getPromotionRuleById(Integer id) throws PromotionNotFoundException {
+
+
+        PromotionRule promotionRule= grouponRuleMapper.getGrouponRuleById(id);
+        if(promotionRule==null){
+            throw new PromotionNotFoundException();
+        }
+        return promotionRule;
     }
 
 
@@ -66,8 +74,14 @@ public class GrouponRuleDao implements PromotionRuleDao {
      * @return
      */
     @Override
-    public int updatePromotionRuleById(PromotionRule promotionRule) {
-        return grouponRuleMapper.updateGrouponRuleById((GrouponRule)promotionRule);
+    public boolean updatePromotionRuleById(PromotionRule promotionRule) throws UpdatedDataFailedException {
+        int res=grouponRuleMapper.updateGrouponRuleById((GrouponRule)promotionRule);
+        if(res==0){
+            throw new UpdatedDataFailedException();
+        }
+        else{
+            return true;
+        }
     }
 
 

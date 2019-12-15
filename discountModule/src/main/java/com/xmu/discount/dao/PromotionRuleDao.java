@@ -1,6 +1,8 @@
 package com.xmu.discount.dao;
 
 import com.xmu.discount.domain.discount.PromotionRule;
+import com.xmu.discount.exception.PromotionNotFoundException;
+import com.xmu.discount.exception.UpdatedDataFailedException;
 
 import java.util.List;
 
@@ -11,7 +13,7 @@ public interface PromotionRuleDao {
      * @param id
      * @return
      */
-    PromotionRule getPromotionRuleById(Integer id);
+    PromotionRule getPromotionRuleById(Integer id) throws PromotionNotFoundException;
 
     /**
      * 查看所有促销规则
@@ -36,7 +38,7 @@ public interface PromotionRuleDao {
      * 修改促销规则
      * @return
      */
-    int updatePromotionRuleById(PromotionRule promotionRule);
+    boolean updatePromotionRuleById(PromotionRule promotionRule) throws UpdatedDataFailedException;
 
 
     /**

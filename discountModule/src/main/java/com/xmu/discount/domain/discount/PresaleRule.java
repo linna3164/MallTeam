@@ -105,7 +105,28 @@ public class PresaleRule extends PromotionRule {
 
     @Override
     public Payment getPayment(Order order) {
-        return null;
+
+        Payment payment=null;
+        //判断订单付到时候情况了
+
+        BigDecimal pay=order.getIntegralPrice();
+        //付完定金了，该付尾款
+        if(pay.compareTo(this.getDeposit())==0){
+            payment=new Payment();
+            payment.setActualPrice(this.getFinalPayment());
+        }
+        //未付定金，该付定金了
+        else if(pay.compareTo(BigDecimal.ZERO)==0){
+            payment=new Payment();
+            payment.setActualPrice(this.getDeposit());
+        }
+
+        else if(pay.compareTo(this.getFinalPayment().add(this.getDeposit()))==0){
+            payment=new Payment();
+            payment.setActualPrice(BigDecimal.ZERO);
+        }
+
+        return payment;
     }
 
     /**

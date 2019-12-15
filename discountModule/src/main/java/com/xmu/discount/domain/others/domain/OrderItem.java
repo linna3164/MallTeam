@@ -42,4 +42,13 @@ public class OrderItem extends OrderItemPo {
 
         this.setGmtCreate(LocalDateTime.now());
     }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        OrderItem newItem = (OrderItem) super.clone();
+        newItem.setId(null);
+        newItem.setGmtCreate(LocalDateTime.now());
+        newItem.setGmtModified(null);
+        return newItem;
+    }
 }
