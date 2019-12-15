@@ -2,6 +2,7 @@ package com.xmu.discount.domain.discount;
 
 
 import com.alibaba.fastjson.JSON;
+import com.xmu.discount.domain.others.domain.Goods;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.others.domain.OrderItem;
 import com.xmu.discount.domain.others.domain.Payment;
@@ -30,15 +31,46 @@ public class GrouponRule extends PromotionRule {
      * @param orders
      * @return
      */
-    public List<Payment> cacuGrouponRefund(List<Order> orders){
-        //成团人数
-        int nums=orders.size();
+    public List<Payment> cacuGrouponRefund(List<Order> orders, Goods goods){
+//        BigDecimal productsPriceorders.get(0).getOrderItemList().get(0).getProduct().getPrice();
+        //成团人数 nums
+        int nums=0;
+        for(Order order:orders){
+            OrderItem orderItem=order.getOrderItemList().get(0);
+            nums+=orderItem.getNumber();
+        }
+
         //策略
         List<Strategy>strategies=this.getStrategyList();
         //按lowerbound从小到大排序
         strategies.sort((a,b)->{return a.getLowerBound()-a.getUpperBound();});
-        //
-        if()
+        //判断在哪个区间
+        BigDecimal levelRate=BigDecimal.ZERO;
+        for(Strategy strategy:strategies){
+            if(strategy.getLowerBound()<=nums&&strategy.getUpperBound()>=nums){
+                //在这个区间,用这个rate
+                levelRate=strategy.getDiscountRate();
+            }
+        }
+        List<Payment> payments=new ArrayList<>();
+
+        //有打折
+        if(levelRate.compareTo(BigDecimal.ZERO)==0){
+            for(Order order:orders){
+                OrderItem orderItem=order.getOrderItemList().get(0);
+                BigDecimal productsPrice=orderItem.getProduct().getPrice();
+                Integer number=orderItem.getNumber();
+
+                //每个订单应退价格
+                BigDecimal refundPrice=productsPrice.multiply(new BigDecimal(number)).multiply(BigDecimal.ONE.subtract(levelRate));
+
+                Payment payment=new Payment();
+                //正数转负数
+                payment.setActualPrice(refundPrice.negate());
+                payment.setOrderId(order.getId());
+            }
+        }
+        return payments;
     }
 
 
