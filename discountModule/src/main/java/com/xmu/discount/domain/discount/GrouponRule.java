@@ -50,13 +50,7 @@ public class GrouponRule extends PromotionRule {
     }
 
 
-    /**
-     *团购到点退费
-     * @return
-     */
-    protected Payment refund(Order order){
 
-    }
 
     @Override
     public LocalDateTime getpromotionRulestartTime() {
@@ -166,6 +160,7 @@ public class GrouponRule extends PromotionRule {
         realObj.setBeDeleted(beDeleted);
     }
 
+    @Override
     public Integer getId() {
         return realObj.getId();
     }

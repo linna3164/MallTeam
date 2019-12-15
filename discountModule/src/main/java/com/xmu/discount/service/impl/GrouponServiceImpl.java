@@ -29,13 +29,10 @@ public class GrouponServiceImpl extends PromotionServiceImpl{
      */
     public List<Payment> calcuGroupon(){
         LocalDateTime now=LocalDateTime.now();
-        if()
         //TODO:获得前一天结束的groupi
+
+        return null;
     }
-
-
-
-
 
 
 

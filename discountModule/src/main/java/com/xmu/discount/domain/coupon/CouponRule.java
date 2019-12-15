@@ -4,6 +4,7 @@ import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.domain.others.domain.GoodsPo;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.others.domain.OrderItem;
+import com.xmu.discount.domain.others.domain.Payment;
 import com.xmu.discount.util.JacksonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class CouponRule extends PromotionRule {
+public class CouponRule  {
 
     private static final Logger logger = LoggerFactory.getLogger(CouponRule.class);
     private static final Integer MAXIDNUMS=2500;
@@ -145,6 +146,8 @@ public class CouponRule extends PromotionRule {
             return name;
         }
     }
+
+
 
 
     /**
@@ -324,13 +327,13 @@ public class CouponRule extends PromotionRule {
 
     }
 
-    public ActiveStatus getActiveStatus() {
-        //通过属性判断是否失效
-        if(){
-
-        }
-        else if()
-    }
+//    public ActiveStatus getActiveStatus() {
+//        //通过属性判断是否失效
+//        if(){
+//
+//        }
+//        else if()
+//    }
 
 
 

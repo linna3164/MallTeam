@@ -23,49 +23,9 @@ public class PresaleServiceImpl extends PromotionServiceImpl{
         //TODO:退款
     }
 
-    //    @Override
-    public PromotionRule getPresaleRuleById(Integer id) {
-        return presaleRuleDao.getPresaleRuleById(id);
-    }
 
-//    @Override
-    public PromotionRule addPresaleRule(PresaleRule presaleRule) {
-        presaleRule.setBeDeleted(false);
-        presaleRule.setGmtCreate(LocalDateTime.now());
-        int success=presaleRuleDao.addPresaleRule(presaleRule);
-        if(success==0) return null;
-        else  return presaleRule;
-    }
 
-//    @Override
-    public List<PromotionRule> listPresaleRuleByGoodsId(Integer goodsId) {
-        return presaleRuleDao.listPresaleRuleByGoodsId(goodsId);
-    }
 
-//    @Override
-    public PromotionRule updatePresaleRuleById(PresaleRule presaleRule) {
-        if(presaleRule.getpromotionRulestartTime().isAfter(LocalDateTime.now())) {
-            presaleRule.setGmtModified(LocalDateTime.now());
-            int success = presaleRuleDao.updatePresaleRuleById(presaleRule);
-            if (success == 0) return null;
-            else return presaleRuleDao.getPresaleRuleById(presaleRule.getId());
-        }
-        else return null;
-    }
 
-//    @Override
-    public PromotionRule deletePresaleRuleById(Integer id) {
-        if(presaleRuleDao.getPresaleRuleById(id).getpromotionRulestartTime().isAfter(LocalDateTime.now()))
-        {
-            PresaleRule presaleRule=new PresaleRule();
-            presaleRule.setGmtModified(LocalDateTime.now());
-            presaleRule.setId(id);
-            presaleRule.setBeDeleted(true);
-            int success=presaleRuleDao.updatePresaleRuleById(presaleRule);
-            if(success==0) return null;
-            else return presaleRuleDao.getPresaleRuleById(id);
-        }
 
-        else return null;
-    }
 }

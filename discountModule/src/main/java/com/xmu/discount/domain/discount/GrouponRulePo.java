@@ -45,6 +45,7 @@ public class GrouponRulePo {
     private LocalDateTime gmtModified;
     private Boolean beDeleted;
 
+
     public Integer getId() {
         return id;
     }

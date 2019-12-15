@@ -56,7 +56,7 @@ public class CouponRuleDao implements PromotionRuleDao {
      */
     @Override
     public List<PromotionRule> listPromotionRuleByGoodsId(Integer goodsId) {
-        //TODO:
+
         List<PromotionRule> promotionRules=new ArrayList<PromotionRule>();
         List<CouponRule> couponRules=couponRuleMapper.listCouponRules();
         for(CouponRule couponRule:couponRules){

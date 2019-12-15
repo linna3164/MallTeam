@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class PromotionServiceImpl implements PromotionService {
+public abstract class PromotionServiceImpl {
 
     @Autowired
     public GrouponRuleDao grouponRuleDao;
@@ -74,8 +74,8 @@ public abstract class PromotionServiceImpl implements PromotionService {
         if(promotionRule.isOkToUpdate()){
             String daoName=getDaoClassName(promotionRule);
             ((PromotionRuleDao)SpringContextUtil.getBean(daoName)).updatePromotionRuleById(promotionRule);
-
         }
+        return promotionRule;
     }
 
     public String getDaoClassName(PromotionRule promotionRule){
@@ -105,11 +105,11 @@ public abstract class PromotionServiceImpl implements PromotionService {
     /**
      * 通过id找到商品的促销活动
      * @param goodsId
-     * @return
+     * @return 团购加预售
      */
     public List<PromotionRule> listProimotionByGoodsId(Integer goodsId){
-        List<PromotionRule> grouponRule=grouponRuleDao.listGrouponRuleByGoodsId(goodsId);
-        List<PromotionRule> presaleRule=presaleRuleDao.listPresaleRuleByGoodsId(goodsId);
+        List<PromotionRule> grouponRule=grouponRuleDao.listPromotionRuleByGoodsId(goodsId);
+        List<PromotionRule> presaleRule=presaleRuleDao.listPromotionRuleByGoodsId(goodsId);
 
         List<PromotionRule>promotionRules=new ArrayList<>();
         promotionRules.addAll(grouponRule);
@@ -130,8 +130,9 @@ public abstract class PromotionServiceImpl implements PromotionService {
         for(PromotionRule p:promotionRules){
             LocalDateTime start=p.getpromotionRulestartTime();
             LocalDateTime end=p.getPromotionEndTime();
-            if(LocalDateTime.now().isBefore(start)||LocalDateTime.now().isAfter(end))
+            if(LocalDateTime.now().isBefore(start)||LocalDateTime.now().isAfter(end)) {
                 promotionRules.remove(p);
+            }
         }
         if(promotionRules.size()==0){//没有促销活动
             //TODO:报错
@@ -152,7 +153,6 @@ public abstract class PromotionServiceImpl implements PromotionService {
      * @param promotionRule
      * @return
      */
-    @Override
     public PromotionRule addPromotion(PromotionRule promotionRule){
         //获得商品的所有促销活动
         List<PromotionRule> promotionRules=this.listProimotionByGoodsId(promotionRule.getPromotionGoodsId());

@@ -121,9 +121,6 @@ public class Coupon {
     }
 
 
-
-
-
     /**
      * 生成beginTime和endTime
      */
@@ -164,7 +161,8 @@ public class Coupon {
     }
 
     public Coupon() {
-        this.setStatusCode(false);
+        //TODO:还需要根据标准组确定是0还是1
+        this.setStatusCode(0);
         this.setStatus(Status.NOT_USED);
     }
 

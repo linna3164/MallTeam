@@ -179,6 +179,7 @@ public class PresaleRule extends PromotionRule {
         return Objects.hash(id);
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
