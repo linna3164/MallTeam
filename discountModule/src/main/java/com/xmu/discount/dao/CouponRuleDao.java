@@ -22,7 +22,7 @@ public class CouponRuleDao  {
      * @return 优惠
      */
 
-    public  CouponRule getPromotionRuleById(Integer id){
+    public  CouponRule getCouponRuleById(Integer id){
         CouponRule couponRule=couponRuleMapper.getCouponRuleById(id);
         return couponRule;
     }

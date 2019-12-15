@@ -1,6 +1,6 @@
 package com.xmu.discount.domain.coupon;
 
-import com.xmu.discount.domain.others.OrderItem;
+
 import com.xmu.discount.domain.others.domain.OrderItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

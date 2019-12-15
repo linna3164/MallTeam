@@ -49,7 +49,7 @@ public class CouponRuleServiceImpl {
      * @return
      */
     public boolean deleteCouponRuleById(Integer id) {
-        CouponRule couponRule=(CouponRule)couponRuleDao.getPromotionRuleById(id);
+        CouponRule couponRule=(CouponRule)couponRuleDao.getCouponRuleById(id);
         //优惠券活动是否开始
         if(!couponRule.isAlreadyStart()){
             couponRuleDao.deletePromotionRuleById(id);
@@ -84,4 +84,10 @@ public class CouponRuleServiceImpl {
         couponRuleDao.updateCouponRuleById(couponRule);
         return couponRule;
     }
+
+    public CouponRule getCouponRuleById(Integer id)
+    {
+        return couponRuleDao.getCouponRuleById(id);
+    }
+
 }

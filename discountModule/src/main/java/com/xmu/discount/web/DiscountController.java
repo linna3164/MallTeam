@@ -80,7 +80,7 @@ public class DiscountController {
      */
     @GetMapping("/couponRules/{id}")
     public CouponRule findCouponRuleById(@PathVariable Integer id){
-        return couponRuleService.findCouponRuleById(id);
+        return couponRuleService.getCouponRuleById(id);
     }
 
     /**
@@ -104,8 +104,12 @@ public class DiscountController {
     @DeleteMapping("/couponRules/{id}")
     public CouponRule deleteCouponRuleById(@PathVariable Integer id){
         boolean success=couponRuleService.deleteCouponRuleById(id);
-        if(!success)  return null;
-        else return couponRuleService.findCouponRuleById(id);
+        if(!success) {
+            return null;
+        }
+        else {
+            return couponRuleService.getCouponRuleById(id);
+        }
     }
 
     /**
@@ -128,9 +132,11 @@ public class DiscountController {
     @PostMapping("/coupons")
     public Object addCoupon(@RequestBody Coupon coupon){
         Coupon coupon1=couponService.addCoupon(coupon);
-        if(coupon1==null)
+        if(coupon1==null) {
             return ResponseUtil.badArgumentValue();
-        else return ResponseUtil.ok(coupon1);
+        }else {
+            return ResponseUtil.ok(coupon1);
+        }
     }
 
     /**
