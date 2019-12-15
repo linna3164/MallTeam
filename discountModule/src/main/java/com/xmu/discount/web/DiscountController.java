@@ -24,6 +24,8 @@ public class DiscountController {
 
     @Autowired
     private PromotionServiceImpl discountService;
+
+    @Autowired
     private CouponService couponService;
     /**
      *管理员根据条件查找优惠券/adminList
@@ -152,9 +154,9 @@ public class DiscountController {
      * @return 操作结果
      */
     @PostMapping("/couponRules")
-    public Object receive(@LoginUser Integer userId, @RequestBody CouponRule couponRule)
+    public Object receive(@LoginUser Integer userId, @PathVariable Integer couponRuleId)
     {
-        return couponService.addCoupon(couponRule);
+        return couponService.addCoupon(couponRuleId);
     };
 
 
