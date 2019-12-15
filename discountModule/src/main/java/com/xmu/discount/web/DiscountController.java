@@ -56,9 +56,10 @@ public class DiscountController {
      *  管理员查看所有的优惠券规则
      * @return
      */
-    @GetMapping("couponRules")
-    public List<CouponRule> getCouponRules(){
-         return  couponRuleService.listCouponRule();
+    @GetMapping("/couponRules")
+    public List<CouponRule> getCouponRules(@RequestParam(defaultValue = "1") Integer page,
+                                           @RequestParam(defaultValue = "10") Integer limit){
+        return couponRuleService.listCouponRule();
     }
 
     /**
@@ -66,10 +67,45 @@ public class DiscountController {
      * @param couponRulePo
      * @return
      */
-    @PostMapping("couponRules")
+    @PostMapping("/couponRules")
     public CouponRule addCouponRule(CouponRulePo couponRulePo){
         CouponRule couponRule=new CouponRule(couponRulePo);
         return couponRuleService.addCouponRule(couponRule);
+    }
+
+    /**
+     * 通过id查找优惠券规则
+     * @param id
+     * @return
+     */
+    @GetMapping("/couponRules/{id}")
+    public CouponRule findCouponRuleById(@PathVariable Integer id){
+        return couponRuleService.findCouponRuleById(id);
+    }
+
+    /**
+     * 修改优惠券规则
+     * @param id
+     * @param couponRulePo
+     * @return
+     */
+    @PutMapping("/couponRules/{id}")
+    public CouponRule updateCouponRuleById(@PathVariable Integer id,@RequestBody CouponRulePo couponRulePo){
+        CouponRule couponRule=new CouponRule(couponRulePo);
+        couponRule.setId(id);
+        return couponRuleService.updateCouponRule(couponRule);
+    }
+
+    /**
+     *管理员通过id删除优惠券规则
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/couponRules/{id}")
+    public CouponRule deleteCouponRuleById(@PathVariable Integer id){
+        boolean success=couponRuleService.deleteCouponRuleById(id);
+        if(!success)  return null;
+        else return couponRuleService.findCouponRuleById(id);
     }
 
     /**
@@ -77,7 +113,7 @@ public class DiscountController {
      * @param page
      * @param limit
      * @return
-     */
+             */
     @GetMapping("/coupons")
     public List<Coupon> getCoupons(@RequestParam(defaultValue = "1") Integer page,
                                    @RequestParam(defaultValue = "10") Integer limit){
@@ -90,8 +126,11 @@ public class DiscountController {
      * @return
      */
     @PostMapping("/coupons")
-    public Coupon addCoupon(@RequestBody Coupon coupon){
-        return couponService.addCoupon(coupon);
+    public Object addCoupon(@RequestBody Coupon coupon){
+        Coupon coupon1=couponService.addCoupon(coupon);
+        if(coupon1==null)
+            return ResponseUtil.badArgumentValue();
+        else return ResponseUtil.ok(coupon1);
     }
 
     /**
@@ -99,7 +138,7 @@ public class DiscountController {
      * @param cartItems
      * @return
      */
-    @GetMapping("coupons/availableCoupons")
+    @GetMapping("/coupons/availableCoupons")
     public List<Coupon> getAvailableCoupons(@RequestBody List<CartItem> cartItems){
           return couponService.listAvailableCoupons(cartItems);
     }
