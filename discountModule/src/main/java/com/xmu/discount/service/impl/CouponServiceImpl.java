@@ -20,7 +20,7 @@ import java.util.List;
  * @Modified By:
  **/
 @Service
-public class CouponServiceImpl  {
+public class CouponServiceImpl implements CouponService {
 
     @Autowired
     private CouponDao couponDao;
@@ -28,6 +28,11 @@ public class CouponServiceImpl  {
     public Coupon findCouponById(Integer id) {
 
         return couponDao.getCouponById(id);
+    }
+
+    @Override
+    public List<Coupon> getCoupons() {
+        return couponDao.listCoupons();
     }
 
 
@@ -85,6 +90,16 @@ public class CouponServiceImpl  {
      */
     public List<Coupon> listUnUsedCouponOfUser(Integer userId) {
         return this.listCouponOfUserByStatus(userId, Coupon.Status.NOT_USED);
+    }
+
+    /**
+     * 查看订单可用优惠券
+     * @param cartItems
+     * @return
+     */
+    @Override
+    public List<Coupon> listAvailableCoupons(List<CartItem> cartItems) {
+        return null;
     }
 
     /**

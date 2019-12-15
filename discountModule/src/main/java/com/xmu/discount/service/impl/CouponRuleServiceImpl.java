@@ -6,10 +6,12 @@ import com.xmu.discount.domain.coupon.Coupon;
 import com.xmu.discount.domain.coupon.CouponRule;
 import com.xmu.discount.domain.discount.PromotionRule;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Service
 public class CouponRuleServiceImpl {
 
 
@@ -47,7 +49,7 @@ public class CouponRuleServiceImpl {
      * @return
      */
     public boolean deleteCouponRuleById(Integer id) {
-        CouponRule couponRule=(CouponRule)couponRuleDao.getPromotionRuleById(id);
+        CouponRule couponRule=(CouponRule)couponRuleDao.getCouponRuleById(id);
         //优惠券活动是否开始
         if(!couponRule.isAlreadyStart()){
             couponRuleDao.deletePromotionRuleById(id);
@@ -82,4 +84,10 @@ public class CouponRuleServiceImpl {
         couponRuleDao.updateCouponRuleById(couponRule);
         return couponRule;
     }
+
+    public CouponRule getCouponRuleById(Integer id)
+    {
+        return couponRuleDao.getCouponRuleById(id);
+    }
+
 }

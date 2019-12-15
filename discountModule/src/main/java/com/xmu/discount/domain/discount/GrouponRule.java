@@ -19,6 +19,9 @@ public class GrouponRule extends PromotionRule {
 
     private GrouponRulePo realObj;
 
+    public GrouponRule(GrouponRulePo grouponRulePo){
+       this.setRealObj(grouponRulePo);
+    }
 
     private List<Strategy> strategyList;
 
@@ -247,9 +250,9 @@ public class GrouponRule extends PromotionRule {
         realObj.setGmtModified(gmtModified);
     }
 
-    public boolean canEqual(Object other) {
-        return realObj.canEqual(other);
-    }
+//   public boolean canEqual(Object other) {
+//        return realObj.canEqual(other);
+//    }
 
     public void setBeDeleted(Boolean beDeleted) {
         realObj.setBeDeleted(beDeleted);
