@@ -3,12 +3,11 @@ package com.xmu.discount.service.impl;
 import com.xmu.discount.dao.CouponDao;
 import com.xmu.discount.domain.coupon.Coupon;
 import com.xmu.discount.domain.coupon.CouponRule;
+import com.xmu.discount.domain.others.domain.CartItem;
 import com.xmu.discount.service.CouponService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xmu.oomall.dao.CouponDao;
-import xmu.oomall.domain.coupon.Coupon;
-import xmu.oomall.service.CouponService;
+
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,12 +20,11 @@ import java.util.List;
  * @Modified By:
  **/
 @Service
-public class CouponServiceImpl implements CouponService {
+public class CouponServiceImpl  {
 
     @Autowired
     private CouponDao couponDao;
 
-    @Override
     public Coupon findCouponById(Integer id) {
 
         return couponDao.getCouponById(id);
@@ -38,7 +36,6 @@ public class CouponServiceImpl implements CouponService {
      * @param coupon
      * @return
      */
-    @Override
     public Coupon addCoupon(Coupon coupon) {
         List<Coupon> coupons=couponDao.listCouponByCouponRuleIdAndUserId(coupon.getCouponRuleId(),coupon.getUserId());
         CouponRule couponRule=coupon.getCouponRule();
@@ -66,7 +63,6 @@ public class CouponServiceImpl implements CouponService {
      * @param userId
      * @return
      */
-    @Override
     public List<Coupon> listOverDueCouponOfUser(Integer userId) {
 
         return this.listCouponOfUserByStatus(userId, Coupon.Status.EXPIRED);
@@ -77,7 +73,6 @@ public class CouponServiceImpl implements CouponService {
      * @param userId
      * @return
      */
-    @Override
     public List<Coupon> listUsedCouponOfUser(Integer userId) {
 
         return this.listCouponOfUserByStatus(userId, Coupon.Status.USED);
@@ -88,7 +83,6 @@ public class CouponServiceImpl implements CouponService {
      * @param userId
      * @return
      */
-    @Override
     public List<Coupon> listUnUsedCouponOfUser(Integer userId) {
         return this.listCouponOfUserByStatus(userId, Coupon.Status.NOT_USED);
     }
@@ -120,9 +114,10 @@ public class CouponServiceImpl implements CouponService {
         List<Coupon> couponList=couponDao.listCouponOfUser(userId);
         List<Coupon> res=new ArrayList<Coupon>();
         for(Coupon coupon:couponList){
-            if(coupon.xxx(cartItemList)){
-                res.add(coupon);
-            }
+            //TODO:coupon.xxx还没写
+//            if(coupon.xxx(cartItemList)){
+//                res.add(coupon);
+//            }
         }
         return res;
     }

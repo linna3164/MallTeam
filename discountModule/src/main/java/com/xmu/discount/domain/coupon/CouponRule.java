@@ -1,10 +1,8 @@
 package com.xmu.discount.domain.coupon;
 
-import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.domain.others.domain.GoodsPo;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.others.domain.OrderItem;
-import com.xmu.discount.domain.others.domain.Payment;
 import com.xmu.discount.util.JacksonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class CouponRule  {
+public class CouponRule {
 
     private static final Logger logger = LoggerFactory.getLogger(CouponRule.class);
     private static final Integer MAXIDNUMS=2500;
@@ -103,7 +101,7 @@ public class CouponRule  {
         /**
          * 失效
          */
-        DISABLED("失效",3);
+        DISABLED("失效", 3);
 
         /**
          * 值
@@ -117,7 +115,8 @@ public class CouponRule  {
 
         /**
          * 构造函数
-         * @param name 名称
+         *
+         * @param name  名称
          * @param value 值
          */
         ActiveStatus(String name, Integer value) {
@@ -127,6 +126,7 @@ public class CouponRule  {
 
         /**
          * 获得值
+         *
          * @return 值
          */
         public Integer getValue() {
@@ -135,6 +135,7 @@ public class CouponRule  {
 
         /**
          * 获得名称
+         *
          * @return 名
          */
         public String getName() {
@@ -145,9 +146,18 @@ public class CouponRule  {
         public String toString() {
             return name;
         }
+
     }
 
 
+    /**
+     * 优惠券规则是否已开始
+     * @return
+     */
+    public  boolean isAlreadyStart(){
+        LocalDateTime now = LocalDateTime.now();
+        return (this.getBeginTime().isBefore(now));
+    }
 
 
     /**
@@ -155,7 +165,7 @@ public class CouponRule  {
      * @return
      */
     public boolean canGet(){
-        if(this.isLeft()&&this.isWithinTime()&&this.getStatusCode()==1){
+        if(this.isLeft()&&this.isGoingOn()&&this.getStatusCode()==1){
             return true;
         }
         return false;
@@ -173,7 +183,7 @@ public class CouponRule  {
      * 优惠券规则是否过期
      * @return
      */
-    public boolean isWithinTime(){
+    public boolean isGoingOn(){
         LocalDateTime now = LocalDateTime.now();
         return this.getBeginTime().isBefore(now)&&
                 this.getEndTime().isAfter(now);
@@ -373,6 +383,134 @@ public class CouponRule  {
 
     public CouponRule(CouponRulePo realObj) {
         this.realObj = realObj;
+    }
+
+    public boolean canEqual(Object other) {
+        return realObj.canEqual(other);
+    }
+
+    public Integer getId() {
+        return realObj.getId();
+    }
+
+    public void setId(Integer id) {
+        realObj.setId(id);
+    }
+
+    public String getName() {
+        return realObj.getName();
+    }
+
+    public void setName(String name) {
+        realObj.setName(name);
+    }
+
+    public String getBrief() {
+        return realObj.getBrief();
+    }
+
+    public void setBrief(String brief) {
+        realObj.setBrief(brief);
+    }
+
+    public LocalDateTime getBeginTime() {
+        return realObj.getBeginTime();
+    }
+
+    public void setBeginTime(LocalDateTime beginTime) {
+        realObj.setBeginTime(beginTime);
+    }
+
+    public LocalDateTime getEndTime() {
+        return realObj.getEndTime();
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        realObj.setEndTime(endTime);
+    }
+
+    public String getPicUrl() {
+        return realObj.getPicUrl();
+    }
+
+    public void setPicUrl(String picUrl) {
+        realObj.setPicUrl(picUrl);
+    }
+
+    public Integer getValidPeriod() {
+        return realObj.getValidPeriod();
+    }
+
+    public void setValidPeriod(Integer validPeriod) {
+        realObj.setValidPeriod(validPeriod);
+    }
+
+    public void setStrategy(String strategy) {
+        realObj.setStrategy(strategy);
+    }
+
+    public Integer getTotal() {
+        return realObj.getTotal();
+    }
+
+    public void setTotal(Integer total) {
+        realObj.setTotal(total);
+    }
+
+    public Integer getCollectedNum() {
+        return realObj.getCollectedNum();
+    }
+
+    public void setCollectedNum(Integer collectedNum) {
+        realObj.setCollectedNum(collectedNum);
+    }
+
+    public String getGoodsList1() {
+        return realObj.getGoodsList1();
+    }
+
+    public void setGoodsList1(String goodsList1) {
+        realObj.setGoodsList1(goodsList1);
+    }
+
+    public String getGoodsList2() {
+        return realObj.getGoodsList2();
+    }
+
+    public void setGoodsList2(String goodsList2) {
+        realObj.setGoodsList2(goodsList2);
+    }
+
+    public Integer getStatusCode() {
+        return realObj.getStatusCode();
+    }
+
+    public void setStatusCode(Integer statusCode) {
+        realObj.setStatusCode(statusCode);
+    }
+
+    public LocalDateTime getGmtCreate() {
+        return realObj.getGmtCreate();
+    }
+
+    public void setGmtCreate(LocalDateTime gmtCreate) {
+        realObj.setGmtCreate(gmtCreate);
+    }
+
+    public LocalDateTime getGmtModified() {
+        return realObj.getGmtModified();
+    }
+
+    public void setGmtModified(LocalDateTime gmtModified) {
+        realObj.setGmtModified(gmtModified);
+    }
+
+    public Boolean getBeDeleted() {
+        return realObj.getBeDeleted();
+    }
+
+    public void setBeDeleted(Boolean beDeleted) {
+        realObj.setBeDeleted(beDeleted);
     }
 
     @Override

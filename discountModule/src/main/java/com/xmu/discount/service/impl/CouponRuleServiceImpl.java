@@ -1,6 +1,7 @@
 package com.xmu.discount.service.impl;
 
 import com.xmu.discount.dao.CouponDao;
+import com.xmu.discount.dao.CouponRuleDao;
 import com.xmu.discount.domain.coupon.Coupon;
 import com.xmu.discount.domain.coupon.CouponRule;
 import com.xmu.discount.domain.discount.PromotionRule;
@@ -11,6 +12,9 @@ import java.util.List;
 
 public class CouponRuleServiceImpl {
 
+
+    @Autowired
+    CouponRuleDao couponRuleDao;
 
     @Autowired
     CouponDao couponDao;
@@ -42,18 +46,12 @@ public class CouponRuleServiceImpl {
      * @param id
      * @return
      */
-    @Override
     public boolean deleteCouponRuleById(Integer id) {
-        CouponRule couponRule=couponDao.getCouponRuleById(id);
-
-        //当前时间
-        LocalDateTime now=LocalDateTime.now();
-        if(couponRule.getBeginTime().isBefore(now)){
-
+        CouponRule couponRule=(CouponRule)couponRuleDao.getPromotionRuleById(id);
+        //优惠券活动是否开始
+        if(!couponRule.isAlreadyStart()){
+            couponRuleDao.deletePromotionRuleById(id);
         }
-        //判断活动是否开始
-        if()
-            couponDao.deleteCouponRuleById(id);
         return true;
     }
 
@@ -61,8 +59,8 @@ public class CouponRuleServiceImpl {
      * 管理员查看所有优惠券规则
      * @return
      */
-    public List<CouponRule> listAllCoupon(){
-        return getCouponRules();
+    public List<CouponRule> listCouponRule(){
+        return couponRuleDao.listCouponRule();
     }
 
     /**
@@ -70,9 +68,8 @@ public class CouponRuleServiceImpl {
      * @param couponRule
      * @return
      */
-    @Override
     public CouponRule addCouponRule(CouponRule couponRule) {
-        couponDao.addCouponRule(couponRule);
+        couponRuleDao.addCouponRule(couponRule);
         return couponRule;
     }
 
@@ -81,9 +78,8 @@ public class CouponRuleServiceImpl {
      * @param couponRule
      * @return
      */
-    @Override
     public CouponRule updateCouponRule(CouponRule couponRule) {
-        couponDao.updateCouponRuleById(couponRule);
+        couponRuleDao.updateCouponRuleById(couponRule);
         return couponRule;
     }
 }
