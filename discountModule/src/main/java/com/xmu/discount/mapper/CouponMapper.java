@@ -25,26 +25,11 @@ public interface CouponMapper {
     Coupon getCouponById(Integer id);
 
     /**
-     * 用id找优惠卷规则
-     *
-     * @param id 优惠卷规则id
-     * @return 优惠
-     */
-    CouponRule getCouponRuleById(Integer id);
-
-    /**
      * 查看所有被领取的优惠券
      *
      * @return
      */
     List<Coupon> getCoupons();
-
-    /**
-     * 查看所有类型的优惠券
-     *
-     * @return
-     */
-    List<CouponRule> getCouponRules();
 
     /**
      * 新增优惠券
@@ -53,22 +38,6 @@ public interface CouponMapper {
      * @return
      */
     int addCoupon(Coupon coupon);
-
-    /**
-     * 新增优惠券规则
-     *
-     * @param couponRule
-     * @return
-     */
-    int addCouponRule(CouponRule couponRule);
-
-    /**
-     * 修改优惠券规则
-     *
-     * @param couponRule
-     * @return
-     */
-    int updateCouponRuleById(CouponRule couponRule);
 
     /**
      * 修改优惠券
@@ -95,6 +64,7 @@ public interface CouponMapper {
      * @return
      */
     List<Coupon> listCouponOfUser(Integer userId);
+
 
 
 }

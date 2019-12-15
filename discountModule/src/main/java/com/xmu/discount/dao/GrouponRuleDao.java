@@ -21,9 +21,10 @@ public class GrouponRuleDao implements PromotionRuleDao {
      * @return
      */
     @Override
-    public PromotionRule getPromotionById(Integer id) {
+    public PromotionRule  getPromotionRuleById(Integer id) {
         return grouponRuleMapper.getGrouponRuleById(id);
     }
+
 
     /**
      * 查看所有的团购规则
@@ -33,10 +34,7 @@ public class GrouponRuleDao implements PromotionRuleDao {
     public List<PromotionRule> getPromotionRules() {
         List<GrouponRule> grouponRules=grouponRuleMapper.getGrouponRules();
         List<PromotionRule> promotionRules=new ArrayList<PromotionRule>();
-        for(GrouponRule grouponRule:grouponRules)
-        {
-            promotionRules.add(grouponRule);
-        }
+        promotionRules.addAll(grouponRules);
         return promotionRules;
     }
 
@@ -56,7 +54,7 @@ public class GrouponRuleDao implements PromotionRuleDao {
      * @return
      */
     @Override
-    public List<PromotionRule> listPromotionByGoodsId(Integer goodsId) {
+    public List<PromotionRule> listPromotionRuleByGoodsId(Integer goodsId) {
         List<PromotionRule>promotionRules=new ArrayList<>();
         List<GrouponRule> grouponRules=grouponRuleMapper.listGrouponRuleByGoodsId(goodsId);
         promotionRules.addAll(grouponRules);

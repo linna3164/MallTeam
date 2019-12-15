@@ -81,4 +81,6 @@ public class CouponRulePo {
     private LocalDateTime gmtModified;
     private Boolean beDeleted;
 
+
+
 }

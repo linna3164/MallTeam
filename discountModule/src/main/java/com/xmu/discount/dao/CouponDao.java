@@ -1,16 +1,11 @@
 package com.xmu.discount.dao;
 
 import com.xmu.discount.domain.coupon.Coupon;
-import com.xmu.discount.domain.coupon.CouponDto;
 import com.xmu.discount.domain.coupon.CouponRule;
-import com.xmu.discount.domain.coupon.CouponRuleDto;
 import com.xmu.discount.mapper.CouponMapper;
+import com.xmu.discount.mapper.CouponRuleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import xmu.oomall.domain.coupon.Coupon;
-import xmu.oomall.domain.coupon.CouponRule;
-import xmu.oomall.domain.coupon.CouponRulePo;
-import xmu.oomall.mapper.CouponMapper;
 
 import java.util.List;
 
@@ -27,6 +22,9 @@ public class CouponDao {
     @Autowired
     private CouponMapper couponMapper;
 
+    @Autowired
+    private CouponRuleMapper couponRuleMapper;
+
     /**
      * 用ID获取优惠券
      * @param id 优惠券id
@@ -34,7 +32,7 @@ public class CouponDao {
      */
     public Coupon getCouponById(Integer id){
       Coupon coupon=couponMapper.getCouponById(id);
-      CouponRule couponRule=couponMapper.getCouponRuleById(coupon.getCouponRuleId());
+      CouponRule couponRule=couponRuleMapper.getCouponRuleById(coupon.getCouponRuleId());
       coupon.setCouponRule(couponRule);
       return coupon;
     };
@@ -49,13 +47,6 @@ public class CouponDao {
         return couponMapper.getCoupons();
     };
 
-    /**
-     * 查看所有类型的优惠券
-     * @return
-     */
-    public List<CouponRule> getCouponRules(){
-        return couponMapper.getCouponRules();
-    };
 
     /**
      * 新增优惠券
@@ -88,7 +79,7 @@ public class CouponDao {
      * @return
      */
     public List<Coupon> listCouponByCouponRuleIdAndUserId(Integer couponRuleId, Integer userId){
-          return  couponMapper.listCouponByCouponRuleId()
+        return  couponMapper.listCouponByCouponRuleId(couponRuleId,userId);
     };
 
     /**
