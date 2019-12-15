@@ -2,6 +2,7 @@ package com.xmu.discount.service;
 
 import com.xmu.discount.domain.coupon.Coupon;
 import com.xmu.discount.domain.coupon.CouponRule;
+import com.xmu.discount.domain.others.domain.CartItem;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,33 +24,13 @@ public interface CouponService {
      */
     Coupon findCouponById(Integer id);
 
+    List<Coupon> getCoupons();
     /**
      * 用户领取优惠券
      * @param coupon
      * @return
      */
     Coupon addCoupon(Coupon coupon);
-
-    /**
-     * 管理员删除优惠券规则--用户已经领取的优惠券要怎么办
-     * @param id
-     * @return
-     */
-    boolean deleteCouponRuleById(Integer id);
-
-    /**
-     * 管理员新增优惠券规则--可以
-     * @param couponRule
-     * @return
-     */
-    CouponRule addCouponRule(CouponRule couponRule);
-
-    /**
-     * 管理员修改优惠券规则---用户已经领取的优惠券要怎么办
-     * @param couponRule
-     * @return
-     */
-    CouponRule updateCouponRule(CouponRule couponRule);
 
     /**
      * 用户查找已经过期的优惠券
@@ -69,4 +50,6 @@ public interface CouponService {
      * @return
      */
     List<Coupon> listUnUsedCouponOfUser(Integer userId);
+
+    List<Coupon> listAvailableCoupons(List<CartItem> cartItems);
 }

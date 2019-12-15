@@ -6,10 +6,12 @@ import com.xmu.discount.domain.coupon.Coupon;
 import com.xmu.discount.domain.coupon.CouponRule;
 import com.xmu.discount.domain.discount.PromotionRule;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Service
 public class CouponRuleServiceImpl {
 
 
