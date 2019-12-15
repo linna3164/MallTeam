@@ -1,9 +1,9 @@
 package com.xmu.discount.domain.discount;
 
-import com.xmu.discount.domain.others.Order;
+
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.others.domain.Payment;
-import com.xmu.discount.standard.Payment;
+
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

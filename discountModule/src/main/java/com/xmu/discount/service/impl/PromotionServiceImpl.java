@@ -9,11 +9,14 @@ import com.xmu.discount.domain.others.domain.Payment;
 import com.xmu.discount.service.PromotionService;
 import com.xmu.discount.util.SpringContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+
+@Service
 public abstract class PromotionServiceImpl implements PromotionService {
 
     @Autowired

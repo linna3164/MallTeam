@@ -1,8 +1,10 @@
 package com.xmu.discount.service.impl;
 
 import com.xmu.discount.dao.CouponDao;
+import com.xmu.discount.dao.CouponRuleDao;
 import com.xmu.discount.domain.coupon.Coupon;
 import com.xmu.discount.domain.coupon.CouponRule;
+import com.xmu.discount.domain.others.domain.CartItem;
 import com.xmu.discount.service.CouponService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,9 @@ public class CouponServiceImpl implements CouponService {
     @Autowired
     private CouponDao couponDao;
 
+    @Autowired
+    private CouponRuleDao couponRuleDao;
+
     @Override
     public Coupon findCouponById(Integer id) {
 
@@ -41,7 +46,7 @@ public class CouponServiceImpl implements CouponService {
     @Override
     public Coupon addCoupon(Coupon coupon) {
         List<Coupon> coupons=couponDao.listCouponByCouponRuleIdAndUserId(coupon.getCouponRuleId(),coupon.getUserId());
-        CouponRule couponRule=couponDao.getCouponRuleById(coupon.getCouponRuleId());
+        CouponRule couponRule=(CouponRule)(couponRuleDao.getPromotionRuleById(coupon.getCouponRuleId()));
         if(couponRule==null){
             //TODO:优惠券规则不存在,报错
         }
@@ -55,57 +60,6 @@ public class CouponServiceImpl implements CouponService {
             }
         }
         return null;
-    }
-
-
-    /**
-     * 管理员删除优惠券规则（活动生效后不能删除和修改）
-     * @param id
-     * @return
-     */
-    @Override
-    public boolean deleteCouponRuleById(Integer id) {
-        CouponRule couponRule=couponDao.getCouponRuleById(id);
-
-        //当前时间
-        LocalDateTime now=LocalDateTime.now();
-        if(couponRule.getBeginTime().isBefore(now)){
-
-        }
-        //判断活动是否开始
-        if()
-        couponDao.deleteCouponRuleById(id);
-        return true;
-    }
-
-    /**
-     * 管理员查看所有优惠券规则
-     * @return
-     */
-    public List<CouponRule> listAllCoupon(){
-        return getCouponRules();
-    }
-
-    /**
-     * 管理员新增优惠券规则
-     * @param couponRule
-     * @return
-     */
-    @Override
-    public CouponRule addCouponRule(CouponRule couponRule) {
-        couponDao.addCouponRule(couponRule);
-        return couponRule;
-    }
-
-    /**
-     * 管理员修改优惠券规则
-     * @param couponRule
-     * @return
-     */
-    @Override
-    public CouponRule updateCouponRule(CouponRule couponRule) {
-        couponDao.updateCouponRuleById(couponRule);
-        return couponRule;
     }
 
 

@@ -59,13 +59,7 @@ public class CouponRuleDao implements PromotionRuleDao {
     @Override
     public List<PromotionRule> listPromotionRuleByGoodsId(Integer goodsId) {
         //TODO:
-        List<PromotionRule> promotionRules=new ArrayList<PromotionRule>();
-        List<CouponRule> couponRules=couponRuleMapper.getCouponRules();
-        for(CouponRule couponRule:couponRules){
-            String list1=couponRule.getGoodsList1();
-            String list2=couponRule.getGoodsList2();
-            List<Integer> l1= JacksonUtil.parseIntegerList(list1,"");
-        }
+
         return null;
     }
 
