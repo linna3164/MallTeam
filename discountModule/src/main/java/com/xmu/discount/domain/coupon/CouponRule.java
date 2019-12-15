@@ -12,148 +12,27 @@ import java.util.*;
 
 public class CouponRule {
 
-    private static final Logger logger = LoggerFactory.getLogger(CouponRule.class);
-    private static final Integer MAXIDNUMS=2500;
-
-    private Object couponStrategy;//标准组
-    private CouponRulePo realObj;
-    /**
-     * 时间类型
-     */
-    private TimeStatus timeStatus;
 
     /**
-     * 优惠卷规则的时间类型
-     */
-    public enum TimeStatus {
-        /**
-         * 未用
-         */
-        LIMIT("限制时间", 0),
-        /**
-         * 已用
-         */
-        PERIOD("时期", 1);
-
-        /**
-         * 值
-         */
-        private final Integer value;
-
-        /**
-         * 名称
-         */
-        private final String name;
-
-        /**
-         * 构造函数
-         * @param name 名称
-         * @param value 值
-         */
-        TimeStatus(String name, Integer value) {
-            this.value = value;
-            this.name = name;
-        }
-
-        /**
-         * 获得值
-         * @return 值
-         */
-        public Integer getValue() {
-            return this.value;
-        }
-
-        /**
-         * 获得名称
-         * @return 名
-         */
-        public String getName() {
-            return this.name;
-        }
-
-        @Override
-        public String toString() {
-            return name;
-        }
-    }
-
-    /**
-     * 活动状态
-     */
-    private ActiveStatus activeStatus;
-
-    /**
-     * 优惠卷的活动状态
-     */
-    public enum ActiveStatus {
-        /**
-         * 未开始
-         */
-        NOTSTART("未开始", 0),
-        /**
-         * 进行中
-         */
-        INPROCESS("进行中", 1),
-        /**
-         * 已结束
-         */
-        DONE("已结束", 2),
-        /**
-         * 失效
-         */
-        DISABLED("失效", 3);
-
-        /**
-         * 值
-         */
-        private final Integer value;
-
-        /**
-         * 名称
-         */
-        private final String name;
-
-        /**
-         * 构造函数
-         *
-         * @param name  名称
-         * @param value 值
-         */
-        ActiveStatus(String name, Integer value) {
-            this.value = value;
-            this.name = name;
-        }
-
-        /**
-         * 获得值
-         *
-         * @return 值
-         */
-        public Integer getValue() {
-            return this.value;
-        }
-
-        /**
-         * 获得名称
-         *
-         * @return 名
-         */
-        public String getName() {
-            return this.name;
-        }
-
-        @Override
-        public String toString() {
-            return name;
-        }
-
-    }
-
-
-    /**
-     * 优惠券规则是否已开始
+     *ordeItems是否可用该优惠券规则
+     * @param orderItems
      * @return
      */
+    public boolean isOkToUse(List<OrderItem> orderItems) {
+
+        //能用于该优惠券规则的orderItem项
+        List<OrderItem> validItems = this.getValidItems(orderItems);
+
+        if (validItems.size() != 0) {
+            return this.getStrategy().isOkToUse(validItems);
+        }
+        return false;
+    }
+
+        /**
+         * 优惠券规则是否已开始
+         * @return
+         */
     public  boolean isAlreadyStart(){
         LocalDateTime now = LocalDateTime.now();
         return (this.getBeginTime().isBefore(now));
@@ -190,11 +69,11 @@ public class CouponRule {
     }
 
     /**
-     * 获得能用于此优惠卷的明细  ok
+     * 获得能用于此优惠卷规则的明细  ok
      * @param items 订单明细
      * @return 适用的订单明细
      */
-    private List<OrderItem> getValidItems(List<OrderItem> items){
+    public List<OrderItem> getValidItems(List<OrderItem> items){
         logger.debug("getValidItems参数：items = "+items);
         List<OrderItem> validItems = new ArrayList<OrderItem>(items.size());
         for (OrderItem item: items){
@@ -344,6 +223,146 @@ public class CouponRule {
 //        }
 //        else if()
 //    }
+
+
+
+    private static final Logger logger = LoggerFactory.getLogger(CouponRule.class);
+    private static final Integer MAXIDNUMS=2500;
+
+    private Object couponStrategy;//标准组
+    private CouponRulePo realObj;
+    /**
+     * 时间类型
+     */
+    private TimeStatus timeStatus;
+
+    /**
+     * 优惠卷规则的时间类型
+     */
+    public enum TimeStatus {
+        /**
+         * 未用
+         */
+        LIMIT("限制时间", 0),
+        /**
+         * 已用
+         */
+        PERIOD("时期", 1);
+
+        /**
+         * 值
+         */
+        private final Integer value;
+
+        /**
+         * 名称
+         */
+        private final String name;
+
+        /**
+         * 构造函数
+         * @param name 名称
+         * @param value 值
+         */
+        TimeStatus(String name, Integer value) {
+            this.value = value;
+            this.name = name;
+        }
+
+        /**
+         * 获得值
+         * @return 值
+         */
+        public Integer getValue() {
+            return this.value;
+        }
+
+        /**
+         * 获得名称
+         * @return 名
+         */
+        public String getName() {
+            return this.name;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
+    }
+
+    /**
+     * 活动状态
+     */
+    private ActiveStatus activeStatus;
+
+    /**
+     * 优惠卷的活动状态
+     */
+    public enum ActiveStatus {
+        /**
+         * 未开始
+         */
+        NOTSTART("未开始", 0),
+        /**
+         * 进行中
+         */
+        INPROCESS("进行中", 1),
+        /**
+         * 已结束
+         */
+        DONE("已结束", 2),
+        /**
+         * 失效
+         */
+        DISABLED("失效", 3);
+
+        /**
+         * 值
+         */
+        private final Integer value;
+
+        /**
+         * 名称
+         */
+        private final String name;
+
+        /**
+         * 构造函数
+         *
+         * @param name  名称
+         * @param value 值
+         */
+        ActiveStatus(String name, Integer value) {
+            this.value = value;
+            this.name = name;
+        }
+
+        /**
+         * 获得值
+         *
+         * @return 值
+         */
+        public Integer getValue() {
+            return this.value;
+        }
+
+        /**
+         * 获得名称
+         *
+         * @return 名
+         */
+        public String getName() {
+            return this.name;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
+
+    }
+
 
 
 

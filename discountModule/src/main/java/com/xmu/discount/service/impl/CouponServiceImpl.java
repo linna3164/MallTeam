@@ -30,7 +30,6 @@ public class CouponServiceImpl {
         return couponDao.getCouponById(id);
     }
 
-    @Override
     public List<Coupon> getCoupons() {
         return couponDao.listCoupons();
     }
@@ -60,6 +59,15 @@ public class CouponServiceImpl {
     }
 
 
+    /**
+     * 用户获取失效的优惠券
+     * @param userId
+     * @return
+     */
+    public List<Coupon> listDisabledCouponOfUser(Integer userId) {
+
+        return this.listCouponOfUserByStatus(userId, Coupon.Status.DISABLED);
+    }
 
 
 
@@ -97,7 +105,6 @@ public class CouponServiceImpl {
      * @param cartItems
      * @return
      */
-    @Override
     public List<Coupon> listAvailableCoupons(List<CartItem> cartItems) {
         return null;
     }
@@ -129,11 +136,12 @@ public class CouponServiceImpl {
         List<Coupon> couponList=couponDao.listCouponOfUser(userId);
         List<Coupon> res=new ArrayList<Coupon>();
         for(Coupon coupon:couponList){
-            //TODO:coupon.xxx还没写
-//            if(coupon.xxx(cartItemList)){
-//                res.add(coupon);
-//            }
+            if(coupon.isOkToUse(cartItemList)){
+                res.add(coupon);
+            }
         }
         return res;
     }
+
+
 }

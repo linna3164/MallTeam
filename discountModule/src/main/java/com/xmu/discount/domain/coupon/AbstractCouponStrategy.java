@@ -43,6 +43,33 @@ import java.util.List;
     protected abstract BigDecimal getError(BigDecimal totalPrice, BigDecimal dealPrice);
 
     /**
+     * 这些OrderItem能用于这张优惠券吗
+     * @param validItems
+     * @return
+     */
+    public boolean isOkToUse(List<OrderItem> validItems){
+
+        //优惠商品的总价和数量
+        BigDecimal totalPrice = BigDecimal.ZERO;//可用优惠券明细的订单item的总价
+        Integer totalQuantity = 0;//可用优惠券明细的订单item的总数量
+
+        Iterator<OrderItem> itemIterator = validItems.iterator();
+
+        while (itemIterator.hasNext()){
+            OrderItem item = itemIterator.next();
+            logger.debug("总价 totalPrice="+ totalPrice + " 总数 totalQuantitiy = "+totalQuantity);
+            totalPrice = totalPrice.add(item.getPrice().multiply(BigDecimal.valueOf(item.getNumber())));//可优惠总价
+            totalQuantity += item.getNumber();
+        }
+
+        logger.debug("总价 totalPrice="+ totalPrice + " 总数 totalQuantitiy = "+totalQuantity);
+        //判断是否达到优惠门槛
+        boolean enough = this.isEnough(totalPrice, totalQuantity);
+        return enough;
+    }
+
+
+    /**
      * 获得优惠的费用
      * @param validItems 订单中可以用于优惠卷的明细
      * @param couponSn 优惠卷序号

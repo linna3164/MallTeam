@@ -1,13 +1,87 @@
 package com.xmu.discount.domain.coupon;
 
+import com.xmu.discount.domain.others.domain.CartItem;
+import com.xmu.discount.domain.others.domain.Goods;
 import com.xmu.discount.domain.others.domain.Order;
+import com.xmu.discount.domain.others.domain.OrderItem;
 import org.apache.ibatis.type.Alias;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Alias("coupon")
 public class Coupon {
+
+
+    /**
+     *优惠券能否用于这些商品
+     * @param cartItems
+     * @return
+     */
+    public boolean isOkToUse(List<CartItem> cartItems){
+
+        List<OrderItem>orderItems=new ArrayList<>();
+        for(CartItem cartItem:cartItems){
+            OrderItem orderItem=new OrderItem(cartItem);
+        }
+
+        //优惠券可用
+        if(this.isReadyToUse()){
+            return this.getCouponRule().isOkToUse(orderItems);
+        }
+        else {
+            return false;
+        }
+    }
+
+
+    /**
+     * 生成beginTime和endTime
+     */
+    public void setTimes(){
+        CouponRule.TimeStatus timeStatus=this.getCouponRule().getTimeStatus();
+        if(timeStatus.equals(CouponRule.TimeStatus.LIMIT)){
+            this.setBeginTime(this.getCouponRule().getBeginTime());
+            this.setEndTime(this.getCouponRule().getEndTime());
+        }
+        else if(timeStatus.equals(CouponRule.TimeStatus.PERIOD)){
+            LocalDateTime now = LocalDateTime.now();
+            this.setBeginTime(now);
+            this.setEndTime(now.plusDays(this.getCouponRule().getValidPeriod()));
+        }
+    }
+
+    /**
+     * 判断某个优惠卷是否能用
+     * @return
+     */
+    public boolean isReadyToUse() {
+        LocalDateTime now = LocalDateTime.now();
+        return (this.getBeginTime().isBefore(now) &&
+                this.getEndTime().isAfter(now) &&
+                this.getStatus().equals(Status.NOT_USED.getValue()));
+    }
+
+    /**
+     * 获得优惠的费用
+     *
+     * @param order 订单
+     * @return 优惠的费用
+     */
+    public void cacuCouponPrice(Order order) {
+        if (this.isReadyToUse()){
+            this.getCouponRule().cacuCouponPrice(order, this.couponSn);
+        }
+    }
+
+    public Coupon() {
+        //TODO:还需要根据标准组确定是0还是1
+        this.setStatusCode(0);
+        this.setStatus(Status.NOT_USED);
+    }
+
 
     private Integer id;
     /**
@@ -121,50 +195,7 @@ public class Coupon {
     }
 
 
-    /**
-     * 生成beginTime和endTime
-     */
-    public void setTimes(){
-        CouponRule.TimeStatus timeStatus=this.getCouponRule().getTimeStatus();
-        if(timeStatus.equals(CouponRule.TimeStatus.LIMIT)){
-            this.setBeginTime(this.getCouponRule().getBeginTime());
-            this.setEndTime(this.getCouponRule().getEndTime());
-        }
-        else if(timeStatus.equals(CouponRule.TimeStatus.PERIOD)){
-            LocalDateTime now = LocalDateTime.now();
-            this.setBeginTime(now);
-            this.setEndTime(now.plusDays(this.getCouponRule().getValidPeriod()));
-        }
-    }
 
-    /**
-     * 判断某个优惠卷是否能用
-     * @return
-     */
-    public boolean isReadyToUse() {
-        LocalDateTime now = LocalDateTime.now();
-        return (this.getBeginTime().isBefore(now) &&
-                this.getEndTime().isAfter(now) &&
-                this.getStatus().equals(Status.NOT_USED.getValue()));
-    }
-
-    /**
-     * 获得优惠的费用
-     *
-     * @param order 订单
-     * @return 优惠的费用
-     */
-    public void cacuCouponPrice(Order order) {
-        if (this.isReadyToUse()){
-            this.getCouponRule().cacuCouponPrice(order, this.couponSn);
-        }
-    }
-
-    public Coupon() {
-        //TODO:还需要根据标准组确定是0还是1
-        this.setStatusCode(0);
-        this.setStatus(Status.NOT_USED);
-    }
 
     @Override
     public String toString() {

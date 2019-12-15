@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 /**
  * @Author: 数据库与对象模型标准组
  * @Description:订单明细对象
@@ -20,5 +22,24 @@ public class OrderItem extends OrderItemPo {
 
     public Product getProduct() {
         return product;
+    }
+
+    /**
+     * 由购物车对象构造订单明细对象
+     * @param cartItem 购物车对象
+     */
+    public OrderItem(CartItem cartItem) {
+        this.setNumber(cartItem.getNumber());
+        Product product = cartItem.getProduct();
+        this.setProduct(product);
+        this.setPrice(product.getPrice());
+        this.setDealPrice(this.getPrice());
+
+        StringBuffer productName = new StringBuffer(product.getGoodsPo().getName());
+        productName.append(" ");
+        productName.append(product.getSpecifications());
+        this.setNameWithSpecifications(productName.toString());
+
+        this.setGmtCreate(LocalDateTime.now());
     }
 }
