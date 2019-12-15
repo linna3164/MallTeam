@@ -10,12 +10,14 @@ import com.xmu.discount.domain.others.domain.Payment;
 import com.xmu.discount.service.PromotionService;
 import com.xmu.discount.util.SpringContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class PromotionServiceImpl {
+@Service
+public  class PromotionServiceImpl {
 
     @Autowired
     public GrouponRuleDao grouponRuleDao;
@@ -29,7 +31,7 @@ public abstract class PromotionServiceImpl {
     /**
      * 活动实效后的行为
      */
-    public  abstract void toDoSomthing(PromotionRule promotionRule);
+//    public  abstract void toDoSomthing(PromotionRule promotionRule);
 
     /**
      * 设置活动实效

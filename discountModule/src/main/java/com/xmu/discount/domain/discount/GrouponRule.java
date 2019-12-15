@@ -1,21 +1,45 @@
 package com.xmu.discount.domain.discount;
 
 
+import com.alibaba.fastjson.JSON;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.others.domain.OrderItem;
 import com.xmu.discount.domain.others.domain.Payment;
 
+import com.xmu.discount.util.JacksonUtil;
+import jdk.nashorn.internal.runtime.JSONFunctions;
 import org.apache.ibatis.type.Alias;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Alias("grouponRule")
 public class GrouponRule extends PromotionRule {
 
     private GrouponRulePo realObj;
+
+
+    private List<Strategy> strategyList;
+
+    /**
+     * 计算折扣
+     * @param orders
+     * @return
+     */
+    public List<Payment> cacuGrouponRefund(List<Order> orders){
+        //成团人数
+        int nums=orders.size();
+        //策略
+        List<Strategy>strategies=this.getStrategyList();
+        //按lowerbound从小到大排序
+        strategies.sort((a,b)->{return a.getLowerBound()-a.getUpperBound();});
+        //
+        if()
+    }
+
+
+
 
 
     public GrouponRule(Integer id,boolean beDeleted){
@@ -50,8 +74,6 @@ public class GrouponRule extends PromotionRule {
     }
 
 
-
-
     @Override
     public LocalDateTime getpromotionRulestartTime() {
         return this.getStartTime();
@@ -72,9 +94,82 @@ public class GrouponRule extends PromotionRule {
         return this.getGoodsId();
     }
 
+
+
+
+    /**
+     * 获取团购level策略
+     * @return
+     */
+    public List<Strategy> getStrategyList() {
+        String jsonString = realObj.getGrouponLevelStragety();
+        jsonString = org.apache.commons.text.StringEscapeUtils.unescapeJson(jsonString);
+        List<String>strategiesString=JacksonUtil.parseStringList(jsonString,"strategy");
+        List<Strategy>strategies=new ArrayList<>();
+        for(String string:strategiesString){
+            Strategy strategy=JSON.parseObject(string,Strategy.class);
+            strategies.add(strategy);
+        }
+        return strategyList;
+    }
+
+    /**
+     * 设置团购的level策略
+     * @param strategyList
+     */
+    public void setStrategyList(List<Strategy> strategyList) {
+
+        Map<String, Object> jsonObj = new HashMap<String, Object>(2);
+        jsonObj.put("strategy", strategyList);
+
+        String jsonString = JacksonUtil.toJson(jsonObj);
+        realObj.setGrouponLevelStragety(jsonString);
+        this.strategyList = strategyList;
+    }
+
+
+
+
+
+
+    private class Strategy{
+        private Integer lowerBound;
+        private Integer upperBound;
+        private BigDecimal discountRate;
+
+        public Integer getLowerBound() {
+            return lowerBound;
+        }
+
+        public void setLowerBound(Integer lowerBound) {
+            this.lowerBound = lowerBound;
+        }
+
+        public Integer getUpperBound() {
+            return upperBound;
+        }
+
+        public void setUpperBound(Integer upperBound) {
+            this.upperBound = upperBound;
+        }
+
+        public BigDecimal getDiscountRate() {
+            return discountRate;
+        }
+
+        public void setDiscountRate(BigDecimal discountRate) {
+            this.discountRate = discountRate;
+        }
+    }
+
+
+
+
+
+
+
+
     //******生成代码*****
-
-
     public GrouponRulePo getRealObj() {
         return realObj;
     }

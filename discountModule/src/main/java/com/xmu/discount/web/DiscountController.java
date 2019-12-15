@@ -6,6 +6,7 @@ import com.xmu.discount.service.CouponService;
 import com.xmu.discount.service.impl.PromotionServiceImpl;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
@@ -23,7 +24,14 @@ import java.util.List;
 public class DiscountController {
 
     @Autowired
-    private PromotionServiceImpl discountService;
+    @Qualifier("promotionServiceImpl")
+    private PromotionServiceImpl promotionService;
+
+    @Autowired
+    @Qualifier("grouponServiceImpl")
+    private  PromotionServiceImpl getGroupon;
+
+
 
     @Autowired
     private CouponService couponService;
