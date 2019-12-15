@@ -25,7 +25,7 @@ public interface PresaleRuleMapper {
     List<PresaleRule> getPresaleRules();
     /**
      * 添加预售规则
-     * @param int
+     * @param presaleRule
      * @return
      */
     int addPresaleRule(PresaleRule presaleRule);

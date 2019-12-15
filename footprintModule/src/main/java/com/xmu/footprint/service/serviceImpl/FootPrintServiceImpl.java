@@ -40,7 +40,7 @@ public class FootPrintServiceImpl implements FootPrintService {
      */
     @Override
     public List<FootPrint> findListByUserId(Integer id) {
-        return null;
+        return footPrintDao.findListByUserId(id);
     }
 
     /*
