@@ -68,7 +68,7 @@ public class GrouponRule extends PromotionRule {
                 Payment payment=new Payment();
                 //正数转负数
                 payment.setActualPrice(refundPrice.negate());
-                payment.setOrderId(order.getID());
+                payment.setOrderId(order.getId());
             }
         }
         return payments;

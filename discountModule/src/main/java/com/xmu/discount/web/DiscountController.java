@@ -7,6 +7,8 @@ import com.xmu.discount.domain.discount.GrouponRule;
 import com.xmu.discount.domain.discount.GrouponRulePo;
 import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.domain.others.domain.CartItem;
+import com.xmu.discount.exception.PromotionNotFoundException;
+import com.xmu.discount.exception.UpdatedDataFailedException;
 import com.xmu.discount.service.CouponService;
 import com.xmu.discount.service.impl.*;
 import com.xmu.discount.util.ResponseUtil;
@@ -168,7 +170,7 @@ public class DiscountController {
      * @return
      */
     @PostMapping("/grouponRules")
-    public GrouponRule addGrouponRule(@RequestBody GrouponRulePo grouponRulePo){
+    public GrouponRule addGrouponRule(@RequestBody GrouponRulePo grouponRulePo) throws UpdatedDataFailedException {
         GrouponRule grouponRule=new GrouponRule(grouponRulePo);
         return (GrouponRule)discountService.addPromotion(grouponRule);
     }
@@ -179,7 +181,7 @@ public class DiscountController {
      * @return
      */
     @GetMapping("/grouponRules/{id}")
-    public GrouponRule findGroupRuleById(@PathVariable Integer id){
+    public GrouponRule findGroupRuleById(@PathVariable Integer id) throws PromotionNotFoundException {
         return (GrouponRule)discountService.getPromotionById(id,"sda");
     }
 
@@ -190,7 +192,7 @@ public class DiscountController {
      * @return
      */
     @PutMapping("/grouponRules/{id}")
-    public GrouponRule modifyGrouponRuleById(@PathVariable Integer id,@RequestBody GrouponRulePo grouponRulePo){
+    public GrouponRule modifyGrouponRuleById(@PathVariable Integer id,@RequestBody GrouponRulePo grouponRulePo) throws UpdatedDataFailedException {
         GrouponRule grouponRule=new GrouponRule(grouponRulePo);
         return (GrouponRule)discountService.updatepromotionRule(grouponRule);
     }

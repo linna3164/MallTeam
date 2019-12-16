@@ -13,8 +13,8 @@ import java.util.List;
  * @Date: Created in 11:03 2019/11/19
  * @Modified By:
  **/
-@Component
 @Mapper
+@Component
 public interface CouponMapper {
     /**
      * 用id找一张优惠卷

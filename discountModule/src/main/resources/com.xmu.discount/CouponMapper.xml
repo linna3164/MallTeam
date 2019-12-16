@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xmu.discount.mapper.CouponMapper">
-    <resultMap id="coupon" type="com.xmu.discount.domain.coupon.Coupon">
+    <resultMap id="coupon" type="com.xmu.discount.domain.coupon.Coupon" autoMapping="true">
         <result property="beDeleted" column="is_deleted"/>
     </resultMap>
 
@@ -36,34 +36,34 @@
                gmt_modified,
                is_deleted,
                status
-        from coupon where id = #{id}
+        from coupon where is_deleted=0
     </select>
 
     <select id="listCoupons" resultMap="coupon">
-     select id,
-     user_id,
-     coupon_rule_id,
-    coupon_sn,
-    begin_time,
-    end_time,
-    used_time,
-    name,
-    pic_url,
-    gmt_create,
-    gmt_modified,
-    is_deleted,
-    status
-    from coupon where id!=0
+         select id,
+             user_id,
+             coupon_rule_id,
+            coupon_sn,
+            begin_time,
+            end_time,
+            used_time,
+            name,
+            pic_url,
+            gmt_create,
+            gmt_modified,
+            is_deleted,
+            status
+            from coupon where is_deleted=0
     </select>
 
 
-    <insert id="addCoupon" parameterType="coupon" useGeneratedKeys="true" keyProperty="id">
+    <insert id="addCoupon" parameterType="com.xmu.discount.domain.coupon.Coupon" useGeneratedKeys="true" keyProperty="id">
         insert into coupon(id, user_id, coupon_rule_id, coupon_sn, begin_time, end_time, used_time, name, pic_url, gmt_create, gmt_modified, is_deleted, status)
         values
         (#{id}, #{userId}, #{couponRuleId}, #{couponSn}, #{beginTime}, #{endTime}, #{usedTime}, #{name}, #{picUrl}, #{gmtCreate}, #{gmtModified}, #{beDeleted}, #{status})
     </insert>
 
-    <update id="updateCouponById" parameterType="Coupon">
+    <update id="updateCouponById" parameterType="com.xmu.discount.domain.coupon.Coupon">
         update coupon
         <trim prefix="set" suffixOverrides=",">
             <if test="userId!=null">user_id=#{userId},</if>
@@ -81,8 +81,8 @@
         </trim>
         where id=#{id}
     </update>
-    
-    <select id="listCouponByCouponRuleIdAndUserId" parameterType="Integer" resultMap="coupon">
+
+    <select id="listCouponByCouponRuleIdAndUserId" parameterType="integer" resultMap="coupon">
                select id,
                user_id,
                coupon_rule_id,
@@ -99,7 +99,7 @@
         from coupon where coupon_rule_id = #{couponRuleId} and user_id=#{userId} and is_deleted=0
     </select>
 
-    <select id="listCouponOfUser" parameterType="Integer" resultMap="coupon">
+    <select id="listCouponOfUser" parameterType="integer" resultMap="coupon">
             select id,
                user_id,
                coupon_rule_id,

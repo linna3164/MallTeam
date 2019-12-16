@@ -5,7 +5,7 @@ management:
 
 mybatis:
   #domain对象的包
-  type-aliases-package: com.xmu.discount.domain
+  type-aliases-package: com.xmu.discount.domain.coupon
   #mapper。xml所在的位置
   mapper-locations: classpath:com.xmu.discount.mapper/*.xml
   configuration:
