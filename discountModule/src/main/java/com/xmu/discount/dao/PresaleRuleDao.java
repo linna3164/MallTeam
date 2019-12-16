@@ -47,7 +47,12 @@ public class PresaleRuleDao implements PromotionRuleDao {
      */
     @Override
     public int addPromotionRule(PromotionRule promotionRule) {
-        return presaleRuleMapper.addPresaleRule((PresaleRule) promotionRule);
+
+        PresaleRule presaleRule=(PresaleRule)promotionRule;
+        presaleRule.setGmtCreate(LocalDateTime.now());
+        presaleRule.setGmtModified(LocalDateTime.now());
+
+        return presaleRuleMapper.addPresaleRule(presaleRule);
 
     }
 
@@ -70,8 +75,10 @@ public class PresaleRuleDao implements PromotionRuleDao {
      */
     @Override
     public boolean updatePromotionRuleById(PromotionRule promotionRule) {
-        PresaleRule presaleRule=new PresaleRule(promotionRule.getId(), LocalDateTime.now());
-        presaleRuleMapper.updatePresaleRuleById(presaleRule);
+
+        PresaleRule presaleRule=(PresaleRule) promotionRule;
+        presaleRule.setGmtModified(LocalDateTime.now());
+
         return presaleRuleMapper.updatePresaleRuleById((PresaleRule) promotionRule);
     }
 
@@ -82,8 +89,9 @@ public class PresaleRuleDao implements PromotionRuleDao {
      */
     @Override
     public void deletePromotionRuleById(Integer id) {
+
         PresaleRule grouponRule=new PresaleRule(id,true);
-        grouponRule.setGmtModified(LocalDateTime.now());
-        presaleRuleMapper.updatePresaleRuleById(grouponRule);
+
+        this.updatePromotionRuleById(grouponRule);
     }
 }

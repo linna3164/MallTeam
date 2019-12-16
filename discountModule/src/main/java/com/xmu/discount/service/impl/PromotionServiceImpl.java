@@ -63,7 +63,7 @@ public  class PromotionServiceImpl {
      * @param promotionRule
      * @return
      */
-    public void deletePromotionById(PromotionRule promotionRule){
+    public void deletePromotionById(PromotionRule promotionRule) throws UpdatedDataFailedException {
         if(promotionRule.isOkToDelete())
         {
             String daoName=getDaoClassName(promotionRule);
@@ -161,10 +161,12 @@ public  class PromotionServiceImpl {
                 promotionRules.remove(p);
             }
         }
-        if(promotionRules.size()==0){//没有促销活动
+        //没有促销活动
+        if(promotionRules.size()==0){
             throw new PromotionNotFoundException();
         }
-        else  if(promotionRules.size()>1){//促销活动大于1个
+        //促销活动大于1个
+        else  if(promotionRules.size()>1){
             throw new SeriousException();
 
         }
@@ -184,7 +186,7 @@ public  class PromotionServiceImpl {
         if(promotionRule.isOkToAdd(promotionRules)){
             //调用DAO层的add方法。
             String daoName=getDaoClassName(promotionRule);
-            ((PromotionRuleDao)SpringContextUtil.getBean(daoName)).updatePromotionRuleById(promotionRule);
+            ((PromotionRuleDao)SpringContextUtil.getBean(daoName)).addPromotionRule(promotionRule);
         }
         return promotionRule;
     }

@@ -43,6 +43,8 @@ public class CouponRuleDao  {
      * @return
      */
     public int addCouponRule(CouponRule couponRule) {
+        couponRule.setGmtCreate(LocalDateTime.now());
+        couponRule.setGmtModified(LocalDateTime.now());
         return couponRuleMapper.addCouponRule(couponRule);
     }
 

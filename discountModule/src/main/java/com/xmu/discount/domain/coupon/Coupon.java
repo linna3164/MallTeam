@@ -4,6 +4,7 @@ import com.xmu.discount.domain.others.domain.CartItem;
 import com.xmu.discount.domain.others.domain.Goods;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.others.domain.OrderItem;
+import com.xmu.discount.util.Common;
 import org.apache.ibatis.type.Alias;
 
 import java.time.LocalDateTime;
@@ -17,6 +18,14 @@ import java.util.Objects;
 @Alias("coupon")
 public class Coupon {
 
+    /**
+     * 优惠券起头字母
+     */
+    private final static String PREFIX = "C";
+    /**
+     * 尾部随机数长度
+     */
+    private final static int RANDOM_LEN = 1;
 
     /**
      *优惠券能否用于这些商品
@@ -43,7 +52,7 @@ public class Coupon {
     /**
      * 生成beginTime和endTime
      */
-    public void setTimes(){
+    public void setTimes(CouponRule couponRule){
         CouponRule.TimeStatus timeStatus=this.getCouponRule().getTimeStatus();
         if(timeStatus.equals(CouponRule.TimeStatus.LIMIT)){
             this.setBeginTime(this.getCouponRule().getBeginTime());
@@ -79,10 +88,30 @@ public class Coupon {
         }
     }
 
+    /**
+     * 领取时实例化
+     * @param couponRule
+     * @param userId
+     */
+    public Coupon(CouponRule couponRule,Integer userId){
+        this();
+        //设置现用开始时间和结束时间
+        this.setTimes(couponRule);
+        this.setCouponRule(couponRule);
+        this.setName(couponRule.getName());
+        this.setPicUrl(couponRule.getPicUrl());
+        this.setUserId(userId);
+
+    }
+
     public Coupon() {
+
         //TODO:还需要根据标准组确定是0还是1
+        this.setCouponSn(PREFIX+ Common.getRandomNum(RANDOM_LEN));
         this.setStatusCode(0);
         this.setStatus(Status.NOT_USED);
+
+        this.setGmtModified(LocalDateTime.now());
     }
 
 

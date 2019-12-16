@@ -7,6 +7,7 @@ import com.xmu.discount.mapper.CouponRuleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -63,6 +64,8 @@ public class CouponDao {
      * @return
      */
     public int addCoupon(Coupon coupon){
+        coupon.setGmtCreate(LocalDateTime.now());
+        coupon.setGmtModified(LocalDateTime.now());
         return couponMapper.addCoupon(coupon);
     };
 
@@ -77,6 +80,7 @@ public class CouponDao {
      */
     public int updateCouponById(Coupon coupon)
     {
+        coupon.setGmtModified(LocalDateTime.now());
         return couponMapper.updateCouponById(coupon);
     };
 

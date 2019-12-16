@@ -12,6 +12,33 @@ import java.util.*;
 
 public class CouponRule {
 
+    /**
+     * 获得优惠券规则的状态
+     * @return
+     */
+    public ActiveStatus getActiveStatus() {
+        if(this.isGoingOn()&&this.getStatusCode()!=3){
+            return ActiveStatus.INPROCESS;
+        }
+        else if(!this.isAlreadyStart()){
+            return ActiveStatus.NOTSTART;
+        }
+
+
+        return activeStatus;
+    }
+
+    /**
+     *创建优惠券
+     * @return
+     */
+    Coupon createCoupon(){
+        if(this.canGet()){
+            Coupon coupon=new Coupon();
+            coupon.setTimes(this);
+
+        }
+    }
 
     /**
      *ordeItems是否可用该优惠券规则
@@ -38,13 +65,21 @@ public class CouponRule {
         return (this.getBeginTime().isBefore(now));
     }
 
+    /**
+     * 优惠券规则是否已经结束
+     * @return
+     */
+    public  boolean isAlreadyEnd(){
+        LocalDateTime now = LocalDateTime.now();
+        return (this.getEndTime().isBefore(now));
+    }
 
     /**
      * 优惠券规则能否被领取（有剩余张数，在活动时间内，不是失效的）
      * @return
      */
     public boolean canGet(){
-        if(this.isLeft()&&this.isGoingOn()&&this.getStatusCode()==1){
+        if(this.isLeft()&&this.isGoingOn()&&this.getStatusCode().equals(ActiveStatus.INPROCESS)){
             return true;
         }
         return false;
@@ -59,7 +94,7 @@ public class CouponRule {
     }
 
     /**
-     * 优惠券规则是否过期
+     * 优惠券规则是否在时间内
      * @return
      */
     public boolean isGoingOn(){
@@ -79,7 +114,7 @@ public class CouponRule {
         for (OrderItem item: items){
             GoodsPo goods = item.getProduct().getGoodsPo();
             logger.debug("goods = "+goods);
-            if (this.isUsedOnGoods(goods.getId())){
+            if (this.isCanUsedOnGoods(goods.getId())){
                 validItems.add(item);
             }
         }
@@ -128,7 +163,7 @@ public class CouponRule {
      * @param goodsId 商品的id
      * @return
      */
-    public boolean isUsedOnGoods(Integer goodsId) {
+    public boolean isCanUsedOnGoods(Integer goodsId) {
 
         Set<Integer> goodsIds = new TreeSet<>();
         goodsIds.clear();
@@ -216,13 +251,6 @@ public class CouponRule {
 
     }
 
-//    public ActiveStatus getActiveStatus() {
-//        //通过属性判断是否失效
-//        if(){
-//
-//        }
-//        else if()
-//    }
 
 
 

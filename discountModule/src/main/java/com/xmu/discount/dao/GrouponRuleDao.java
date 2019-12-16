@@ -8,6 +8,7 @@ import com.xmu.discount.mapper.GrouponRuleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +54,10 @@ public class GrouponRuleDao implements PromotionRuleDao {
      */
     @Override
     public int addPromotionRule(PromotionRule promotionRule) {
-        return grouponRuleMapper.addGrouponRule((GrouponRule)promotionRule);
+        GrouponRule grouponRule=(GrouponRule)promotionRule;
+        grouponRule.setGmtCreate(LocalDateTime.now());
+        grouponRule.setGmtModified(LocalDateTime.now());
+        return grouponRuleMapper.addGrouponRule(grouponRule);
     }
 
     /**
@@ -75,13 +79,17 @@ public class GrouponRuleDao implements PromotionRuleDao {
      */
     @Override
     public boolean updatePromotionRuleById(PromotionRule promotionRule) throws UpdatedDataFailedException {
-        int res=grouponRuleMapper.updateGrouponRuleById((GrouponRule)promotionRule);
+        GrouponRule grouponRule=(GrouponRule)promotionRule;
+        grouponRule.setGmtModified(LocalDateTime.now());
+
+        int res=grouponRuleMapper.updateGrouponRuleById(grouponRule);
         if(res==0){
             throw new UpdatedDataFailedException();
         }
         else{
             return true;
         }
+
     }
 
 
@@ -90,8 +98,8 @@ public class GrouponRuleDao implements PromotionRuleDao {
      * @param id
      */
     @Override
-    public void deletePromotionRuleById(Integer id) {
+    public void deletePromotionRuleById(Integer id) throws UpdatedDataFailedException {
         GrouponRule grouponRule=new GrouponRule(id,true);
-        grouponRuleMapper.updateGrouponRuleById(grouponRule);
+        this.updatePromotionRuleById(grouponRule);
     }
 }

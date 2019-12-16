@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://47.52.88.176:3306/oomall
+    url: jdbc:mysql://127.0.0.1:3306/oomall
     #中央数据库或者命令行
     data-username: ooadUser
     password: ooad

@@ -4,6 +4,8 @@ import com.xmu.discount.dao.CouponDao;
 import com.xmu.discount.domain.coupon.Coupon;
 import com.xmu.discount.domain.coupon.CouponRule;
 import com.xmu.discount.domain.others.domain.CartItem;
+import com.xmu.discount.exception.CouponNotFoundException;
+import com.xmu.discount.exception.UnsupportException;
 import com.xmu.discount.service.CouponService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,17 +42,18 @@ public class CouponServiceImpl {
      * @param coupon
      * @return
      */
-    public Coupon addCoupon(Coupon coupon) {
-        List<Coupon> coupons=couponDao.listCouponByCouponRuleIdAndUserId(coupon.getCouponRuleId(),coupon.getUserId());
-        CouponRule couponRule=coupon.getCouponRule();
+    public Coupon addCoupon(CouponRule couponRule,Integer userId) throws CouponNotFoundException, UnsupportException {
+        List<Coupon> coupons=couponDao.listCouponByCouponRuleIdAndUserId(couponRule.getId(),userId);
+
         if(couponRule==null){
-            //TODO:优惠券规则不存在,报错
+            throw new CouponNotFoundException();
         }
-        coupon.setCouponRule(couponRule);
+        if(!couponRule.canGet()){
+            throw new UnsupportException();
+        }
         //用户还没领取过
         if(coupons.size()>0){
-            //优惠券规则可被领取
-            if (couponRule.canGet()){
+            Coupon coupon=new Coupon(couponRule);
                 couponDao.addCoupon(coupon);
                 return coupon;
             }

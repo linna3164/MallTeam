@@ -45,5 +45,5 @@ public interface PromotionRuleDao {
      * 删除促销活动
      * @param id
      */
-    void deletePromotionRuleById(Integer id);
+    void deletePromotionRuleById(Integer id) throws UpdatedDataFailedException;
 }
