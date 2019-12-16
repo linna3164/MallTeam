@@ -25,14 +25,24 @@ public class CouponRuleServiceImpl extends PromotionServiceImpl {
     @Autowired
     CouponDao couponDao;
 
+    @Autowired
+    CouponServiceImpl couponService;
 
     /**
      * 管理员设置优惠券规则失效后把用户未使用的优惠券设置为失效
      * @param promotionRule
      */
     @Override
-    public void toDoSomthingAfterDisable(PromotionRule promotionRule) {
+    public void toDoSomthingAfterDisable(PromotionRule promotionRule) throws SeriousException {
         //找到该优惠券规则未使用的优惠券
+        List<Coupon> couponList=couponService.listCouponByCouponRuleIdAndStatus((CouponRule) promotionRule,Coupon.Status.NOT_USED);
+
+        for(Coupon coupon:couponList){
+            Coupon cou=new Coupon(coupon.getId());
+            cou.setStatusCode(2);
+            couponDao.updateCouponById(coupon);
+        }
+
     }
 
     /**
