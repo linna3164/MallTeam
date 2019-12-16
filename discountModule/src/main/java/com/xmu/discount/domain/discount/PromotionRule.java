@@ -202,6 +202,9 @@ public abstract class PromotionRule implements Serializable {
          */
         INPROCESS("进行中", 1),
         /**
+         *
+         */
+        /**
          * 已结束
          */
         DONE("已结束", 2),

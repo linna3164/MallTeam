@@ -8,6 +8,7 @@ import com.xmu.discount.domain.others.domain.CartItem;
 import com.xmu.discount.exception.CouponNotFoundException;
 import com.xmu.discount.exception.CouponRuleNotFoundException;
 import com.xmu.discount.exception.UnsupportException;
+import com.xmu.discount.exception.UpdatedDataFailedException;
 import com.xmu.discount.service.CouponService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,7 +48,7 @@ public class CouponServiceImpl {
      * @param couponRule
      * @return
      */
-    public Coupon addCoupon(CouponRule couponRule,Integer userId) throws CouponNotFoundException, UnsupportException, CouponRuleNotFoundException {
+    public Coupon addCoupon(CouponRule couponRule,Integer userId) throws CouponNotFoundException, UnsupportException, CouponRuleNotFoundException, UpdatedDataFailedException {
         List<Coupon> coupons=couponDao.listCouponByCouponRuleIdAndUserId(couponRule.getId(),userId);
 
         //找不到couponRule
@@ -63,7 +64,7 @@ public class CouponServiceImpl {
            }
            else{
                couponDao.addCoupon(coupon);
-               couponRuleDao.updateCouponRuleById(couponRule);
+               couponRuleDao.updatePromotionRuleById(couponRule);
            }
            return coupon;
         }

@@ -6,6 +6,7 @@ import com.xmu.discount.dao.PromotionRuleDao;
 import com.xmu.discount.domain.coupon.Coupon;
 import com.xmu.discount.domain.coupon.CouponRule;
 import com.xmu.discount.domain.discount.PromotionRule;
+import com.xmu.discount.exception.SeriousException;
 import com.xmu.discount.exception.UpdatedDataFailedException;
 import com.xmu.discount.util.SpringContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class CouponRuleServiceImpl extends PromotionServiceImpl {
      * @throws UpdatedDataFailedException
      */
     @Override
-    public PromotionRule addPromotion(PromotionRule promotionRule) throws UpdatedDataFailedException {
+    public PromotionRule addPromotion(PromotionRule promotionRule) throws UpdatedDataFailedException, SeriousException {
         if(promotionRule.isOkToAdd(null)){
             //调用DAO层的add方法。
             String daoName=getDaoClassName(promotionRule);

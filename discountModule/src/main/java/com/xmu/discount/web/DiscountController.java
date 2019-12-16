@@ -283,8 +283,11 @@ public class DiscountController {
     public Object updatePresaleRuleById(@RequestBody PresaleRule presaleRule,@PathVariable Integer id) throws UpdatedDataFailedException {
         presaleRule.setId(id);
         PresaleRule presaleRule1=(PresaleRule) presaleService.updatepromotionRule((PromotionRule) presaleRule);
-        if(presaleRule1==null) return ResponseUtil.badArgument();
-        else return ResponseUtil.ok(presaleRule1);
+        if(presaleRule1==null) {
+            return ResponseUtil.badArgument();
+        } else {
+            return ResponseUtil.ok(presaleRule1);
+        }
     }
 
     /**
