@@ -49,21 +49,7 @@ public class Coupon {
     }
 
 
-    /**
-     * 生成beginTime和endTime
-     */
-    public void setTimes(CouponRule couponRule){
-        CouponRule.TimeStatus timeStatus=this.getCouponRule().getTimeStatus();
-        if(timeStatus.equals(CouponRule.TimeStatus.LIMIT)){
-            this.setBeginTime(this.getCouponRule().getBeginTime());
-            this.setEndTime(this.getCouponRule().getEndTime());
-        }
-        else if(timeStatus.equals(CouponRule.TimeStatus.PERIOD)){
-            LocalDateTime now = LocalDateTime.now();
-            this.setBeginTime(now);
-            this.setEndTime(now.plusDays(this.getCouponRule().getValidPeriod()));
-        }
-    }
+
 
     /**
      * 判断某个优惠卷是否能用
@@ -95,12 +81,12 @@ public class Coupon {
      */
     public Coupon(CouponRule couponRule,Integer userId){
         this();
-        //设置现用开始时间和结束时间
-        this.setTimes(couponRule);
         this.setCouponRule(couponRule);
         this.setName(couponRule.getName());
         this.setPicUrl(couponRule.getPicUrl());
         this.setUserId(userId);
+        this.setBeginTime(LocalDateTime.now());
+        this.setEndTime(couponRule.getCouponEndTimes());
 
     }
 

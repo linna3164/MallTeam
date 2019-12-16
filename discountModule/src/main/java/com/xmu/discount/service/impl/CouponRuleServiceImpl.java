@@ -5,6 +5,7 @@ import com.xmu.discount.dao.CouponRuleDao;
 import com.xmu.discount.domain.coupon.Coupon;
 import com.xmu.discount.domain.coupon.CouponRule;
 import com.xmu.discount.domain.discount.PromotionRule;
+import com.xmu.discount.exception.UpdatedDataFailedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class CouponRuleServiceImpl {
+public class CouponRuleServiceImpl extends PromotionServiceImpl {
+
+
 
 
     @Autowired
@@ -20,6 +23,18 @@ public class CouponRuleServiceImpl {
 
     @Autowired
     CouponDao couponDao;
+
+
+    /**
+     * 添加优惠券规则
+     * @param promotionRule
+     * @return
+     * @throws UpdatedDataFailedException
+     */
+    @Override
+    public PromotionRule addPromotion(PromotionRule promotionRule) throws UpdatedDataFailedException {
+        return super.addPromotion(promotionRule);
+    }
 
     /**
      * 优惠券活动实效后的行为
@@ -71,10 +86,9 @@ public class CouponRuleServiceImpl {
      * @return
      */
     public CouponRule addCouponRule(CouponRule couponRule) {
-        couponRule.setGmtCreate(LocalDateTime.now());
-        couponRule.setBeDeleted(false);
-        couponRule.setGmtModified(LocalDateTime.now());
-        couponRuleDao.addCouponRule(couponRule);
+//        couponRule.setGmtCreate(LocalDateTime.now());
+//        couponRule.setBeDeleted(false);
+//        couponRule.setGmtModified(LocalDateTime.now());
         return couponRule;
     }
 

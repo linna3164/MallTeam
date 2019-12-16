@@ -1,44 +1,87 @@
 package com.xmu.discount.domain.coupon;
 
+import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.domain.others.domain.GoodsPo;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.others.domain.OrderItem;
+import com.xmu.discount.exception.UnsupportException;
 import com.xmu.discount.util.JacksonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class CouponRule {
+public class CouponRule extends PromotionRule {
+
+    @Override
+    public boolean isDisabled() {
+        //TODO:根据标准组
+        return false;
+    }
+
+    @Override
+    public Order getPayment(Order order) throws UnsupportException {
+        logger.debug("cacuCouponPrice参数: Order = "+ order + "couponSn = "+order.getCouponId());
+
+        List<OrderItem> validItems = this.getValidItems(order.getOrderItemList());
+
+        if (validItems.size() != 0) {
+            List<OrderItem> newItems = this.getStrategy().cacuDiscount(validItems, "oo");
+            order.getOrderItemList().addAll(newItems);
+        }
+        order.setPaymentList(null);
+        logger.debug("cacuCouponPrice返回");
+        return order;
+    }
+
+    @Override
+    public LocalDateTime getpromotionRuleStartTime() {
+        return this.getBeginTime();
+    }
+
+    @Override
+    public LocalDateTime getPromotionEndTime() {
+        return this.getEndTime();
+    }
+
+    @Override
+    public Integer getPromotionGoodsId() {
+        return null;
+    }
+
+
 
     /**
-     * 获得优惠券规则的状态
+     *创建优惠券（）
      * @return
      */
-    public ActiveStatus getActiveStatus() {
-        if(this.isGoingOn()&&this.getStatusCode()!=3){
-            return ActiveStatus.INPROCESS;
-        }
-        else if(!this.isAlreadyStart()){
-            return ActiveStatus.NOTSTART;
-        }
+    public Coupon createCoupon(Integer userId){
+        if(this.canGet()){
+            Coupon coupon=new Coupon(this,userId);
 
-
-        return activeStatus;
+            //已领取张数加一
+            this.setCollectedNum(getCollectedNum()+1);
+            return coupon;
+        }
+        return null;
     }
 
     /**
-     *创建优惠券
-     * @return
+     * 获取用户领取优惠券的结束时间
      */
-//    Coupon createCoupon(){
-//        if(this.canGet()){
-//            Coupon coupon=new Coupon();
-//            coupon.setTimes(this);
-//
-//        }
-//    }
+    public LocalDateTime getCouponEndTimes(){
+        CouponRule.TimeStatus timeStatus=this.getTimeStatus();
+        if(timeStatus.equals(CouponRule.TimeStatus.LIMIT)){
+            return this.getEndTime();
+        }
+        else if(timeStatus.equals(CouponRule.TimeStatus.PERIOD)){
+            LocalDateTime now = LocalDateTime.now();
+            return now.plusDays(this.getValidPeriod());
+        }
+        return null;
+    }
 
     /**
      *ordeItems是否可用该优惠券规则
@@ -56,30 +99,30 @@ public class CouponRule {
         return false;
     }
 
-        /**
-         * 优惠券规则是否已开始
-         * @return
-         */
-    public  boolean isAlreadyStart(){
-        LocalDateTime now = LocalDateTime.now();
-        return (this.getBeginTime().isBefore(now));
-    }
+//        /**
+//         * 优惠券规则是否已开始
+//         * @return
+//         */
+//    public  boolean isAlreadyStart(){
+//        LocalDateTime now = LocalDateTime.now();
+//        return (this.getBeginTime().isBefore(now));
+//    }
+//
+//    /**
+//     * 优惠券规则是否已经结束
+//     * @return
+//     */
+//    public  boolean isAlreadyEnd(){
+//        LocalDateTime now = LocalDateTime.now();
+//        return (this.getEndTime().isBefore(now));
+//    }
 
     /**
-     * 优惠券规则是否已经结束
-     * @return
-     */
-    public  boolean isAlreadyEnd(){
-        LocalDateTime now = LocalDateTime.now();
-        return (this.getEndTime().isBefore(now));
-    }
-
-    /**
-     * 优惠券规则能否被领取（有剩余张数，在活动时间内，不是失效的）
+     * 优惠券规则能否被领取（有剩余张数，且状态是inprocess）
      * @return
      */
     public boolean canGet(){
-        if(this.isLeft()&&this.isGoingOn()&&this.getStatusCode().equals(ActiveStatus.INPROCESS)){
+        if(this.isLeft()&&this.getActiveStatus().equals(ActiveStatus.INPROCESS)){
             return true;
         }
         return false;
@@ -93,15 +136,15 @@ public class CouponRule {
         return this.getCollectedNum()<this.getTotal();
     }
 
-    /**
-     * 优惠券规则是否在时间内
-     * @return
-     */
-    public boolean isGoingOn(){
-        LocalDateTime now = LocalDateTime.now();
-        return this.getBeginTime().isBefore(now)&&
-                this.getEndTime().isAfter(now);
-    }
+//    /**
+//     * 优惠券规则是否在时间内
+//     * @return
+//     */
+//    public boolean isInTime(){
+//        LocalDateTime now = LocalDateTime.now();
+//        return this.getBeginTime().isBefore(now)&&
+//                this.getEndTime().isAfter(now);
+//    }
 
     /**
      * 获得能用于此优惠卷规则的明细  ok
@@ -297,8 +340,6 @@ public class CouponRule {
             this.name = name;
         }
 
-
-
         /**
          * 获得值
          * @return 值
@@ -326,73 +367,6 @@ public class CouponRule {
      */
     private ActiveStatus activeStatus;
 
-    /**
-     * 优惠卷的活动状态
-     */
-    public enum ActiveStatus {
-        /**
-         * 未开始
-         */
-        NOTSTART("未开始", 0),
-        /**
-         * 进行中
-         */
-        INPROCESS("进行中", 1),
-        /**
-         * 已结束
-         */
-        DONE("已结束", 2),
-        /**
-         * 失效
-         */
-        DISABLED("失效", 3);
-
-        /**
-         * 值
-         */
-        private final Integer value;
-
-        /**
-         * 名称
-         */
-        private final String name;
-
-        /**
-         * 构造函数
-         *
-         * @param name  名称
-         * @param value 值
-         */
-        ActiveStatus(String name, Integer value) {
-            this.value = value;
-            this.name = name;
-        }
-
-        /**
-         * 获得值
-         *
-         * @return 值
-         */
-        public Integer getValue() {
-            return this.value;
-        }
-
-        /**
-         * 获得名称
-         *
-         * @return 名
-         */
-        public String getName() {
-            return this.name;
-        }
-
-        @Override
-        public String toString() {
-            return name;
-        }
-
-    }
-
 
     public CouponRule() {
 
@@ -408,9 +382,6 @@ public class CouponRule {
      ****************************************************/
 
 
-    public void setActiveStatus(ActiveStatus activeStatus) {
-        this.activeStatus = activeStatus;
-    }
 
     public void setTimeStatus(TimeStatus timeStatus) {
         this.timeStatus = timeStatus;
@@ -430,13 +401,13 @@ public class CouponRule {
 
     public CouponRule(CouponRulePo realObj) {
         this.realObj = realObj;
-
     }
 
 //    public boolean canEqual(Object other) {
 //        return realObj.canEqual(other);
 //    }
 
+    @Override
     public Integer getId() {
         return realObj.getId();
     }

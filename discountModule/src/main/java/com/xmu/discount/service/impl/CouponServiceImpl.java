@@ -1,10 +1,12 @@
 package com.xmu.discount.service.impl;
 
 import com.xmu.discount.dao.CouponDao;
+import com.xmu.discount.dao.CouponRuleDao;
 import com.xmu.discount.domain.coupon.Coupon;
 import com.xmu.discount.domain.coupon.CouponRule;
 import com.xmu.discount.domain.others.domain.CartItem;
 import com.xmu.discount.exception.CouponNotFoundException;
+import com.xmu.discount.exception.CouponRuleNotFoundException;
 import com.xmu.discount.exception.UnsupportException;
 import com.xmu.discount.service.CouponService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class CouponServiceImpl {
     @Autowired
     private CouponDao couponDao;
 
+    @Autowired
+    private CouponRuleDao couponRuleDao;
+
     public Coupon findCouponById(Integer id) {
 
         return couponDao.getCouponById(id);
@@ -39,27 +44,34 @@ public class CouponServiceImpl {
 
     /**
      * 用户领取优惠券
-     * @param coupon
+     * @param couponRule
      * @return
      */
-//    public Coupon addCoupon(CouponRule couponRule,Integer userId) throws CouponNotFoundException, UnsupportException {
-//        List<Coupon> coupons=couponDao.listCouponByCouponRuleIdAndUserId(couponRule.getId(),userId);
-//
-//        if(couponRule==null){
-//            throw new CouponNotFoundException();
-//        }
-//        if(!couponRule.canGet()){
-//            throw new UnsupportException();
-//        }
-//        //用户还没领取过
-//        if(coupons.size()>0){
-//            Coupon coupon=new Coupon(couponRule);
-//                couponDao.addCoupon(coupon);
-//                return coupon;
-//            }
-//        }
-//        return null;
-//    }
+    public Coupon addCoupon(CouponRule couponRule,Integer userId) throws CouponNotFoundException, UnsupportException, CouponRuleNotFoundException {
+        List<Coupon> coupons=couponDao.listCouponByCouponRuleIdAndUserId(couponRule.getId(),userId);
+
+        //找不到couponRule
+        if(couponRule==null){
+            throw new CouponRuleNotFoundException();
+        }
+        //用户还没领取过
+        if(coupons.size()>0){
+           Coupon coupon=couponRule.createCoupon(userId);
+            //不能领取
+           if(coupon==null){
+               throw new UnsupportException();
+           }
+           else{
+               couponDao.addCoupon(coupon);
+               couponRuleDao.updateCouponRuleById(couponRule);
+           }
+           return coupon;
+        }
+        //用户领取过了
+        else{
+            throw new UnsupportException();
+        }
+    }
 
 
     /**
