@@ -3,6 +3,7 @@
 <mapper namespace="com.xmu.discount.mapper.CouponRuleMapper">
     <resultMap id="couponRule" type="couponRulePo" autoMapping="true">
         <result property="beDeleted" column="is_deleted"/>
+        <result property="name" column="name"/>
     </resultMap>
 
 
@@ -22,7 +23,7 @@
                gmt_modified,
                is_deleted
 
-        from coupon_rule where id = #{id}
+        from oomall_coupon_rule where id = #{id}
     </select>
 
     <select id="listCouponRules" resultMap="couponRule">
@@ -41,17 +42,17 @@
                gmt_modified,
                is_deleted
 
-        from coupon_rule where id!=0
+        from oomall_coupon_rule where id!=0
     </select>
 
     <insert id="addCouponRule" parameterType="couponRulePo" useGeneratedKeys="true" keyProperty="id">
-        insert into coupon_rule(id, name, brief, begin_time, end_time, pic_url, valid_period, strategy, total, goods_list1, goods_list2, gmt_create, gmt_modified, is_deleted)
+        insert into oomall_coupon_rule(id, name, brief, begin_time, end_time, pic_url, valid_period, strategy, total, goods_list1, goods_list2, gmt_create, gmt_modified, is_deleted)
         values
         (#{id}, #{name}, #{brief}, #{beginTime}, #{endTime}, #{picUrl}, #{validPeriod}, #{strategy}, #{total}, #{goodList1}, #{goodList2}, #{gmtCreate}, #{gmtModified}, #{beDeleted})
     </insert>
 
     <update id="updateCouponRuleById" parameterType="couponRulePo">
-        update coupon_rule
+        update oomall_coupon_rule
         <trim prefix="set" suffixOverrides=",">
             <if test="name!=null">name=#{name},</if>
             <if test="brief!=null">brief=#{brief},</if>

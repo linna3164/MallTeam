@@ -1,6 +1,7 @@
 package com.xmu.discount.dao;
 
 import com.xmu.discount.domain.coupon.CouponRule;
+import com.xmu.discount.domain.coupon.CouponRulePo;
 import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.mapper.CouponRuleMapper;
 import com.xmu.discount.util.JacksonUtil;
@@ -24,7 +25,8 @@ public class CouponRuleDao  {
      */
 
     public  CouponRule getCouponRuleById(Integer id){
-        CouponRule couponRule=couponRuleMapper.getCouponRuleById(id);
+        CouponRulePo couponRulePo=couponRuleMapper.getCouponRuleById(id);
+        CouponRule couponRule=new CouponRule(couponRulePo);
         return couponRule;
     }
 
@@ -34,7 +36,13 @@ public class CouponRuleDao  {
      * @return
      */
     public List<CouponRule> listCouponRule() {
-       return couponRuleMapper.listCouponRules();
+       List<CouponRulePo> couponRulePos=couponRuleMapper.listCouponRules();
+       List<CouponRule> couponRules=new ArrayList<CouponRule>();
+       for(int i=0;i<couponRulePos.size();i++)
+       {
+           couponRules.get(i).setRealObj(couponRulePos.get(i));
+       }
+           return couponRules;
     }
 
     /**
@@ -42,10 +50,11 @@ public class CouponRuleDao  {
      * @param couponRule
      * @return
      */
-    public int addCouponRule(CouponRule couponRule) {
+    public int addCouponRule(CouponRule  couponRule) {
+        CouponRulePo couponRulePo=couponRule.getRealObj();
         couponRule.setGmtCreate(LocalDateTime.now());
         couponRule.setGmtModified(LocalDateTime.now());
-        return couponRuleMapper.addCouponRule(couponRule);
+        return couponRuleMapper.addCouponRule(couponRulePo);
     }
 
 //    /**
@@ -71,8 +80,9 @@ public class CouponRuleDao  {
      * @return
      */
     public int updateCouponRuleById(CouponRule couponRule) {
-        couponRule.setGmtModified(LocalDateTime.now());
-        return couponRuleMapper.updateCouponRuleById(couponRule);
+        CouponRulePo couponRulePo=couponRule.getRealObj();
+        couponRulePo.setGmtModified(LocalDateTime.now());
+        return couponRuleMapper.updateCouponRuleById(couponRulePo);
     }
 
     /**
@@ -80,7 +90,7 @@ public class CouponRuleDao  {
      * @param id
      */
     public void deletePromotionRuleById(Integer id) {
-        CouponRule couponRule=new CouponRule(id,true);
+        CouponRulePo couponRule=new CouponRulePo(id,true);
         couponRule.setGmtModified(LocalDateTime.now());
         couponRuleMapper.updateCouponRuleById(couponRule);
     }

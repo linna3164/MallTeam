@@ -32,13 +32,13 @@ public class CouponRule {
      *创建优惠券
      * @return
      */
-    Coupon createCoupon(){
-        if(this.canGet()){
-            Coupon coupon=new Coupon();
-            coupon.setTimes(this);
-
-        }
-    }
+//    Coupon createCoupon(){
+//        if(this.canGet()){
+//            Coupon coupon=new Coupon();
+//            coupon.setTimes(this);
+//
+//        }
+//    }
 
     /**
      *ordeItems是否可用该优惠券规则

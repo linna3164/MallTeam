@@ -42,24 +42,24 @@ public class CouponServiceImpl {
      * @param coupon
      * @return
      */
-    public Coupon addCoupon(CouponRule couponRule,Integer userId) throws CouponNotFoundException, UnsupportException {
-        List<Coupon> coupons=couponDao.listCouponByCouponRuleIdAndUserId(couponRule.getId(),userId);
-
-        if(couponRule==null){
-            throw new CouponNotFoundException();
-        }
-        if(!couponRule.canGet()){
-            throw new UnsupportException();
-        }
-        //用户还没领取过
-        if(coupons.size()>0){
-            Coupon coupon=new Coupon(couponRule);
-                couponDao.addCoupon(coupon);
-                return coupon;
-            }
-        }
-        return null;
-    }
+//    public Coupon addCoupon(CouponRule couponRule,Integer userId) throws CouponNotFoundException, UnsupportException {
+//        List<Coupon> coupons=couponDao.listCouponByCouponRuleIdAndUserId(couponRule.getId(),userId);
+//
+//        if(couponRule==null){
+//            throw new CouponNotFoundException();
+//        }
+//        if(!couponRule.canGet()){
+//            throw new UnsupportException();
+//        }
+//        //用户还没领取过
+//        if(coupons.size()>0){
+//            Coupon coupon=new Coupon(couponRule);
+//                couponDao.addCoupon(coupon);
+//                return coupon;
+//            }
+//        }
+//        return null;
+//    }
 
 
     /**

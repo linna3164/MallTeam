@@ -8,7 +8,9 @@ import com.xmu.discount.domain.discount.GrouponRulePo;
 import com.xmu.discount.domain.discount.PresaleRule;
 import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.domain.others.domain.CartItem;
+import com.xmu.discount.exception.CouponNotFoundException;
 import com.xmu.discount.exception.PromotionNotFoundException;
+import com.xmu.discount.exception.UnsupportException;
 import com.xmu.discount.exception.UpdatedDataFailedException;
 import com.xmu.discount.service.CouponService;
 import com.xmu.discount.service.impl.*;
@@ -128,18 +130,18 @@ public class DiscountController {
 
     /**
      * 管理员添加优惠券
-     * @param coupon
+     * @param couponRule
      * @return
      */
-    @PostMapping("/coupons")
-    public Object addCoupon(@RequestBody Coupon coupon){
-        Coupon coupon1=couponService.addCoupon(coupon);
-        if(coupon1==null) {
-            return ResponseUtil.badArgumentValue();
-        }else {
-            return ResponseUtil.ok(coupon1);
-        }
-    }
+//    @PostMapping("/coupons")
+//    public Object addCoupon(@RequestBody CouponRule couponRule) throws CouponNotFoundException, UnsupportException {
+//        Coupon coupon1=couponService.addCoupon(couponRule,1);
+//        if(coupon1==null) {
+//            return ResponseUtil.badArgumentValue();
+//        }else {
+//            return ResponseUtil.ok(coupon1);
+//        }
+//    }
 
     /**
      * 查看订单可用优惠券
@@ -237,12 +239,12 @@ public class DiscountController {
      * @param limit
      * @return
      */
-    @GetMapping("/presaleRules")
-    public List<PresaleRule> getAllPresaleRules(@RequestParam(defaultValue = "1") Integer page,
-                                                @RequestParam(defaultValue = "10") Integer limit){
-        return presaleService.listCurrentPromotionByGoodsId();
-
-    }
+//    @GetMapping("/presaleRules")
+//    public List<PresaleRule> getAllPresaleRules(@RequestParam(defaultValue = "1") Integer page,
+//                                                @RequestParam(defaultValue = "10") Integer limit){
+//        return presaleService.listCurrentPromotionByGoodsId();
+//
+//    }
 
     /**
      * 管理员查看预售商品列表
@@ -250,12 +252,12 @@ public class DiscountController {
      * @param limit
      * @return
      */
-    @GetMapping("admin/presaleRules")
-    public List<PresaleRule> getAllPresaleRules(@RequestParam(defaultValue = "1") Integer page,
-                                                @RequestParam(defaultValue = "10") Integer limit){
-        return presaleService.listAllPresaleRules();
-
-    }
+//    @GetMapping("admin/presaleRules")
+//    public List<PresaleRule> getAllPresaleRules(@RequestParam(defaultValue = "1") Integer page,
+//                                                @RequestParam(defaultValue = "10") Integer limit){
+//        return presaleService.listAllPresaleRules();
+//
+//    }
 
     /**
      * 管理员发布预售信息
@@ -305,7 +307,7 @@ public class DiscountController {
      * @throws PromotionNotFoundException
      */
     @DeleteMapping("presaleRules/{id}")
-    public Object deletePresaleRuleById(@PathVariable Integer id) throws PromotionNotFoundException {
+    public Object deletePresaleRuleById(@PathVariable Integer id) throws PromotionNotFoundException, UpdatedDataFailedException {
         PresaleRule presaleRule=(PresaleRule)presaleService.getPromotionById(id,"ssss"); //为什么会有name这个参数
       if(presaleRule!=null) {
           presaleService.deletePromotionById(presaleRule);
@@ -315,18 +317,20 @@ public class DiscountController {
       else return ResponseUtil.badArgumentValue();
     }
 
-    /**
-     * 用户查看预售商品列表，只能查看上架的
-     * @param page
-     * @param limit
-     * @return
-     */
-    @GetMapping("/presaleRules")
-    public List<PresaleRule> getOnsalePresaleRules(@RequestParam(defaultValue = "1") Integer page,
-                                                @RequestParam(defaultValue = "10") Integer limit){
-        return presaleService.listOnsalePresaleRules();
-
-    }
+//    /**
+//     * 用户查看预售商品列表，只能查看上架的
+//     * @param page
+//     * @param limit
+//     * @return
+//     */
+//    @GetMapping("/presaleRules")
+//    public List<PresaleRule> getOnsalePresaleRules(@RequestParam(defaultValue = "1") Integer page,
+//                                                @RequestParam(defaultValue = "10") Integer limit){
+//  //
+//              return presaleService.listOnsalePresaleRules();
+//
+//
+//    }
 
 
 }

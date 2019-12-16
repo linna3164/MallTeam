@@ -1,6 +1,10 @@
 package com.xmu.discount;
 
+import com.xmu.discount.dao.CouponDao;
+import com.xmu.discount.dao.CouponRuleDao;
 import com.xmu.discount.domain.coupon.Coupon;
+import com.xmu.discount.domain.coupon.CouponRule;
+import com.xmu.discount.domain.coupon.CouponRulePo;
 import com.xmu.discount.service.impl.CouponRuleServiceImpl;
 import com.xmu.discount.service.impl.CouponServiceImpl;
 import com.xmu.discount.service.impl.PromotionServiceImpl;
@@ -14,29 +18,37 @@ import java.util.List;
 @SpringBootTest
 class DiscountApplicationTests {
 
-    @Autowired
-    @Qualifier("promotionServiceImpl")
-    private PromotionServiceImpl discountService;
+//    @Autowired
+//    @Qualifier("promotionServiceImpl")
+//    private PromotionServiceImpl discountService;
+//
+//    @Autowired
+//    private CouponServiceImpl couponService;
+//
+//    @Autowired
+//    private CouponRuleServiceImpl couponRuleService;
+//
+//    @Autowired
+//    @Qualifier("grouponServiceImpl")
+//    private PromotionServiceImpl grouponService;
+//
+//    @Autowired
+//    @Qualifier("presaleServiceImpl")
+//    private PromotionServiceImpl presaleService;
+
 
     @Autowired
-    private CouponServiceImpl couponService;
+    private CouponDao couponDao;
 
     @Autowired
-    private CouponRuleServiceImpl couponRuleService;
-
-    @Autowired
-    @Qualifier("grouponServiceImpl")
-    private PromotionServiceImpl grouponService;
-
-    @Autowired
-    @Qualifier("presaleServiceImpl")
-    private PromotionServiceImpl presaleService;
-
+    private CouponRuleDao couponRuleDao;
     @Test
     void contextLoads() {
-        List<Coupon> coupons=couponService.getCoupons();
+        List<Coupon> coupons=couponDao.listCoupons();
         for(Coupon c:coupons) System.out.println(c);
 
+        List<CouponRule> couponRules=couponRuleDao.listCouponRule();
+        for(CouponRule c:couponRules) System.out.println(c);
     }
 
 }
