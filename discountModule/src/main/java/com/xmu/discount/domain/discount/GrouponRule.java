@@ -90,6 +90,11 @@ public class GrouponRule extends PromotionRule {
         this.setId(id);
     }
 
+    public GrouponRule(Integer id,boolean deleted){
+        this.setId(id);
+        this.setBeDeleted(deleted);
+    }
+
 
     /**
      * 提交订单时
