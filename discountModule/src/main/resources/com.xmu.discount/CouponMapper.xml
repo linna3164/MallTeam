@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xmu.discount.mapper.CouponMapper">
-    <resultMap id="coupon" type="com.xmu.discount.domain.coupon.Coupon" autoMapping="true">
+    <resultMap id="couponMap" type="com.xmu.discount.domain.coupon.Coupon">
         <result property="beDeleted" column="is_deleted"/>
+        <result property="statusCode" column="status"/>
     </resultMap>
 
-    <select id="listCouponByCouponRuleId" parameterType="Integer" resultMap="coupon">
+    <select id="listCouponByCouponRuleId" parameterType="Integer" resultMap="couponMap">
         select id,
                user_id,
                coupon_rule_id,
@@ -19,27 +20,27 @@
                gmt_modified,
                is_deleted,
                status
-        from coupon where coupon_rule_id = #{couponRuleId} and is_deleted=0
+        from oomall_coupon where coupon_rule_id = #{couponRuleId} and is_deleted=0
     </select>
 
-    <select id="getCouponById" parameterType="Integer" resultMap="coupon">
-        select id,
-               user_id,
-               coupon_rule_id,
-               coupon_sn,
-               begin_time,
-               end_time,
-               used_time,
-               name,
-               pic_url,
-               gmt_create,
-               gmt_modified,
-               is_deleted,
-               status
-        from coupon where is_deleted=0
+    <select id="getCouponById" parameterType="Integer" resultMap="couponMap">
+       select id,
+             user_id,
+             coupon_rule_id,
+            coupon_sn,
+            begin_time,
+            end_time,
+            used_time,
+            name,
+            pic_url,
+            gmt_create,
+            gmt_modified,
+            is_deleted,
+            status
+            from oomall_coupon where is_deleted=0 and id=#{id}
     </select>
 
-    <select id="listCoupons" resultMap="coupon">
+    <select id="listCoupons" resultMap="couponMap">
          select id,
              user_id,
              coupon_rule_id,
@@ -53,18 +54,18 @@
             gmt_modified,
             is_deleted,
             status
-            from coupon where is_deleted=0
+            from oomall_coupon where is_deleted=0
     </select>
 
 
     <insert id="addCoupon" parameterType="com.xmu.discount.domain.coupon.Coupon" useGeneratedKeys="true" keyProperty="id">
-        insert into coupon(id, user_id, coupon_rule_id, coupon_sn, begin_time, end_time, used_time, name, pic_url, gmt_create, gmt_modified, is_deleted, status)
+        insert into oomall_coupon(id, user_id, coupon_rule_id, coupon_sn, begin_time, end_time, used_time, name, pic_url, gmt_create, gmt_modified, is_deleted, status)
         values
         (#{id}, #{userId}, #{couponRuleId}, #{couponSn}, #{beginTime}, #{endTime}, #{usedTime}, #{name}, #{picUrl}, #{gmtCreate}, #{gmtModified}, #{beDeleted}, #{status})
     </insert>
 
     <update id="updateCouponById" parameterType="com.xmu.discount.domain.coupon.Coupon">
-        update coupon
+        update oomall_coupon
         <trim prefix="set" suffixOverrides=",">
             <if test="userId!=null">user_id=#{userId},</if>
             <if test="couponRuleId!=null">coupon_rule_id=#{couponRuleId},</if>
@@ -82,7 +83,7 @@
         where id=#{id}
     </update>
 
-    <select id="listCouponByCouponRuleIdAndUserId" parameterType="integer" resultMap="coupon">
+    <select id="listCouponByCouponRuleIdAndUserId" parameterType="integer" resultMap="couponMap">
                select id,
                user_id,
                coupon_rule_id,
@@ -96,10 +97,10 @@
                gmt_modified,
                is_deleted,
                status
-        from coupon where coupon_rule_id = #{couponRuleId} and user_id=#{userId} and is_deleted=0
+        from oomall_coupon where coupon_rule_id = #{couponRuleId} and user_id=#{userId} and is_deleted=0
     </select>
 
-    <select id="listCouponOfUser" parameterType="integer" resultMap="coupon">
+    <select id="listCouponOfUser" parameterType="integer" resultMap="couponMap">
             select id,
                user_id,
                coupon_rule_id,
@@ -113,6 +114,6 @@
                gmt_modified,
                is_deleted,
                status
-        from coupon where user_id = #{user_id} and is_deleted=0
+        from oomall_coupon where user_id = #{user_id} and is_deleted=0
     </select>
 </mapper>

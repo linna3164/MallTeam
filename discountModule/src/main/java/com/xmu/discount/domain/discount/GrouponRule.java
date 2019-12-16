@@ -33,6 +33,10 @@ public class GrouponRule extends PromotionRule {
 
     private List<Strategy> strategyList;
 
+    public GrouponRule() {
+
+    }
+
     /**
      * 计算折扣(给定时操作做)
      * @param orders
@@ -74,7 +78,7 @@ public class GrouponRule extends PromotionRule {
                 Payment payment=new Payment();
                 //正数转负数
                 payment.setActualPrice(refundPrice.negate());
-                payment.setOrderId(order.getId());
+             //   payment.setOrderId(order.getId());
             }
         }
         return payments;
@@ -324,5 +328,13 @@ public class GrouponRule extends PromotionRule {
 
     public Integer getGoodsId() {
         return realObj.getGoodsId();
+    }
+
+    @Override
+    public String toString() {
+        return "GrouponRule{" +
+                "realObj=" + realObj +
+                ", strategyList=" + strategyList +
+                '}';
     }
 }

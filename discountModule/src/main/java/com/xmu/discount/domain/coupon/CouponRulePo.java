@@ -81,6 +81,11 @@ public class CouponRulePo {
     private LocalDateTime gmtModified;
     private Boolean beDeleted;
 
+    public CouponRulePo(Integer id, boolean b) {
+        this.id=id;
+        this.beDeleted=b;
+    }
+
 
     public Integer getId() {
         return id;

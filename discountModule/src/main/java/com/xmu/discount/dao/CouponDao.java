@@ -2,6 +2,7 @@ package com.xmu.discount.dao;
 
 import com.xmu.discount.domain.coupon.Coupon;
 import com.xmu.discount.domain.coupon.CouponRule;
+import com.xmu.discount.domain.coupon.CouponRulePo;
 import com.xmu.discount.mapper.CouponMapper;
 import com.xmu.discount.mapper.CouponRuleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,8 @@ public class CouponDao {
      */
     public Coupon getCouponById(Integer id){
       Coupon coupon=couponMapper.getCouponById(id);
-      CouponRule couponRule=couponRuleMapper.getCouponRuleById(coupon.getCouponRuleId());
+      CouponRulePo couponRulePo=couponRuleMapper.getCouponRuleById(coupon.getCouponRuleId());
+        CouponRule couponRule=new CouponRule(couponRulePo);
       coupon.setCouponRule(couponRule);
       return coupon;
     };

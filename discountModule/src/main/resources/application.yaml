@@ -5,10 +5,10 @@ management:
 
 mybatis:
   #domain对象的包
-  type-aliases-package: com.xmu.discount.domain.coupon,com.xmu.discount.domain.disount
+  type-aliases-package: com.xmu.discount.domain.coupon,com.xmu.discount.domain.discount
 
   #mapper。xml所在的位置
-  mapper-locations: classpath:com.xmu.discount.mapper/*.xml
+  mapper-locations: classpath:com.xmu.discount/*.xml
   configuration:
     #延迟加载true
     lazy-loading-enabled: true

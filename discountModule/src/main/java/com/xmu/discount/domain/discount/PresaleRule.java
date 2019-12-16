@@ -303,4 +303,6 @@ public class PresaleRule extends PromotionRule {
     public void setBeDeleted(Boolean beDeleted) {
         this.beDeleted = beDeleted;
     }
+
+
 }

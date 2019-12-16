@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xmu.discount.mapper.GrouponRuleMapper">
-    <resultMap id="grouponRule" type="grouponRulePo" autoMapping="true">
+    <resultMap id="grouponRuleMap" type="grouponRulePo" autoMapping="true">
         <result property="beDeleted" column="is_deleted"/>
+        <result property="statusCode" column="status"/>
     </resultMap>
 
-    <select id="getGrouponRuleById" parameterType="Integer" resultMap="grouponRule">
+    <select id="getGrouponRuleById" parameterType="Integer" resultMap="grouponRuleMap">
         select id,
                start_time,
                end_time,
@@ -16,22 +19,22 @@
                gmt_modified,
                is_deleted
 
-        from groupon_rule where id = #{id}
+        from oomall_groupon_rule where id = #{id}
     </select>
 
     <insert id="addGrouponRule" parameterType="grouponRulePo" useGeneratedKeys="true" keyProperty="id">
-        insert into groupon_rule(id,start_time,end_time,status,groupon_level_strategy,goods_id,gmt_create,gmt_modified,is_deleted)
+        insert into oomall_groupon_rule(id,start_time,end_time,status,groupon_level_strategy,goods_id,gmt_create,gmt_modified,is_deleted)
         values
         (#{id}, #{startTime}, #{endTime}, #{statusCode}, #{grouponLevelStrategy}, #{goodsId}, #{gmtCreate}, #{gmtModified}, #{beDeleted})
     </insert>
 
     <update id="updateGrouponRuleById" parameterType="grouponRulePo">
-        update groupon_rule
+        update oomall_groupon_rule
         <trim prefix="set" suffixOverrides=",">
             <if test="startTime!=null">start_time=#{startTime},</if>
             <if test="endTime!=null">end_time=#{endTime},</if>
             <if test="statusCode!=null">status=#{statusCode},</if>
-            <if test="grouponLevelStrategy!=null">groupon_level_strategy=#{grouponLevelStrategy},</if>
+            <if test=" grouponLevelStragety!=null">groupon_level_strategy=#{grouponLevelStragety},</if>
             <if test="goodsId!=null">goods_id=#{goodsId},</if>
             <if test="gmtCreate!=null">gmt_create=#{gmtCreate},</if>
             <if test="gmtModified!=null">gmt_modified=#{gmtModified},</if>
@@ -40,7 +43,7 @@
         WHERE id=#{id}
     </update>
 
-    <select id="listGrouponRuleByGoodsId" parameterType="Integer" resultMap="grouponRule">
+    <select id="listGrouponRuleByGoodsId" parameterType="Integer" resultMap="grouponRuleMap">
         select id,
                start_time,
                end_time,
@@ -50,10 +53,10 @@
                gmt_create,
                gmt_modified,
                is_deleted
-        from groupon_rule where goods_id = #{goodsId}
+        from oomall_groupon_rule where goods_id = #{goodsId}
     </select>
 
-    <select id="getGrouponRules" resultMap="grouponRule">
+    <select id="getGrouponRules" resultMap="grouponRuleMap">
         select id,
                start_time,
                end_time,
@@ -63,7 +66,7 @@
                gmt_create,
                gmt_modified,
                is_deleted
-        from groupon_rule where id!=0
+        from oomall_groupon_rule where id!=0
     </select>
 
 </mapper>

@@ -1,6 +1,16 @@
 package com.xmu.discount;
 
+import com.xmu.discount.dao.CouponDao;
+import com.xmu.discount.dao.CouponRuleDao;
+import com.xmu.discount.dao.GrouponRuleDao;
 import com.xmu.discount.domain.coupon.Coupon;
+import com.xmu.discount.domain.coupon.CouponRule;
+import com.xmu.discount.domain.coupon.CouponRulePo;
+import com.xmu.discount.domain.discount.GrouponRule;
+import com.xmu.discount.domain.discount.GrouponRulePo;
+import com.xmu.discount.domain.discount.PromotionRule;
+import com.xmu.discount.exception.PromotionNotFoundException;
+import com.xmu.discount.exception.UpdatedDataFailedException;
 import com.xmu.discount.service.impl.CouponRuleServiceImpl;
 import com.xmu.discount.service.impl.CouponServiceImpl;
 import com.xmu.discount.service.impl.PromotionServiceImpl;
@@ -14,28 +24,53 @@ import java.util.List;
 @SpringBootTest
 class DiscountApplicationTests {
 
-    @Autowired
-    @Qualifier("promotionServiceImpl")
-    private PromotionServiceImpl discountService;
+//    @Autowired
+//    @Qualifier("promotionServiceImpl")
+//    private PromotionServiceImpl discountService;
+//
+//    @Autowired
+//    private CouponServiceImpl couponService;
+//
+//    @Autowired
+//    private CouponRuleServiceImpl couponRuleService;
+//
+//    @Autowired
+//    @Qualifier("grouponServiceImpl")
+//    private PromotionServiceImpl grouponService;
+//
+//    @Autowired
+//    @Qualifier("presaleServiceImpl")
+//    private PromotionServiceImpl presaleService;
+
 
     @Autowired
-    private CouponServiceImpl couponService;
+    private CouponDao couponDao;
 
     @Autowired
-    private CouponRuleServiceImpl couponRuleService;
+    private CouponRuleDao couponRuleDao;
 
     @Autowired
-    @Qualifier("grouponServiceImpl")
-    private PromotionServiceImpl grouponService;
-
-    @Autowired
-    @Qualifier("presaleServiceImpl")
-    private PromotionServiceImpl presaleService;
-
+    private GrouponRuleDao grouponRuleDao;
     @Test
-    void contextLoads() {
-        List<Coupon> coupons=couponService.getCoupons();
+    void contextLoads() throws PromotionNotFoundException, UpdatedDataFailedException {
+        List<Coupon> coupons=couponDao.listCoupons();
         for(Coupon c:coupons) System.out.println(c);
+
+
+        List<PromotionRule> grouponRulePos=grouponRuleDao.listPromotions();
+        for(PromotionRule p: grouponRulePos)
+            System.out.println(p);
+        PromotionRule promotionRule=grouponRuleDao.getPromotionRuleById(1);
+        System.out.println(promotionRule);
+         GrouponRule grouponRule=(GrouponRule) promotionRule;
+         grouponRule.setBeDeleted(true);
+         boolean success=grouponRuleDao.updatePromotionRuleById((PromotionRule) grouponRule);
+         if(success) {
+             promotionRule = grouponRuleDao.getPromotionRuleById(1);
+             System.out.println("更新了：" + promotionRule);
+         }
+         else System.out.println("失败了O");
+
 
     }
 
