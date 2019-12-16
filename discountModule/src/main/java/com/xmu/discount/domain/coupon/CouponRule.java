@@ -32,6 +32,11 @@ public class CouponRule extends PromotionRule {
             order.getOrderItemList().addAll(newItems);
         }
         order.setPaymentList(null);
+
+        for(OrderItem orderItem:order.getOrderItemList()){
+            orderItem.setItemType(0);
+        }
+
         logger.debug("cacuCouponPrice返回");
         return order;
     }

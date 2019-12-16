@@ -4,6 +4,7 @@ import com.xmu.discount.dao.CouponRuleDao;
 import com.xmu.discount.dao.GrouponRuleDao;
 import com.xmu.discount.dao.PresaleRuleDao;
 import com.xmu.discount.dao.PromotionRuleDao;
+import com.xmu.discount.domain.coupon.Coupon;
 import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.others.domain.Payment;
@@ -31,6 +32,10 @@ public  class PromotionServiceImpl {
     @Autowired
     public CouponRuleDao couponRuleDao;
 
+
+    @Autowired
+    public CouponServiceImpl couponService;
+
     /**
      * 活动实效后的行为
      */
@@ -47,6 +52,15 @@ public  class PromotionServiceImpl {
 //            this.toDoSomthing(promotionRule);
 //        }
 //    }
+
+
+    /**
+     * 设置失效
+     * @param promotionRule
+     */
+    public void setDisabled(PromotionRule promotionRule){
+        promotionRule.setActiveStatus(PromotionRule.ActiveStatus.DISABLED);
+    }
 
     /**
      * 根据id获取促销规则(controller 传优惠券名)
@@ -98,7 +112,16 @@ public  class PromotionServiceImpl {
         List<PromotionRule> promotionRules=this.listCurrentPromotionByGoodsId(order.getOrderItemList().get(0).getProduct().getGoodsId());
         //没有促销活动
         if(promotionRules.size()==0){
-           throw new SeriousException();
+            //没有用优惠券
+           if(order.getCouponId()==null){
+               return order;
+           }
+           //有用优惠券
+           else{
+               Coupon coupon=couponService.findCouponById(order.getCouponId());
+               coupon.cacuCouponPrice(order);
+               return order;
+           }
         }
         //促销活动大于1个
         else  if(promotionRules.size()>1){
@@ -164,7 +187,7 @@ public  class PromotionServiceImpl {
         }
         //没有促销活动
         if(promotionRules.size()==0){
-            throw new PromotionNotFoundException();
+            return null;
         }
         //促销活动大于1个
         else  if(promotionRules.size()>1){

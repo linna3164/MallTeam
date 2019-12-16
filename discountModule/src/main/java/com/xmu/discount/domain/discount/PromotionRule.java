@@ -17,6 +17,8 @@ public abstract class PromotionRule implements Serializable {
 
     public abstract Integer getId();
 
+//    //0未进行，1已进行，2未进行
+//    private Integer statusCode;
 
     /**
      * 获取促销活动的状态
@@ -26,6 +28,9 @@ public abstract class PromotionRule implements Serializable {
         //失效
         if(this.isDisabled()){
             return ActiveStatus.DISABLED;
+        }
+        else if(this.isNotFinished()){
+            return ActiveStatus.NOTFINISHED;
         }
         else if(this.isInTime()){
             return ActiveStatus.INPROCESS;
@@ -44,13 +49,19 @@ public abstract class PromotionRule implements Serializable {
      * @return
      */
     public boolean isOkToUpdate(){
-        if(this.getActiveStatus().equals(ActiveStatus.INPROCESS)){
+        if(this.getActiveStatus().equals(ActiveStatus.NOTFINISHED)){
             return false;
         }
         else{
             return true;
         }
     }
+
+    /**
+     * 判断活动是否未结束
+     * @return
+     */
+    public abstract boolean isNotFinished();
 
     /**
      * 判断活动是否失效
@@ -63,7 +74,7 @@ public abstract class PromotionRule implements Serializable {
      * @return
      */
     public boolean isOkToDelete(){
-        if(this.getActiveStatus().equals(ActiveStatus.INPROCESS)){
+        if(this.getActiveStatus().equals(ActiveStatus.NOTFINISHED)){
             return false;
         }
         else{
@@ -123,7 +134,7 @@ public abstract class PromotionRule implements Serializable {
 
 
     /**
-     * 促销活动是否结束
+     * 促销活动是否结束(界面看不到了)
      * @return
      */
     public boolean isAlreadyEnd(){
@@ -202,16 +213,17 @@ public abstract class PromotionRule implements Serializable {
          */
         INPROCESS("进行中", 1),
         /**
-         *
+         *未结束
          */
-        /**
+        NOTFINISHED("未结束",2),
+        /**"
          * 已结束
          */
-        DONE("已结束", 2),
+        DONE("已结束", 3),
         /**
          * 失效
          */
-        DISABLED("失效", 3);
+        DISABLED("失效", 4);
 
         /**
          * 值
@@ -264,4 +276,5 @@ public abstract class PromotionRule implements Serializable {
     public void setActiveStatus(ActiveStatus activeStatus) {
         this.activeStatus = activeStatus;
     }
+
 }
