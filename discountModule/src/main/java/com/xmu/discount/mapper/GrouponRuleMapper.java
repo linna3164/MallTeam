@@ -1,6 +1,7 @@
 package com.xmu.discount.mapper;
 
 import com.xmu.discount.domain.discount.GrouponRule;
+import com.xmu.discount.domain.discount.GrouponRulePo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +16,7 @@ public interface GrouponRuleMapper {
      * @param id
      * @return
      */
-    GrouponRule getGrouponRuleById(Integer id);
+    GrouponRulePo getGrouponRuleById(Integer id);
 
 
     /**
@@ -23,25 +24,25 @@ public interface GrouponRuleMapper {
      * @param grouponRule
      * @return
      */
-    int addGrouponRule(GrouponRule grouponRule);
+    int addGrouponRule(GrouponRulePo grouponRule);
 
     /**
      * 查询一个商品的团购规则
      * @param goodsId
      * @return
      */
-    List<GrouponRule> listGrouponRuleByGoodsId(Integer goodsId);
+    List<GrouponRulePo> listGrouponRuleByGoodsId(Integer goodsId);
 
     /**
      * 获得所有团购规则
      * @return
      */
-    List<GrouponRule> getGrouponRules();
+    List<GrouponRulePo> getGrouponRules();
 
     /**
      * 修改团购规则
      * @return
      */
-    int updateGrouponRuleById(GrouponRule grouponRule);
+    int updateGrouponRuleById(GrouponRulePo grouponRule);
 
 }

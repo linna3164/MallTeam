@@ -1,6 +1,7 @@
 package com.xmu.discount.dao;
 
 import com.xmu.discount.domain.discount.GrouponRule;
+import com.xmu.discount.domain.discount.GrouponRulePo;
 import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.exception.PromotionNotFoundException;
 import com.xmu.discount.exception.UpdatedDataFailedException;
@@ -26,8 +27,10 @@ public class GrouponRuleDao implements PromotionRuleDao {
     @Override
     public PromotionRule  getPromotionRuleById(Integer id) throws PromotionNotFoundException {
 
-
-        PromotionRule promotionRule= grouponRuleMapper.getGrouponRuleById(id);
+       GrouponRulePo grouponRulePo = grouponRuleMapper.getGrouponRuleById(id);
+       GrouponRule grouponRule=new GrouponRule();
+        grouponRule.setRealObj(grouponRulePo);
+        PromotionRule promotionRule=(PromotionRule) grouponRule;
         if(promotionRule==null){
             throw new PromotionNotFoundException();
         }
@@ -41,9 +44,12 @@ public class GrouponRuleDao implements PromotionRuleDao {
      */
     @Override
     public List<PromotionRule> listPromotions() {
-        List<GrouponRule> grouponRules=grouponRuleMapper.getGrouponRules();
+        List<GrouponRulePo> grouponRules=grouponRuleMapper.getGrouponRules();
+        List<GrouponRule> grouponRules1=new ArrayList<GrouponRule>();
+        for(GrouponRulePo g:grouponRules)
+            grouponRules1.add(new GrouponRule(g));
         List<PromotionRule> promotionRules=new ArrayList<PromotionRule>();
-        promotionRules.addAll(grouponRules);
+        promotionRules.addAll(grouponRules1);
         return promotionRules;
     }
 
@@ -55,9 +61,10 @@ public class GrouponRuleDao implements PromotionRuleDao {
     @Override
     public int addPromotionRule(PromotionRule promotionRule) {
         GrouponRule grouponRule=(GrouponRule)promotionRule;
+        GrouponRulePo grouponRulePo=grouponRule.getRealObj();
         grouponRule.setGmtCreate(LocalDateTime.now());
         grouponRule.setGmtModified(LocalDateTime.now());
-        return grouponRuleMapper.addGrouponRule(grouponRule);
+        return grouponRuleMapper.addGrouponRule(grouponRulePo);
     }
 
     /**
@@ -68,8 +75,10 @@ public class GrouponRuleDao implements PromotionRuleDao {
     @Override
     public List<PromotionRule> listPromotionRuleByGoodsId(Integer goodsId) {
         List<PromotionRule>promotionRules=new ArrayList<>();
-        List<GrouponRule> grouponRules=grouponRuleMapper.listGrouponRuleByGoodsId(goodsId);
-        promotionRules.addAll(grouponRules);
+        List<GrouponRulePo> grouponRules=grouponRuleMapper.listGrouponRuleByGoodsId(goodsId);
+        List<GrouponRule> grouponRules1=new ArrayList<GrouponRule>();
+        for(GrouponRulePo g:grouponRules)
+            grouponRules1.add(new GrouponRule(g));
         return promotionRules;
     }
 
@@ -81,8 +90,8 @@ public class GrouponRuleDao implements PromotionRuleDao {
     public boolean updatePromotionRuleById(PromotionRule promotionRule) throws UpdatedDataFailedException {
         GrouponRule grouponRule=(GrouponRule)promotionRule;
         grouponRule.setGmtModified(LocalDateTime.now());
-
-        int res=grouponRuleMapper.updateGrouponRuleById(grouponRule);
+        GrouponRulePo grouponRulePo=grouponRule.getRealObj();
+        int res=grouponRuleMapper.updateGrouponRuleById(grouponRulePo);
         if(res==0){
             throw new UpdatedDataFailedException();
         }

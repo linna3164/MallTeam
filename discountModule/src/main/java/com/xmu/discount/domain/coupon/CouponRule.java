@@ -297,6 +297,8 @@ public class CouponRule {
             this.name = name;
         }
 
+
+
         /**
          * 获得值
          * @return 值
@@ -392,8 +394,6 @@ public class CouponRule {
     }
 
 
-
-
     public CouponRule() {
 
     }
@@ -430,6 +430,7 @@ public class CouponRule {
 
     public CouponRule(CouponRulePo realObj) {
         this.realObj = realObj;
+
     }
 
 //    public boolean canEqual(Object other) {

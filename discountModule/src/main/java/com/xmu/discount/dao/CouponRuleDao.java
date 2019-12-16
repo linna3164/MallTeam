@@ -37,10 +37,11 @@ public class CouponRuleDao  {
      */
     public List<CouponRule> listCouponRule() {
        List<CouponRulePo> couponRulePos=couponRuleMapper.listCouponRules();
-       List<CouponRule> couponRules=new ArrayList<CouponRule>();
+       List<CouponRule> couponRules = new ArrayList<CouponRule>();
        for(int i=0;i<couponRulePos.size();i++)
        {
-           couponRules.get(i).setRealObj(couponRulePos.get(i));
+           CouponRule couponRule=new CouponRule(couponRulePos.get(i));
+           couponRules.add(couponRule);
        }
            return couponRules;
     }

@@ -34,7 +34,7 @@
             <if test="startTime!=null">start_time=#{startTime},</if>
             <if test="endTime!=null">end_time=#{endTime},</if>
             <if test="statusCode!=null">status=#{statusCode},</if>
-            <if test="grouponLevelStrategy!=null">groupon_level_strategy=#{grouponLevelStrategy},</if>
+            <if test=" grouponLevelStragety!=null">groupon_level_strategy=#{grouponLevelStragety},</if>
             <if test="goodsId!=null">goods_id=#{goodsId},</if>
             <if test="gmtCreate!=null">gmt_create=#{gmtCreate},</if>
             <if test="gmtModified!=null">gmt_modified=#{gmtModified},</if>
