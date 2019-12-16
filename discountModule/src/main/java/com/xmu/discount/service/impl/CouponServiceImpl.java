@@ -4,11 +4,9 @@ import com.xmu.discount.dao.CouponDao;
 import com.xmu.discount.dao.CouponRuleDao;
 import com.xmu.discount.domain.coupon.Coupon;
 import com.xmu.discount.domain.coupon.CouponRule;
+import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.domain.others.domain.CartItem;
-import com.xmu.discount.exception.CouponNotFoundException;
-import com.xmu.discount.exception.CouponRuleNotFoundException;
-import com.xmu.discount.exception.UnsupportException;
-import com.xmu.discount.exception.UpdatedDataFailedException;
+import com.xmu.discount.exception.*;
 import com.xmu.discount.service.CouponService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,6 +38,37 @@ public class CouponServiceImpl {
 
     public List<Coupon> getCoupons() {
         return couponDao.listCoupons();
+    }
+
+    /**
+     * 获取某种优惠券规则的全部优惠券
+     * @param couponRule
+     * @return
+     */
+    public List<Coupon> listCouponByCouponRuleId(CouponRule couponRule) throws SeriousException {
+        if(couponRule==null){
+            throw new SeriousException();
+        }
+        else{
+            return couponDao.listCouponByCouponRuleId(couponRule.getId());
+        }
+    }
+
+    /**
+     * 获取某种优惠券规则的某种类型的优惠券
+     * @param couponRule
+     * @return
+     */
+    public List<Coupon> listCouponByCouponRuleIdAndStatus(CouponRule couponRule, Coupon.Status status) throws SeriousException {
+        List<Coupon> coupons=this.listCouponByCouponRuleId(couponRule);
+
+        List<Coupon> res=new ArrayList<>();
+        for(Coupon coupon:coupons){
+            if(coupon.getStatus().equals(status)){
+                res.add(coupon);
+            }
+        }
+        return res;
     }
 
 

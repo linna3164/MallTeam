@@ -39,7 +39,7 @@ public abstract class PromotionServiceImpl {
     /**
      * 活动实效后的行为
      */
-    public  abstract void toDoSomthingAfterDisable(PromotionRule promotionRule);
+    public  abstract void toDoSomthingAfterDisable(PromotionRule promotionRule) throws SeriousException;
 
 
 

@@ -18,6 +18,11 @@ import java.util.Objects;
 @Alias("coupon")
 public class Coupon {
 
+
+    public Coupon(Integer id) {
+        this.id = id;
+    }
+
     /**
      * 优惠券起头字母
      */

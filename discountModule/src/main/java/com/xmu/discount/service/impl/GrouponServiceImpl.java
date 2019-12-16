@@ -6,6 +6,7 @@ import com.xmu.discount.domain.discount.GrouponRulePo;
 import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.others.domain.Payment;
+import com.xmu.discount.exception.SeriousException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -34,16 +35,15 @@ public class GrouponServiceImpl extends PromotionServiceImpl{
 //        }
 //    }
 
-//    /**
-//     * 计算成团人数
-//     * @return
-//     */
-//    public List<Payment> calcuGroupon(){
-//        LocalDateTime now=LocalDateTime.now();
-//        //TODO:获得前一天结束的groupi
-//
-//        return null;
-//    }
+    /**
+     *
+     * @param promotionRule
+     * @throws SeriousException
+     */
+    @Override
+    public void toDoSomthingAfterDisable(PromotionRule promotionRule) throws SeriousException {
+
+    }
 
     /**
      * 定时任务， 每天晚上搜索前一天24小时之内的完成的grouponpo，然后对这
