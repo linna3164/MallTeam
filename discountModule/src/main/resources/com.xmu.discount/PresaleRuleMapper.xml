@@ -18,7 +18,7 @@
                gmt_modified,
                is_deleted,
                deposit
-        from presale_rule where id = #{id}
+        from oomall_presale_rule where id = #{id}
     </select>
 
     <select id="getPresaleRules" resultMap="PresaleRule">
@@ -34,7 +34,7 @@
                gmt_modified,
                is_deleted,
                deposit
-        from presale_rule where id!=0
+        from oomall_presale_rule where id!=0
     </select>
 
     <insert id="addPresaleRule" parameterType="presaleRule" useGeneratedKeys="true" keyProperty="id">
@@ -44,7 +44,7 @@
     </insert>
 
     <update id="updatePresaleRuleById" parameterType="presaleRule">
-        update presale_rule
+        update oomall_presale_rule
         <trim prefix="set" suffixOverrides=",">
             <if test="strategy!=null">strategy=#{strategy},</if>
             <if test="productId!=null">product_id=#{productId},</if>
@@ -70,6 +70,6 @@
                gmt_modified,
                is_deleted,
                deposit
-        from presale_rule where  goods_id= #{goodsId}
+        from oomall_presale_rule where  goods_id= #{goodsId}
     </select>
 </mapper>

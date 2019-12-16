@@ -10,6 +10,7 @@ import com.xmu.discount.domain.discount.GrouponRule;
 import com.xmu.discount.domain.discount.GrouponRulePo;
 import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.exception.PromotionNotFoundException;
+import com.xmu.discount.exception.SeriousException;
 import com.xmu.discount.exception.UpdatedDataFailedException;
 import com.xmu.discount.service.impl.CouponRuleServiceImpl;
 import com.xmu.discount.service.impl.CouponServiceImpl;
@@ -52,7 +53,7 @@ class DiscountApplicationTests {
     @Autowired
     private GrouponRuleDao grouponRuleDao;
     @Test
-    void contextLoads() throws PromotionNotFoundException, UpdatedDataFailedException {
+    void contextLoads() throws PromotionNotFoundException, UpdatedDataFailedException, SeriousException {
         List<Coupon> coupons=couponDao.listCoupons();
         for(Coupon c:coupons) System.out.println(c);
 
