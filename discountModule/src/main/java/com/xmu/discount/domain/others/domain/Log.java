@@ -1,4 +1,4 @@
-package com.xmu.discount.domain.others.domain;
+package com.xmu.freight.standardDomain;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -46,4 +46,90 @@ public class Log {
     private LocalDateTime gmtCreate;
     private LocalDateTime gmtModified;
 
+    public Log(){};
+
+    public Log(Integer adminId,String ip,Integer type,String action,Integer statusCode,Integer actionId)
+    {
+        this.adminId=adminId;
+        this.ip = ip;
+        this.type = type;
+        this.action =action;
+        this.statusCode = statusCode;
+        this.actionId = actionId;
+        this.gmtCreate = LocalDateTime.now();
+        this.gmtModified = LocalDateTime.now();
+    }
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(Integer adminId) {
+        this.adminId = adminId;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public Integer getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(Integer statusCode) {
+        this.statusCode = statusCode;
+    }
+
+    public Integer getActionId() {
+        return actionId;
+    }
+
+    public void setActionId(Integer actionId) {
+        this.actionId = actionId;
+    }
+
+    public LocalDateTime getGmtCreate() {
+        return gmtCreate;
+    }
+
+    public void setGmtCreate(LocalDateTime gmtCreate) {
+        this.gmtCreate = gmtCreate;
+    }
+
+    public LocalDateTime getGmtModified() {
+        return gmtModified;
+    }
+
+    public void setGmtModified(LocalDateTime gmtModified) {
+        this.gmtModified = gmtModified;
+    }
 }
