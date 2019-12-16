@@ -7,6 +7,7 @@ import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.others.domain.Payment;
 import com.xmu.discount.exception.SeriousException;
+import com.xmu.discount.inter.OrderFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -47,21 +48,21 @@ public class GrouponServiceImpl extends PromotionServiceImpl{
      */
     @Scheduled(cron = "0 10 0 ? * *")
     public void caculateGroupon(){
-        List<GrouponRulePo> grouponRulePoList = getGrouponRulePoList();
-        for(GrouponRulePo grouponRulePo:grouponRulePoList)
+        List<GrouponRule> grouponRuleList = listNeedCalcuGrouponRule();
+        for(GrouponRule grouponRule:grouponRuleList)
         {
-            List<Order> orderList = OrderFeign.getGrouponOrders(grouponRulePo);
+            List<Order> orderList = orderFeign.getGrouponOrders(grouponRule.getRealObj());
             List<Payment> paymentList = caculGrouponOrderRefundList(orderList);
-            OrderFeign.refundGrouponOrder(paymentList);
+            orderFeign.refundGrouponOrder(paymentList);
         }
     }
 
     public List<GrouponRule> listNeedCalcuGrouponRule(){
         //TODO:获得前一天完成的grouponRulePo
-        List<PromotionRule> grouponRules=this.listPromotionRule("GrouponDao");
+        List<PromotionRule> promotionRules=this.listPromotionRule("GrouponDao");
         List<GrouponRule> res=new ArrayList<>();
-        for(GrouponRule grouponRule:grouponRules){
-
+        for(PromotionRule promotionRule:promotionRules){
+            if(promotionRule.getActiveStatus().equals(PromotionRule.ActiveStatus.NOTFINISHED))
         }
         return null;
     }
