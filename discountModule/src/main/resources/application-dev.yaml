@@ -1,16 +1,18 @@
+server:
+  port: 8080
+
 spring:
+  application:
+    name: discountService
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/oomall
-    #中央数据库或者命令行
-    data-username: ooadUser
-    password: ooad
-   # type: com.alibaba.druid.pool.DruidDataSource #druid连接池：数据库的连接可以设置最大连接数（连接池）、数据库的sql语句写得怎么样？？？。
+    url: jdbc:mysql://localhost:3306/oomall?serverTimezone=UTC
+    username: root
+    password: 6892778tt
     druid:
       #初始化时建立物理连接的个数
       initial-size: 3
-        neophyte
-        最小连接池数量
+      #  最小连接池数量
       min-idle: 3
       #最大连接池数量
       max-active: 10
@@ -22,7 +24,20 @@ spring:
         login-password: 123456
       filter:
         stat:
-          #是否开启慢sql查询监控------查到日志，进而进行调优。
+          #是否开启慢sql查询监控
           log-slow-sql: true
           #慢SQL执行时间
           slow-sql-millis: 100
+      validation-query: select 1
+
+eureka:
+  instance:
+    #    hostname: localhost
+    #   其他服务获取此服务时不响应服务名称，而是响应该服务的ip
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://60.205.212.233:8761/eureka/
+      lease-expiration-duration-in-seconds: 90
+      #   服务续约(renew)的间隔，默认为30秒
+      lease-renewal-interval-in-seconds: 30

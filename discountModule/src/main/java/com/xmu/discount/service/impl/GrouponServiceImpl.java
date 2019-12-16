@@ -24,6 +24,10 @@ public class GrouponServiceImpl extends PromotionServiceImpl{
     @Autowired
     GrouponRuleDao grouponRuleDao;
 
+    @Autowired
+    OrderFeign orderFeign;
+
+
 
     /**
      *

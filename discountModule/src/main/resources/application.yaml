@@ -28,7 +28,8 @@ mybatis:
 
 spring:
   profiles:
-    active: test
+    active: dev
+
 
 #zuul:
 #  routes:
