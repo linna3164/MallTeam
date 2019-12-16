@@ -63,14 +63,17 @@ class DiscountApplicationTests {
         PromotionRule promotionRule=grouponRuleDao.getPromotionRuleById(1);
         System.out.println(promotionRule);
          GrouponRule grouponRule=(GrouponRule) promotionRule;
-         grouponRule.setBeDeleted(true);
+         grouponRuleDao.deletePromotionRuleById(1);
+        promotionRule = grouponRuleDao.getPromotionRuleById(1);
+        System.out.println("删除了：  " + promotionRule);
+         grouponRule.setBeDeleted(false);
          boolean success=grouponRuleDao.updatePromotionRuleById((PromotionRule) grouponRule);
          if(success) {
              promotionRule = grouponRuleDao.getPromotionRuleById(1);
-             System.out.println("更新了：" + promotionRule);
+             System.out.println("更新了：  " + promotionRule);
          }
          else System.out.println("失败了O");
-
+         grouponRuleDao.addPromotionRule(promotionRule);
 
     }
 

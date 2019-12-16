@@ -62,8 +62,8 @@ public class GrouponRuleDao implements PromotionRuleDao {
     public int addPromotionRule(PromotionRule promotionRule) {
         GrouponRule grouponRule=(GrouponRule)promotionRule;
         GrouponRulePo grouponRulePo=grouponRule.getRealObj();
-        grouponRule.setGmtCreate(LocalDateTime.now());
-        grouponRule.setGmtModified(LocalDateTime.now());
+        grouponRulePo.setGmtCreate(LocalDateTime.now());
+        grouponRulePo.setGmtModified(LocalDateTime.now());
         return grouponRuleMapper.addGrouponRule(grouponRulePo);
     }
 
@@ -89,8 +89,8 @@ public class GrouponRuleDao implements PromotionRuleDao {
     @Override
     public boolean updatePromotionRuleById(PromotionRule promotionRule) throws UpdatedDataFailedException {
         GrouponRule grouponRule=(GrouponRule)promotionRule;
-        grouponRule.setGmtModified(LocalDateTime.now());
         GrouponRulePo grouponRulePo=grouponRule.getRealObj();
+        grouponRulePo.setGmtModified(LocalDateTime.now());
         int res=grouponRuleMapper.updateGrouponRuleById(grouponRulePo);
         if(res==0){
             throw new UpdatedDataFailedException();
@@ -108,7 +108,10 @@ public class GrouponRuleDao implements PromotionRuleDao {
      */
     @Override
     public void deletePromotionRuleById(Integer id) throws UpdatedDataFailedException {
-        GrouponRule grouponRule=new GrouponRule(id,true);
+        GrouponRule grouponRule=new GrouponRule();
+        GrouponRulePo grouponRulePo=new GrouponRulePo(id,true);
+        grouponRulePo.setGmtModified(LocalDateTime.now());
+        grouponRule.setRealObj(grouponRulePo);
         this.updatePromotionRuleById(grouponRule);
     }
 }

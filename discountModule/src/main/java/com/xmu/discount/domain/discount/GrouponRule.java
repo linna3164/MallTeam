@@ -85,11 +85,6 @@ public class GrouponRule extends PromotionRule {
     }
 
 
-    public GrouponRule(Integer id,boolean beDeleted){
-        this.setBeDeleted(beDeleted);
-        this.setId(id);
-    }
-
     /**
      * 返回商品的价格
      * @param order 订单
@@ -144,7 +139,7 @@ public class GrouponRule extends PromotionRule {
      * @return
      */
     public List<Strategy> getStrategyList() {
-        String jsonString = realObj.getGrouponLevelStragety();
+        String jsonString = realObj.getGrouponLevelStrategy();
         jsonString = org.apache.commons.text.StringEscapeUtils.unescapeJson(jsonString);
         List<String>strategiesString=JacksonUtil.parseStringList(jsonString,"strategy");
         List<Strategy>strategies=new ArrayList<>();
@@ -165,7 +160,7 @@ public class GrouponRule extends PromotionRule {
         jsonObj.put("strategy", strategyList);
 
         String jsonString = JacksonUtil.toJson(jsonObj);
-        realObj.setGrouponLevelStragety(jsonString);
+        realObj.setGrouponLevelStrategy(jsonString);
         this.strategyList = strategyList;
     }
 
@@ -254,7 +249,7 @@ public class GrouponRule extends PromotionRule {
     }
 
     public void setGrouponLevelStragety(String grouponLevelStragety) {
-        realObj.setGrouponLevelStragety(grouponLevelStragety);
+        realObj.setGrouponLevelStrategy(grouponLevelStragety);
     }
 
     public void setGoodsId(Integer goodsId) {
@@ -282,7 +277,7 @@ public class GrouponRule extends PromotionRule {
     }
 
     public String getGrouponLevelStragety() {
-        return realObj.getGrouponLevelStragety();
+        return realObj.getGrouponLevelStrategy();
     }
 
     public void setGmtModified(LocalDateTime gmtModified) {
