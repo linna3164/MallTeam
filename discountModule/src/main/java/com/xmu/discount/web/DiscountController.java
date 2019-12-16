@@ -70,9 +70,9 @@ public class DiscountController {
      * @return
      */
     @PostMapping("/couponRules")
-    public CouponRule addCouponRule(CouponRulePo couponRulePo){
+    public Object addCouponRule(CouponRulePo couponRulePo,HttpServletRequest request) throws UpdatedDataFailedException, SeriousException {
         CouponRule couponRule=new CouponRule(couponRulePo);
-        return couponRuleService.addCouponRule(couponRule);
+        return couponRuleService.addPromotion((PromotionRule) couponRule);
     }
 
     /**
@@ -81,8 +81,8 @@ public class DiscountController {
      * @return
      */
     @GetMapping("/couponRules/{id}")
-    public CouponRule findCouponRuleById(@PathVariable Integer id){
-        return couponRuleService.getCouponRuleById(id);
+    public Object findCouponRuleById(@PathVariable Integer id) throws PromotionNotFoundException {
+        return couponRuleService.getPromotionById(id,"CouponRule");
     }
 
     /**
@@ -92,10 +92,10 @@ public class DiscountController {
      * @return
      */
     @PutMapping("/couponRules/{id}")
-    public CouponRule updateCouponRuleById(@PathVariable Integer id,@RequestBody CouponRulePo couponRulePo){
+    public Object updateCouponRuleById(@PathVariable Integer id,@RequestBody CouponRulePo couponRulePo,HttpServletRequest request) throws UpdatedDataFailedException {
         CouponRule couponRule=new CouponRule(couponRulePo);
         couponRule.setId(id);
-        return couponRuleService.updateCouponRule(couponRule);
+        return couponRuleService.updatepromotionRule(couponRule);
     }
 
     /**
@@ -104,14 +104,12 @@ public class DiscountController {
      * @return
      */
     @DeleteMapping("/couponRules/{id}")
-    public CouponRule deleteCouponRuleById(@PathVariable Integer id){
-        boolean success=couponRuleService.deleteCouponRuleById(id);
-        if(!success) {
-            return null;
-        }
-        else {
-            return couponRuleService.getCouponRuleById(id);
-        }
+    public Object deleteCouponRuleById(@PathVariable Integer id,HttpServletRequest request) throws PromotionNotFoundException, UpdatedDataFailedException {
+        PromotionRule promotionRule=couponRuleService.getPromotionById(id,"CouponRule");
+        couponRuleService.deletePromotionById(promotionRule);
+
+            return couponRuleService.getPromotionById(id,"CouponRule");
+
     }
 
     /**
@@ -291,7 +289,7 @@ public class DiscountController {
      * @throws UpdatedDataFailedException
      */
     @PostMapping("/presaleRules")
-    public Object addPresaleRule(@RequestBody PresaleRule presaleRule) throws UpdatedDataFailedException {
+    public Object addPresaleRule(@RequestBody PresaleRule presaleRule) throws UpdatedDataFailedException, SeriousException {
         PresaleRule presaleRule1=(PresaleRule)presaleService.addPromotion((PromotionRule) presaleRule);
         if(presaleRule1==null) return ResponseUtil.badArgument();
         else return ResponseUtil.ok(presaleRule1);

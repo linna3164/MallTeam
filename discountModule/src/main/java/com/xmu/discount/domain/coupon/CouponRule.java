@@ -401,6 +401,11 @@ public class CouponRule extends PromotionRule {
         return realObj.getId();
     }
 
+    @Override
+    public boolean isNotFinished() {
+        return false;
+    }
+
     public void setId(Integer id) {
         realObj.setId(id);
     }
@@ -527,5 +532,13 @@ public class CouponRule extends PromotionRule {
         return realObj.equals(o);
     }
 
-
+    @Override
+    public String toString() {
+        return "CouponRule{" +
+                "couponStrategy=" + couponStrategy +
+                ", realObj=" + realObj +
+                ", timeStatus=" + timeStatus +
+                ", activeStatus=" + activeStatus +
+                '}';
+    }
 }

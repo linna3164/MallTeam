@@ -108,4 +108,11 @@ public class CouponDao {
     }
 
 
+    public  int deleteCouponById(Integer id){
+        Coupon coupon=new Coupon();
+        coupon.setId(id);
+        coupon.setGmtModified(LocalDateTime.now());
+        coupon.setBeDeleted(true);
+        return couponMapper.updateCouponById(coupon);
+    }
 }

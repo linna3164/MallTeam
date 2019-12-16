@@ -214,4 +214,30 @@ public class CouponRulePo {
     public void setBeDeleted(Boolean beDeleted) {
         this.beDeleted = beDeleted;
     }
+
+    public CouponRulePo (){
+
+    }
+
+    @Override
+    public String toString() {
+        return "CouponRulePo{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", brief='" + brief + '\'' +
+                ", beginTime=" + beginTime +
+                ", endTime=" + endTime +
+                ", picUrl='" + picUrl + '\'' +
+                ", validPeriod=" + validPeriod +
+                ", strategy='" + strategy + '\'' +
+                ", total=" + total +
+                ", collectedNum=" + collectedNum +
+                ", goodsList1='" + goodsList1 + '\'' +
+                ", goodsList2='" + goodsList2 + '\'' +
+                ", statusCode=" + statusCode +
+                ", gmtCreate=" + gmtCreate +
+                ", gmtModified=" + gmtModified +
+                ", beDeleted=" + beDeleted +
+                '}';
+    }
 }

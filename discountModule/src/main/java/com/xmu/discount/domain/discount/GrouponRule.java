@@ -99,10 +99,7 @@ public class GrouponRule extends PromotionRule {
         this.setId(id);
     }
 
-    public GrouponRule(Integer id,boolean deleted){
-        this.setId(id);
-        this.setBeDeleted(deleted);
-    }
+
 
 
     /**
@@ -327,6 +324,11 @@ public class GrouponRule extends PromotionRule {
     @Override
     public Integer getId() {
         return realObj.getId();
+    }
+
+    @Override
+    public boolean isNotFinished() {
+        return false;
     }
 
     public LocalDateTime getGmtCreate() {

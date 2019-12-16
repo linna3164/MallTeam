@@ -218,6 +218,11 @@ public class PresaleRule extends PromotionRule {
         return id;
     }
 
+    @Override
+    public boolean isNotFinished() {
+        return false;
+    }
+
     public void setId(Integer id) {
         this.id = id;
     }
