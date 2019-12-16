@@ -36,7 +36,7 @@ public class GrouponRulePo {
      * 团购等级（满多少人组团多少折扣）
      * JSON格式: {"strategy": [{"lowerbound":xxx, "upperbound":xxx, "rate":xxx}]}, xxx为具体数值
      */
-    private String grouponLevelStragety;
+    private String grouponLevelStrategy;
     /**
      * 团购商品id
      */
@@ -79,12 +79,12 @@ public class GrouponRulePo {
         this.statusCode = statusCode;
     }
 
-    public String getGrouponLevelStragety() {
-        return grouponLevelStragety;
+    public String getGrouponLevelStrategy() {
+        return grouponLevelStrategy;
     }
 
-    public void setGrouponLevelStragety(String grouponLevelStragety) {
-        this.grouponLevelStragety = grouponLevelStragety;
+    public void setGrouponLevelStrategy(String grouponLevelStragety) {
+        this.grouponLevelStrategy = grouponLevelStragety;
     }
 
     public Integer getGoodsId() {
@@ -117,5 +117,14 @@ public class GrouponRulePo {
 
     public void setBeDeleted(Boolean beDeleted) {
         this.beDeleted = beDeleted;
+    }
+
+    public GrouponRulePo(Integer id,boolean beDeleted){
+        this.setBeDeleted(beDeleted);
+        this.setId(id);
+    }
+
+    public  GrouponRulePo(){
+
     }
 }
