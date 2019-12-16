@@ -20,11 +20,13 @@ public class PresaleServiceImpl extends PromotionServiceImpl{
     PresaleRuleDao presaleRuleDao;
 
 
+
     /**
      * 预售活动失效后的行为
      * @param promotionRule
      */
-    public void toDoSomthing(PromotionRule promotionRule) {
+    @Override
+    public void toDoSomthingAfterDisable(PromotionRule promotionRule) throws SeriousException {
         //TODO:退款
 
         List<Payment> payments=new ArrayList<>();
@@ -38,11 +40,5 @@ public class PresaleServiceImpl extends PromotionServiceImpl{
         }
 
         orderService.refundPresaleOrders(payments);
-
-    }
-
-    @Override
-    public void toDoSomthingAfterDisable(PromotionRule promotionRule) throws SeriousException {
-
     }
 }
