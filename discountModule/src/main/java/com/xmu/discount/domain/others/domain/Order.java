@@ -19,6 +19,7 @@ public class Order extends OrderPo {
     private User user;
     private List<OrderItem> orderItemList;
     private Integer couponId;
+    private List<Payment>paymentList;
 
     public Address getAddressObj() {
         return addressObj;
@@ -51,6 +52,15 @@ public class Order extends OrderPo {
     public void setCouponId(Integer couponId) {
         this.couponId = couponId;
     }
+
+    public List<Payment> getPaymentList() {
+        return paymentList;
+    }
+
+    public void setPaymentList(List<Payment> paymentList) {
+        this.paymentList = paymentList;
+    }
+
 
     @Override
     public String toString() {

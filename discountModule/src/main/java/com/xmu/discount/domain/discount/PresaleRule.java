@@ -2,6 +2,7 @@ package com.xmu.discount.domain.discount;
 
 
 import com.xmu.discount.domain.others.domain.Order;
+import com.xmu.discount.domain.others.domain.OrderItem;
 import com.xmu.discount.domain.others.domain.Payment;
 
 import org.apache.ibatis.type.Alias;
@@ -9,10 +10,111 @@ import org.apache.tomcat.jni.Local;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Alias("presaleRule")
 public class PresaleRule extends PromotionRule {
+
+
+    @Override
+    public boolean isDisabled() {
+        //TODO:标准组！！！
+        return false;
+    }
+
+    /**
+     * 是否可付定金
+     * @return
+     */
+    protected boolean isAdPayValiable() {
+        LocalDateTime now=LocalDateTime.now();
+        return (this.getStartTime().isBefore(now) &&
+                this.getAdEndTime().isAfter(now));
+    }
+
+
+    /**
+     * 是否可付尾款
+     * @return
+     */
+    protected boolean isFinalPayValiable() {
+        LocalDateTime now=LocalDateTime.now();
+        return (this.getFinalStartTime().isBefore(now) &&
+                this.getEndTime().isAfter(now));
+    }
+
+
+
+    /**
+     * 提交订单时
+     * @param order 订单
+     * @return
+     */
+    @Override
+    public Order getPayment(Order order) {
+
+        OrderItem orderItem=order.getOrderItemList().get(0);
+
+        BigDecimal prePay = BigDecimal.ZERO;
+        BigDecimal finalPay = BigDecimal.ZERO;
+        LocalDateTime now = LocalDateTime.now();
+
+        for (OrderItem item: order.getOrderItemList()){
+            prePay = prePay.add(this.getDeposit().multiply(new BigDecimal(orderItem.getNumber())));
+            finalPay = finalPay.add(this.getFinalPayment().multiply(new BigDecimal(orderItem.getNumber())));
+        }
+
+        Payment prePayment = new Payment();
+        prePayment.setActualPrice(prePay);
+        prePayment.setEndTime(this.getAdEndTime());
+
+        Payment finalPayment = new Payment();
+        finalPayment.setActualPrice(finalPay);
+        finalPayment.setBeginTime(this.getFinalStartTime());
+        finalPayment.setEndTime(this.getEndTime());
+
+        List<Payment> ret = new ArrayList<>(2);
+        ret.add(prePayment);
+        ret.add(finalPayment);
+
+        order.setPaymentList(ret);
+
+        order.getOrderItemList().get(0).setItemType(1);
+
+        return order;
+    }
+
+    /**
+     * 获得促销开始的时间
+     * @return
+     */
+    @Override
+    public LocalDateTime getpromotionRuleStartTime() {
+
+        return this.getStartTime();
+    }
+
+    /**
+     * 获得促销结束的时间
+     * @return
+     */
+    @Override
+    public LocalDateTime getPromotionEndTime() {
+        return this.getEndTime();
+    }
+
+
+    /**
+     * 获取促销商品id
+     * @return
+     */
+    @Override
+    public Integer getPromotionGoodsId() {
+        return this.getGoodsId();
+    }
+
 
 
     private Integer id;
@@ -63,106 +165,6 @@ public class PresaleRule extends PromotionRule {
         this.setGmtModified(time);
         this.setId(id);
     }
-    /**
-     * 是否可付定金
-     * @return
-     */
-    protected boolean isAdPayValiable() {
-        LocalDateTime now=LocalDateTime.now();
-        return (this.getStartTime().isBefore(now) &&
-                this.getAdEndTime().isAfter(now));
-    }
-
-
-    /**
-     * 是否可付尾款
-     * @return
-     */
-    protected boolean isFinalPayValiable() {
-        LocalDateTime now=LocalDateTime.now();
-        return (this.getFinalStartTime().isBefore(now) &&
-                this.getEndTime().isAfter(now));
-    }
-
-
-
-//    /**
-//     * 通过订单判断付款到哪个阶段了
-//     * @return
-//     */
-//    @Override
-//    protected Payment calcuPayment(Order order) {
-//        //TODO:
-//        if(){//orderItem价格为空，付订单
-//            if(isAdPayValiable()){//可付定金
-//
-//            }
-//        }
-//        else if(){//orderItem价格等于定金，付尾款
-//            if(isFinalPayValiable()){//可付尾款
-//
-//            }
-//        }
-//
-//    }
-
-
-
-    @Override
-    public Payment getPayment(Order order) {
-
-        Payment payment=null;
-        //判断订单付到时候情况了
-
-        BigDecimal pay=order.getIntegralPrice();
-        //付完定金了，该付尾款
-        if(pay.compareTo(this.getDeposit())==0){
-            payment=new Payment();
-            payment.setActualPrice(this.getFinalPayment());
-        }
-        //未付定金，该付定金了
-        else if(pay.compareTo(BigDecimal.ZERO)==0){
-            payment=new Payment();
-            payment.setActualPrice(this.getDeposit());
-        }
-
-        else if(pay.compareTo(this.getFinalPayment().add(this.getDeposit()))==0){
-            payment=new Payment();
-            payment.setActualPrice(BigDecimal.ZERO);
-        }
-
-        return payment;
-    }
-
-    /**
-     * 获得促销开始的时间
-     * @return
-     */
-    @Override
-    public LocalDateTime getpromotionRulestartTime() {
-
-        return this.getStartTime();
-    }
-
-    /**
-     * 获得促销结束的时间
-     * @return
-     */
-    @Override
-    public LocalDateTime getPromotionEndTime() {
-        return this.getEndTime();
-    }
-
-
-    /**
-     * 获取促销商品id
-     * @return
-     */
-    @Override
-    public Integer getPromotionGoodsId() {
-        return this.getGoodsId();
-    }
-
 
 
 

@@ -11,7 +11,6 @@ import com.xmu.discount.exception.PromotionNotFoundException;
 import com.xmu.discount.exception.SeriousException;
 import com.xmu.discount.exception.UnsupportException;
 import com.xmu.discount.exception.UpdatedDataFailedException;
-import com.xmu.discount.service.PromotionService;
 import com.xmu.discount.util.SpringContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,7 +42,7 @@ public  class PromotionServiceImpl {
 //     */
 //    public void setUnValid(PromotionRule promotionRule) {
 //        //只有进行中的促销活动规则可以设置实效
-//        if(promotionRule.isGoingOn()){
+//        if(promotionRule.isInTime()){
 //            //
 //            this.toDoSomthing(promotionRule);
 //        }
@@ -93,7 +92,7 @@ public  class PromotionServiceImpl {
      * @param order
      * @return
      */
-    public Payment getPayment(Order order) throws SeriousException, UnsupportException {
+    public Order getPayment(Order order) throws SeriousException, UnsupportException {
 
         //获得订单商品当前的促销活动规则
         List<PromotionRule> promotionRules=this.listCurrentPromotionByGoodsId(order.getOrderItemList().get(0).getProduct().getGoodsId());
@@ -138,7 +137,7 @@ public  class PromotionServiceImpl {
         List<PromotionRule> res=new ArrayList<>();
 
         for(PromotionRule promotionRule:promotionRules){
-            if(promotionRule.isGoingOn()){
+            if(promotionRule.isInTime()){
                 res.add(promotionRule);
             }
         }
@@ -155,7 +154,7 @@ public  class PromotionServiceImpl {
     public PromotionRule getCurrentPromotionByGoodsId(Integer goodsId) throws PromotionNotFoundException ,SeriousException {
         List<PromotionRule> promotionRules=this.listProimotionByGoodsId(goodsId);//活动商品的所有促销活动
         for(PromotionRule p:promotionRules){
-            LocalDateTime start=p.getpromotionRulestartTime();
+            LocalDateTime start=p.getpromotionRuleStartTime();
             LocalDateTime end=p.getPromotionEndTime();
             if(LocalDateTime.now().isBefore(start)||LocalDateTime.now().isAfter(end)) {
                 promotionRules.remove(p);

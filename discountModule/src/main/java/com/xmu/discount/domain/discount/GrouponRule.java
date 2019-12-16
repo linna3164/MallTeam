@@ -19,6 +19,12 @@ import java.util.*;
 @Alias("grouponRule")
 public class GrouponRule extends PromotionRule {
 
+    @Override
+    public boolean isDisabled() {
+        //TODO:标准组
+        return false;
+    }
+
     private GrouponRulePo realObj;
 
     public GrouponRule(GrouponRulePo grouponRulePo){
@@ -87,33 +93,43 @@ public class GrouponRule extends PromotionRule {
     }
 
     /**
-     * 返回商品的价格
+     * 提交订单时
      * @param order 订单
      * @return
      */
     @Override
-    public Payment getPayment(Order order) throws UnsupportException{
+    public Order getPayment(Order order) throws UnsupportException{
         List<OrderItem> orderItems = order.getOrderItemList();
         BigDecimal finalPrice = new BigDecimal(0);
+
         if(orderItems.size()!=1){
              throw new UnsupportException();
         }
         else {
-           OrderItem o=orderItems.get(0);
-           int num = o.getNumber();
-           BigDecimal price = o.getDealPrice();
+           OrderItem orderItem=orderItems.get(0);
+           int num = orderItem.getNumber();
+           BigDecimal price = orderItem.getProduct().getPrice();
+
            finalPrice = finalPrice.add(price.multiply(new BigDecimal(num)));
+
             Payment payment = new Payment();
             payment.setActualPrice(finalPrice);
-            payment.setBeginTime(LocalDateTime.now());
-            payment.setGmtCreate(LocalDateTime.now());
-            return payment;
+            payment.setBeginTime(this.getStartTime());
+            payment.setEndTime(this.getEndTime());
+
+            List<Payment> payments=new ArrayList<>(1);
+            payments.add(payment);
+
+            order.getOrderItemList().get(0).setItemType(2);
+            order.setPaymentList(payments);
+
+            return order;
         }
     }
 
 
     @Override
-    public LocalDateTime getpromotionRulestartTime() {
+    public LocalDateTime getpromotionRuleStartTime() {
         return this.getStartTime();
     }
 
