@@ -8,10 +8,7 @@ import com.xmu.discount.domain.discount.GrouponRulePo;
 import com.xmu.discount.domain.discount.PresaleRule;
 import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.domain.others.domain.CartItem;
-import com.xmu.discount.exception.CouponNotFoundException;
-import com.xmu.discount.exception.PromotionNotFoundException;
-import com.xmu.discount.exception.UnsupportException;
-import com.xmu.discount.exception.UpdatedDataFailedException;
+import com.xmu.discount.exception.*;
 import com.xmu.discount.service.CouponService;
 import com.xmu.discount.service.impl.*;
 import com.xmu.discount.util.ResponseUtil;
@@ -23,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.PathParam;
 import java.util.List;
 
 /**
@@ -144,6 +142,33 @@ public class DiscountController {
 //    }
 
     /**
+     * 查看已使用的优惠券
+     * @return
+     */
+    @GetMapping("/alreadyUsedCoupons")
+    public List<Coupon> getUsedCoupons(){
+        return null;
+    }
+
+    /**
+     * 查看未使用的优惠券
+     * @return
+     */
+    @GetMapping("/notUsedCoupons")
+    public List<Coupon> getNotUsedCoupons(){
+        return null;
+    }
+
+    /**
+     * 查看已过期的优惠券
+     * @return
+     */
+    @GetMapping("/expiredCoupons")
+    public List<Coupon> getExpiredCoupons(){
+        return null;
+    }
+
+    /**
      * 查看订单可用优惠券
      * @param cartItems
      * @return
@@ -159,13 +184,13 @@ public class DiscountController {
      **************团购*************
      */
     /**
-     * 获取团购规则列表
+     * 获取团某个商品的购规则列表
      * @param page
      * @param limit
      * @return
      */
     @GetMapping("/grouponRules")
-    public List<GrouponRule> getGroupRules(@RequestParam(defaultValue = "1") Integer page,
+    public List<GrouponRule> getGroupRules(@RequestParam Integer goodsId, @RequestParam(defaultValue = "1") Integer page,
                                            @RequestParam(defaultValue = "10") Integer limit){
         return null;
     }
@@ -176,7 +201,7 @@ public class DiscountController {
      * @return
      */
     @PostMapping("/grouponRules")
-    public GrouponRule addGrouponRule(@RequestBody GrouponRulePo grouponRulePo) throws UpdatedDataFailedException {
+    public GrouponRule addGrouponRule(@RequestBody GrouponRulePo grouponRulePo) throws UpdatedDataFailedException, SeriousException {
         GrouponRule grouponRule=new GrouponRule(grouponRulePo);
         return (GrouponRule)discountService.addPromotion(grouponRule);
     }

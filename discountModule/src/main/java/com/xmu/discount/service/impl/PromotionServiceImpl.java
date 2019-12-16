@@ -181,7 +181,7 @@ public  class PromotionServiceImpl {
      * @param promotionRule
      * @return
      */
-    public PromotionRule addPromotion(PromotionRule promotionRule) throws UpdatedDataFailedException {
+    public PromotionRule addPromotion(PromotionRule promotionRule) throws UpdatedDataFailedException, SeriousException {
         //获得商品的所有促销活动
         List<PromotionRule> promotionRules=this.listProimotionByGoodsId(promotionRule.getPromotionGoodsId());
         if(promotionRule.isOkToAdd(promotionRules)){

@@ -47,31 +47,31 @@ public class CouponServiceImpl {
      * @param couponRule
      * @return
      */
-    public Coupon addCoupon(CouponRule couponRule,Integer userId) throws CouponNotFoundException, UnsupportException, CouponRuleNotFoundException {
-        List<Coupon> coupons=couponDao.listCouponByCouponRuleIdAndUserId(couponRule.getId(),userId);
-
-        //找不到couponRule
-        if(couponRule==null){
-            throw new CouponRuleNotFoundException();
-        }
-        //用户还没领取过
-        if(coupons.size()>0){
-           Coupon coupon=couponRule.createCoupon(userId);
-            //不能领取
-           if(coupon==null){
-               throw new UnsupportException();
-           }
-           else{
-               couponDao.addCoupon(coupon);
-               couponRuleDao.updateCouponRuleById(couponRule);
-           }
-           return coupon;
-        }
-        //用户领取过了
-        else{
-            throw new UnsupportException();
-        }
-    }
+//    public Coupon addCoupon(CouponRule couponRule,Integer userId) throws CouponNotFoundException, UnsupportException, CouponRuleNotFoundException {
+//        List<Coupon> coupons=couponDao.listCouponByCouponRuleIdAndUserId(couponRule.getId(),userId);
+//
+//        //找不到couponRule
+//        if(couponRule==null){
+//            throw new CouponRuleNotFoundException();
+//        }
+//        //用户还没领取过
+//        if(coupons.size()>0){
+//           Coupon coupon=couponRule.createCoupon(userId);
+//            //不能领取
+//           if(coupon==null){
+//               throw new UnsupportException();
+//           }
+//           else{
+//               couponDao.addCoupon(coupon);
+//               couponRuleDao.updateCouponRuleById(couponRule);
+//           }
+//           return coupon;
+//        }
+//        //用户领取过了
+//        else{
+//            throw new UnsupportException();
+//        }
+//    }
 
 
     /**
