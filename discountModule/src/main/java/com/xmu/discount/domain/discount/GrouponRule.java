@@ -19,10 +19,15 @@ import java.util.*;
 @Alias("grouponRule")
 public class GrouponRule extends PromotionRule {
 
+
     @Override
-    public boolean isDisabled() {
-        //TODO:标准组
-        return false;
+    public boolean isNotFinished() {
+        if(this.getStatusCode()==1){
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
     private GrouponRulePo realObj;
@@ -35,6 +40,10 @@ public class GrouponRule extends PromotionRule {
 
     public GrouponRule() {
 
+    }
+
+    public GrouponRule(Integer id) {
+        this.setId(id);
     }
 
     /**
@@ -265,7 +274,12 @@ public class GrouponRule extends PromotionRule {
         realObj.setStartTime(startTime);
     }
 
-    public void setStatusCode(Boolean statusCode) {
+    @Override
+    public Integer getStatusCode() {
+        return realObj.getStatusCode();
+    }
+
+    public void setStatusCode(Integer statusCode) {
         realObj.setStatusCode(statusCode);
     }
 
@@ -293,9 +307,6 @@ public class GrouponRule extends PromotionRule {
         return realObj.getBeDeleted();
     }
 
-    public Boolean getStatusCode() {
-        return realObj.getStatusCode();
-    }
 
     public String getGrouponLevelStragety() {
         return realObj.getGrouponLevelStrategy();

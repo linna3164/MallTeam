@@ -19,14 +19,21 @@ import java.util.List;
 public class CouponRuleServiceImpl extends PromotionServiceImpl {
 
 
-
-
     @Autowired
     CouponRuleDao couponRuleDao;
 
     @Autowired
     CouponDao couponDao;
 
+
+    /**
+     * 管理员设置优惠券规则失效后把用户未使用的优惠券设置为失效
+     * @param promotionRule
+     */
+    @Override
+    public void toDoSomthingAfterDisable(PromotionRule promotionRule) {
+        //找到该优惠券规则未使用的优惠券
+    }
 
     /**
      * 管理员新增优惠券规则
@@ -66,19 +73,7 @@ public class CouponRuleServiceImpl extends PromotionServiceImpl {
         }
     }
 
-//    /**
-//     * 管理员删除优惠券规则（活动生效后不能删除和修改）
-//     * @param id
-//     * @return
-//     */
-//    public boolean deleteCouponRuleById(Integer id) {
-//        CouponRule couponRule=(CouponRule)couponRuleDao.getCouponRuleById(id);
-//        //优惠券活动是否开始
-//        if(!couponRule.isAlreadyStart()){
-//            couponRuleDao.deletePromotionRuleById(id);
-//        }
-//        return true;
-//    }
+
 
     /**
      * 管理员查看所有优惠券规则
@@ -89,20 +84,5 @@ public class CouponRuleServiceImpl extends PromotionServiceImpl {
     }
 
 
-//    /**
-//     * 管理员修改优惠券规则
-//     * @param couponRule
-//     * @return
-//     */
-//    public CouponRule updateCouponRule(CouponRule couponRule) {
-//        couponRule.setGmtModified(LocalDateTime.now());
-//        couponRuleDao.updateCouponRuleById(couponRule);
-//        return couponRule;
-//    }
-
-//    public CouponRule getCouponRuleById(Integer id)
-//    {
-//        return couponRuleDao.getCouponRuleById(id);
-//    }
 
 }

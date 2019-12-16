@@ -17,6 +17,8 @@ public class PresaleRuleDao implements PromotionRuleDao {
     @Autowired
     public  PresaleRuleMapper presaleRuleMapper;
 
+
+
     /**
      * 用id找预售规则
      * @param id
@@ -87,6 +89,16 @@ public class PresaleRuleDao implements PromotionRuleDao {
         else{
             return true;
         }
+    }
+
+    @Override
+    public void  setDisable(PromotionRule promotionRule) throws UpdatedDataFailedException {
+
+        PresaleRule presaleRule=(PresaleRule) promotionRule;
+        PresaleRule pre=new PresaleRule(presaleRule.getId());
+        //TODO:标准组！！！
+        pre.setStatusCode(2);
+        this.updatePromotionRuleById(presaleRule);
     }
 
 

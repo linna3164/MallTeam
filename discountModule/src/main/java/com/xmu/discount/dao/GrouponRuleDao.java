@@ -20,6 +20,16 @@ public class GrouponRuleDao implements PromotionRuleDao {
     @Autowired
     public GrouponRuleMapper grouponRuleMapper;
 
+
+    @Override
+    public void setDisable(PromotionRule promotionRule) throws UpdatedDataFailedException {
+        GrouponRule couponRule=(GrouponRule) promotionRule;
+        GrouponRule pre=new GrouponRule(couponRule.getId());
+        //TODO:标准组！！！
+        pre.setStatusCode(2);
+        this.updatePromotionRuleById(couponRule);
+    }
+
     /**
      * 用id找团购规则
      * @param id

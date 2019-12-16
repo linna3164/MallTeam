@@ -22,6 +22,15 @@ public class CouponRuleDao implements PromotionRuleDao  {
 
 
     @Override
+    public void setDisable(PromotionRule promotionRule) throws UpdatedDataFailedException {
+        CouponRule couponRule=(CouponRule) promotionRule;
+        CouponRule pre=new CouponRule(couponRule.getId());
+        //TODO:标准组！！！
+        pre.setStatusCode(2);
+        this.updatePromotionRuleById(couponRule);
+    }
+
+    @Override
     public PromotionRule getPromotionRuleById(Integer id) throws PromotionNotFoundException {
         CouponRulePo couponRulePo=couponRuleMapper.getCouponRuleById(id);
         CouponRule couponRule=new CouponRule(couponRulePo);

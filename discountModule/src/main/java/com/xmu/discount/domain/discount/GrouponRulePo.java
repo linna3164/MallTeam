@@ -31,7 +31,7 @@ public class GrouponRulePo {
     /**
      * 判断团购是否还在进行中
      */
-    private Boolean statusCode;
+    private Integer statusCode;
     /**
      * 团购等级（满多少人组团多少折扣）
      * JSON格式: {"strategy": [{"lowerbound":xxx, "upperbound":xxx, "rate":xxx}]}, xxx为具体数值
@@ -71,11 +71,11 @@ public class GrouponRulePo {
         this.endTime = endTime;
     }
 
-    public Boolean getStatusCode() {
+    public Integer getStatusCode() {
         return statusCode;
     }
 
-    public void setStatusCode(Boolean statusCode) {
+    public void setStatusCode(Integer statusCode) {
         this.statusCode = statusCode;
     }
 

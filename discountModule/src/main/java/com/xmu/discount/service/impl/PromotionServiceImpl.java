@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public  class PromotionServiceImpl {
+public abstract class PromotionServiceImpl {
 
     @Autowired
     public GrouponRuleDao grouponRuleDao;
@@ -39,27 +39,23 @@ public  class PromotionServiceImpl {
     /**
      * 活动实效后的行为
      */
-//    public  abstract void toDoSomthing(PromotionRule promotionRule);
+    public  abstract void toDoSomthingAfterDisable(PromotionRule promotionRule);
 
-//    /**
-//     * 设置活动实效
-//     * @param promotionRule
-//     */
-//    public void setUnValid(PromotionRule promotionRule) {
-//        //只有进行中的促销活动规则可以设置实效
-//        if(promotionRule.isInTime()){
-//            //
-//            this.toDoSomthing(promotionRule);
-//        }
-//    }
+
+
 
 
     /**
      * 设置失效
      * @param promotionRule
      */
-    public void setDisabled(PromotionRule promotionRule){
-        promotionRule.setActiveStatus(PromotionRule.ActiveStatus.DISABLED);
+    public void setDisabled(PromotionRule promotionRule) throws UpdatedDataFailedException {
+        if(promotionRule.isOkToDisable())
+        {
+            String daoName=getDaoClassName(promotionRule);
+            ((PromotionRuleDao)SpringContextUtil.getBean(daoName)).setDisable(promotionRule);
+            this.toDoSomthingAfterDisable(promotionRule);
+        }
     }
 
     /**

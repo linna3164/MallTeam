@@ -17,8 +17,19 @@ public abstract class PromotionRule implements Serializable {
 
     public abstract Integer getId();
 
-//    //0未进行，1已进行，2未进行
-//    private Integer statusCode;
+
+    /**
+     * 是否可设置失效
+     * @return
+     */
+    public boolean isOkToDisable(){
+        if(this.getActiveStatus().equals(ActiveStatus.NOTFINISHED)){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 
     /**
      * 获取促销活动的状态
@@ -57,17 +68,26 @@ public abstract class PromotionRule implements Serializable {
         }
     }
 
+    public abstract Integer getStatusCode();
+
     /**
      * 判断活动是否未结束
      * @return
      */
-    public abstract boolean isNotFinished();
+    public abstract  boolean isNotFinished();
+
 
     /**
      * 判断活动是否失效
      * @return
      */
-    public abstract boolean isDisabled();
+    public  boolean isDisabled(){
+        if(this.getStatusCode()==2){
+            return true;
+        }
+        //TODO:标准组！！！
+        return false;
+    }
 
     /**
      * 促销活动是否可删除

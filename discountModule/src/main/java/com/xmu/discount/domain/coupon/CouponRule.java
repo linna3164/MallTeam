@@ -15,10 +15,15 @@ import java.util.*;
 
 public class CouponRule extends PromotionRule {
 
+
     @Override
-    public boolean isDisabled() {
-        //TODO:根据标准组
-        return false;
+    public boolean isNotFinished() {
+        if(super.isInTime()){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     @Override
@@ -104,23 +109,7 @@ public class CouponRule extends PromotionRule {
         return false;
     }
 
-//        /**
-//         * 优惠券规则是否已开始
-//         * @return
-//         */
-//    public  boolean isAlreadyStart(){
-//        LocalDateTime now = LocalDateTime.now();
-//        return (this.getBeginTime().isBefore(now));
-//    }
-//
-//    /**
-//     * 优惠券规则是否已经结束
-//     * @return
-//     */
-//    public  boolean isAlreadyEnd(){
-//        LocalDateTime now = LocalDateTime.now();
-//        return (this.getEndTime().isBefore(now));
-//    }
+
 
     /**
      * 优惠券规则能否被领取（有剩余张数，且状态是inprocess）
@@ -141,15 +130,7 @@ public class CouponRule extends PromotionRule {
         return this.getCollectedNum()<this.getTotal();
     }
 
-//    /**
-//     * 优惠券规则是否在时间内
-//     * @return
-//     */
-//    public boolean isInTime(){
-//        LocalDateTime now = LocalDateTime.now();
-//        return this.getBeginTime().isBefore(now)&&
-//                this.getEndTime().isAfter(now);
-//    }
+
 
     /**
      * 获得能用于此优惠卷规则的明细  ok
@@ -300,7 +281,9 @@ public class CouponRule extends PromotionRule {
     }
 
 
-
+    public CouponRule(Integer id) {
+        this.setId(id);
+    }
 
     private static final Logger logger = LoggerFactory.getLogger(CouponRule.class);
     private static final Integer MAXIDNUMS=2500;
@@ -371,6 +354,7 @@ public class CouponRule extends PromotionRule {
      * 活动状态
      */
     private ActiveStatus activeStatus;
+
 
 
     public CouponRule() {
@@ -505,6 +489,7 @@ public class CouponRule extends PromotionRule {
         realObj.setGoodsList2(goodsList2);
     }
 
+    @Override
     public Integer getStatusCode() {
         return realObj.getStatusCode();
     }

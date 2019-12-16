@@ -19,10 +19,13 @@ public class PresaleRule extends PromotionRule {
 
 
     @Override
-    public boolean isDisabled() {
-        //TODO:标准组！！！
+    public boolean isNotFinished() {
+        if(this.getStatusCode()==1){
+            return true;
+        }
         return false;
     }
+
 
     /**
      * 是否可付定金
@@ -116,6 +119,9 @@ public class PresaleRule extends PromotionRule {
     }
 
 
+    public PresaleRule(Integer id) {
+        this.id = id;
+    }
 
     private Integer id;
     /**
@@ -137,7 +143,7 @@ public class PresaleRule extends PromotionRule {
     /**
      *判断预售是否还在进行中
      */
-    private Boolean statusCode;
+    private Integer statusCode;
     /**
      *预售商品id
      */
@@ -248,11 +254,12 @@ public class PresaleRule extends PromotionRule {
         this.endTime = endTime;
     }
 
-    public Boolean getStatusCode() {
+    @Override
+    public Integer getStatusCode() {
         return statusCode;
     }
 
-    public void setStatusCode(Boolean statusCode) {
+    public void setStatusCode(Integer statusCode) {
         this.statusCode = statusCode;
     }
 

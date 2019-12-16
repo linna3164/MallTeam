@@ -9,6 +9,9 @@ import java.util.List;
 
 public interface PromotionRuleDao {
 
+
+    public void  setDisable(PromotionRule promotionRule) throws UpdatedDataFailedException;
+
     /**
      * 用id找促销规则
      * @param id
