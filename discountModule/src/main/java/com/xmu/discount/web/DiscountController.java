@@ -5,6 +5,7 @@ import com.xmu.discount.domain.coupon.CouponRule;
 import com.xmu.discount.domain.coupon.CouponRulePo;
 import com.xmu.discount.domain.discount.GrouponRule;
 import com.xmu.discount.domain.discount.GrouponRulePo;
+import com.xmu.discount.domain.discount.PresaleRule;
 import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.domain.others.domain.CartItem;
 import com.xmu.discount.exception.PromotionNotFoundException;
@@ -152,6 +153,9 @@ public class DiscountController {
           return couponService.listAvailableCoupons(cartItems);
     }
 
+    /*
+     **************团购*************
+     */
     /**
      * 获取团购规则列表
      * @param page
@@ -211,12 +215,117 @@ public class DiscountController {
         return null;
     }
 
-    /*此url待定，不确定界面标准组是否实现*/
-    //经协商，加上这条url，用来获取团购商品列表/
 
-    @GetMapping("/grouponGoods")
-    public List<GrouponRule> getGrouponGoods(){
+    //经协商，加上这条url，用来获取团购商品列表/ 管理员可以看到除了删除的所有团购
+    @GetMapping("admin/grouponGoods")
+    public List<GrouponRule> getAllGrouponGoods(){
         return null;
+    }
+
+    //经协商，加上这条url，用来获取团购商品列表/ 用户可以看到没有删除且状态为上架的团购
+    @GetMapping("/grouponGoods")
+    public List<GrouponRule> getOnsaleGrouponGoods(@RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "10") Integer limit){
+        return null;
+    }
+    /*
+          **********预售********************
+     */
+    /**
+     * 管理员根据条件查看预售信息
+     * @param page
+     * @param limit
+     * @return
+     */
+    @GetMapping("/presaleRules")
+    public List<PresaleRule> getAllPresaleRules(@RequestParam(defaultValue = "1") Integer page,
+                                                @RequestParam(defaultValue = "10") Integer limit){
+        return presaleService.listCurrentPromotionByGoodsId();
+
+    }
+
+    /**
+     * 管理员查看预售商品列表
+     * @param page
+     * @param limit
+     * @return
+     */
+    @GetMapping("admin/presaleRules")
+    public List<PresaleRule> getAllPresaleRules(@RequestParam(defaultValue = "1") Integer page,
+                                                @RequestParam(defaultValue = "10") Integer limit){
+        return presaleService.listAllPresaleRules();
+
+    }
+
+    /**
+     * 管理员发布预售信息
+     * @param presaleRule
+     * @return
+     * @throws UpdatedDataFailedException
+     */
+    @PostMapping("/presaleRules")
+    public Object addPresaleRule(@RequestBody PresaleRule presaleRule) throws UpdatedDataFailedException {
+        PresaleRule presaleRule1=(PresaleRule)presaleService.addPromotion((PromotionRule) presaleRule);
+        if(presaleRule1==null) return ResponseUtil.badArgument();
+        else return ResponseUtil.ok(presaleRule1);
+    }
+
+    /**
+     * 管理员修改预售信息
+     * @param presaleRule
+     * @param id
+     * @return
+     * @throws UpdatedDataFailedException
+     */
+    @PutMapping("/presaleRules/{id}")
+    public Object updatePresaleRuleById(@RequestBody PresaleRule presaleRule,@PathVariable Integer id) throws UpdatedDataFailedException {
+        presaleRule.setId(id);
+        PresaleRule presaleRule1=(PresaleRule) presaleService.updatepromotionRule((PromotionRule) presaleRule);
+        if(presaleRule1==null) return ResponseUtil.badArgument();
+        else return ResponseUtil.ok(presaleRule1);
+    }
+
+    /**
+     * 查看预售信息详情
+     * @param id
+     * @return
+     * @throws PromotionNotFoundException
+     */
+    @GetMapping("/presaleRules/{id}")
+    public Object getPresaleRuleById(@PathVariable Integer id) throws PromotionNotFoundException {
+        PresaleRule presaleRule=(PresaleRule) presaleService.getPromotionById(id,"s");
+        if(presaleRule==null) return ResponseUtil.badArgumentValue();
+        else return ResponseUtil.ok(presaleRule);
+    }
+
+    /**
+     * 管理员通过id删除预售信息
+     * @param id
+     * @return
+     * @throws PromotionNotFoundException
+     */
+    @DeleteMapping("presaleRules/{id}")
+    public Object deletePresaleRuleById(@PathVariable Integer id) throws PromotionNotFoundException {
+        PresaleRule presaleRule=(PresaleRule)presaleService.getPromotionById(id,"ssss"); //为什么会有name这个参数
+      if(presaleRule!=null) {
+          presaleService.deletePromotionById(presaleRule);
+          presaleRule = (PresaleRule) presaleService.getPromotionById(id, "ssss");
+          return ResponseUtil.ok(presaleRule);
+      }
+      else return ResponseUtil.badArgumentValue();
+    }
+
+    /**
+     * 用户查看预售商品列表，只能查看上架的
+     * @param page
+     * @param limit
+     * @return
+     */
+    @GetMapping("/presaleRules")
+    public List<PresaleRule> getOnsalePresaleRules(@RequestParam(defaultValue = "1") Integer page,
+                                                @RequestParam(defaultValue = "10") Integer limit){
+        return presaleService.listOnsalePresaleRules();
+
     }
 
 
