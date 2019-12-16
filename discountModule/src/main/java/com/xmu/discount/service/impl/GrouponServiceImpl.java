@@ -7,6 +7,7 @@ import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.others.domain.Payment;
 import com.xmu.discount.exception.SeriousException;
+import com.xmu.discount.inter.OrderFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,9 @@ public class GrouponServiceImpl extends PromotionServiceImpl{
 
     @Autowired
     GrouponRuleDao grouponRuleDao;
+
+    @Autowired
+    OrderFeign orderFeign;
 
 //    /**
 //     * 团购活动失效后的行为
@@ -56,9 +60,9 @@ public class GrouponServiceImpl extends PromotionServiceImpl{
         List<GrouponRulePo> grouponRulePoList = getGrouponRulePoList();
         for(GrouponRulePo grouponRulePo:grouponRulePoList)
         {
-            List<Order> orderList = OrderFeign.getGrouponOrders(grouponRulePo);
+            List<Order> orderList = orderFeign.getGrouponOrders(grouponRulePo);
             List<Payment> paymentList = caculGrouponOrderRefundList(orderList);
-            OrderFeign.refundGrouponOrder(paymentList);
+            orderFeign.refundGrouponOrder(paymentList);
         }
     }
 

@@ -1,49 +1,37 @@
-server:
-  port: 8080
-
-spring:
-  application:
-    name: test
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/oomall?serverTimezone=UTC
-    username: root
-    password: 6892778tt
-    druid:
-      #初始化时建立物理连接的个数
-      initial-size: 3
-      #  最小连接池数量
-      min-idle: 3
-      #最大连接池数量
-      max-active: 10
-      #获取连接时最大等待时间
-      max-wait: 60000
-      #配置监控页面访问登录名及密码
-      stat-view-servlet:
-        login-username: admin
-        login-password: 123456
-      filter:
-        stat:
-          #是否开启慢sql查询监控
-          log-slow-sql: true
-          #慢SQL执行时间
-          slow-sql-millis: 100
-      validation-query: select 1
-
-#eureka:
-#  instance:
-#    hostname: localhost
-#    prefer-ip-address: true
-#  client:
-#    service-url:
-#      defaultZone: http://localhost:7878/eureka/
-
-
-#mybatis:
-#  #domain对象的包
-#  type-aliases-package: com.xmu.discount.doamin.coupon
-#  #mapper。xml所在的位置
-#  mapper-locations: classpath:com.xmu.discount/*.xml
-#  configuration:
-#    #自动将SQL中查出来的带下划线的字段，转换为驼峰标志，再去匹配类中的属性
-#    map-underscore-to-camel-case: true
+#
+##mybatis:
+##  #domain对象的包
+##  type-aliases-package: com.xmu.discount.doamin.coupon
+##  #mapper。xml所在的位置
+##  mapper-locations: classpath:com.xmu.discount/*.xml
+##  configuration:
+##    #自动将SQL中查出来的带下划线的字段，转换为驼峰标志，再去匹配类中的属性
+##    map-underscore-to-camel-case: true
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://127.0.0.1:3306/oomall
+#    #中央数据库或者命令行
+#    data-username: ooadUser
+#    password: ooad
+#    # type: com.alibaba.druid.pool.DruidDataSource #druid连接池：数据库的连接可以设置最大连接数（连接池）、数据库的sql语句写得怎么样？？？。
+#    druid:
+#      #初始化时建立物理连接的个数
+#      initial-size: 3
+#        neophyte
+#        最小连接池数量
+#      min-idle: 3
+#      #最大连接池数量
+#      max-active: 10
+#      #获取连接时最大等待时间
+#      max-wait: 60000
+#      #配置监控页面访问登录名及密码
+#      stat-view-servlet:
+#        login-username: admin
+#        login-password: 123456
+#      filter:
+#        stat:
+#          #是否开启慢sql查询监控------查到日志，进而进行调优。
+#          log-slow-sql: true
+#          #慢SQL执行时间
+#          slow-sql-millis: 100
