@@ -42,14 +42,21 @@ public abstract class PromotionServiceImpl {
     public  abstract void toDoSomthingAfterDisable(PromotionRule promotionRule) throws SeriousException;
 
 
-
+    /**
+     * 获取某种促销规则列表
+     * @param promotionName
+     * @return
+     */
+    public List<PromotionRule> listPromotionRule(String promotionName){
+        return ((PromotionRuleDao)SpringContextUtil.getBean(promotionName+"Dao")).listPromotions();
+    }
 
 
     /**
      * 设置失效
      * @param promotionRule
      */
-    public void setDisabled(PromotionRule promotionRule) throws UpdatedDataFailedException {
+    public void setDisabled(PromotionRule promotionRule) throws UpdatedDataFailedException, SeriousException {
         if(promotionRule.isOkToDisable())
         {
             String daoName=getDaoClassName(promotionRule);

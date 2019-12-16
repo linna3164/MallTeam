@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.swing.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,17 +24,6 @@ public class GrouponServiceImpl extends PromotionServiceImpl{
     @Autowired
     GrouponRuleDao grouponRuleDao;
 
-//    /**
-//     * 团购活动失效后的行为
-//     * @param promotionRule
-//     */
-//    public List<Payment> toDoSomthing(PromotionRule promotionRule) {
-//        //TODO:退款，找到改团购活动的订单（根据dealPrice）
-//        List<Order> orders=orderService.listOrdersOfGrouponRule(GrouponRule grouponRule);
-//        for(Order order:orders){
-//            BigDecimal refundMoney=order.getOrderItemList().get(0).getDealPrice();
-//        }
-//    }
 
     /**
      *
@@ -62,10 +52,17 @@ public class GrouponServiceImpl extends PromotionServiceImpl{
         }
     }
 
-    public List<GrouponRulePo> getGrouponRulePoList(){
+    public List<GrouponRule> listNeedCalcuGrouponRule(){
         //TODO:获得前一天完成的grouponRulePo
+        List<PromotionRule> grouponRules=this.listPromotionRule("GrouponDao");
+        List<GrouponRule> res=new ArrayList<>();
+        for(GrouponRule grouponRule:grouponRules){
+
+        }
         return null;
     }
+
+
 
     public List<Payment> caculGrouponOrderRefundList(List<Order> orderList)
     {
