@@ -4,6 +4,7 @@ import com.xmu.discount.domain.discount.GrouponRule;
 import com.xmu.discount.domain.discount.GrouponRulePo;
 import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.exception.PromotionNotFoundException;
+import com.xmu.discount.exception.SeriousException;
 import com.xmu.discount.exception.UpdatedDataFailedException;
 import com.xmu.discount.mapper.GrouponRuleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +47,9 @@ public class GrouponRuleDao implements PromotionRuleDao {
     public List<PromotionRule> listPromotions() {
         List<GrouponRulePo> grouponRules=grouponRuleMapper.getGrouponRules();
         List<GrouponRule> grouponRules1=new ArrayList<GrouponRule>();
-        for(GrouponRulePo g:grouponRules)
+        for(GrouponRulePo g:grouponRules) {
             grouponRules1.add(new GrouponRule(g));
+        }
         List<PromotionRule> promotionRules=new ArrayList<PromotionRule>();
         promotionRules.addAll(grouponRules1);
         return promotionRules;
@@ -59,12 +61,18 @@ public class GrouponRuleDao implements PromotionRuleDao {
      * @return
      */
     @Override
-    public int addPromotionRule(PromotionRule promotionRule) {
+    public int addPromotionRule(PromotionRule promotionRule) throws SeriousException {
         GrouponRule grouponRule=(GrouponRule)promotionRule;
         GrouponRulePo grouponRulePo=grouponRule.getRealObj();
         grouponRule.setGmtCreate(LocalDateTime.now());
         grouponRule.setGmtModified(LocalDateTime.now());
-        return grouponRuleMapper.addGrouponRule(grouponRulePo);
+        int res= grouponRuleMapper.addGrouponRule(grouponRulePo);
+        if(res==0){
+            throw new SeriousException();
+        }
+        else{
+            return res;
+        }
     }
 
     /**
@@ -77,8 +85,9 @@ public class GrouponRuleDao implements PromotionRuleDao {
         List<PromotionRule>promotionRules=new ArrayList<>();
         List<GrouponRulePo> grouponRules=grouponRuleMapper.listGrouponRuleByGoodsId(goodsId);
         List<GrouponRule> grouponRules1=new ArrayList<GrouponRule>();
-        for(GrouponRulePo g:grouponRules)
+        for(GrouponRulePo g:grouponRules) {
             grouponRules1.add(new GrouponRule(g));
+        }
         return promotionRules;
     }
 

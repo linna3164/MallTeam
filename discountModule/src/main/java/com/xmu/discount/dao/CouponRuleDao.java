@@ -3,6 +3,8 @@ package com.xmu.discount.dao;
 import com.xmu.discount.domain.coupon.CouponRule;
 import com.xmu.discount.domain.coupon.CouponRulePo;
 import com.xmu.discount.domain.discount.PromotionRule;
+import com.xmu.discount.exception.PromotionNotFoundException;
+import com.xmu.discount.exception.UpdatedDataFailedException;
 import com.xmu.discount.mapper.CouponRuleMapper;
 import com.xmu.discount.util.JacksonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,22 +15,66 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class CouponRuleDao  {
+public class CouponRuleDao implements PromotionRuleDao  {
 
     @Autowired
     private CouponRuleMapper couponRuleMapper;
 
-    /**
-     * 用id找优惠卷规则
-     * @param id 优惠卷规则id
-     * @return 优惠
-     */
 
-    public  CouponRule getCouponRuleById(Integer id){
+    @Override
+    public PromotionRule getPromotionRuleById(Integer id) throws PromotionNotFoundException {
         CouponRulePo couponRulePo=couponRuleMapper.getCouponRuleById(id);
         CouponRule couponRule=new CouponRule(couponRulePo);
         return couponRule;
     }
+
+    @Override
+    public List<PromotionRule> listPromotions() {
+        List<CouponRulePo> couponRulePos=couponRuleMapper.listCouponRules();
+        List<PromotionRule> couponRules = new ArrayList<PromotionRule>();
+        for(int i=0;i<couponRulePos.size();i++)
+        {
+            CouponRule couponRule=new CouponRule(couponRulePos.get(i));
+            couponRules.add(couponRule);
+        }
+        return couponRules;
+    }
+
+    @Override
+    public int addPromotionRule(PromotionRule promotionRule) {
+        CouponRule couponRule=(CouponRule)promotionRule;
+        CouponRulePo couponRulePo=couponRule.getRealObj();
+        couponRule.setGmtCreate(LocalDateTime.now());
+        couponRule.setGmtModified(LocalDateTime.now());
+        return couponRuleMapper.addCouponRule(couponRulePo);
+    }
+
+    @Override
+    public List<PromotionRule> listPromotionRuleByGoodsId(Integer goodsId) {
+        List<CouponRulePo> couponRulePos=couponRuleMapper.listCouponRules();
+        List<PromotionRule> couponRules = new ArrayList<PromotionRule>();
+        for(int i=0;i<couponRulePos.size();i++)
+        {
+            CouponRule couponRule=new CouponRule(couponRulePos.get(i));
+            couponRules.add(couponRule);
+        }
+        return couponRules;
+    }
+
+    @Override
+    public boolean updatePromotionRuleById(PromotionRule promotionRule) throws UpdatedDataFailedException {
+        CouponRule couponRule=(CouponRule)promotionRule;
+        CouponRulePo couponRulePo=couponRule.getRealObj();
+        couponRulePo.setGmtModified(LocalDateTime.now());
+        int res= couponRuleMapper.updateCouponRuleById(couponRulePo);
+        if(res==0){
+            throw new UpdatedDataFailedException();
+        }
+        else{
+            return true;
+        }
+    }
+
 
 
     /**
@@ -46,17 +92,7 @@ public class CouponRuleDao  {
            return couponRules;
     }
 
-    /**
-     * 新增优惠券规则
-     * @param couponRule
-     * @return
-     */
-    public int addCouponRule(CouponRule  couponRule) {
-        CouponRulePo couponRulePo=couponRule.getRealObj();
-        couponRule.setGmtCreate(LocalDateTime.now());
-        couponRule.setGmtModified(LocalDateTime.now());
-        return couponRuleMapper.addCouponRule(couponRulePo);
-    }
+
 
 //    /**
 //     * 获取商品的所有优惠券规则
@@ -75,21 +111,13 @@ public class CouponRuleDao  {
 //        return null;
 //    }
 
-    /**
-     * 修改优惠券规则
-     * @param couponRule
-     * @return
-     */
-    public int updateCouponRuleById(CouponRule couponRule) {
-        CouponRulePo couponRulePo=couponRule.getRealObj();
-        couponRulePo.setGmtModified(LocalDateTime.now());
-        return couponRuleMapper.updateCouponRuleById(couponRulePo);
-    }
+
 
     /**
      * 删除优惠券规则
      * @param id
      */
+    @Override
     public void deletePromotionRuleById(Integer id) {
         CouponRulePo couponRule=new CouponRulePo(id,true);
         couponRule.setGmtModified(LocalDateTime.now());

@@ -125,6 +125,8 @@ public  class PromotionServiceImpl {
         return promotionRules;
     }
 
+
+
     /**
      * 通过id找到商品当前的促销活动
      * @param goodsId

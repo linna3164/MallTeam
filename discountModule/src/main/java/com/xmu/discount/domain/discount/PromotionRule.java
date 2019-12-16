@@ -77,6 +77,9 @@ public abstract class PromotionRule implements Serializable {
      * @return
      */
     public boolean isNoConflict(List<PromotionRule> promotionRules){
+        if(promotionRules==null){
+            return true;
+        }
         for(PromotionRule promotion:promotionRules){
             //时间和其他促销活动无冲突
             if(this.getPromotionEndTime().isBefore(promotion.getpromotionRuleStartTime())||this.getpromotionRuleStartTime().isAfter(promotion.getPromotionEndTime())){

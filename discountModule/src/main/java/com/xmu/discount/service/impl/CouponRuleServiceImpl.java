@@ -2,10 +2,12 @@ package com.xmu.discount.service.impl;
 
 import com.xmu.discount.dao.CouponDao;
 import com.xmu.discount.dao.CouponRuleDao;
+import com.xmu.discount.dao.PromotionRuleDao;
 import com.xmu.discount.domain.coupon.Coupon;
 import com.xmu.discount.domain.coupon.CouponRule;
 import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.exception.UpdatedDataFailedException;
+import com.xmu.discount.util.SpringContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,13 +28,18 @@ public class CouponRuleServiceImpl extends PromotionServiceImpl {
 
 
     /**
-     * 添加优惠券规则
+     * 管理员新增优惠券规则
      * @param promotionRule
      * @return
      * @throws UpdatedDataFailedException
      */
     @Override
     public PromotionRule addPromotion(PromotionRule promotionRule) throws UpdatedDataFailedException {
+        if(promotionRule.isOkToAdd(null)){
+            //调用DAO层的add方法。
+            String daoName=getDaoClassName(promotionRule);
+            ((PromotionRuleDao) SpringContextUtil.getBean(daoName)).addPromotionRule(promotionRule);
+        }
         return super.addPromotion(promotionRule);
     }
 
@@ -58,19 +65,19 @@ public class CouponRuleServiceImpl extends PromotionServiceImpl {
         }
     }
 
-    /**
-     * 管理员删除优惠券规则（活动生效后不能删除和修改）
-     * @param id
-     * @return
-     */
-    public boolean deleteCouponRuleById(Integer id) {
-        CouponRule couponRule=(CouponRule)couponRuleDao.getCouponRuleById(id);
-        //优惠券活动是否开始
-        if(!couponRule.isAlreadyStart()){
-            couponRuleDao.deletePromotionRuleById(id);
-        }
-        return true;
-    }
+//    /**
+//     * 管理员删除优惠券规则（活动生效后不能删除和修改）
+//     * @param id
+//     * @return
+//     */
+//    public boolean deleteCouponRuleById(Integer id) {
+//        CouponRule couponRule=(CouponRule)couponRuleDao.getCouponRuleById(id);
+//        //优惠券活动是否开始
+//        if(!couponRule.isAlreadyStart()){
+//            couponRuleDao.deletePromotionRuleById(id);
+//        }
+//        return true;
+//    }
 
     /**
      * 管理员查看所有优惠券规则
@@ -80,32 +87,21 @@ public class CouponRuleServiceImpl extends PromotionServiceImpl {
         return couponRuleDao.listCouponRule();
     }
 
-    /**
-     * 管理员新增优惠券规则
-     * @param couponRule
-     * @return
-     */
-    public CouponRule addCouponRule(CouponRule couponRule) {
-//        couponRule.setGmtCreate(LocalDateTime.now());
-//        couponRule.setBeDeleted(false);
+
+//    /**
+//     * 管理员修改优惠券规则
+//     * @param couponRule
+//     * @return
+//     */
+//    public CouponRule updateCouponRule(CouponRule couponRule) {
 //        couponRule.setGmtModified(LocalDateTime.now());
-        return couponRule;
-    }
+//        couponRuleDao.updateCouponRuleById(couponRule);
+//        return couponRule;
+//    }
 
-    /**
-     * 管理员修改优惠券规则
-     * @param couponRule
-     * @return
-     */
-    public CouponRule updateCouponRule(CouponRule couponRule) {
-        couponRule.setGmtModified(LocalDateTime.now());
-        couponRuleDao.updateCouponRuleById(couponRule);
-        return couponRule;
-    }
-
-    public CouponRule getCouponRuleById(Integer id)
-    {
-        return couponRuleDao.getCouponRuleById(id);
-    }
+//    public CouponRule getCouponRuleById(Integer id)
+//    {
+//        return couponRuleDao.getCouponRuleById(id);
+//    }
 
 }
