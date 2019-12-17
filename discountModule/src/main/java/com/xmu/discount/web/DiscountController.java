@@ -185,11 +185,11 @@ public class DiscountController {
      * @param limit
      * @return
      */
-    @GetMapping("/grouponRules")
-    public List<GrouponRule> getGroupRules(@RequestParam Integer goodsId, @RequestParam(defaultValue = "1") Integer page,
-                                           @RequestParam(defaultValue = "10") Integer limit){
-        return promotionService.listPromotionRuleOfTypeWithGoods();
-    }
+//    @GetMapping("/grouponRules")
+//    public List<GrouponRule> getGroupRules(@RequestParam Integer goodsId, @RequestParam(defaultValue = "1") Integer page,
+//                                           @RequestParam(defaultValue = "10") Integer limit){
+//        return promotionService.listPromotionRuleOfTypeWithGoods();
+//    }
 
     /**
      * 新建团购规则
