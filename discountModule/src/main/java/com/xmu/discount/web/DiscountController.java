@@ -137,16 +137,15 @@
 //     * @return
 //     */
 //    @PostMapping("/coupons")
-//    public Object addCoupon(@RequestBody Coupon coupon) throws CouponNotFoundException, UnsupportException {
-//
-//
-////        Coupon coupon1=couponService.addCoupon(couponRule,1);    //直接传的coupon，参数都有
-////        if(coupon1==null) {
-////            return ResponseUtil.badArgumentValue();
-////        }else {
-////            return ResponseUtil.ok(coupon1);
-////        }
-//        return null;
+//    public Object addCoupon(@RequestBody Coupon coupon) throws CouponNotFoundException, UnsupportException, PromotionNotFoundException, CouponRuleNotFoundException, UpdatedDataFailedException {
+//        Integer id=coupon.getUserId();
+//        CouponRule couponRule= (CouponRule) couponRuleService.getPromotionById(coupon.getCouponRuleId(),"CouponRule");
+//        Coupon coupon1=couponService.addCoupon(couponRule,id);    //直接传的coupon，参数都有
+//        if(coupon1==null) {
+//            return ResponseUtil.badArgumentValue();
+//        }else {
+//            return ResponseUtil.ok(coupon1);
+//        }
 //    }
 //
 //
@@ -156,10 +155,10 @@
 //     * @return
 //     */
 //    @GetMapping("/coupons/availableCoupons")
-//    public List<Coupon> getAvailableCoupons(@RequestBody List<CartItem> cartItems, HttpServletRequest request){
+//    public List<Coupon> getAvailableCoupons(@RequestBody List<CartItem> cartItems, HttpServletRequest request) throws PromotionNotFoundException {
 //        Integer userId = Integer.valueOf(request.getHeader("userId"));
 //
-//          return couponService.listAvailableCoupons(cartItems);
+//          return couponService.listAvailableCoupons(cartItems,userId);
 //    }
 //
 //    /*
