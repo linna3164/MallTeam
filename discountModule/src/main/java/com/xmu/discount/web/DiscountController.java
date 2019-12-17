@@ -179,25 +179,26 @@ public class DiscountController {
     /*
      **************团购*************
      */
+
     /**
      * 获取团某个商品的购规则列表
      * @param page
      * @param limit
-     * @return
+     * @return 标准组List<GrouponRuleVo>，我们暂时是List<GrouponRule>！！！
      */
-//    @GetMapping("/grouponRules")
-//    public List<GrouponRule> getGroupRules(@RequestParam Integer goodsId, @RequestParam(defaultValue = "1") Integer page,
-//                                           @RequestParam(defaultValue = "10") Integer limit){
-//        return promotionService.listPromotionRuleOfTypeWithGoods();
-//    }
+    @GetMapping("/grouponRules")
+    public Object getGroupRules(@RequestParam Integer goodsId, @RequestParam(defaultValue = "1") Integer page,
+                                           @RequestParam(defaultValue = "10") Integer limit){
+        return promotionService.listPromotionRuleOfTypeWithGoods();
+    }
 
     /**
      * 新建团购规则
      * @param grouponRulePo
-     * @return
+     * @return 标准组GrouponRulePo，我们暂时是grouponRule!!!
      */
     @PostMapping("/grouponRules")
-    public GrouponRule addGrouponRule(@RequestBody GrouponRulePo grouponRulePo) throws UpdatedDataFailedException, SeriousException {
+    public Object addGrouponRule(@RequestBody GrouponRulePo grouponRulePo) throws UpdatedDataFailedException, SeriousException {
         GrouponRule grouponRule=new GrouponRule(grouponRulePo);
         return (GrouponRule) promotionService.addPromotion(grouponRule);
     }
@@ -205,10 +206,10 @@ public class DiscountController {
     /**
      * 通过id获得团购规则
      * @param id
-     * @return
+     * @return 标准组GrouponRuleVo，我们暂时是GrouponRule!!!
      */
-    @GetMapping("/grouponRules/{id}")
-    public GrouponRule findGroupRuleById(@PathVariable Integer id) throws PromotionNotFoundException {
+    @GetMapping("/admin/grouponRules/{id}")
+    public Object findGroupRuleById(@PathVariable Integer id) throws PromotionNotFoundException {
         return (GrouponRule) promotionService.getPromotionById(id,"sda");
     }
 
@@ -216,10 +217,10 @@ public class DiscountController {
      * 管理员修改团购规则
      * @param id
      * @param grouponRulePo
-     * @return
+     * @return 标准组GrouponRulePo，我们暂时是GrouponRule!!!
      */
     @PutMapping("/grouponRules/{id}")
-    public GrouponRule modifyGrouponRuleById(@PathVariable Integer id,@RequestBody GrouponRulePo grouponRulePo) throws UpdatedDataFailedException {
+    public Object modifyGrouponRuleById(@PathVariable Integer id,@RequestBody GrouponRulePo grouponRulePo) throws UpdatedDataFailedException {
         GrouponRule grouponRule=new GrouponRule(grouponRulePo);
         return (GrouponRule) promotionService.updatepromotionRule(grouponRule);
     }
@@ -227,7 +228,7 @@ public class DiscountController {
     /**
      * 管理员通过id删除团购规则
      * @param id
-     * @return
+     * @return 无
      */
     @DeleteMapping("/grouponRules/{id}")
     public Object deleteGroupRule(@PathVariable Integer id) throws PromotionNotFoundException, UpdatedDataFailedException {
@@ -241,6 +242,10 @@ public class DiscountController {
 
 
     //经协商，加上这条url，用来获取团购商品列表/ 管理员可以看到除了删除的所有团购
+    /**
+     *
+     * @return 标准组List<GrouponRuleVo>
+     */
     @GetMapping("admin/grouponGoods")
     public Object getAllGrouponGoods(){
         List<? extends PromotionRule> promotionRules=promotionService.listPromotionRuleOfTypeWithGoods("GrouponRule");
@@ -251,7 +256,14 @@ public class DiscountController {
         return promotionRules;
     }
 
+
     //经协商，加上这条url，用来获取团购商品列表/ 用户可以看到没有删除且状态为上架的团购
+    /**
+     *
+     * @param page
+     * @param limit
+     * @return 标准组List<GrouponRuleVo>
+     */
     @GetMapping("/grouponGoods")
     public Object getOnsaleGrouponGoods(@RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer limit){
@@ -371,5 +383,15 @@ public class DiscountController {
 //
 //    }
 
+
+    /**
+     * 返回payment
+     * @param order
+     * @return
+     */
+    @PostMapping("/discount/orders")
+    public Object getPayment(Order order){
+
+    }
 
 }
