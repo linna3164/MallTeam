@@ -8,6 +8,7 @@ class PresaleRuleDaoTest {
 
     @Test
     void getPromotionRuleById() {
+
     }
 
     @Test

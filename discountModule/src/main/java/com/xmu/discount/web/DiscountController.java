@@ -180,7 +180,7 @@ public class DiscountController {
      **************团购*************
      */
     /**
-     * 获取团某个商品的购规则列表
+     * 获取某个商品的团购规则列表
      * @param page
      * @param limit
      * @return

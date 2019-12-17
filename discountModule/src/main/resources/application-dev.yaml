@@ -41,3 +41,16 @@ eureka:
       lease-expiration-duration-in-seconds: 90
       #   服务续约(renew)的间隔，默认为30秒
       lease-renewal-interval-in-seconds: 30
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 15000
+
+
+feign:
+  hystrix:
+    enabled: true
