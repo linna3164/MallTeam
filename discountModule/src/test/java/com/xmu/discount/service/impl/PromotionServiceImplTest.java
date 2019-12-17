@@ -1,9 +1,12 @@
 package com.xmu.discount.service.impl;
 
-import com.sun.tools.javac.util.Log;
+
 import com.xmu.discount.DiscountApplication;
+import com.xmu.discount.domain.coupon.CouponRule;
 import com.xmu.discount.domain.discount.GrouponRule;
 import com.xmu.discount.domain.discount.GrouponRulePo;
+import com.xmu.discount.domain.discount.PromotionRule;
+import com.xmu.discount.exception.PromotionNotFoundException;
 import com.xmu.discount.exception.SeriousException;
 import com.xmu.discount.exception.UpdatedDataFailedException;
 import org.junit.jupiter.api.Test;
@@ -34,7 +37,25 @@ class PromotionServiceImplTest {
 
     @Autowired
     @Qualifier("presaleServiceImpl")
-    private PromotionServiceImpl presaleService;
+    private PresaleServiceImpl presaleService;
+
+     @Autowired
+     @Qualifier("couponRuleServiceImpl")
+     private PromotionServiceImpl couponRuleService;
+
+
+     @Test
+     void couponRuleService() throws PromotionNotFoundException, UpdatedDataFailedException {
+          List<CouponRule> couponRules= (List<CouponRule>) couponRuleService.listPromotionRuleOfType("couponRule");
+          for(CouponRule c:couponRules)
+              System.out.println(c);
+          CouponRule couponRule= (CouponRule) couponRuleService.getPromotionById(1,"couponRule");
+
+           couponRule.setBrief("改了");
+
+           couponRuleService.updatepromotionRule((PromotionRule) couponRule);
+           System.out.println(couponRuleService.getPromotionById(1,"couponRule"));
+     }
 
     @Test
     void addPromotion1() throws UpdatedDataFailedException, SeriousException {
