@@ -1,5 +1,6 @@
 package com.xmu.discount.web;
 
+import com.sun.org.apache.xml.internal.security.algorithms.implementations.IntegrityHmac;
 import com.xmu.discount.domain.coupon.Coupon;
 import com.xmu.discount.domain.coupon.CouponRule;
 import com.xmu.discount.domain.coupon.CouponRulePo;
@@ -52,7 +53,7 @@ public class DiscountController {
 
     /**
      *  管理员查看所有的优惠券规则
-     * @return 标准组List<couponRulePo>
+     * @return
      */
     @GetMapping("/admin/couponRules")
     public Object getCouponRules(@RequestParam(defaultValue = "1") Integer page,
@@ -63,7 +64,7 @@ public class DiscountController {
     /**
      * 管理员添加优惠券规则
      * @param couponRulePo
-     * @return  标准组couponRulePo!!!!!
+     * @return
      */
     @PostMapping("/couponRules")
     public Object addCouponRule(CouponRulePo couponRulePo,HttpServletRequest request) throws UpdatedDataFailedException, SeriousException {
@@ -74,7 +75,7 @@ public class DiscountController {
     /**
      * 通过id查找优惠券规则
      * @param id
-     * @return 标准组couponRulePo
+     * @return
      */
     @GetMapping("/couponRules/{id}")
     public Object findCouponRuleById(@PathVariable Integer id) throws PromotionNotFoundException {
@@ -85,7 +86,7 @@ public class DiscountController {
      * 修改优惠券规则
      * @param id
      * @param couponRulePo
-     * @return 标准组couponRulePo
+     * @return
      */
     @PutMapping("/couponRules/{id}")
     public Object updateCouponRuleById(@PathVariable Integer id,@RequestBody CouponRulePo couponRulePo,HttpServletRequest request) throws UpdatedDataFailedException {
@@ -97,7 +98,7 @@ public class DiscountController {
     /**
      *管理员通过id删除优惠券规则
      * @param id
-     * @return 无！！！！
+     * @return
      */
     @DeleteMapping("/couponRules/{id}")
     public Object deleteCouponRuleById(@PathVariable Integer id,HttpServletRequest request) throws PromotionNotFoundException, UpdatedDataFailedException {
@@ -105,90 +106,57 @@ public class DiscountController {
         couponRuleService.deletePromotionById(promotionRule);
 
             return couponRuleService.getPromotionById(id,"CouponRule");
-
     }
 
     /**
-     *管理员查看部分优惠券规则
-     * @param goodsId
-     * @param page
-     * @param limit
-     * @return 标准组List<couponRulePo>
+     * 用户查看部分优惠券规则
+     * @return
      */
     @GetMapping("/couponRules")
-    public Object getCouponRules(@RequestParam Integer goodsId, @RequestParam(defaultValue = "1") Integer page,
-                                 @RequestParam(defaultValue = "10") Integer limit){
-
+    public List<Object> userGetCouponRules(@RequestParam(defaultValue = "1") Integer page,
+                                           @RequestParam(defaultValue = "10") Integer limit){
+        return  null;
     }
 
-
-
-
     /**
-     * 查看已使用的优惠券
+     * 管理员查看不同状态状态所有优惠券
+     * 查看不同状态的优惠券（未使用、已过期、已使用）
+     * @param page
+     * @param limit
      * @return
      */
-    @GetMapping("/alreadyUsedCoupons")
-    public List<Coupon> getUsedCoupons(Integer userId ){
-        return couponService.listUsedCouponOfUser(userId);
+    @GetMapping("/notUsedCoupons/{showType}")
+    public List<Coupon> getCoupons(@RequestParam(defaultValue = "1") Integer page,
+                                   @RequestParam(defaultValue = "10") Integer limit){
+        return couponService.getCoupons();
     }
 
     /**
-     * 查看未使用的优惠券
+     * 管理员添加优惠券（用户领取优惠券）
+     * @param coupon
      * @return
-     */
-    @GetMapping("/notUsedCoupons")
-    public List<Coupon> getNotUsedCoupons(Integer userId){
-
-        return couponService.listUnUsedCouponOfUser(userId);
-    }
-
-    /**
-     * 查看已过期的优惠券
-     * @return
-     */
-    @GetMapping("/expiredCoupons")
-    public List<Coupon> getExpiredCoupons(Integer userId){
-
-        return couponService.listUnUsedCouponOfUser(userId);
-    }
-
-
-//    /**
-//     * 管理员查看所有优惠券
-//     * @param page
-//     * @param limit
-//     * @return
-//     */
-//    @GetMapping("/coupons")
-//    public List<Coupon> getCoupons(@RequestParam(defaultValue = "1") Integer page,
-//                                   @RequestParam(defaultValue = "10") Integer limit){
-//        return couponService.getCoupons();
-//    }
-
-    /**
-     * 管理员添加优惠券
-     * @param couponRule
-     * @return 标准组couponPo
      */
     @PostMapping("/coupons")
-    public Object addCoupon(@RequestBody CouponRule couponRule) throws CouponNotFoundException, UnsupportException {
-        Coupon coupon1=couponService.addCoupon(couponRule,1);
-        if(coupon1==null) {
-            return ResponseUtil.badArgumentValue();
-        }else {
-            return ResponseUtil.ok(coupon1);
-        }
+    public Object addCoupon(@RequestBody Coupon coupon) throws CouponNotFoundException, UnsupportException {
+
+
+//        Coupon coupon1=couponService.addCoupon(couponRule,1);    //直接传的coupon，参数都有
+//        if(coupon1==null) {
+//            return ResponseUtil.badArgumentValue();
+//        }else {
+//            return ResponseUtil.ok(coupon1);
+//        }
+        return null;
     }
 
 
     /**
      * 查看订单可用优惠券
      * @param cartItems
-     * @return List<Coupon>
+     * @return
      */
     @GetMapping("/coupons/availableCoupons")
-    public Object getAvailableCoupons(@RequestBody List<CartItem> cartItems, HttpServletRequest request){
+    public List<Coupon> getAvailableCoupons(@RequestBody List<CartItem> cartItems, HttpServletRequest request){
         Integer userId = Integer.valueOf(request.getHeader("userId"));
 
           return couponService.listAvailableCoupons(cartItems);
@@ -206,8 +174,8 @@ public class DiscountController {
      */
     @GetMapping("/grouponRules")
     public Object getGroupRules(@RequestParam Integer goodsId, @RequestParam(defaultValue = "1") Integer page,
-                                           @RequestParam(defaultValue = "10") Integer limit){
-        return promotionService.listPromotionRuleOfTypeWithGoods();
+                                           @RequestParam(defaultValue = "10") Integer limit) throws SeriousException, PromotionNotFoundException {
+        return promotionService.listCurrentPromotionByGoodsId(goodsId);
     }
 
     /**
@@ -228,7 +196,7 @@ public class DiscountController {
      */
     @GetMapping("/admin/grouponRules/{id}")
     public Object findGroupRuleById(@PathVariable Integer id) throws PromotionNotFoundException {
-        return (GrouponRule) promotionService.getPromotionById(id,"sda");
+        return (GrouponRule) promotionService.getPromotionById(id,"CouponRule");
     }
 
     /**
@@ -258,26 +226,19 @@ public class DiscountController {
         return ResponseUtil.ok();
     }
 
-
-    //经协商，加上这条url，用来获取团购商品列表/ 管理员可以看到除了删除的所有团购
     /**
-     *
+     *经协商，加上这条url，用来获取团购商品列表/ 管理员可以看到除了删除的所有团购
      * @return 标准组List<GrouponRuleVo>
      */
     @GetMapping("admin/grouponGoods")
     public Object getAllGrouponGoods(){
         List<? extends PromotionRule> promotionRules=promotionService.listPromotionRuleOfTypeWithGoods("GrouponRule");
-//        List<GrouponRule>grouponRules=new ArrayList<>();
-//        for(PromotionRule promotionRule:promotionRules){
-//            grouponRules.add((GrouponRule)promotionRule);
-//        }
         return promotionRules;
     }
 
 
-    //经协商，加上这条url，用来获取团购商品列表/ 用户可以看到没有删除且状态为上架的团购
     /**
-     *
+     *经协商，加上这条url，用来获取团购商品列表/ 用户可以看到没有删除且状态为上架的团购
      * @param page
      * @param limit
      * @return 标准组List<GrouponRuleVo>
@@ -297,12 +258,13 @@ public class DiscountController {
      * @param limit
      * @return
      */
-//    @GetMapping("/presaleRules")
-//    public List<PresaleRule> getAllPresaleRules(@RequestParam(defaultValue = "1") Integer page,
-//                                                @RequestParam(defaultValue = "10") Integer limit){
-//        return presaleService.listCurrentPromotionByGoodsId();
-//
-//    }
+    @GetMapping("/presaleRules")
+    public List<PresaleRule> getAllPresaleRules(@RequestParam(defaultValue = "1") Integer page,
+                                                @RequestParam(defaultValue = "10") Integer limit,
+                                                @RequestParam Integer goodsId) throws SeriousException, PromotionNotFoundException {
+        return (List<PresaleRule>) presaleService.listProimotionByGoodsId(goodsId);
+
+    }
 
     /**
      * 管理员查看预售商品列表
@@ -310,16 +272,16 @@ public class DiscountController {
      * @param limit
      * @return
      */
-//    @GetMapping("admin/presaleRules")
-//    public List<PresaleRule> getAllPresaleRules(@RequestParam(defaultValue = "1") Integer page,
-//                                                @RequestParam(defaultValue = "10") Integer limit){
-//        return presaleService.listAllPresaleRules();
-//
-//    }
+    @GetMapping("admin/presaleRules")
+    public List<PresaleRule> getAllPresaleRules(@RequestParam(defaultValue = "1") Integer page,
+                                                @RequestParam(defaultValue = "10") Integer limit){
+        return (List<PresaleRule>) presaleService.listPromotionRuleOfTypeWithGoods("PresaleRule");
+
+    }
 
     /**
      * 管理员发布预售信息
-     * @param presaleRule
+     * @param presaleRule//body中包含startTime; adEndTime; finalStartTime; endTime; statusCode; goodsId; deposit,,finalPayment
      * @return
      * @throws UpdatedDataFailedException
      */
@@ -386,20 +348,20 @@ public class DiscountController {
       }
     }
 
-//    /**
-//     * 用户查看预售商品列表，只能查看上架的
-//     * @param page
-//     * @param limit
-//     * @return
-//     */
-//    @GetMapping("/presaleRules")
-//    public List<PresaleRule> getOnsalePresaleRules(@RequestParam(defaultValue = "1") Integer page,
-//                                                @RequestParam(defaultValue = "10") Integer limit){
-//  //
-//              return presaleService.listOnsalePresaleRules();
-//
-//
-//    }
+    /**
+     * 用户查看预售商品列表，只能查看上架的
+     * @param page
+     * @param limit
+     * @return
+     */
+    @GetMapping("/presaleRules")
+    public List<PresaleRule> getOnsalePresaleRules(@RequestParam(defaultValue = "1") Integer page,
+                                                @RequestParam(defaultValue = "10") Integer limit){
+  //
+              return (List<PresaleRule>) presaleService.listPromotionRuleOfTypeInprocessWithGoods("PresaleRule");
+
+
+    }
 
 
     /**
@@ -407,9 +369,9 @@ public class DiscountController {
      * @param order
      * @return
      */
-    @PostMapping("/discount/orders")
-    public Object getPayment(Order order){
-
-    }
+//    @PostMapping("/discount/orders")
+//    public Object getPayment(Order order){
+//
+//    }
 
 }
