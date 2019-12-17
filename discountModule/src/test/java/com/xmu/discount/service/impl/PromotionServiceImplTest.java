@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import rx.BackpressureOverflow;
 
 import java.time.LocalDateTime;
 
@@ -39,13 +40,31 @@ class PromotionServiceImplTest {
         grouponRule.setRealObj(grouponRulePo);
 
         grouponRule.setGoodsId(1);
-        grouponRule.setStartTime(LocalDateTime.now());
+        grouponRule.setStartTime(LocalDateTime.now().plusDays(1));
         grouponRule.setEndTime(LocalDateTime.now().plusDays(10));
 
         grouponService.addPromotion(grouponRule);
 
 
 
+    }
+
+    @Test
+    void addPromotion2() throws UpdatedDataFailedException, SeriousException {
+        GrouponRule grouponRule=new GrouponRule();
+        GrouponRulePo grouponRulePo=new GrouponRulePo();
+
+        grouponRule.setRealObj(grouponRulePo);
+
+        grouponRule.setGoodsId(1);
+        grouponRule.setStartTime(LocalDateTime.now().plusDays(1));
+        grouponRule.setEndTime(LocalDateTime.now().plusDays(10));
+
+//        GrouponRule.Strategy=new GrouponRule.Strategy(10,20,0.9);
+
+//        grouponRule.setStrategyList("{\"strategy\": [{\"lowerbound\":10, \"upperbound\":11, \"rate\":0.9}]}");
+
+        grouponService.addPromotion(grouponRule);
     }
 
     @Test

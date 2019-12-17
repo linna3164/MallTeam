@@ -235,6 +235,7 @@ public abstract class PromotionServiceImpl {
     public PromotionRule addPromotion(PromotionRule promotionRule) throws UpdatedDataFailedException, SeriousException {
         //获得商品的所有促销活动
         List<? extends PromotionRule> promotionRules=this.listProimotionByGoodsId(promotionRule.getPromotionGoodsId());
+
         if(promotionRule.isOkToAdd(promotionRules)){
             //调用DAO层的add方法。
             String daoName=getDaoClassName(promotionRule);

@@ -52,6 +52,7 @@ public class CouponRuleServiceImpl extends PromotionServiceImpl {
      * @throws UpdatedDataFailedException
      */
 
+    @Override
     public PromotionRule addPromotion(PromotionRule promotionRule) throws UpdatedDataFailedException, SeriousException {
         if(promotionRule.isOkToAdd(null)){
             //调用DAO层的add方法。

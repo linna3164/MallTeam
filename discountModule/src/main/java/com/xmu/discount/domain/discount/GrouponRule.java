@@ -7,7 +7,10 @@ import com.xmu.discount.domain.others.domain.*;
 import com.xmu.discount.exception.UnsupportException;
 import com.xmu.discount.util.JacksonUtil;
 import jdk.nashorn.internal.runtime.JSONFunctions;
+import org.apache.hadoop.yarn.webapp.hamlet.Hamlet;
 import org.apache.ibatis.type.Alias;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -16,6 +19,53 @@ import java.util.*;
 @Alias("grouponRule")
 public class GrouponRule extends PromotionRule {
 
+    private static final Logger logger = LoggerFactory.getLogger(GrouponRule.class);
+
+
+    public boolean isStrategyValid(){
+        List<Strategy> strategies=this.getStrategyList();
+
+        if(strategies==null){
+            return false;
+        }
+        //排序
+        strategies.sort((a,b)->{return a.getLowerBound()-b.getLowerBound();});
+
+        //没有策略--false
+        if(strategies.size()==0){
+            return false;
+        }
+        else {
+            for (int i = 0; i < strategies.size() - 1; i++) {
+                Strategy strategy = strategies.get(0);
+                if(!strategy.isValid()){
+                    return false;
+                }
+                else if (strategy.getUpperBound()!= strategies.get(i + 1).getLowerBound()-1){
+                    return false;
+                }
+            }
+            if(strategies.get(strategies.size()-1).getUpperBound()!=null){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * 是否有效
+     * @return
+     */
+    @Override
+    public boolean isValid() {
+        if(super.isValid()&&this.isStrategyValid()){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 
     /**
      * 团购是否等待结束
@@ -182,14 +232,21 @@ public class GrouponRule extends PromotionRule {
      */
     public List<Strategy> getStrategyList() {
         String jsonString = realObj.getGrouponLevelStrategy();
-        jsonString = org.apache.commons.text.StringEscapeUtils.unescapeJson(jsonString);
-        List<String>strategiesString=JacksonUtil.parseStringList(jsonString,"strategy");
-        List<Strategy>strategies=new ArrayList<>();
-        for(String string:strategiesString){
-            Strategy strategy=JSON.parseObject(string,Strategy.class);
-            strategies.add(strategy);
+        logger.debug("jsonString = " + jsonString);
+
+        if(jsonString==null){
+            return null;
         }
-        return strategyList;
+        else {
+            jsonString = org.apache.commons.text.StringEscapeUtils.unescapeJson(jsonString);
+            List<String> strategiesString = JacksonUtil.parseStringList(jsonString, "strategy");
+            List<Strategy> strategies = new ArrayList<>();
+            for (String string : strategiesString) {
+                Strategy strategy = JSON.parseObject(string, Strategy.class);
+                strategies.add(strategy);
+            }
+            return strategyList;
+        }
     }
 
     /**
@@ -211,10 +268,32 @@ public class GrouponRule extends PromotionRule {
 
 
 
-    private class Strategy{
+    public class Strategy{
         private Integer lowerBound;
         private Integer upperBound;
         private BigDecimal discountRate;
+
+        public Strategy() {
+        }
+
+        public Strategy(Integer lowerBound, Integer upperBound, BigDecimal discountRate) {
+            this.lowerBound = lowerBound;
+            this.upperBound = upperBound;
+            this.discountRate = discountRate;
+        }
+
+        /**
+         * 一条策略是否有效
+         * @return
+         */
+        public boolean isValid(){
+            if(this.getLowerBound()>=0&&this.getLowerBound()<=this.getUpperBound()){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
 
         public Integer getLowerBound() {
             return lowerBound;
