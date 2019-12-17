@@ -20,6 +20,7 @@ public class PresaleServiceImpl extends PromotionServiceImpl{
     PresaleRuleDao presaleRuleDao;
 
 
+
     /**
      * 预售活动失效后的行为
      * @param promotionRule
@@ -39,6 +40,5 @@ public class PresaleServiceImpl extends PromotionServiceImpl{
 //        }
 //
 //        orderService.refundPresaleOrders(payments);
-        }
-
+    }
 }

@@ -34,8 +34,8 @@ public abstract class PromotionServiceImpl {
     @Autowired
     public CouponRuleDao couponRuleDao;
 
-    @Autowired
-    GoodsFeign goodsFeign;
+//    @Autowired
+//    GoodsFeign goodsFeign;
 
     @Autowired
     public CouponServiceImpl couponService;
@@ -56,35 +56,35 @@ public abstract class PromotionServiceImpl {
     }
 
 
-    /**
-     * 用户查看促销规则列表(带商品)
-     * @return
-     */
-    public List<? extends PromotionRule> listPromotionRuleOfTypeInprocessWithGoods(String promotionName){
-        List<? extends PromotionRule> promotionRules=((PromotionRuleDao)SpringContextUtil.getBean(promotionName+"Dao")).listPromotions();
+//    /**
+//     * 用户查看促销规则列表(带商品)
+//     * @return
+//     */
+//    public List<? extends PromotionRule> listPromotionRuleOfTypeInprocessWithGoods(String promotionName){
+//        List<? extends PromotionRule> promotionRules=((PromotionRuleDao)SpringContextUtil.getBean(promotionName+"Dao")).listPromotions();
+//
+//        for(PromotionRule promotionRule:promotionRules){
+//            if(promotionRule.getActiveStatus().equals(PromotionRule.ActiveStatus.INPROCESS)){
+//                promotionRule.setGoods(goodsFeign.getGoodsById(promotionRule.getId()));
+//            }
+//        }
+//        return promotionRules;
+//
+//    }
 
-        for(PromotionRule promotionRule:promotionRules){
-            if(promotionRule.getActiveStatus().equals(PromotionRule.ActiveStatus.INPROCESS)){
-                promotionRule.setGoods(goodsFeign.getGoodsById(promotionRule.getId()));
-            }
-        }
-        return promotionRules;
-
-    }
-
-    /**
-     * 管理员看到的某种促销活动规则(带商品)
-     * @return
-     */
-    public List<? extends PromotionRule> listPromotionRuleOfTypeWithGoods(String promotionName){
-        List<? extends PromotionRule> promotionRules=grouponRuleDao.listPromotions();
-        for(PromotionRule promotionRule:promotionRules){
-            promotionRule.setGoods(goodsFeign.getGoodsById(promotionRule.getId()));
-
-        }
-
-        return promotionRules;
-    }
+//    /**
+//     * 管理员看到的某种促销活动规则(带商品)
+//     * @return
+//     */
+//    public List<? extends PromotionRule> listPromotionRuleOfTypeWithGoods(String promotionName){
+//        List<? extends PromotionRule> promotionRules=grouponRuleDao.listPromotions();
+//        for(PromotionRule promotionRule:promotionRules){
+//            promotionRule.setGoods(goodsFeign.getGoodsById(promotionRule.getId()));
+//
+//        }
+//
+//        return promotionRules;
+//    }
 
     /**
      * 设置失效
@@ -235,6 +235,7 @@ public abstract class PromotionServiceImpl {
     public PromotionRule addPromotion(PromotionRule promotionRule) throws UpdatedDataFailedException, SeriousException {
         //获得商品的所有促销活动
         List<? extends PromotionRule> promotionRules=this.listProimotionByGoodsId(promotionRule.getPromotionGoodsId());
+
         if(promotionRule.isOkToAdd(promotionRules)){
             //调用DAO层的add方法。
             String daoName=getDaoClassName(promotionRule);
