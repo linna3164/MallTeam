@@ -12,7 +12,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import rx.BackpressureOverflow;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -60,9 +64,14 @@ class PromotionServiceImplTest {
         grouponRule.setStartTime(LocalDateTime.now().plusDays(1));
         grouponRule.setEndTime(LocalDateTime.now().plusDays(10));
 
-//        GrouponRule.Strategy=new GrouponRule.Strategy(10,20,0.9);
+        GrouponRule.Strategy strategy=grouponRule.new Strategy(10,20,new BigDecimal(0.9).setScale(2, RoundingMode.HALF_UP));
 
-//        grouponRule.setStrategyList("{\"strategy\": [{\"lowerbound\":10, \"upperbound\":11, \"rate\":0.9}]}");
+        List<GrouponRule.Strategy> strategyList=new ArrayList<>();
+        strategyList.add(strategy);
+
+        grouponRule.setStrategyList(strategyList);
+
+        assertEquals(grouponRule.getRealObj().getGrouponLevelStrategy(),"nullpp");
 
         grouponService.addPromotion(grouponRule);
     }
