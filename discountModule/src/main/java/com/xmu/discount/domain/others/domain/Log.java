@@ -1,4 +1,4 @@
-package com.xmu.freight.standardDomain;
+package com.xmu.discount.domain.others.domain;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -34,7 +34,7 @@ public class Log {
     /**
      * 操作的动作
      */
-    private String action;
+    private String actions;
     /**
      * 操作的状态，0表示操作失败，1表示操作成功
      */
@@ -48,12 +48,12 @@ public class Log {
 
     public Log(){};
 
-    public Log(Integer adminId,String ip,Integer type,String action,Integer statusCode,Integer actionId)
+    public Log(Integer adminId,String ip,Integer type,String actions,Integer statusCode,Integer actionId)
     {
         this.adminId=adminId;
         this.ip = ip;
         this.type = type;
-        this.action =action;
+        this.actions =actions;
         this.statusCode = statusCode;
         this.actionId = actionId;
         this.gmtCreate = LocalDateTime.now();
@@ -94,11 +94,11 @@ public class Log {
     }
 
     public String getAction() {
-        return action;
+        return actions;
     }
 
     public void setAction(String action) {
-        this.action = action;
+        this.actions = action;
     }
 
     public Integer getStatusCode() {

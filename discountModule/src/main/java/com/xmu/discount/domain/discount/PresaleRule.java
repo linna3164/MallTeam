@@ -174,8 +174,6 @@ public class PresaleRule extends PromotionRule {
     }
 
 
-
-
     //*****生成代码******
 
 
@@ -194,7 +192,7 @@ public class PresaleRule extends PromotionRule {
                 ", gmtCreate=" + gmtCreate +
                 ", gmtModified=" + gmtModified +
                 ", beDeleted=" + beDeleted +
-                "} " + super.toString();
+                '}';
     }
 
     @Override
@@ -312,5 +310,6 @@ public class PresaleRule extends PromotionRule {
         this.beDeleted = beDeleted;
     }
 
-
+    public PresaleRule() {
+    }
 }

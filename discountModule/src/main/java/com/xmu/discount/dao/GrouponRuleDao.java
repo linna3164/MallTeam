@@ -126,7 +126,8 @@ public class GrouponRuleDao implements PromotionRuleDao {
     @Override
     public void deletePromotionRuleById(Integer id) throws UpdatedDataFailedException {
         GrouponRulePo grouponRule=new GrouponRulePo(id,true);
-        GrouponRule grouponRule1=new GrouponRule(grouponRule);
+        GrouponRule grouponRule1=new GrouponRule();
+        grouponRule1.setRealObj(grouponRule);
         this.updatePromotionRuleById(grouponRule1);
     }
 }
