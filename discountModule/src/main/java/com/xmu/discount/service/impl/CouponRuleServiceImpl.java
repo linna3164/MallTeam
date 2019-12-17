@@ -84,14 +84,14 @@ public class CouponRuleServiceImpl extends PromotionServiceImpl {
     }
 
 
-
-    /**
-     * 管理员查看所有优惠券规则
-     * @return
-     */
-    public List<CouponRule> listCouponRule(){
-        return couponRuleDao.listCouponRule();
-    }
+//
+//    /**
+//     * 管理员查看所有优惠券规则
+//     * @return
+//     */
+//    public List<CouponRule> listCouponRule(){
+//        return couponRuleDao.listCouponRule();
+//    }
 
 
 

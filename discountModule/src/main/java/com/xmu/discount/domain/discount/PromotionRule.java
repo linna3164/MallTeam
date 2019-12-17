@@ -109,7 +109,7 @@ public abstract class PromotionRule implements Serializable {
      * @param promotionRules
      * @return
      */
-    public boolean isNoConflict(List<PromotionRule> promotionRules){
+    public boolean isNoConflict(List<? extends PromotionRule> promotionRules){
         if(promotionRules==null){
             return true;
         }
@@ -130,7 +130,7 @@ public abstract class PromotionRule implements Serializable {
      * @param promotionRules
      * @return
      */
-    public boolean isOkToAdd(List<PromotionRule> promotionRules){
+    public boolean isOkToAdd(List<? extends PromotionRule> promotionRules){
         LocalDateTime now=LocalDateTime.now();
         if(this.isValid()&&this.isNoConflict(promotionRules)&&this.getpromotionRuleStartTime().isAfter(now)){
             return true;
