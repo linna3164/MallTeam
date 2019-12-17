@@ -231,7 +231,7 @@
 //     */
 //    @GetMapping("admin/grouponGoods")
 //    public Object getAllGrouponGoods(){
-//        List<? extends PromotionRule> promotionRules=promotionService.listPromotionRuleOfTypeWithGoods("GrouponRule");
+//        List<? extends PromotionRule> promotionRules=promotionService.listPromotionRuleOfType("GrouponRule");
 //        return promotionRules;
 //    }
 //
@@ -245,7 +245,7 @@
 //    @GetMapping("/grouponGoods")
 //    public Object getOnsaleGrouponGoods(@RequestParam(defaultValue = "1") Integer page,
 //            @RequestParam(defaultValue = "10") Integer limit){
-//        List<? extends PromotionRule> promotionRules=promotionService.listPromotionRuleOfTypeInprocessWithGoods("GrouponRule");
+//        List<? extends PromotionRule> promotionRules=promotionService.listPromotionRuleOfType("GrouponRule");
 //        return promotionRules;
 //    }
 //    /*
@@ -274,7 +274,7 @@
 //    @GetMapping("admin/presaleRules")
 //    public List<PresaleRule> getAllPresaleRules(@RequestParam(defaultValue = "1") Integer page,
 //                                                @RequestParam(defaultValue = "10") Integer limit){
-//        return (List<PresaleRule>) presaleService.listPromotionRuleOfTypeWithGoods("PresaleRule");
+//        return (List<PresaleRule>) presaleService.listPromotionRuleOfType("PresaleRule");
 //
 //    }
 //
@@ -357,7 +357,7 @@
 //    public List<PresaleRule> getOnsalePresaleRules(@RequestParam(defaultValue = "1") Integer page,
 //                                                @RequestParam(defaultValue = "10") Integer limit){
 //  //
-//              return (List<PresaleRule>) presaleService.listPromotionRuleOfTypeInprocessWithGoods("PresaleRule");
+//              return (List<PresaleRule>) presaleService.listPromotionRuleOfType("PresaleRule");
 //
 //
 //    }
