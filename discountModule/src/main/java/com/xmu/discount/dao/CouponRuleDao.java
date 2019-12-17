@@ -25,7 +25,7 @@ public class CouponRuleDao implements PromotionRuleDao  {
         CouponRule couponRule=(CouponRule) promotionRule;
         CouponRule pre=new CouponRule(couponRule.getId());
         //TODO:标准组！！！
-        pre.setStatusCode(2);
+        pre.setStatusCode(false);
         this.updatePromotionRuleById(couponRule);
     }
 

@@ -93,7 +93,7 @@ public class PresaleRuleDao implements PromotionRuleDao {
         PresaleRule presaleRule=(PresaleRule) promotionRule;
         PresaleRule pre=new PresaleRule(presaleRule.getId());
         //TODO:标准组！！！
-        pre.setStatusCode(2);
+        pre.setDisableCode(true);
         this.updatePromotionRuleById(presaleRule);
     }
 

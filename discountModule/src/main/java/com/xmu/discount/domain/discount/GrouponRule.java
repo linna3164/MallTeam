@@ -233,6 +233,13 @@ public class GrouponRule extends PromotionRule {
             for (String string : strategiesString) {
                 Strategy strategy = JSON.parseObject(string, Strategy.class);
                 strategies.add(strategy);
+//                JSON.
+//                JSON.parseArray(string,Strategy.class);
+//                JsonParser jp = new JsonParser();
+//                JsonObject jo = jp.parse(jsonString).getAsJsonObject();
+//                JsonArray messageArray = jo.get("strategy").getAsJsonArray();
+//                System.out.println(messageArray);
+//                JSONArray jsonArray = JSONArray.fromObject(messageArray.getAsString());
             }
             return strategyList;
         }

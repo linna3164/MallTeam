@@ -58,7 +58,7 @@ public class GrouponServiceImpl extends PromotionServiceImpl{
             orderFeign.refundGrouponOrder(grouponRule.getRealObj(),rate);
 
             //设置团购规则为已经结束（finish）
-            grouponRule.setStatusCode(1);
+            grouponRule.setStatusCode(false);
         }
 
 
