@@ -16,6 +16,7 @@ import java.util.*;
 public class CouponRule extends PromotionRule {
 
 
+
     /**
      * 优惠券规则活动是否等待结束
      * @return
@@ -197,7 +198,7 @@ public class CouponRule extends PromotionRule {
         goodsIds.clear();
         goodsIds.addAll(this.getGoodsIds());
 
-        if (goodsIds.contains(0)){
+        if (goodsIds.contains(goodsId)){
             return true;
         } else {
             return goodsIds.contains(goodsId);
@@ -206,7 +207,7 @@ public class CouponRule extends PromotionRule {
 
     /**
      * 获得适用商品id列表
-     * { gIDs：[xxx,xxx,xxx,xxx,xxx]}
+     * { goodsIds：[xxx,xxx,xxx,xxx,xxx]}
      * @return 商品id列表
      */
     public List<Integer> getGoodsIds() {
@@ -216,8 +217,8 @@ public class CouponRule extends PromotionRule {
         jsonString1 = org.apache.commons.text.StringEscapeUtils.unescapeJson(jsonString1);
         jsonString2 = org.apache.commons.text.StringEscapeUtils.unescapeJson(jsonString2);
         logger.debug("jsonString1 =" +jsonString1+", jsonString2="+jsonString2);
-        List<Integer> goodsIds1=JacksonUtil.parseIntegerList(jsonString1, "gIDs");
-        List<Integer> goodsIds2=JacksonUtil.parseIntegerList(jsonString2, "gIDs");
+        List<Integer> goodsIds1=JacksonUtil.parseIntegerList(jsonString1, "goodsIds");
+        List<Integer> goodsIds2=JacksonUtil.parseIntegerList(jsonString2, "goodsIds");
         goodsIds1.addAll(goodsIds2);
         return goodsIds1;
     }

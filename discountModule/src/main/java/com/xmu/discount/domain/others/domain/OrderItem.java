@@ -13,12 +13,17 @@ import java.time.LocalDateTime;
  * @Data:Created in 14:50 2019/12/11
  **/
 
+@Getter
 @Setter
 @ToString
 @EqualsAndHashCode(callSuper = true)
 public class OrderItem extends OrderItemPo {
 
     private Product product;
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 
     public Product getProduct() {
         return product;

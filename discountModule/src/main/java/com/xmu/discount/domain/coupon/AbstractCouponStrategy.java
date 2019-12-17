@@ -1,6 +1,7 @@
 package com.xmu.discount.domain.coupon;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.xmu.discount.domain.others.domain.OrderItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import java.util.List;
  * @author: Ming Qiu
  * @date: Created in 15:47 2019/11/5
  * */
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
     public abstract class AbstractCouponStrategy {
     private Logger logger = LoggerFactory.getLogger(AbstractCouponStrategy.class);
 
@@ -151,5 +153,8 @@ import java.util.List;
 
         logger.debug("cacuDiscount返回 newItems = "+newItems);
         return newItems;
+    }
+
+    public AbstractCouponStrategy() {
     }
 }
