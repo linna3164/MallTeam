@@ -69,7 +69,8 @@ public class GrouponServiceImpl extends PromotionServiceImpl{
      * @return
      */
     public List<GrouponRule> listNeedCalcuGrouponRule(){
-        List<PromotionRule> promotionRules=this.listPromotionRuleOfType("Groupon");
+        List<? extends PromotionRule> promotionRules=grouponRuleDao.listPromotions();
+
         List<GrouponRule> res=new ArrayList<>();
         for(PromotionRule promotionRule:promotionRules){
             if(promotionRule.getActiveStatus().equals(PromotionRule.ActiveStatus.WAITFINISH)){
@@ -80,11 +81,35 @@ public class GrouponServiceImpl extends PromotionServiceImpl{
     }
 
     /**
-     * 得到
+     * 团购商品列表/ 用户可以看到没有删除且状态为上架的团购
      * @return
      */
-    public List<GrouponRule> listOnsaleGrouponGoods(){
+    public List<? extends PromotionRule> listOnsaleGrouponGoods(){
+        List<? extends PromotionRule> promotionRules=grouponRuleDao.listPromotions();
 
+        List<PromotionRule> res=new ArrayList<>();
+        for(PromotionRule promotionRule:promotionRules){
+            if(promotionRule.getActiveStatus().equals(PromotionRule.ActiveStatus.INPROCESS)){
+                promotionRule.setGoods(goodsFeign.getGoodsById(promotionRule.getId()));
+                res.add(promotionRule);
+            }
+        }
+        return res;
+
+    }
+
+    /**
+     * 管理员看到的团购规则
+     * @return
+     */
+    public List<? extends PromotionRule> listAllGrouponGoods(){
+        List<? extends PromotionRule> promotionRules=grouponRuleDao.listPromotions();
+        for(PromotionRule promotionRule:promotionRules){
+                promotionRule.setGoods(goodsFeign.getGoodsById(promotionRule.getId()));
+
+        }
+
+        return promotionRules;
     }
 
 

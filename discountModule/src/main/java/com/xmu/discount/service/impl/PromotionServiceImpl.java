@@ -12,6 +12,7 @@ import com.xmu.discount.exception.PromotionNotFoundException;
 import com.xmu.discount.exception.SeriousException;
 import com.xmu.discount.exception.UnsupportException;
 import com.xmu.discount.exception.UpdatedDataFailedException;
+import com.xmu.discount.inter.GoodsFeign;
 import com.xmu.discount.util.SpringContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,8 @@ public abstract class PromotionServiceImpl {
     @Autowired
     public CouponRuleDao couponRuleDao;
 
+    @Autowired
+    GoodsFeign goodsFeign;
 
     @Autowired
     public CouponServiceImpl couponService;
@@ -43,14 +46,44 @@ public abstract class PromotionServiceImpl {
 
 
     /**
-     * 获取某种促销规则列表
+     * 获取某种促销规则列表(不带商品)
      * @param promotionName
      * @return
      */
-    public List<PromotionRule> listPromotionRuleOfType(String promotionName){
+    public List<? extends PromotionRule> listPromotionRuleOfType(String promotionName){
         return ((PromotionRuleDao)SpringContextUtil.getBean(promotionName+"Dao")).listPromotions();
     }
 
+
+    /**
+     * 用户查看促销规则列表(带商品)
+     * @return
+     */
+    public List<? extends PromotionRule> listPromotionRuleOfTypeInprocessWithGoods(String promotionName){
+        List<? extends PromotionRule> promotionRules=((PromotionRuleDao)SpringContextUtil.getBean(promotionName+"Dao")).listPromotions();
+
+        for(PromotionRule promotionRule:promotionRules){
+            if(promotionRule.getActiveStatus().equals(PromotionRule.ActiveStatus.INPROCESS)){
+                promotionRule.setGoods(goodsFeign.getGoodsById(promotionRule.getId()));
+            }
+        }
+        return promotionRules;
+
+    }
+
+    /**
+     * 管理员看到的某种促销活动规则
+     * @return
+     */
+    public List<? extends PromotionRule> listPromotionRuleOfTypeWithGoods(String promotionName){
+        List<? extends PromotionRule> promotionRules=grouponRuleDao.listPromotions();
+        for(PromotionRule promotionRule:promotionRules){
+            promotionRule.setGoods(goodsFeign.getGoodsById(promotionRule.getId()));
+
+        }
+
+        return promotionRules;
+    }
 
     /**
      * 设置失效
@@ -136,33 +169,35 @@ public abstract class PromotionServiceImpl {
      * @param goodsId
      * @return 团购加预售
      */
-    public List<PromotionRule> listProimotionByGoodsId(Integer goodsId){
-        List<PromotionRule> grouponRule=grouponRuleDao.listPromotionRuleByGoodsId(goodsId);
-        List<PromotionRule> presaleRule=presaleRuleDao.listPromotionRuleByGoodsId(goodsId);
+    public List<? extends PromotionRule> listProimotionByGoodsId(Integer goodsId){
+        List<? extends PromotionRule> grouponRule=grouponRuleDao.listPromotionRuleByGoodsId(goodsId);
+        List<? extends PromotionRule> presaleRule=presaleRuleDao.listPromotionRuleByGoodsId(goodsId);
 
-        List<PromotionRule>promotionRules=new ArrayList<>();
+        List<? extends PromotionRule>promotionRules=new ArrayList<>();
+
+        promotionRules.
         promotionRules.addAll(grouponRule);
         promotionRules.addAll(presaleRule);
 
         return promotionRules;
     }
 
-    /**
-     * 获取某种状态的促销活动--带商品
-     * @param promotionName
-     * @param activeStatus
-     * @return
-     */
-    public List<PromotionRule> listPromotionRuleOfTypeAndStatusByGoodsId(Integer goodsId,String promotionName, PromotionRule.ActiveStatus activeStatus){
-        List<PromotionRule> promotionRules=this.listPromotionRuleOfType(promotionName);
-        List<PromotionRule> res=new ArrayList<>();
-        for(PromotionRule promotionRule:promotionRules){
-            if(promotionRule.getActiveStatus().equals(PromotionRule.ActiveStatus.INPROCESS)){
-                res.add(promotionRule);
-            }
-        }
-        return res;
-    }
+//    /**
+//     * 获取某种状态的促销活动--带商品
+//     * @param promotionName
+//     * @param activeStatus
+//     * @return
+//     */
+//    public List<PromotionRule> listPromotionRuleOfTypeAndStatusByGoodsId(Integer goodsId,String promotionName, PromotionRule.ActiveStatus activeStatus){
+//        List<PromotionRule> promotionRules=this.listPromotionRuleOfType(promotionName);
+//        List<PromotionRule> res=new ArrayList<>();
+//        for(PromotionRule promotionRule:promotionRules){
+//            if(promotionRule.getActiveStatus().equals(PromotionRule.ActiveStatus.INPROCESS)){
+//                res.add(promotionRule);
+//            }
+//        }
+//        return res;
+//    }
 
 
     /**
@@ -208,23 +243,23 @@ public abstract class PromotionServiceImpl {
         return promotionRule;
     }
 
-
-    /**
-     * 获取某种状态的促销活动--带商品
-     * @param promotionName
-     * @param activeStatus
-     * @return
-     */
-    public List<PromotionRule> listPromotionRuleOfTypeAndStatus(String promotionName, PromotionRule.ActiveStatus activeStatus){
-        List<PromotionRule> promotionRules=this.listPromotionRuleOfType(promotionName);
-        List<PromotionRule> res=new ArrayList<>();
-        for(PromotionRule promotionRule:promotionRules){
-            if(promotionRule.getActiveStatus().equals(PromotionRule.ActiveStatus.INPROCESS)){
-                res.add(promotionRule);
-            }
-        }
-        return res;
-    }
+//
+//    /**
+//     * 获取某种状态的促销活动--带商品
+//     * @param promotionName
+//     * @param activeStatus
+//     * @return
+//     */
+//    public List<PromotionRule> listPromotionRuleOfTypeAndStatus(String promotionName, PromotionRule.ActiveStatus activeStatus){
+//        List<PromotionRule> promotionRules=this.listPromotionRuleOfType(promotionName);
+//        List<PromotionRule> res=new ArrayList<>();
+//        for(PromotionRule promotionRule:promotionRules){
+//            if(promotionRule.getActiveStatus().equals(PromotionRule.ActiveStatus.INPROCESS)){
+//                res.add(promotionRule);
+//            }
+//        }
+//        return res;
+//    }
 
 
 

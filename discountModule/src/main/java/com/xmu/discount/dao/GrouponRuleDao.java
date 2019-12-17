@@ -54,15 +54,14 @@ public class GrouponRuleDao implements PromotionRuleDao {
      * @return
      */
     @Override
-    public List<PromotionRule> listPromotions() {
+    public List<? extends PromotionRule> listPromotions() {
         List<GrouponRulePo> grouponRules=grouponRuleMapper.getGrouponRules();
         List<GrouponRule> grouponRules1=new ArrayList<GrouponRule>();
         for(GrouponRulePo g:grouponRules) {
             grouponRules1.add(new GrouponRule(g));
         }
-        List<PromotionRule> promotionRules=new ArrayList<PromotionRule>();
-        promotionRules.addAll(grouponRules1);
-        return promotionRules;
+
+        return grouponRules1;
     }
 
     /**
@@ -91,14 +90,13 @@ public class GrouponRuleDao implements PromotionRuleDao {
      * @return
      */
     @Override
-    public List<PromotionRule> listPromotionRuleByGoodsId(Integer goodsId) {
-        List<PromotionRule>promotionRules=new ArrayList<>();
+    public List<? extends PromotionRule> listPromotionRuleByGoodsId(Integer goodsId) {
         List<GrouponRulePo> grouponRules=grouponRuleMapper.listGrouponRuleByGoodsId(goodsId);
         List<GrouponRule> grouponRules1=new ArrayList<GrouponRule>();
         for(GrouponRulePo g:grouponRules) {
             grouponRules1.add(new GrouponRule(g));
         }
-        return promotionRules;
+        return grouponRules1;
     }
 
     /**

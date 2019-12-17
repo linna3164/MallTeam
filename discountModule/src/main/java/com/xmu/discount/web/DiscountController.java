@@ -242,8 +242,8 @@ public class DiscountController {
 
     //经协商，加上这条url，用来获取团购商品列表/ 管理员可以看到除了删除的所有团购
     @GetMapping("admin/grouponGoods")
-    public List<GrouponRule> getAllGrouponGoods(){
-        List<PromotionRule> promotionRules=promotionService.listPromotionRuleOfType("GrouponRule");
+    public Object getAllGrouponGoods(){
+        List<? extends PromotionRule> promotionRules=promotionService.listPromotionRuleOfTypeWithGoods("GrouponRule");
         List<GrouponRule>grouponRules=new ArrayList<>();
         for(PromotionRule promotionRule:promotionRules){
             grouponRules.add((GrouponRule)promotionRule);

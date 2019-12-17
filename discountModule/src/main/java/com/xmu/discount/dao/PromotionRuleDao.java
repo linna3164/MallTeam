@@ -23,7 +23,7 @@ public interface PromotionRuleDao {
      * 查看所有促销规则
      * @return
      */
-    List<PromotionRule> listPromotions();
+    List<? extends PromotionRule> listPromotions();
     /**
      * 添加促销规则
      * @param promotionRule
@@ -36,7 +36,7 @@ public interface PromotionRuleDao {
      * @param goodsId
      * @return
      */
-    List<PromotionRule> listPromotionRuleByGoodsId(Integer goodsId);
+    List<? extends PromotionRule> listPromotionRuleByGoodsId(Integer goodsId);
 
     /**
      * 修改促销规则

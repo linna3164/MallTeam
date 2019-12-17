@@ -6,7 +6,6 @@ import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.exception.PromotionNotFoundException;
 import com.xmu.discount.exception.UpdatedDataFailedException;
 import com.xmu.discount.mapper.CouponRuleMapper;
-import com.xmu.discount.util.JacksonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -38,9 +37,9 @@ public class CouponRuleDao implements PromotionRuleDao  {
     }
 
     @Override
-    public List<PromotionRule> listPromotions() {
+    public List<? extends PromotionRule> listPromotions() {
         List<CouponRulePo> couponRulePos=couponRuleMapper.listCouponRules();
-        List<PromotionRule> couponRules = new ArrayList<PromotionRule>();
+        List<CouponRule> couponRules = new ArrayList<CouponRule>();
         for(int i=0;i<couponRulePos.size();i++)
         {
             CouponRule couponRule=new CouponRule(couponRulePos.get(i));
@@ -59,9 +58,9 @@ public class CouponRuleDao implements PromotionRuleDao  {
     }
 
     @Override
-    public List<PromotionRule> listPromotionRuleByGoodsId(Integer goodsId) {
+    public List<? extends PromotionRule> listPromotionRuleByGoodsId(Integer goodsId) {
         List<CouponRulePo> couponRulePos=couponRuleMapper.listCouponRules();
-        List<PromotionRule> couponRules = new ArrayList<PromotionRule>();
+        List<CouponRule> couponRules = new ArrayList<CouponRule>();
         for(int i=0;i<couponRulePos.size();i++)
         {
             CouponRule couponRule=new CouponRule(couponRulePos.get(i));
@@ -86,20 +85,20 @@ public class CouponRuleDao implements PromotionRuleDao  {
 
 
 
-    /**
-     * 查看所有优惠券规则
-     * @return
-     */
-    public List<CouponRule> listCouponRule() {
-       List<CouponRulePo> couponRulePos=couponRuleMapper.listCouponRules();
-       List<CouponRule> couponRules = new ArrayList<CouponRule>();
-       for(int i=0;i<couponRulePos.size();i++)
-       {
-           CouponRule couponRule=new CouponRule(couponRulePos.get(i));
-           couponRules.add(couponRule);
-       }
-           return couponRules;
-    }
+//    /**
+//     * 查看所有优惠券规则
+//     * @return
+//     */
+//    public List<? extends CouponRule> listCouponRule() {
+//       List<CouponRulePo> couponRulePos=couponRuleMapper.listCouponRules();
+//       List<CouponRule> couponRules = new ArrayList<CouponRule>();
+//       for(int i=0;i<couponRulePos.size();i++)
+//       {
+//           CouponRule couponRule=new CouponRule(couponRulePos.get(i));
+//           couponRules.add(couponRule);
+//       }
+//           return couponRules;
+//    }
 
 
 
