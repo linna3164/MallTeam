@@ -55,9 +55,9 @@ public class DiscountController {
      * @return
      */
     @GetMapping("/couponRules")
-    public List<CouponRule> getCouponRules(@RequestParam(defaultValue = "1") Integer page,
+    public Object getCouponRules(@RequestParam(defaultValue = "1") Integer page,
                                            @RequestParam(defaultValue = "10") Integer limit){
-        return couponRuleService.listCouponRule();
+        return promotionService.listPromotionRuleOfType("CouponRule");
     }
 
     /**
@@ -188,7 +188,7 @@ public class DiscountController {
     @GetMapping("/grouponRules")
     public List<GrouponRule> getGroupRules(@RequestParam Integer goodsId, @RequestParam(defaultValue = "1") Integer page,
                                            @RequestParam(defaultValue = "10") Integer limit){
-        return
+        return promotionService.listPromotionRuleOfTypeWithGoods();
     }
 
     /**
@@ -244,18 +244,19 @@ public class DiscountController {
     @GetMapping("admin/grouponGoods")
     public Object getAllGrouponGoods(){
         List<? extends PromotionRule> promotionRules=promotionService.listPromotionRuleOfTypeWithGoods("GrouponRule");
-        List<GrouponRule>grouponRules=new ArrayList<>();
-        for(PromotionRule promotionRule:promotionRules){
-            grouponRules.add((GrouponRule)promotionRule);
-        }
-        return grouponRules;
+//        List<GrouponRule>grouponRules=new ArrayList<>();
+//        for(PromotionRule promotionRule:promotionRules){
+//            grouponRules.add((GrouponRule)promotionRule);
+//        }
+        return promotionRules;
     }
 
     //经协商，加上这条url，用来获取团购商品列表/ 用户可以看到没有删除且状态为上架的团购
     @GetMapping("/grouponGoods")
-    public List<GrouponRule> getOnsaleGrouponGoods(@RequestParam(defaultValue = "1") Integer page,
+    public Object getOnsaleGrouponGoods(@RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer limit){
-        return null;
+        List<? extends PromotionRule> promotionRules=promotionService.listPromotionRuleOfTypeInprocessWithGoods("GrouponRule");
+        return promotionRules;
     }
     /*
           **********预售********************

@@ -5,6 +5,7 @@ import com.xmu.discount.dao.GrouponRuleDao;
 import com.xmu.discount.dao.PresaleRuleDao;
 import com.xmu.discount.dao.PromotionRuleDao;
 import com.xmu.discount.domain.coupon.Coupon;
+import com.xmu.discount.domain.discount.GrouponRule;
 import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.others.domain.Payment;
@@ -72,7 +73,7 @@ public abstract class PromotionServiceImpl {
     }
 
     /**
-     * 管理员看到的某种促销活动规则
+     * 管理员看到的某种促销活动规则(带商品)
      * @return
      */
     public List<? extends PromotionRule> listPromotionRuleOfTypeWithGoods(String promotionName){
@@ -173,9 +174,8 @@ public abstract class PromotionServiceImpl {
         List<? extends PromotionRule> grouponRule=grouponRuleDao.listPromotionRuleByGoodsId(goodsId);
         List<? extends PromotionRule> presaleRule=presaleRuleDao.listPromotionRuleByGoodsId(goodsId);
 
-        List<? extends PromotionRule>promotionRules=new ArrayList<>();
+        List<PromotionRule>promotionRules=new ArrayList<>();
 
-        promotionRules.
         promotionRules.addAll(grouponRule);
         promotionRules.addAll(presaleRule);
 
@@ -207,7 +207,7 @@ public abstract class PromotionServiceImpl {
      */
     public PromotionRule listCurrentPromotionByGoodsId(Integer goodsId) throws PromotionNotFoundException ,SeriousException {
         //活动商品的所有促销活动
-        List<PromotionRule> promotionRules=this.listProimotionByGoodsId(goodsId);
+        List<? extends PromotionRule> promotionRules=this.listProimotionByGoodsId(goodsId);
         for(PromotionRule promotionRule:promotionRules){
             if(promotionRule.getActiveStatus().equals(PromotionRule.ActiveStatus.INPROCESS)) {
                 promotionRules.remove(promotionRule);
@@ -234,7 +234,7 @@ public abstract class PromotionServiceImpl {
      */
     public PromotionRule addPromotion(PromotionRule promotionRule) throws UpdatedDataFailedException, SeriousException {
         //获得商品的所有促销活动
-        List<PromotionRule> promotionRules=this.listProimotionByGoodsId(promotionRule.getPromotionGoodsId());
+        List<? extends PromotionRule> promotionRules=this.listProimotionByGoodsId(promotionRule.getPromotionGoodsId());
         if(promotionRule.isOkToAdd(promotionRules)){
             //调用DAO层的add方法。
             String daoName=getDaoClassName(promotionRule);
