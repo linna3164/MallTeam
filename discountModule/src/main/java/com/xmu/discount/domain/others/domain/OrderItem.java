@@ -20,6 +20,10 @@ public class OrderItem extends OrderItemPo {
 
     private Product product;
 
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
     public Product getProduct() {
         return product;
     }

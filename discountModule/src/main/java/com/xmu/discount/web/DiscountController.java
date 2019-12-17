@@ -181,7 +181,7 @@ public class DiscountController {
      */
 
     /**
-     * 获取团某个商品的购规则列表
+     * 获取某个商品的团购规则列表
      * @param page
      * @param limit
      * @return 标准组List<GrouponRuleVo>，我们暂时是List<GrouponRule>！！！
