@@ -71,7 +71,7 @@ public abstract class PromotionServiceImpl {
      * @return
      */
     public PromotionRule getPromotionById(Integer id,String promotionName) throws PromotionNotFoundException {
-        return ((PromotionRuleDao)SpringContextUtil.getBean(promotionName+"DAO")).getPromotionRuleById(id);
+        return ((PromotionRuleDao)SpringContextUtil.getBean(promotionName+"Dao")).getPromotionRuleById(id);
     }
 
     /**
@@ -101,7 +101,7 @@ public abstract class PromotionServiceImpl {
     }
 
     public String getDaoClassName(PromotionRule promotionRule){
-        return promotionRule.getClass().getSimpleName()+"DAO";
+        return promotionRule.getClass().getSimpleName()+"Dao";
     }
 
     /**

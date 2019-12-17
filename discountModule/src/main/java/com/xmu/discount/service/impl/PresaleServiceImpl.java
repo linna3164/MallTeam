@@ -20,7 +20,6 @@ public class PresaleServiceImpl extends PromotionServiceImpl{
     PresaleRuleDao presaleRuleDao;
 
 
-
     /**
      * 预售活动失效后的行为
      * @param promotionRule
@@ -29,16 +28,17 @@ public class PresaleServiceImpl extends PromotionServiceImpl{
     public void toDoSomthingAfterDisable(PromotionRule promotionRule) throws SeriousException {
         //TODO:退款
 
-        List<Payment> payments=new ArrayList<>();
-        List<Order> orders=orderService.listOrdersOfPromotion(promotionRule);
-
-        for(Order order:orders){
-            Payment payment=new Payment();
-            payment.setActualPrice(order.getOrderItemList().get(0).getDealPrice().negate());
-            payment.setOrderId(order.getId());
-            payments.add(payment);
+//        List<Payment> payments=new ArrayList<>();
+//        List<Order> orders=orderService.listOrdersOfPromotion(promotionRule);
+//
+//        for(Order order:orders){
+//            Payment payment=new Payment();
+//            payment.setActualPrice(order.getOrderItemList().get(0).getDealPrice().negate());
+//            payment.setOrderId(order.getId());
+//            payments.add(payment);
+//        }
+//
+//        orderService.refundPresaleOrders(payments);
         }
 
-        orderService.refundPresaleOrders(payments);
-    }
 }

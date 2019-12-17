@@ -84,7 +84,7 @@ public class GrouponServiceImpl extends PromotionServiceImpl{
      * @return
      */
     public List<GrouponRule> listOnsaleGrouponGoods(){
-
+           return  null;
     }
 
 

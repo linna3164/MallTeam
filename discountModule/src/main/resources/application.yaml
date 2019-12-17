@@ -3,6 +3,7 @@ management:
     health:
       show-details: always
 
+
 mybatis:
   #domain对象的包
   type-aliases-package: com.xmu.discount.domain.coupon,com.xmu.discount.domain.discount

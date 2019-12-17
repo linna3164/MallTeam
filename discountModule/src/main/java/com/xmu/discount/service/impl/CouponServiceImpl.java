@@ -85,8 +85,9 @@ public class CouponServiceImpl {
             throw new CouponRuleNotFoundException();
         }
         //用户还没领取过
-        if(coupons.size()>0){
+        if(coupons.size()==0){
            Coupon coupon=couponRule.createCoupon(userId);
+
             //不能领取
            if(coupon==null){
                throw new UnsupportException();

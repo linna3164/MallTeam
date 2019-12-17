@@ -3,17 +3,19 @@ package com.xmu.discount;
 import com.xmu.discount.dao.CouponDao;
 import com.xmu.discount.dao.CouponRuleDao;
 import com.xmu.discount.dao.GrouponRuleDao;
+import com.xmu.discount.dao.PresaleRuleDao;
 import com.xmu.discount.domain.coupon.Coupon;
 import com.xmu.discount.domain.coupon.CouponRule;
 import com.xmu.discount.domain.coupon.CouponRulePo;
 import com.xmu.discount.domain.discount.GrouponRule;
 import com.xmu.discount.domain.discount.GrouponRulePo;
+import com.xmu.discount.domain.discount.PresaleRule;
 import com.xmu.discount.domain.discount.PromotionRule;
-import com.xmu.discount.exception.PromotionNotFoundException;
-import com.xmu.discount.exception.SeriousException;
-import com.xmu.discount.exception.UpdatedDataFailedException;
+import com.xmu.discount.exception.*;
+import com.xmu.discount.service.CouponService;
 import com.xmu.discount.service.impl.CouponRuleServiceImpl;
 import com.xmu.discount.service.impl.CouponServiceImpl;
+import com.xmu.discount.service.impl.GrouponServiceImpl;
 import com.xmu.discount.service.impl.PromotionServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,30 +54,53 @@ class DiscountApplicationTests {
 
     @Autowired
     private GrouponRuleDao grouponRuleDao;
-    @Test
-    void contextLoads() throws PromotionNotFoundException, UpdatedDataFailedException, SeriousException {
-        List<Coupon> coupons=couponDao.listCoupons();
-        for(Coupon c:coupons) System.out.println(c);
-        Coupon coupon=couponDao.getCouponById(1);
-        System.out.println(coupon);
-        int i=couponDao.deleteCouponById(1);
-        if(i==0) System.out.println("删除失败");
-        coupon.setBeDeleted(false);
-        couponDao.updateCouponById(coupon);
-        coupon.setName("新加的");
-        couponDao.addCoupon(coupon);
-        coupon.setBeDeleted(false);
-        couponDao.updateCouponById(coupon);
 
-        List<CouponRule> couponRules=couponRuleDao.listCouponRule();
-        for(CouponRule c:couponRules) System.out.println(c);
-        CouponRule couponRule=(CouponRule) couponRuleDao.getPromotionRuleById(1);
-        System.out.println(couponRule);
-        couponRuleDao.deletePromotionRuleById(1);
-        couponRule.setBeDeleted(false);
-        couponRuleDao.updatePromotionRuleById(couponRule);
-        couponRule.setBrief("new");
-        couponRuleDao.addPromotionRule(couponRule);
+    @Autowired
+    private PresaleRuleDao presaleRuleDao;
+
+    @Autowired
+    private CouponServiceImpl couponService;
+
+    @Autowired
+    private GrouponServiceImpl grouponService;
+    @Test
+    void contextLoads() throws PromotionNotFoundException, UpdatedDataFailedException, SeriousException, UnsupportException, CouponRuleNotFoundException, CouponNotFoundException {
+
+         List<Coupon> coupons=couponService.getCoupons();
+         for(Coupon c:coupons) System.out.println(c);
+
+         Coupon coupon=couponService.findCouponById(1);
+         System.out.println(coupon);
+         System.out.println(coupon.getCouponRule());
+         CouponRule couponRule=coupon.getCouponRule();
+
+         couponService.addCoupon(coupon.getCouponRule(),9);
+
+//         List<Coupon> coupons1=couponDao.listCouponByCouponRuleIdAndUserId(2,9);
+//         if(coupons1.isEmpty())
+        //couponService.addCoupon(coupon.getCouponRule(),9);
+//        List<Coupon> coupons=couponDao.listCoupons();
+//        for(Coupon c:coupons) System.out.println(c);
+//        Coupon coupon=couponDao.getCouponById(1);
+//        System.out.println(coupon);
+//        int i=couponDao.deleteCouponById(1);
+//        if(i==0) System.out.println("删除失败");
+//        coupon.setBeDeleted(false);
+//        couponDao.updateCouponById(coupon);
+//        coupon.setName("新加的");
+//        couponDao.addCoupon(coupon);
+//        coupon.setBeDeleted(false);
+//        couponDao.updateCouponById(coupon);
+//
+//        List<CouponRule> couponRules=couponRuleDao.listCouponRule();
+//        for(CouponRule c:couponRules) System.out.println(c);
+//        CouponRule couponRule=(CouponRule) couponRuleDao.getPromotionRuleById(1);
+//        System.out.println(couponRule);
+//        couponRuleDao.deletePromotionRuleById(1);
+//        couponRule.setBeDeleted(false);
+//        couponRuleDao.updatePromotionRuleById(couponRule);
+//        couponRule.setBrief("new");
+//        couponRuleDao.addPromotionRule(couponRule);
 
 
 
@@ -96,6 +121,7 @@ class DiscountApplicationTests {
 //         }
 //         else System.out.println("失败了O");
 //         grouponRuleDao.addPromotionRule(promotionRule);
+
 
     }
 

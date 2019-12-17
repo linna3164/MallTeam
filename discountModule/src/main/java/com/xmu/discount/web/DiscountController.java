@@ -30,9 +30,9 @@ import java.util.List;
 
 public class DiscountController {
 
-    @Autowired
-    @Qualifier("promotionServiceImpl")
-    private PromotionServiceImpl promotionService;
+//    @Autowired
+//    @Qualifier("promotionServiceImpl")
+//    private PromotionServiceImpl promotionService;
 
 
     @Autowired
@@ -188,7 +188,7 @@ public class DiscountController {
     @GetMapping("/grouponRules")
     public List<GrouponRule> getGroupRules(@RequestParam Integer goodsId, @RequestParam(defaultValue = "1") Integer page,
                                            @RequestParam(defaultValue = "10") Integer limit){
-        return
+        return  null;
     }
 
     /**
@@ -199,7 +199,7 @@ public class DiscountController {
     @PostMapping("/grouponRules")
     public GrouponRule addGrouponRule(@RequestBody GrouponRulePo grouponRulePo) throws UpdatedDataFailedException, SeriousException {
         GrouponRule grouponRule=new GrouponRule(grouponRulePo);
-        return (GrouponRule) promotionService.addPromotion(grouponRule);
+        return (GrouponRule) grouponService.addPromotion(grouponRule);
     }
 
     /**
@@ -209,7 +209,7 @@ public class DiscountController {
      */
     @GetMapping("/grouponRules/{id}")
     public GrouponRule findGroupRuleById(@PathVariable Integer id) throws PromotionNotFoundException {
-        return (GrouponRule) promotionService.getPromotionById(id,"sda");
+        return (GrouponRule) grouponService.getPromotionById(id,"GrouponRule");
     }
 
     /**
@@ -221,7 +221,7 @@ public class DiscountController {
     @PutMapping("/grouponRules/{id}")
     public GrouponRule modifyGrouponRuleById(@PathVariable Integer id,@RequestBody GrouponRulePo grouponRulePo) throws UpdatedDataFailedException {
         GrouponRule grouponRule=new GrouponRule(grouponRulePo);
-        return (GrouponRule) promotionService.updatepromotionRule(grouponRule);
+        return (GrouponRule) grouponService.updatepromotionRule(grouponRule);
     }
 
     /**
@@ -232,9 +232,9 @@ public class DiscountController {
     @DeleteMapping("/grouponRules/{id}")
     public Object deleteGroupRule(@PathVariable Integer id) throws PromotionNotFoundException, UpdatedDataFailedException {
 
-        PromotionRule promotionRule=promotionService.getPromotionById(id,"GrouponRule");
+        PromotionRule promotionRule=grouponService.getPromotionById(id,"GrouponRule");
 
-        promotionService.deletePromotionById(promotionRule);
+        grouponService.deletePromotionById(promotionRule);
 
         return ResponseUtil.ok();
     }
@@ -243,7 +243,7 @@ public class DiscountController {
     //经协商，加上这条url，用来获取团购商品列表/ 管理员可以看到除了删除的所有团购
     @GetMapping("admin/grouponGoods")
     public List<GrouponRule> getAllGrouponGoods(){
-        List<PromotionRule> promotionRules=promotionService.listPromotionRuleOfType("GrouponRule");
+        List<PromotionRule> promotionRules=grouponService.listPromotionRuleOfType("GrouponRule");
         List<GrouponRule>grouponRules=new ArrayList<>();
         for(PromotionRule promotionRule:promotionRules){
             grouponRules.add((GrouponRule)promotionRule);
@@ -312,7 +312,7 @@ public class DiscountController {
     @PutMapping("/presaleRules/{id}")
     public Object updatePresaleRuleById(@RequestBody PresaleRule presaleRule,@PathVariable Integer id) throws UpdatedDataFailedException {
         presaleRule.setId(id);
-        PresaleRule presaleRule1=(PresaleRule) promotionService.updatepromotionRule(presaleRule);
+        PresaleRule presaleRule1=(PresaleRule) presaleService.updatepromotionRule(presaleRule);
         if(presaleRule1==null) {
             return ResponseUtil.badArgument();
         } else {
@@ -328,7 +328,7 @@ public class DiscountController {
      */
     @GetMapping("/presaleRules/{id}")
     public Object getPresaleRuleById(@PathVariable Integer id) throws PromotionNotFoundException {
-        PresaleRule presaleRule=(PresaleRule) promotionService.getPromotionById(id,"PresaleRule");
+        PresaleRule presaleRule=(PresaleRule) presaleService.getPromotionById(id,"PresaleRule");
         if(presaleRule==null) {
             return ResponseUtil.badArgumentValue();
         } else {
@@ -344,10 +344,10 @@ public class DiscountController {
      */
     @DeleteMapping("presaleRules/{id}")
     public Object deletePresaleRuleById(@PathVariable Integer id) throws PromotionNotFoundException, UpdatedDataFailedException {
-        PresaleRule presaleRule=(PresaleRule)promotionService.getPromotionById(id,"PresaleRule"); //为什么会有name这个参数
+        PresaleRule presaleRule=(PresaleRule)presaleService.getPromotionById(id,"PresaleRule"); //为什么会有name这个参数
       if(presaleRule!=null) {
           presaleService.deletePromotionById(presaleRule);
-          presaleRule = (PresaleRule) promotionService.getPromotionById(id, "PresaleRule");
+          presaleRule = (PresaleRule) presaleService.getPromotionById(id, "PresaleRule");
           return ResponseUtil.ok(presaleRule);
       }
       else {
