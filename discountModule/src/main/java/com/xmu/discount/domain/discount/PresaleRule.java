@@ -18,11 +18,12 @@ import java.util.Objects;
 public class PresaleRule extends PromotionRule {
 
 
+    /**
+     * 预售活动是否等待结束
+     * @return
+     */
     @Override
-    public boolean isNotFinished() {
-        if(this.getStatusCode()==1){
-            return true;
-        }
+    public boolean isWaitFinish() {
         return false;
     }
 
@@ -216,11 +217,6 @@ public class PresaleRule extends PromotionRule {
     @Override
     public Integer getId() {
         return id;
-    }
-
-    @Override
-    public boolean isNotFinished() {
-        return false;
     }
 
     public void setId(Integer id) {

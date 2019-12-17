@@ -47,7 +47,7 @@ public abstract class PromotionServiceImpl {
      * @param promotionName
      * @return
      */
-    public List<PromotionRule> listPromotionRule(String promotionName){
+    public List<PromotionRule> listPromotionRuleOfType(String promotionName){
         return ((PromotionRuleDao)SpringContextUtil.getBean(promotionName+"Dao")).listPromotions();
     }
 
@@ -109,12 +109,12 @@ public abstract class PromotionServiceImpl {
      * @param order
      * @return
      */
-    public Order getPayment(Order order) throws SeriousException, UnsupportException {
+    public Order getPayment(Order order) throws SeriousException, UnsupportException, PromotionNotFoundException {
 
         //获得订单商品当前的促销活动规则
-        List<PromotionRule> promotionRules=this.listCurrentPromotionByGoodsId(order.getOrderItemList().get(0).getProduct().getGoodsId());
+        PromotionRule promotionRule=this.listCurrentPromotionByGoodsId(order.getOrderItemList().get(0).getProduct().getGoodsId());
         //没有促销活动
-        if(promotionRules.size()==0){
+        if(promotionRule==null){
             //没有用优惠券
            if(order.getCouponId()==null){
                return order;
@@ -126,12 +126,8 @@ public abstract class PromotionServiceImpl {
                return order;
            }
         }
-        //促销活动大于1个
-        else  if(promotionRules.size()>1){
-                throw new SeriousException();
-        }
         else{
-           return  promotionRules.get(0).getPayment(order);
+           return  promotionRule.getPayment(order);
         }
     }
 
@@ -151,21 +147,17 @@ public abstract class PromotionServiceImpl {
         return promotionRules;
     }
 
-
-
     /**
-     * 通过id找到商品当前的促销活动
-     * @param goodsId
+     * 获取某种状态的促销活动--带商品
+     * @param promotionName
+     * @param activeStatus
      * @return
      */
-    public List<PromotionRule> listCurrentPromotionByGoodsId(Integer goodsId){
-
-        //商品的所有促销活动
-        List<PromotionRule> promotionRules=this.listProimotionByGoodsId(goodsId);
+    public List<PromotionRule> listPromotionRuleOfTypeAndStatusByGoodsId(Integer goodsId,String promotionName, PromotionRule.ActiveStatus activeStatus){
+        List<PromotionRule> promotionRules=this.listPromotionRuleOfType(promotionName);
         List<PromotionRule> res=new ArrayList<>();
-
         for(PromotionRule promotionRule:promotionRules){
-            if(promotionRule.isInTime()){
+            if(promotionRule.getActiveStatus().equals(PromotionRule.ActiveStatus.INPROCESS)){
                 res.add(promotionRule);
             }
         }
@@ -173,19 +165,17 @@ public abstract class PromotionServiceImpl {
     }
 
 
-
     /**
      * 获得商品当前正在进行的促销活动
      * @param goodsId
      * @return
      */
-    public PromotionRule getCurrentPromotionByGoodsId(Integer goodsId) throws PromotionNotFoundException ,SeriousException {
-        List<PromotionRule> promotionRules=this.listProimotionByGoodsId(goodsId);//活动商品的所有促销活动
-        for(PromotionRule p:promotionRules){
-            LocalDateTime start=p.getpromotionRuleStartTime();
-            LocalDateTime end=p.getPromotionEndTime();
-            if(LocalDateTime.now().isBefore(start)||LocalDateTime.now().isAfter(end)) {
-                promotionRules.remove(p);
+    public PromotionRule listCurrentPromotionByGoodsId(Integer goodsId) throws PromotionNotFoundException ,SeriousException {
+        //活动商品的所有促销活动
+        List<PromotionRule> promotionRules=this.listProimotionByGoodsId(goodsId);
+        for(PromotionRule promotionRule:promotionRules){
+            if(promotionRule.getActiveStatus().equals(PromotionRule.ActiveStatus.INPROCESS)) {
+                promotionRules.remove(promotionRule);
             }
         }
         //没有促销活动
@@ -218,6 +208,23 @@ public abstract class PromotionServiceImpl {
         return promotionRule;
     }
 
+
+    /**
+     * 获取某种状态的促销活动--带商品
+     * @param promotionName
+     * @param activeStatus
+     * @return
+     */
+    public List<PromotionRule> listPromotionRuleOfTypeAndStatus(String promotionName, PromotionRule.ActiveStatus activeStatus){
+        List<PromotionRule> promotionRules=this.listPromotionRuleOfType(promotionName);
+        List<PromotionRule> res=new ArrayList<>();
+        for(PromotionRule promotionRule:promotionRules){
+            if(promotionRule.getActiveStatus().equals(PromotionRule.ActiveStatus.INPROCESS)){
+                res.add(promotionRule);
+            }
+        }
+        return res;
+    }
 
 
 

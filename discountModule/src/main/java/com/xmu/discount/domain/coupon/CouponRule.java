@@ -16,14 +16,13 @@ import java.util.*;
 public class CouponRule extends PromotionRule {
 
 
+    /**
+     * 优惠券规则活动是否等待结束
+     * @return
+     */
     @Override
-    public boolean isNotFinished() {
-        if(super.isInTime()){
-            return true;
-        }
-        else {
-            return false;
-        }
+    public boolean isWaitFinish() {
+        return false;
     }
 
     @Override
@@ -401,10 +400,6 @@ public class CouponRule extends PromotionRule {
         return realObj.getId();
     }
 
-    @Override
-    public boolean isNotFinished() {
-        return false;
-    }
 
     public void setId(Integer id) {
         realObj.setId(id);

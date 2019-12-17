@@ -23,7 +23,7 @@ public abstract class PromotionRule implements Serializable {
      * @return
      */
     public boolean isOkToDisable(){
-        if(this.getActiveStatus().equals(ActiveStatus.NOTFINISHED)){
+        if(this.getActiveStatus().equals(ActiveStatus.WAITFINISH)||this.getActiveStatus().equals(ActiveStatus.INPROCESS)){
             return true;
         }
         else {
@@ -40,8 +40,8 @@ public abstract class PromotionRule implements Serializable {
         if(this.isDisabled()){
             return ActiveStatus.DISABLED;
         }
-        else if(this.isNotFinished()){
-            return ActiveStatus.NOTFINISHED;
+        else if(this.isWaitFinish()){
+            return ActiveStatus.WAITFINISH;
         }
         else if(this.isInTime()){
             return ActiveStatus.INPROCESS;
@@ -49,7 +49,7 @@ public abstract class PromotionRule implements Serializable {
         else if(!this.isAlreadyStart()){
             return ActiveStatus.NOTSTART;
         }
-        else if(this.isAlreadyEnd()){
+        else if(this.isFinished()){
             return ActiveStatus.DONE;
         }
         return ActiveStatus.DISABLED;
@@ -60,7 +60,7 @@ public abstract class PromotionRule implements Serializable {
      * @return
      */
     public boolean isOkToUpdate(){
-        if(this.getActiveStatus().equals(ActiveStatus.NOTFINISHED)){
+        if(this.getActiveStatus().equals(ActiveStatus.WAITFINISH)||this.getActiveStatus().equals(ActiveStatus.INPROCESS)){
             return false;
         }
         else{
@@ -71,10 +71,10 @@ public abstract class PromotionRule implements Serializable {
     public abstract Integer getStatusCode();
 
     /**
-     * 判断活动是否未结束
+     * 判断活动是否等待结束
      * @return
      */
-    public abstract  boolean isNotFinished();
+    public abstract  boolean isWaitFinish();
 
 
     /**
@@ -94,7 +94,7 @@ public abstract class PromotionRule implements Serializable {
      * @return
      */
     public boolean isOkToDelete(){
-        if(this.getActiveStatus().equals(ActiveStatus.NOTFINISHED)){
+        if(this.getActiveStatus().equals(ActiveStatus.WAITFINISH)||this.getActiveStatus().equals(ActiveStatus.INPROCESS)){
             return false;
         }
         else{
@@ -129,7 +129,8 @@ public abstract class PromotionRule implements Serializable {
      * @return
      */
     public boolean isOkToAdd(List<PromotionRule> promotionRules){
-        if(this.isValid()&&this.isNoConflict(promotionRules)){
+        LocalDateTime now=LocalDateTime.now();
+        if(this.isValid()&&this.isNoConflict(promotionRules)&&this.getpromotionRuleStartTime().isAfter(now)){
             return true;
         }
         return false;
@@ -144,7 +145,7 @@ public abstract class PromotionRule implements Serializable {
     }
 
     /**
-     * 促销活动是否已开始
+     * 促销活动是否已start
      * @return
      */
     public  boolean isAlreadyStart(){
@@ -152,12 +153,21 @@ public abstract class PromotionRule implements Serializable {
         return (this.getpromotionRuleStartTime().isBefore(now));
     }
 
-
     /**
-     * 促销活动是否结束(界面看不到了)
+     * 促销活动是否end
      * @return
      */
     public boolean isAlreadyEnd(){
+        LocalDateTime now = LocalDateTime.now();
+        return (this.getPromotionEndTime().isBefore(now));
+    }
+
+
+    /**
+     * 促销活动是否结束(团购活动需要重写改方法)
+     * @return
+     */
+    public boolean isFinished(){
         LocalDateTime now = LocalDateTime.now();
         return (this.getPromotionEndTime().isBefore(now));
     }
@@ -235,7 +245,7 @@ public abstract class PromotionRule implements Serializable {
         /**
          *未结束
          */
-        NOTFINISHED("未结束",2),
+        WAITFINISH("未结束",2),
         /**"
          * 已结束
          */

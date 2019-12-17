@@ -2,23 +2,22 @@ package com.xmu.discount.service.impl;
 
 import com.xmu.discount.dao.GrouponRuleDao;
 import com.xmu.discount.domain.discount.GrouponRule;
-import com.xmu.discount.domain.discount.GrouponRulePo;
 import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.others.domain.Payment;
 import com.xmu.discount.exception.SeriousException;
+import com.xmu.discount.inter.GoodsFeign;
 import com.xmu.discount.inter.OrderFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import javax.swing.*;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ *
+ */
 @Service
 public class GrouponServiceImpl extends PromotionServiceImpl{
 
@@ -28,6 +27,8 @@ public class GrouponServiceImpl extends PromotionServiceImpl{
     @Autowired
     OrderFeign orderFeign;
 
+    @Autowired
+    GoodsFeign goodsFeign;
 
 
     /**
@@ -52,27 +53,39 @@ public class GrouponServiceImpl extends PromotionServiceImpl{
         for(GrouponRule grouponRule:grouponRuleList)
         {
             List<Order> orderList = orderFeign.getGrouponOrders(grouponRule.getRealObj());
-            List<Payment> paymentList = caculGrouponOrderRefundList(orderList);
+            List<Payment> paymentList = grouponRule.cacuGrouponRefund(orderList,goodsFeign.getGoodsById(grouponRule.getGoodsId()));
             orderFeign.refundGrouponOrder(paymentList);
+
+            //设置团购规则为已经结束（finish）
+            grouponRule.setStatusCode(1);
         }
+
+
     }
 
+
+    /**
+     * 得到waitfinish的团购规则
+     * @return
+     */
     public List<GrouponRule> listNeedCalcuGrouponRule(){
-        //TODO:获得前一天完成的grouponRulePo
-        List<PromotionRule> promotionRules=this.listPromotionRule("GrouponDao");
+        List<PromotionRule> promotionRules=this.listPromotionRuleOfType("Groupon");
         List<GrouponRule> res=new ArrayList<>();
         for(PromotionRule promotionRule:promotionRules){
-            if(promotionRule.getActiveStatus().equals(PromotionRule.ActiveStatus.NOTFINISHED))
+            if(promotionRule.getActiveStatus().equals(PromotionRule.ActiveStatus.WAITFINISH)){
+                res.add((GrouponRule) promotionRule);
+            }
         }
-        return null;
+        return res;
     }
 
+    /**
+     * 得到
+     * @return
+     */
+    public List<GrouponRule> listOnsaleGrouponGoods(){
 
-
-    public List<Payment> caculGrouponOrderRefundList(List<Order> orderList)
-    {
-        //TODO:计算出每个order应该退款的数量
-        return null;
     }
+
 
 }

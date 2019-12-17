@@ -2,10 +2,7 @@ package com.xmu.discount.domain.discount;
 
 
 import com.alibaba.fastjson.JSON;
-import com.xmu.discount.domain.others.domain.Goods;
-import com.xmu.discount.domain.others.domain.Order;
-import com.xmu.discount.domain.others.domain.OrderItem;
-import com.xmu.discount.domain.others.domain.Payment;
+import com.xmu.discount.domain.others.domain.*;
 
 import com.xmu.discount.exception.UnsupportException;
 import com.xmu.discount.util.JacksonUtil;
@@ -20,13 +17,31 @@ import java.util.*;
 public class GrouponRule extends PromotionRule {
 
 
+    /**
+     * 团购是否等待结束
+     * @return
+     */
     @Override
-    public boolean isNotFinished() {
-        if(this.getStatusCode()==1){
-            return false;
+    public boolean isWaitFinish() {
+        if(this.getStatusCode()==0&&super.isAlreadyEnd()){
+                return true;
         }
         else {
+            return false;
+        }
+    }
+
+    /**
+     * 团购活动已经正常结束
+     * @return
+     */
+    @Override
+    public boolean isFinished() {
+        if(this.getStatusCode()==1){
             return true;
+        }
+        else {
+            return false;
         }
     }
 
@@ -313,9 +328,6 @@ public class GrouponRule extends PromotionRule {
         realObj.setGmtModified(gmtModified);
     }
 
-//   public boolean canEqual(Object other) {
-//        return realObj.canEqual(other);
-//    }
 
     public void setBeDeleted(Boolean beDeleted) {
         realObj.setBeDeleted(beDeleted);
@@ -326,10 +338,7 @@ public class GrouponRule extends PromotionRule {
         return realObj.getId();
     }
 
-    @Override
-    public boolean isNotFinished() {
-        return false;
-    }
+
 
     public LocalDateTime getGmtCreate() {
         return realObj.getGmtCreate();
