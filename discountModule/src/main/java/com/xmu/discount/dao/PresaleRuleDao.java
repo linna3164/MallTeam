@@ -34,13 +34,11 @@ public class PresaleRuleDao implements PromotionRuleDao {
      * @return
      */
     @Override
-    public List<PromotionRule> listPromotions() {
-        List<PromotionRule> promotionRules=new ArrayList<PromotionRule>();
+    public List<? extends PromotionRule> listPromotions() {
+
         List<PresaleRule> presaleRules=presaleRuleMapper.getPresaleRules();
-        for(PresaleRule p:presaleRules){
-            promotionRules.add(p);
-        }
-        return promotionRules;
+
+        return presaleRules;
     }
 
     /**
@@ -65,11 +63,9 @@ public class PresaleRuleDao implements PromotionRuleDao {
      * @return
      */
     @Override
-    public List<PromotionRule> listPromotionRuleByGoodsId(Integer goodsId) {
-        List<PromotionRule>promotionRules=new ArrayList<>();
+    public List<? extends PromotionRule> listPromotionRuleByGoodsId(Integer goodsId) {
         List<PresaleRule> presaleRules=presaleRuleMapper.listPresaleRuleByGoodsId(goodsId);
-        promotionRules.addAll(presaleRules);
-        return promotionRules;
+        return presaleRules;
     }
 
     /**

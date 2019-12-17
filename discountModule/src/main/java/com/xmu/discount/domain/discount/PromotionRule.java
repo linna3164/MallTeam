@@ -1,5 +1,6 @@
 package com.xmu.discount.domain.discount;
 
+import com.xmu.discount.domain.others.domain.Goods;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.exception.UnsupportException;
 
@@ -16,6 +17,7 @@ public abstract class PromotionRule implements Serializable {
 //    private static final Logger logger = LoggerFactory.getLogger();
 
     public abstract Integer getId();
+
 
 
     /**
@@ -307,4 +309,14 @@ public abstract class PromotionRule implements Serializable {
         this.activeStatus = activeStatus;
     }
 
+
+    private Goods goods;
+
+    public Goods getGoods() {
+        return goods;
+    }
+
+    public void setGoods(Goods goods) {
+        this.goods = goods;
+    }
 }
