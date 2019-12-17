@@ -52,9 +52,9 @@ public class DiscountController {
 
     /**
      *  管理员查看所有的优惠券规则
-     * @return
+     * @return 标准组List<couponRulePo>
      */
-    @GetMapping("/couponRules")
+    @GetMapping("/admin/couponRules")
     public Object getCouponRules(@RequestParam(defaultValue = "1") Integer page,
                                            @RequestParam(defaultValue = "10") Integer limit){
         return promotionService.listPromotionRuleOfType("CouponRule");
@@ -63,7 +63,7 @@ public class DiscountController {
     /**
      * 管理员添加优惠券规则
      * @param couponRulePo
-     * @return
+     * @return  标准组couponRulePo!!!!!
      */
     @PostMapping("/couponRules")
     public Object addCouponRule(CouponRulePo couponRulePo,HttpServletRequest request) throws UpdatedDataFailedException, SeriousException {
@@ -74,7 +74,7 @@ public class DiscountController {
     /**
      * 通过id查找优惠券规则
      * @param id
-     * @return
+     * @return 标准组couponRulePo
      */
     @GetMapping("/couponRules/{id}")
     public Object findCouponRuleById(@PathVariable Integer id) throws PromotionNotFoundException {
@@ -85,7 +85,7 @@ public class DiscountController {
      * 修改优惠券规则
      * @param id
      * @param couponRulePo
-     * @return
+     * @return 标准组couponRulePo
      */
     @PutMapping("/couponRules/{id}")
     public Object updateCouponRuleById(@PathVariable Integer id,@RequestBody CouponRulePo couponRulePo,HttpServletRequest request) throws UpdatedDataFailedException {
@@ -97,7 +97,7 @@ public class DiscountController {
     /**
      *管理员通过id删除优惠券规则
      * @param id
-     * @return
+     * @return 无！！！！
      */
     @DeleteMapping("/couponRules/{id}")
     public Object deleteCouponRuleById(@PathVariable Integer id,HttpServletRequest request) throws PromotionNotFoundException, UpdatedDataFailedException {
@@ -109,31 +109,20 @@ public class DiscountController {
     }
 
     /**
-     * 管理员查看所有优惠券
+     *管理员查看部分优惠券规则
+     * @param goodsId
      * @param page
      * @param limit
-     * @return
-             */
-    @GetMapping("/coupons")
-    public List<Coupon> getCoupons(@RequestParam(defaultValue = "1") Integer page,
-                                   @RequestParam(defaultValue = "10") Integer limit){
-             return couponService.getCoupons();
+     * @return 标准组List<couponRulePo>
+     */
+    @GetMapping("/couponRules")
+    public Object getCouponRules(@RequestParam Integer goodsId, @RequestParam(defaultValue = "1") Integer page,
+                                 @RequestParam(defaultValue = "10") Integer limit){
+
     }
 
-    /**
-     * 管理员添加优惠券
-     * @param couponRule
-     * @return
-     */
-//    @PostMapping("/coupons")
-//    public Object addCoupon(@RequestBody CouponRule couponRule) throws CouponNotFoundException, UnsupportException {
-//        Coupon coupon1=couponService.addCoupon(couponRule,1);
-//        if(coupon1==null) {
-//            return ResponseUtil.badArgumentValue();
-//        }else {
-//            return ResponseUtil.ok(coupon1);
-//        }
-//    }
+
+
 
     /**
      * 查看已使用的优惠券
@@ -164,13 +153,42 @@ public class DiscountController {
         return couponService.listUnUsedCouponOfUser(userId);
     }
 
+
+//    /**
+//     * 管理员查看所有优惠券
+//     * @param page
+//     * @param limit
+//     * @return
+//     */
+//    @GetMapping("/coupons")
+//    public List<Coupon> getCoupons(@RequestParam(defaultValue = "1") Integer page,
+//                                   @RequestParam(defaultValue = "10") Integer limit){
+//        return couponService.getCoupons();
+//    }
+
+    /**
+     * 管理员添加优惠券
+     * @param couponRule
+     * @return 标准组couponPo
+     */
+    @PostMapping("/coupons")
+    public Object addCoupon(@RequestBody CouponRule couponRule) throws CouponNotFoundException, UnsupportException {
+        Coupon coupon1=couponService.addCoupon(couponRule,1);
+        if(coupon1==null) {
+            return ResponseUtil.badArgumentValue();
+        }else {
+            return ResponseUtil.ok(coupon1);
+        }
+    }
+
+
     /**
      * 查看订单可用优惠券
      * @param cartItems
-     * @return
+     * @return List<Coupon>
      */
     @GetMapping("/coupons/availableCoupons")
-    public List<Coupon> getAvailableCoupons(@RequestBody List<CartItem> cartItems, HttpServletRequest request){
+    public Object getAvailableCoupons(@RequestBody List<CartItem> cartItems, HttpServletRequest request){
         Integer userId = Integer.valueOf(request.getHeader("userId"));
 
           return couponService.listAvailableCoupons(cartItems);
