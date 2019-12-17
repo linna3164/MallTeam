@@ -54,28 +54,28 @@ class DiscountApplicationTests {
     private GrouponRuleDao grouponRuleDao;
     @Test
     void contextLoads() throws PromotionNotFoundException, UpdatedDataFailedException, SeriousException {
-        List<Coupon> coupons=couponDao.listCoupons();
-        for(Coupon c:coupons) System.out.println(c);
-        Coupon coupon=couponDao.getCouponById(1);
-        System.out.println(coupon);
-        int i=couponDao.deleteCouponById(1);
-        if(i==0) System.out.println("删除失败");
-        coupon.setBeDeleted(false);
-        couponDao.updateCouponById(coupon);
-        coupon.setName("新加的");
-        couponDao.addCoupon(coupon);
-        coupon.setBeDeleted(false);
-        couponDao.updateCouponById(coupon);
-
-        List<CouponRule> couponRules=couponRuleDao.listCouponRule();
-        for(CouponRule c:couponRules) System.out.println(c);
-        CouponRule couponRule=(CouponRule) couponRuleDao.getPromotionRuleById(1);
-        System.out.println(couponRule);
-        couponRuleDao.deletePromotionRuleById(1);
-        couponRule.setBeDeleted(false);
-        couponRuleDao.updatePromotionRuleById(couponRule);
-        couponRule.setBrief("new");
-        couponRuleDao.addPromotionRule(couponRule);
+//        List<Coupon> coupons=couponDao.listCoupons();
+//        for(Coupon c:coupons) System.out.println(c);
+//        Coupon coupon=couponDao.getCouponById(1);
+//        System.out.println(coupon);
+//        int i=couponDao.deleteCouponById(1);
+//        if(i==0) System.out.println("删除失败");
+//        coupon.setBeDeleted(false);
+//        couponDao.updateCouponById(coupon);
+//        coupon.setName("新加的");
+//        couponDao.addCoupon(coupon);
+//        coupon.setBeDeleted(false);
+//        couponDao.updateCouponById(coupon);
+//
+//        List<CouponRule> couponRules=couponRuleDao.listCouponRule();
+//        for(CouponRule c:couponRules) System.out.println(c);
+//        CouponRule couponRule=(CouponRule) couponRuleDao.getPromotionRuleById(1);
+//        System.out.println(couponRule);
+//        couponRuleDao.deletePromotionRuleById(1);
+//        couponRule.setBeDeleted(false);
+//        couponRuleDao.updatePromotionRuleById(couponRule);
+//        couponRule.setBrief("new");
+//        couponRuleDao.addPromotionRule(couponRule);
 
 
 

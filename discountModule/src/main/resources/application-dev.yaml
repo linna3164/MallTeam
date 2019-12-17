@@ -8,7 +8,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/oomall?serverTimezone=UTC
     username: root
-    password: 6892778tt
+    password:
     druid:
       #初始化时建立物理连接的个数
       initial-size: 3
