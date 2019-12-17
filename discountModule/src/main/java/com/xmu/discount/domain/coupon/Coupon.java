@@ -140,9 +140,9 @@ public class Coupon {
      */
     private String picUrl;
     /**
-     * 优惠券是否已经使用，0未使用，1已使用
+     * 优惠券是否已经使用，0未使用，1已使用,2
      */
-    private Integer statusCode;//TODO:标准组更新了吗？
+    private Integer statusCode;
 
     private LocalDateTime gmtCreate;
     private LocalDateTime gmtModified;

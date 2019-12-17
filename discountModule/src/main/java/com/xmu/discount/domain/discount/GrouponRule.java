@@ -6,8 +6,6 @@ import com.xmu.discount.domain.others.domain.*;
 
 import com.xmu.discount.exception.UnsupportException;
 import com.xmu.discount.util.JacksonUtil;
-import jdk.nashorn.internal.runtime.JSONFunctions;
-import org.apache.hadoop.yarn.webapp.hamlet.Hamlet;
 import org.apache.ibatis.type.Alias;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +19,15 @@ public class GrouponRule extends PromotionRule {
 
     private static final Logger logger = LoggerFactory.getLogger(GrouponRule.class);
 
+
+    /**
+     * true 失效，false  不失效
+     * @return
+     */
+    @Override
+    public boolean isDisabled() {
+        return this.isDisableCode();
+    }
 
     public boolean isStrategyValid(){
         List<Strategy> strategies=this.getStrategyList();
@@ -38,7 +45,7 @@ public class GrouponRule extends PromotionRule {
         else {
             for (int i = 0; i < strategies.size() - 1; i++) {
                 Strategy strategy = strategies.get(0);
-                if(!strategy.isValid()){
+                if(!strategy.beValid()){
                     return false;
                 }
                 else if (strategy.getUpperBound()!= strategies.get(i + 1).getLowerBound()-1){
@@ -73,7 +80,7 @@ public class GrouponRule extends PromotionRule {
      */
     @Override
     public boolean isWaitFinish() {
-        if(this.getStatusCode()==0&&super.isAlreadyEnd()){
+        if(this.isStatusCode()&&super.isAlreadyEnd()){
                 return true;
         }
         else {
@@ -87,11 +94,13 @@ public class GrouponRule extends PromotionRule {
      */
     @Override
     public boolean isFinished() {
-        if(this.getStatusCode()==1){
-            return true;
+
+        //进行中
+        if(this.isStatusCode()){
+            return false;
         }
         else {
-            return false;
+            return true;
         }
     }
 
@@ -113,17 +122,11 @@ public class GrouponRule extends PromotionRule {
 
     /**
      * 计算折扣(给定时操作做)
-     * @param orders
+     * @param nums
      * @return
      */
-    public List<Payment> cacuGrouponRefund(List<Order> orders, Goods goods){
-//        BigDecimal productsPriceorders.get(0).getOrderItemList().get(0).getProduct().getPrice();
+    public BigDecimal cacuGrouponRefund(Integer nums){
         //成团人数 nums
-        int nums=0;
-        for(Order order:orders){
-            OrderItem orderItem=order.getOrderItemList().get(0);
-            nums+=orderItem.getNumber();
-        }
 
         //策略
         List<Strategy>strategies=this.getStrategyList();
@@ -132,30 +135,16 @@ public class GrouponRule extends PromotionRule {
         //判断在哪个区间
         BigDecimal levelRate=BigDecimal.ZERO;
         for(Strategy strategy:strategies){
-            if(strategy.getLowerBound()<=nums&&strategy.getUpperBound()>=nums){
-                //在这个区间,用这个rate
-                levelRate=strategy.getDiscountRate();
+            if(strategy.getLowerBound()<=nums){
+                if(strategy.getUpperBound()==null||strategy.getUpperBound()>=nums){
+                    //在这个区间,用这个rate
+                    levelRate=strategy.getDiscountRate();
+                }
             }
         }
-        List<Payment> payments=new ArrayList<>();
 
         //有打折
-        if(levelRate.compareTo(BigDecimal.ZERO)==0){
-            for(Order order:orders){
-                OrderItem orderItem=order.getOrderItemList().get(0);
-                BigDecimal productsPrice=orderItem.getProduct().getPrice();
-                Integer number=orderItem.getNumber();
-
-                //每个订单应退价格
-                BigDecimal refundPrice=productsPrice.multiply(new BigDecimal(number)).multiply(BigDecimal.ONE.subtract(levelRate));
-
-                Payment payment=new Payment();
-                //正数转负数
-                payment.setActualPrice(refundPrice.negate());
-             //   payment.setOrderId(order.getId());
-            }
-        }
-        return payments;
+        return levelRate;
     }
 
 
@@ -286,7 +275,7 @@ public class GrouponRule extends PromotionRule {
          * 一条策略是否有效
          * @return
          */
-        public boolean isValid(){
+        public boolean beValid(){
             if(this.getLowerBound()>=0&&this.getLowerBound()<=this.getUpperBound()){
                 return true;
             }
@@ -365,13 +354,20 @@ public class GrouponRule extends PromotionRule {
         realObj.setStartTime(startTime);
     }
 
-    @Override
-    public Integer getStatusCode() {
-        return realObj.getStatusCode();
+    public void setStatusCode(boolean statusCode) {
+        realObj.setStatusCode(statusCode);
     }
 
-    public void setStatusCode(Integer statusCode) {
-        realObj.setStatusCode(statusCode);
+    public void setDisableCode(boolean disableCode) {
+        realObj.setDisableCode(disableCode);
+    }
+
+    public boolean isDisableCode() {
+        return realObj.isDisableCode();
+    }
+
+    public boolean isStatusCode() {
+        return realObj.isStatusCode();
     }
 
     public void setGrouponLevelStragety(String grouponLevelStragety) {

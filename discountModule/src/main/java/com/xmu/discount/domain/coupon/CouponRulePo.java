@@ -75,7 +75,7 @@ public class CouponRulePo {
     /**
      * 是否是失效的优惠活动
      */
-    private Integer statusCode;
+    private Boolean statusCode;
 
     private LocalDateTime gmtCreate;
     private LocalDateTime gmtModified;
@@ -183,12 +183,12 @@ public class CouponRulePo {
         this.goodsList2 = goodsList2;
     }
 
-    public Integer getStatusCode() {
-        return statusCode;
+    public void setStatusCode(Boolean statusCode) {
+        this.statusCode = statusCode;
     }
 
-    public void setStatusCode(Integer statusCode) {
-        this.statusCode = statusCode;
+    public Boolean getStatusCode() {
+        return statusCode;
     }
 
     public LocalDateTime getGmtCreate() {

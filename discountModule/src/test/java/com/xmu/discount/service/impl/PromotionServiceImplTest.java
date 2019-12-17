@@ -76,6 +76,15 @@ class PromotionServiceImplTest {
         grouponService.addPromotion(grouponRule);
     }
 
+
+    /**
+     * 添加预售规则
+     */
+    @Test
+    void addPromotion(){
+
+    }
+
     @Test
     void getPromotionById() {
 
@@ -84,6 +93,7 @@ class PromotionServiceImplTest {
 
     @Test
     void deletePromotionById() {
+
     }
 
     @Test
