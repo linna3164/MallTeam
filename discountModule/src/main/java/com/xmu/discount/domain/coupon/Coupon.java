@@ -42,10 +42,13 @@ public class Coupon {
         List<OrderItem>orderItems=new ArrayList<>();
         for(CartItem cartItem:cartItems){
             OrderItem orderItem=new OrderItem(cartItem);
+            orderItems.add(orderItem);
         }
+
 
         //优惠券可用
         if(this.isReadyToUse()){
+            System.out.println("可使用"+this);
             return this.getCouponRule().isOkToUse(orderItems);
         }
         else {
@@ -64,7 +67,7 @@ public class Coupon {
         LocalDateTime now = LocalDateTime.now();
         return (this.getBeginTime().isBefore(now) &&
                 this.getEndTime().isAfter(now) &&
-                this.getStatus().equals(Status.NOT_USED.getValue()));
+               this.getStatusCode()==0);
     }
 
     /**
@@ -377,7 +380,16 @@ public class Coupon {
     }
 
     public Status getStatus() {
-        return status;
+        if(this.getStatusCode()==2)
+            return Status.DISABLED;
+        else if(this.getStatusCode()==1)
+            return Status.USED;
+        else if(LocalDateTime.now().isAfter(this.getEndTime()))
+            return Status.EXPIRED;
+        else if(this.getStatusCode()==0) return Status.NOT_USED;
+        else
+            return  Status.DISABLED;
+
     }
 
     public void setStatus(Status status) {

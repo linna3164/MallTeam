@@ -8,6 +8,7 @@ import com.xmu.discount.exception.UnsupportException;
 import com.xmu.discount.util.JacksonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.relational.core.sql.In;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -142,6 +143,7 @@ public class CouponRule extends PromotionRule {
         List<OrderItem> validItems = new ArrayList<OrderItem>(items.size());
         for (OrderItem item: items){
             GoodsPo goods = item.getProduct().getGoodsPo();
+            System.out.println(goods);  //测试
             logger.debug("goods = "+goods);
             if (this.isCanUsedOnGoods(goods.getId())){
                 validItems.add(item);
@@ -197,6 +199,8 @@ public class CouponRule extends PromotionRule {
         Set<Integer> goodsIds = new TreeSet<>();
         goodsIds.clear();
         goodsIds.addAll(this.getGoodsIds());
+        for(Integer i:goodsIds) System.out.print(i+" ");
+
 
         if (goodsIds.contains(goodsId)){
             return true;

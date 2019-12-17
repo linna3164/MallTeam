@@ -151,8 +151,19 @@ public class CouponServiceImpl {
      * @param cartItems
      * @return
      */
-    public List<Coupon> listAvailableCoupons(List<CartItem> cartItems) {
-        return null;
+    public List<Coupon> listAvailableCoupons(List<CartItem> cartItems,Integer userId ) throws PromotionNotFoundException {
+        List<Coupon>  coupons=couponDao.listCouponOfUser(userId);
+        List<Coupon> coupons1=new ArrayList<Coupon>();
+        for(Coupon c:coupons)
+        {
+            c.setCouponRule((CouponRule) couponRuleDao.getPromotionRuleById(c.getCouponRuleId()));
+            if(c.isOkToUse(cartItems))
+            {
+                coupons1.add(c);
+            }
+
+        }
+        return coupons1;
     }
 
     /**
@@ -168,6 +179,8 @@ public class CouponServiceImpl {
             if(coupon.getStatus().equals(status)){
                 res.add(coupon);
             }
+
+
         }
         return res;
     }
