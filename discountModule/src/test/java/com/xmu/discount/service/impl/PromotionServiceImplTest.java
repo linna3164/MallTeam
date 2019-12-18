@@ -12,6 +12,7 @@ import com.xmu.discount.exception.PromotionNotFoundException;
 import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.exception.SeriousException;
 import com.xmu.discount.exception.UpdatedDataFailedException;
+import com.xmu.discount.util.JacksonUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,7 +23,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -126,6 +129,14 @@ class PromotionServiceImplTest {
 
     @Test
     void getDaoClassName() {
+        GrouponRule grouponRule = new GrouponRule();
+        GrouponRulePo grouponRulePo = new GrouponRulePo();
+        String string="{\"strategy\":[{\"lowerBound\":10,\"upperBound\":20,\"discountRate\":0.90},{\"lowerBound\":100,\"upperBound\":200,\"discountRate\":0.090}]}";
+        grouponRulePo.setGrouponLevelStrategy(string);
+        grouponRule.setRealObj(grouponRulePo);
+        System.out.println(grouponRule.getStrategyList().get(0).getDiscountRate());
+        System.out.println(grouponRule.getStrategyList().get(1).getDiscountRate());
+
     }
 
     @Test
@@ -137,8 +148,12 @@ class PromotionServiceImplTest {
 //        Object object=JSON.parse(messageArray);
 //        System.out.println(object);
         List<GrouponRuleStrategy> strategies=JSON.parseArray(messageArray.toString(),GrouponRuleStrategy.class);
-
-        System.out.println(strategies.get(0).getLowerBound());
+        System.out.println(strategies);
+        Map<String, Object> jsonObj = new HashMap<String, Object>(2);
+        jsonObj.put("strategy", strategies);
+        String jsonString = JacksonUtil.toJson(jsonObj);
+        System.out.println(jsonString);
+//        System.out.println(strategies.get(0).getLowerBound());
 
 
     }

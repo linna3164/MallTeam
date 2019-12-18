@@ -8,6 +8,7 @@ class GrouponRuleDaoTest {
 
     @Test
     void getPromotionRuleById() {
+
     }
 
     @Test
