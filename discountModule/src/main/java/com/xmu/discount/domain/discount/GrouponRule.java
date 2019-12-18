@@ -1,9 +1,11 @@
 package com.xmu.discount.domain.discount;
 
 
-import com.alibaba.fastjson.JSON;
+//import com.alibaba.fastjson.JSON;
 import com.xmu.discount.domain.others.domain.*;
-
+import com.google.gson.JsonParser;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.xmu.discount.exception.UnsupportException;
 import com.xmu.discount.util.JacksonUtil;
 import org.apache.ibatis.type.Alias;
@@ -30,7 +32,7 @@ public class GrouponRule extends PromotionRule {
     }
 
     public boolean isStrategyValid(){
-        List<Strategy> strategies=this.getStrategyList();
+        List<GrouponRuleStrategy> strategies=this.getStrategyList();
 
         if(strategies==null){
             return false;
@@ -44,7 +46,7 @@ public class GrouponRule extends PromotionRule {
         }
         else {
             for (int i = 0; i < strategies.size() - 1; i++) {
-                Strategy strategy = strategies.get(0);
+                GrouponRuleStrategy strategy = strategies.get(0);
                 if(!strategy.beValid()){
                     return false;
                 }
@@ -110,7 +112,7 @@ public class GrouponRule extends PromotionRule {
        this.setRealObj(grouponRulePo);
     }
 
-    private List<Strategy> strategyList;
+    private List<GrouponRuleStrategy> strategyList;
 
     public GrouponRule() {
 
@@ -129,12 +131,12 @@ public class GrouponRule extends PromotionRule {
         //成团人数 nums
 
         //策略
-        List<Strategy>strategies=this.getStrategyList();
+        List<GrouponRuleStrategy>strategies=this.getStrategyList();
         //按lowerbound从小到大排序
         strategies.sort((a,b)->{return a.getLowerBound()-a.getUpperBound();});
         //判断在哪个区间
         BigDecimal levelRate=BigDecimal.ZERO;
-        for(Strategy strategy:strategies){
+        for(GrouponRuleStrategy strategy:strategies){
             if(strategy.getLowerBound()<=nums){
                 if(strategy.getUpperBound()==null||strategy.getUpperBound()>=nums){
                     //在这个区间,用这个rate
@@ -219,7 +221,7 @@ public class GrouponRule extends PromotionRule {
      * 获取团购level策略
      * @return
      */
-    public List<Strategy> getStrategyList() {
+    public List<GrouponRuleStrategy> getStrategyList() {
         String jsonString = realObj.getGrouponLevelStrategy();
         logger.debug("jsonString = " + jsonString);
 
@@ -227,12 +229,19 @@ public class GrouponRule extends PromotionRule {
             return null;
         }
         else {
-            jsonString = org.apache.commons.text.StringEscapeUtils.unescapeJson(jsonString);
-            List<String> strategiesString = JacksonUtil.parseStringList(jsonString, "strategy");
-            List<Strategy> strategies = new ArrayList<>();
-            for (String string : strategiesString) {
-                Strategy strategy = JSON.parseObject(string, Strategy.class);
-                strategies.add(strategy);
+            JsonParser jp = new JsonParser();
+            JsonObject jo = jp.parse(string).getAsJsonObject();
+            JsonArray messageArray = jo.get("strategy").getAsJsonArray();
+//        Object object=JSON.parse(messageArray);
+//        System.out.println(object);
+            List<GrouponRuleStrategy> strategies=JSON.parseArray(messageArray.toString(),GrouponRuleStrategy.class);
+
+//            jsonString = org.apache.commons.text.StringEscapeUtils.unescapeJson(jsonString);
+//            List<String> strategiesString = JacksonUtil.parseStringList(jsonString, "strategy");
+//            List<GrouponRuleStrategy> strategies = new ArrayList<>();
+//            for (String string : strategiesString) {
+//                GrouponRuleStrategy strategy = JSON.parseObject(string, GrouponRuleStrategy.class);
+//                strategies.add(strategy);
 //                JSON.
 //                JSON.parseArray(string,Strategy.class);
 //                JsonParser jp = new JsonParser();
@@ -240,7 +249,7 @@ public class GrouponRule extends PromotionRule {
 //                JsonArray messageArray = jo.get("strategy").getAsJsonArray();
 //                System.out.println(messageArray);
 //                JSONArray jsonArray = JSONArray.fromObject(messageArray.getAsString());
-            }
+//            }
             return strategyList;
         }
     }
@@ -249,7 +258,7 @@ public class GrouponRule extends PromotionRule {
      * 设置团购的level策略
      * @param strategyList
      */
-    public void setStrategyList(List<Strategy> strategyList) {
+    public void setStrategyList(List<GrouponRuleStrategy> strategyList) {
 
         Map<String, Object> jsonObj = new HashMap<String, Object>(2);
         jsonObj.put("strategy", strategyList);
@@ -264,57 +273,6 @@ public class GrouponRule extends PromotionRule {
 
 
 
-    public class Strategy{
-        private Integer lowerBound;
-        private Integer upperBound;
-        private BigDecimal discountRate;
-
-        public Strategy() {
-        }
-
-        public Strategy(Integer lowerBound, Integer upperBound, BigDecimal discountRate) {
-            this.lowerBound = lowerBound;
-            this.upperBound = upperBound;
-            this.discountRate = discountRate;
-        }
-
-        /**
-         * 一条策略是否有效
-         * @return
-         */
-        public boolean beValid(){
-            if(this.getLowerBound()>=0&&this.getLowerBound()<=this.getUpperBound()){
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
-
-        public Integer getLowerBound() {
-            return lowerBound;
-        }
-
-        public void setLowerBound(Integer lowerBound) {
-            this.lowerBound = lowerBound;
-        }
-
-        public Integer getUpperBound() {
-            return upperBound;
-        }
-
-        public void setUpperBound(Integer upperBound) {
-            this.upperBound = upperBound;
-        }
-
-        public BigDecimal getDiscountRate() {
-            return discountRate;
-        }
-
-        public void setDiscountRate(BigDecimal discountRate) {
-            this.discountRate = discountRate;
-        }
-    }
 
 
 
