@@ -1,6 +1,6 @@
 package com.xmu.discount.domain.discount;
 
-import com.xmu.discount.domain.others.domain.Goods;
+import com.xmu.discount.domain.others.domain.GoodsPo;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.exception.UnsupportException;
 
@@ -24,7 +24,7 @@ public abstract class PromotionRule implements Serializable {
      * 是否可设置失效
      * @return
      */
-    public boolean isOkToDisable(){
+    public boolean beOkToDisable(){
         if(this.getActiveStatus().equals(ActiveStatus.WAITFINISH)||this.getActiveStatus().equals(ActiveStatus.INPROCESS)){
             return true;
         }
@@ -39,19 +39,19 @@ public abstract class PromotionRule implements Serializable {
      */
     public ActiveStatus getActiveStatus() {
         //失效
-        if(this.isDisabled()){
+        if(this.beDisabled()){
             return ActiveStatus.DISABLED;
         }
-        else if(this.isWaitFinish()){
+        else if(this.beWaitFinish()){
             return ActiveStatus.WAITFINISH;
         }
-        else if(this.isInTime()){
+        else if(this.beInTime()){
             return ActiveStatus.INPROCESS;
         }
-        else if(!this.isAlreadyStart()){
+        else if(!this.beAlreadyStart()){
             return ActiveStatus.NOTSTART;
         }
-        else if(this.isFinished()){
+        else if(this.beFinished()){
             return ActiveStatus.DONE;
         }
         return ActiveStatus.DISABLED;
@@ -61,7 +61,7 @@ public abstract class PromotionRule implements Serializable {
      * 促销活动是否可修改
      * @return
      */
-    public boolean isOkToUpdate(){
+    public boolean beOkToUpdate(){
         if(this.getActiveStatus().equals(ActiveStatus.WAITFINISH)||this.getActiveStatus().equals(ActiveStatus.INPROCESS)){
             return false;
         }
@@ -75,20 +75,20 @@ public abstract class PromotionRule implements Serializable {
      * 判断活动是否等待结束
      * @return
      */
-    public abstract  boolean isWaitFinish();
+    public abstract  boolean beWaitFinish();
 
 
     /**
      * 判断活动是否失效
      * @return
      */
-    public abstract boolean isDisabled();
+    public abstract boolean beDisabled();
 
     /**
      * 促销活动是否可删除
      * @return
      */
-    public boolean isOkToDelete(){
+    public boolean beOkToDelete(){
         if(this.getActiveStatus().equals(ActiveStatus.WAITFINISH)||this.getActiveStatus().equals(ActiveStatus.INPROCESS)){
             return false;
         }
@@ -102,7 +102,7 @@ public abstract class PromotionRule implements Serializable {
      * @param promotionRules
      * @return
      */
-    public boolean isNoConflict(List<? extends PromotionRule> promotionRules){
+    public boolean beNoConflict(List<? extends PromotionRule> promotionRules){
         if(promotionRules==null){
             return true;
         }
@@ -123,13 +123,13 @@ public abstract class PromotionRule implements Serializable {
      * @param promotionRules
      * @return
      */
-    public boolean isOkToAdd(List<? extends PromotionRule> promotionRules){
+    public boolean beOkToAdd(List<? extends PromotionRule> promotionRules){
 
-        System.out.println("into isOkToAdd");
+        System.out.println("into beOkToAdd");
         LocalDateTime now=LocalDateTime.now();
 
 //        &&this.getpromotionRuleStartTime().isBefore(now)
-        if(this.isValid()&&this.isNoConflict(promotionRules)){
+        if(this.beValid()&&this.beNoConflict(promotionRules)){
             return true;
         }
         return false;
@@ -139,8 +139,7 @@ public abstract class PromotionRule implements Serializable {
      * 促销活动是否有效（开始时间小于结束时间）
      * @return
      */
-    public boolean isValid(){
-        System.out.println(this.getpromotionRuleStartTime()+"    "+this.getPromotionEndTime());
+    public boolean beValid(){
         return this.getpromotionRuleStartTime().isBefore(this.getPromotionEndTime());
     }
 
@@ -148,7 +147,7 @@ public abstract class PromotionRule implements Serializable {
      * 促销活动是否已start
      * @return
      */
-    public  boolean isAlreadyStart(){
+    public  boolean beAlreadyStart(){
         LocalDateTime now = LocalDateTime.now();
         return (this.getpromotionRuleStartTime().isBefore(now));
     }
@@ -157,7 +156,7 @@ public abstract class PromotionRule implements Serializable {
      * 促销活动是否end
      * @return
      */
-    public boolean isAlreadyEnd(){
+    public boolean beAlreadyEnd(){
         LocalDateTime now = LocalDateTime.now();
         return (this.getPromotionEndTime().isBefore(now));
     }
@@ -167,7 +166,7 @@ public abstract class PromotionRule implements Serializable {
      * 促销活动是否结束(团购活动需要重写改方法)
      * @return
      */
-    public boolean isFinished(){
+    public boolean beFinished(){
         LocalDateTime now = LocalDateTime.now();
         return (this.getPromotionEndTime().isBefore(now));
     }
@@ -175,7 +174,7 @@ public abstract class PromotionRule implements Serializable {
     /**
      * 促销活动是否在进行
      */
-    public  boolean isInTime(){
+    public  boolean beInTime(){
 
         LocalDateTime now = LocalDateTime.now();
         return (this.getpromotionRuleStartTime().isBefore(now) &&
@@ -213,7 +212,7 @@ public abstract class PromotionRule implements Serializable {
      * @param promotionRules
      * @return
      */
-    public boolean isValid(List<PromotionRule> promotionRules){
+    public boolean beValid(List<PromotionRule> promotionRules){
         LocalDateTime startTime=this.getpromotionRuleStartTime();
         LocalDateTime endTime=this.getPromotionEndTime();
         for(PromotionRule p:promotionRules){
@@ -309,13 +308,13 @@ public abstract class PromotionRule implements Serializable {
     }
 
 
-    private Goods goods;
+    private GoodsPo goodsPo;
 
-    public Goods getGoods() {
-        return goods;
+    public GoodsPo getGoodsPo() {
+        return goodsPo;
     }
 
-    public void setGoods(Goods goods) {
-        this.goods = goods;
+    public void setGoodsPo(GoodsPo goods) {
+        this.goodsPo = goods;
     }
 }

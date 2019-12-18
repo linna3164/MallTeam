@@ -9,11 +9,14 @@ import com.xmu.discount.domain.discount.GrouponRulePo;
 import com.xmu.discount.domain.discount.PresaleRule;
 import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.domain.others.domain.CartItem;
+import com.xmu.discount.domain.others.domain.Order;
+import com.xmu.discount.domain.vo.GrouponRuleVo;
 import com.xmu.discount.domain.vo.GrouponRuleVo;
 import com.xmu.discount.exception.*;
 import com.xmu.discount.inter.GoodsFeign;
 import com.xmu.discount.service.impl.*;
 import com.xmu.discount.util.ResponseUtil;
+import org.apache.catalina.util.RequestUtil;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -44,11 +47,11 @@ public class DiscountController {
 
     @Autowired
     @Qualifier("grouponServiceImpl")
-    private PromotionServiceImpl grouponService;
+    private GrouponServiceImpl grouponService;
 
     @Autowired
     @Qualifier("presaleServiceImpl")
-    private PromotionServiceImpl presaleService;
+    private PresaleServiceImpl presaleService;
 
     @Autowired
     GoodsFeign goodsFeign;
@@ -351,7 +354,16 @@ public class DiscountController {
     public Object getOnsaleGrouponGoods(@RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer limit){
         List<? extends PromotionRule> promotionRules=grouponService.listPromotionRuleOfType("grouponRule");
-        return promotionRules;
+        List<GrouponRuleVo> grouponRuleVos=new ArrayList<>();
+
+        for(PromotionRule promotionRule:promotionRules){
+            GrouponRuleVo grouponRuleVo=new GrouponRuleVo();
+            GrouponRule grouponRule=(GrouponRule)promotionRule;
+            grouponRuleVo.setGrouponRulePo(grouponRule.getRealObj());
+            grouponRuleVo.setGoodsPo(grouponRule.getGoodsPo());
+            grouponRuleVos.add(grouponRuleVo);
+        }
+        return ResponseUtil.ok(grouponRuleVos);
     }
     /*
 
@@ -361,16 +373,27 @@ public class DiscountController {
           *
      */
     /**
-     * 管理员根据条件查看预售信息
+     * 管理员根据条件查看商品的预售信息
      * @param page
      * @param limit
-     * @return
+     * @return return List<PresaleRuleVo>
      */
     @GetMapping("/presaleRules")
-    public List<PresaleRule> getAllPresaleRules(@RequestParam(defaultValue = "1") Integer page,
+    public Object getAllPresaleRules(@RequestParam(defaultValue = "1") Integer page,
                                                 @RequestParam(defaultValue = "10") Integer limit,
                                                 @RequestParam Integer goodsId) throws SeriousException, PromotionNotFoundException {
-        return (List<PresaleRule>) presaleService.listProimotionByGoodsId(goodsId);
+        PageHelper.startPage(page,limit);
+        List<? extends PromotionRule> presaleRules= presaleService.listPresaleRuleByGoodsId(goodsId);
+        List<GrouponRuleVo> grouponRuleVos=new ArrayList<>();
+
+        for(PromotionRule promotionRule:presaleRules){
+            GrouponRuleVo grouponRuleVo=new GrouponRuleVo();
+            GrouponRule grouponRule=(GrouponRule)promotionRule;
+            grouponRuleVo.setGrouponRulePo(grouponRule.getRealObj());
+            grouponRuleVo.setGoodsPo(grouponRule.getGoodsPo());
+            grouponRuleVos.add(grouponRuleVo);
+        }
+        return ResponseUtil.ok(presaleRules);
 
     }
 
@@ -381,18 +404,28 @@ public class DiscountController {
      * @return
      */
     @GetMapping("admin/presaleRules")
-    public List<PresaleRule> getAllPresaleRules(@RequestParam(defaultValue = "1") Integer page,
-                                                @RequestParam(defaultValue = "10") Integer limit){
-        return (List<PresaleRule>) presaleService.listPromotionRuleOfType("presaleRule");
+    public Object getAllPresaleRules(@RequestParam(defaultValue = "1") Integer page,
+                                                @RequestParam(defaultValue = "10") Integer limit) {
+        List<? extends PromotionRule> presaleRules = presaleService.listPromotionRuleOfType("presaleRule");
 
+        List<GrouponRuleVo> grouponRuleVos = new ArrayList<>();
+
+        for (PromotionRule promotionRule : presaleRules) {
+            GrouponRuleVo grouponRuleVo = new GrouponRuleVo();
+            GrouponRule grouponRule = (GrouponRule) promotionRule;
+            grouponRuleVo.setGrouponRulePo(grouponRule.getRealObj());
+            grouponRuleVo.setGoodsPo(grouponRule.getGoodsPo());
+            grouponRuleVos.add(grouponRuleVo);
+        }
+        return ResponseUtil.ok(presaleRules);
     }
 
-    /**
-     * 管理员发布预售信息
-     * @param presaleRule//body中包含startTime; adEndTime; finalStartTime; endTime; statusCode; goodsId; deposit,,finalPayment
-     * @return
-     * @throws UpdatedDataFailedException
-     */
+        /**
+         * 管理员发布预售信息
+         * @param presaleRule//body中包含startTime; adEndTime; finalStartTime; endTime; statusCode; goodsId; deposit,,finalPayment
+         * @return
+         * @throws UpdatedDataFailedException
+         */
     @PostMapping("/presaleRules")
     public Object addPresaleRule(@RequestBody PresaleRule presaleRule) throws UpdatedDataFailedException, SeriousException {
         PresaleRule presaleRule1=(PresaleRule)presaleService.addPromotion(presaleRule);
@@ -460,14 +493,23 @@ public class DiscountController {
      * 用户查看预售商品列表，只能查看上架的
      * @param page
      * @param limit
-     * @return
+     * @return List<PresaleRuleVo>
      */
     @GetMapping("/presaleGoods")
-    public List<PresaleRule> getOnsalePresaleRules(@RequestParam(defaultValue = "1") Integer page,
+    public Object getOnsalePresaleRules(@RequestParam(defaultValue = "1") Integer page,
                                                 @RequestParam(defaultValue = "10") Integer limit){
-  //
-              return (List<PresaleRule>) presaleService.listPromotionRuleOfType("presaleRule");
+        List<? extends PromotionRule> presaleRules = presaleService.listPromotionRuleOfTypeInprocessWithGoods("presaleRule");
 
+        List<GrouponRuleVo> grouponRuleVos = new ArrayList<>();
+
+        for (PromotionRule promotionRule : presaleRules) {
+            GrouponRuleVo grouponRuleVo = new GrouponRuleVo();
+            GrouponRule grouponRule = (GrouponRule) promotionRule;
+            grouponRuleVo.setGrouponRulePo(grouponRule.getRealObj());
+            grouponRuleVo.setGoodsPo(grouponRule.getGoodsPo());
+            grouponRuleVos.add(grouponRuleVo);
+        }
+        return ResponseUtil.ok(presaleRules);
 
     }
 
@@ -477,9 +519,10 @@ public class DiscountController {
      * @param order
      * @return
      */
-//    @PostMapping("/discount/orders")
-//    public Object getPayment(Order order){
-//
-//    }
+    @PostMapping("/discount/orders")
+    public Object getPayment(Order order) throws SeriousException, UnsupportException, PromotionNotFoundException {
+        Order orderRes=presaleService.getPayment(order);
+        return ResponseUtil.ok(orderRes);
+    }
 
 }

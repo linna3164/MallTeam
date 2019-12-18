@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -28,7 +27,7 @@ public class GrouponRule extends PromotionRule {
      * @return
      */
     @Override
-    public boolean isDisabled() {
+    public boolean beDisabled() {
 
         if(this.isStatusCode()){
             return false;
@@ -74,8 +73,8 @@ public class GrouponRule extends PromotionRule {
      * @return
      */
     @Override
-    public boolean isValid() {
-        if(super.isValid()&&this.isStrategyValid()){
+    public boolean beValid() {
+        if(super.beValid()&&this.isStrategyValid()){
             return true;
         }
         else {
@@ -88,8 +87,8 @@ public class GrouponRule extends PromotionRule {
      * @return
      */
     @Override
-    public boolean isWaitFinish() {
-//        if(super.isAlreadyEnd()){
+    public boolean beWaitFinish() {
+//        if(super.beAlreadyEnd()){
 //            LocalDate now=LocalDate.now();
 //            this.getPromotionEndTime().toLocalDate();
 //            if(now.equals(this.getPromotionEndTime().toLocalDate())){
@@ -104,7 +103,7 @@ public class GrouponRule extends PromotionRule {
      * @return
      */
     @Override
-    public boolean isFinished() {
+    public boolean beFinished() {
 
         //进行中
         if(this.isStatusCode()){

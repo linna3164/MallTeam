@@ -1,14 +1,9 @@
 package com.xmu.discount.inter;
 
-import com.xmu.discount.domain.discount.GrouponRulePo;
-import com.xmu.discount.domain.others.domain.Goods;
-import com.xmu.discount.domain.others.domain.Order;
-import com.xmu.discount.domain.others.domain.Payment;
+import com.xmu.discount.domain.others.domain.GoodsPo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.util.List;
 
 /**
  * @author hsx
@@ -18,7 +13,7 @@ import java.util.List;
 @FeignClient(value = "goodsService")
 public interface GoodsFeign {
     @RequestMapping(value = "/goods/{id}",method = RequestMethod.GET)
-    public Goods getGoodsById(Integer goodsId);
+    public GoodsPo getGoodsById(Integer goodsId);
 
 
 }

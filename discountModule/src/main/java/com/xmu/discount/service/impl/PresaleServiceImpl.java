@@ -30,19 +30,31 @@ public class PresaleServiceImpl extends PromotionServiceImpl{
      */
     @Override
     public void toDoSomthingAfterDisable(PromotionRule promotionRule) throws SeriousException {
-        //TODO:退款
 
-//        List<Payment> payments=new ArrayList<>();
-//        List<Order> orders=orderService.listOrdersOfPromotion(promotionRule);
-//
-//        for(Order order:orders){
-//            Payment payment=new Payment();
-//            payment.setActualPrice(order.getOrderItemList().get(0).getDealPrice().negate());
-//            payment.setOrderId(order.getId());
-//            payments.add(payment);
-//        }
-//
-//        orderService.refundPresaleOrders(payments);
         orderFeign.refundPresaleOrder((PresaleRule) promotionRule);
+    }
+
+    /**
+     * 管理员查询一个商品的预售规则（不带商品）
+     * @param goodsId
+     * @return
+     */
+    public List<? extends PromotionRule> listPresaleRuleByGoodsId(Integer goodsId) {
+        List<? extends PromotionRule> presaleRules=presaleRuleDao.listPromotionRuleByGoodsId(goodsId);
+
+        return presaleRules;
+    }
+
+    /**
+     * 管理员查询一个商品的预售规则（带商品）
+     * @param goodsId
+     * @return
+     */
+    public List<? extends PromotionRule> listPresaleRuleByGoodsIdWithGoods(Integer goodsId) {
+        List<? extends PromotionRule> presaleRules=presaleRuleDao.listPromotionRuleByGoodsId(goodsId);
+        for(PromotionRule promotionRule:presaleRules){
+            promotionRule.setGoodsPo(goodsFeign.getGoodsById(promotionRule.getId()));
+        }
+        return presaleRules;
     }
 }
