@@ -22,7 +22,7 @@
                gmt_create,
                gmt_modified,
                is_deleted,
-               status,
+               status
         from oomall_coupon_rule where id =#{id}
     </select>
 
@@ -41,7 +41,7 @@
                gmt_create,
                gmt_modified,
                is_deleted,
-               status,
+               status
         from oomall_coupon_rule where id!=0
     </select>
 

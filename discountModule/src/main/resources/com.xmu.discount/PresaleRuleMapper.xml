@@ -17,8 +17,7 @@
                gmt_create,
                gmt_modified,
                is_deleted,
-               deposit,
-               status,
+               deposit
         from oomall_presale_rule where id = #{id}
     </select>
 
@@ -33,15 +32,14 @@
                gmt_create,
                gmt_modified,
                is_deleted,
-               deposit,
-               status,
+               deposit
         from oomall_presale_rule where id!=0
     </select>
 
     <insert id="addPresaleRule" parameterType="presaleRule" useGeneratedKeys="true" keyProperty="id">
-        insert into oomall_presale_rule(goods_id,start_time,end_time,status,gmt_create,gmt_modified,is_deleted,deposit,status)
+        insert into oomall_presale_rule(goods_id,start_time,end_time,status,gmt_create,gmt_modified,is_deleted,deposit)
         values
-        (#{goodsId}, #{startTime}, #{endTime}, #{statusCode},  #{gmtCreate}, #{gmtModified}, #{beDeleted},#{deposit},#{statusCode})
+        (#{goodsId}, #{startTime}, #{endTime}, #{statusCode},  #{gmtCreate}, #{gmtModified}, #{beDeleted},#{deposit})
     </insert>
 
     <update id="updatePresaleRuleById" parameterType="presaleRule">
@@ -55,7 +53,6 @@
             <if test="gmtModified!=null">gmt_modified=#{gmtModified},</if>
             <if test="beDeleted!=null">is_deleted=#{beDeleted},</if>
             <if test="deposit!=null">deposit=#{deposit},</if>
-            <if test="statusCode!=null">status=#{statusCode},</if>
         </trim>
         WHERE id=#{id}
     </update>
@@ -69,8 +66,7 @@
                gmt_create,
                gmt_modified,
                is_deleted,
-               deposit,
-               status,
+               deposit
         from oomall_presale_rule where  goods_id= #{goodsId}
     </select>
 </mapper>
