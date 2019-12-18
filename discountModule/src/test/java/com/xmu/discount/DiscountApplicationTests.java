@@ -91,7 +91,7 @@ void hah(){
     void contextLoads() throws PromotionNotFoundException, UpdatedDataFailedException, SeriousException, UnsupportException, CouponRuleNotFoundException, CouponNotFoundException {
 
 
-         List<PromotionRule> presaleRules= (List<PromotionRule>) presaleRuleDao.listPromotions();
+        List<PromotionRule> presaleRules = (List<PromotionRule>) presaleRuleDao.listPromotions();
          for(PromotionRule p:presaleRules) System.out.println(p);
          PresaleRule presaleRule= (PresaleRule) presaleRuleDao.getPromotionRuleById(1);
          System.out.println(presaleRule);

@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.sun.tools.javac.util.Log;
 import com.xmu.discount.DiscountApplication;
 import com.xmu.discount.domain.coupon.CouponRule;
 import com.xmu.discount.domain.discount.*;
