@@ -36,8 +36,39 @@ public class CouponServiceImpl {
         return couponDao.getCouponById(id);
     }
 
-    public List<Coupon> getCoupons() {
-        return couponDao.listCoupons();
+    /**
+     * 查看不同状态的优惠券（未使用、已使用、已失效、已过期、）
+     * (0,1,2,3)
+     * @param type
+     * @return
+     */
+    public List<Coupon> getCoupons(Integer type) {
+        List<Coupon> coupons=couponDao.listCoupons();
+        List<Coupon> res=new ArrayList<Coupon>();
+        if(type==0)
+       for(Coupon c:coupons) {
+           if(c.getStatusCode()==0) res.add(c);
+       }
+        else if(type==1){
+            for(Coupon c:coupons) {
+                if(c.getStatusCode()==1) res.add(c);
+            }
+        }
+        else if(type==2)
+        {
+            for(Coupon c:coupons) {
+                if(c.getStatusCode()==2) res.add(c);
+            }
+        }
+        else if(type==3)
+        {
+            for(Coupon c:coupons) {
+                if(c.getEndTime().isBefore(LocalDateTime.now())) res.add(c);
+            }
+        }
+        else res.addAll(coupons);
+        return res;
+
     }
 
     /**

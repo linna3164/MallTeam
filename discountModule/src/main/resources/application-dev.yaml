@@ -6,9 +6,9 @@ spring:
     name: discountService
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/oomall?serverTimezone=UTC
-    username: root
-    password: ""
+    url: jdbc:mysql://60.205.212.233:3306/oomall?serverTimezone=UTC
+    username: chao
+    password: 123
     druid:
       #初始化时建立物理连接的个数
       initial-size: 3
