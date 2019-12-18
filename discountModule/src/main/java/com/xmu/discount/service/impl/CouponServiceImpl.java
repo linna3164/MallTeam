@@ -39,63 +39,60 @@ public class CouponServiceImpl {
     /**
      * 查看不同状态的优惠券（未使用、已使用、已失效、已过期、）
      * (0,1,2,3)
+     *
      * @param type
      * @return
      */
     public List<Coupon> getCoupons(Integer type) {
-        List<Coupon> coupons=couponDao.listCoupons();
-        List<Coupon> res=new ArrayList<Coupon>();
-        if(type==0)
-       for(Coupon c:coupons) {
-           if(c.getStatusCode()==0) res.add(c);
-       }
-        else if(type==1){
-            for(Coupon c:coupons) {
-                if(c.getStatusCode()==1) res.add(c);
+        List<Coupon> coupons = couponDao.listCoupons();
+        List<Coupon> res = new ArrayList<Coupon>();
+        if (type == 0)
+            for (Coupon c : coupons) {
+                if (c.getStatusCode() == 0) res.add(c);
             }
-        }
-        else if(type==2)
-        {
-            for(Coupon c:coupons) {
-                if(c.getStatusCode()==2) res.add(c);
+        else if (type == 1) {
+            for (Coupon c : coupons) {
+                if (c.getStatusCode() == 1) res.add(c);
             }
-        }
-        else if(type==3)
-        {
-            for(Coupon c:coupons) {
-                if(c.getEndTime().isBefore(LocalDateTime.now())) res.add(c);
+        } else if (type == 2) {
+            for (Coupon c : coupons) {
+                if (c.getStatusCode() == 2) res.add(c);
             }
-        }
-        else res.addAll(coupons);
+        } else if (type == 3) {
+            for (Coupon c : coupons) {
+                if (c.getEndTime().isBefore(LocalDateTime.now())) res.add(c);
+            }
+        } else res.addAll(coupons);
         return res;
 
     }
 
     /**
      * 获取某种优惠券规则的全部优惠券
+     *
      * @param couponRule
      * @return
      */
     public List<Coupon> listCouponByCouponRuleId(CouponRule couponRule) throws SeriousException {
-        if(couponRule==null){
+        if (couponRule == null) {
             throw new SeriousException();
-        }
-        else{
+        } else {
             return couponDao.listCouponByCouponRuleId(couponRule.getId());
         }
     }
 
     /**
      * 获取某种优惠券规则的某种类型的优惠券
+     *
      * @param couponRule
      * @return
      */
     public List<Coupon> listCouponByCouponRuleIdAndStatus(CouponRule couponRule, Coupon.Status status) throws SeriousException {
-        List<Coupon> coupons=this.listCouponByCouponRuleId(couponRule);
+        List<Coupon> coupons = this.listCouponByCouponRuleId(couponRule);
 
-        List<Coupon> res=new ArrayList<>();
-        for(Coupon coupon:coupons){
-            if(coupon.getStatus().equals(status)){
+        List<Coupon> res = new ArrayList<>();
+        for (Coupon coupon : coupons) {
+            if (coupon.getStatus().equals(status)) {
                 res.add(coupon);
             }
         }
@@ -105,35 +102,32 @@ public class CouponServiceImpl {
 
     /**
      * 用户领取优惠券
-     * @param couponRule
+     *
+     * @param coupon
      * @return
      */
-    public Coupon addCoupon(CouponRule couponRule,Integer userId) throws CouponNotFoundException, UnsupportException, CouponRuleNotFoundException, UpdatedDataFailedException {
-        List<Coupon> coupons=couponDao.listCouponByCouponRuleIdAndUserId(couponRule.getId(),userId);
-
+    public Coupon addCoupon(Coupon coupon) throws CouponNotFoundException, UnsupportException, CouponRuleNotFoundException, UpdatedDataFailedException, PromotionNotFoundException {
+        List<Coupon> coupons = couponDao.listCouponByCouponRuleIdAndUserId(coupon.getCouponRuleId(), coupon.getUserId());
+        CouponRule couponRule = (CouponRule) couponRuleDao.getPromotionRuleById(coupon.getCouponRuleId());
         //找不到couponRule
-        if(couponRule==null){
+        if (couponRule == null) {
             throw new CouponRuleNotFoundException();
         }
         //用户还没领取过
-        if(coupons.size()==0){
-           Coupon coupon=couponRule.createCoupon(userId);
+        if (coupons.size() == 0) {
 
-            //不能领取
-           if(coupon==null){
-               throw new UnsupportException();
-           }
-           else{
-               couponDao.addCoupon(coupon);
-               couponRuleDao.updatePromotionRuleById(couponRule);
-           }
-           return coupon;
+
+            couponDao.addCoupon(coupon);
+            couponRuleDao.updatePromotionRuleById(couponRule);
         }
-        //用户领取过了
-        else{
-            throw new UnsupportException();
-        }
+        return coupon;
     }
+//        //用户领取过了
+//        else{
+//            throw new UnsupportException();
+//        }
+
+
 
 
     /**
