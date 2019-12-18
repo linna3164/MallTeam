@@ -70,7 +70,6 @@ public abstract class PromotionRule implements Serializable {
         }
     }
 
-    public abstract Integer getStatusCode();
 
     /**
      * 判断活动是否等待结束
@@ -83,13 +82,7 @@ public abstract class PromotionRule implements Serializable {
      * 判断活动是否失效
      * @return
      */
-    public  boolean isDisabled(){
-        if(this.getStatusCode()==2){
-            return true;
-        }
-        //TODO:标准组！！！
-        return false;
-    }
+    public abstract boolean isDisabled();
 
     /**
      * 促销活动是否可删除

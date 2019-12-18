@@ -6,6 +6,7 @@ import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.others.domain.Payment;
 import com.xmu.discount.exception.SeriousException;
+import com.xmu.discount.inter.OrderFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,8 @@ public class PresaleServiceImpl extends PromotionServiceImpl{
     @Autowired
     PresaleRuleDao presaleRuleDao;
 
+    @Autowired
+    OrderFeign orderFeign;
 
 
     /**
@@ -40,5 +43,6 @@ public class PresaleServiceImpl extends PromotionServiceImpl{
 //        }
 //
 //        orderService.refundPresaleOrders(payments);
+        orderFeign.refundPresaleOrder((PresaleRule) promotionRule);
     }
 }

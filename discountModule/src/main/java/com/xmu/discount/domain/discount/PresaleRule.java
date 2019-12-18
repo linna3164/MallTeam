@@ -17,6 +17,14 @@ import java.util.Objects;
 @Alias("presaleRule")
 public class PresaleRule extends PromotionRule {
 
+    /**
+     * 预售活动是否失效
+     * @return
+     */
+    @Override
+    public boolean isDisabled() {
+        return this.getDisableCode();
+    }
 
     /**
      * 预售活动是否等待结束
@@ -144,7 +152,8 @@ public class PresaleRule extends PromotionRule {
     /**
      *判断预售是否还在进行中
      */
-    private Integer statusCode;
+    private Boolean statusCode;
+    private Boolean disableCode;
     /**
      *预售商品id
      */
@@ -253,12 +262,11 @@ public class PresaleRule extends PromotionRule {
         this.endTime = endTime;
     }
 
-    @Override
-    public Integer getStatusCode() {
+    public Boolean getStatusCode() {
         return statusCode;
     }
 
-    public void setStatusCode(Integer statusCode) {
+    public void setStatusCode(Boolean statusCode) {
         this.statusCode = statusCode;
     }
 
@@ -311,5 +319,13 @@ public class PresaleRule extends PromotionRule {
     }
 
     public PresaleRule() {
+    }
+
+    public Boolean getDisableCode() {
+        return disableCode;
+    }
+
+    public void setDisableCode(Boolean disableCode) {
+        this.disableCode = disableCode;
     }
 }

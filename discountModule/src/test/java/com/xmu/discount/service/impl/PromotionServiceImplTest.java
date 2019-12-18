@@ -1,12 +1,14 @@
 package com.xmu.discount.service.impl;
 
-
+import com.alibaba.fastjson.JSON;
+import com.sun.tools.javac.util.Log;
 import com.xmu.discount.DiscountApplication;
 import com.xmu.discount.domain.coupon.CouponRule;
 import com.xmu.discount.domain.discount.GrouponRule;
 import com.xmu.discount.domain.discount.GrouponRulePo;
 import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.exception.PromotionNotFoundException;
+import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.exception.SeriousException;
 import com.xmu.discount.exception.UpdatedDataFailedException;
 import org.junit.jupiter.api.Test;
@@ -97,6 +99,15 @@ class PromotionServiceImplTest {
         grouponService.addPromotion(grouponRule);
     }
 
+
+//    /**
+//     * 添加预售规则
+//     */
+//    @Test
+//    void addPromotion(){
+//        PromotionRule promotionRule
+//    }
+
     @Test
     void getPromotionById() {
 
@@ -105,6 +116,7 @@ class PromotionServiceImplTest {
 
     @Test
     void deletePromotionById() {
+
     }
 
     @Test
@@ -117,6 +129,9 @@ class PromotionServiceImplTest {
 
     @Test
     void getPayment() {
+        String string="{\"strategy\":[{\"lowerBound\":10,\"upperBound\":20,\"discountRate\":0.90}]}";
+        JSON.parse(string);
+        System.out.println(string);
     }
 
     @Test
@@ -131,9 +146,7 @@ class PromotionServiceImplTest {
     void getCurrentPromotionByGoodsId() {
     }
 
-    @Test
-    void addPromotion() {
-    }
+
 
     @Test
     void listPromotionRuleOfType() {

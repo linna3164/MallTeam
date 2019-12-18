@@ -17,6 +17,10 @@ import java.util.*;
 public class CouponRule extends PromotionRule {
 
 
+    @Override
+    public boolean isDisabled() {
+        return false;
+    }
 
     /**
      * 优惠券规则活动是否等待结束
@@ -494,13 +498,12 @@ public class CouponRule extends PromotionRule {
         realObj.setGoodsList2(goodsList2);
     }
 
-    @Override
-    public Integer getStatusCode() {
-        return realObj.getStatusCode();
+    public void setStatusCode(Boolean statusCode) {
+        realObj.setStatusCode(statusCode);
     }
 
-    public void setStatusCode(Integer statusCode) {
-        realObj.setStatusCode(statusCode);
+    public Boolean getStatusCode() {
+        return realObj.getStatusCode();
     }
 
     public LocalDateTime getGmtCreate() {
