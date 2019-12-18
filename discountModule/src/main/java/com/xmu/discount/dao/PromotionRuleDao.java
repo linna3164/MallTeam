@@ -1,6 +1,7 @@
 package com.xmu.discount.dao;
 
 import com.xmu.discount.domain.discount.PromotionRule;
+import com.xmu.discount.exception.PresaleRuleDeleteFailException;
 import com.xmu.discount.exception.PromotionNotFoundException;
 import com.xmu.discount.exception.SeriousException;
 import com.xmu.discount.exception.UpdatedDataFailedException;
@@ -49,5 +50,5 @@ public interface PromotionRuleDao {
      * 删除促销活动
      * @param id
      */
-    void deletePromotionRuleById(Integer id) throws UpdatedDataFailedException;
+    void deletePromotionRuleById(Integer id) throws UpdatedDataFailedException, PresaleRuleDeleteFailException;
 }

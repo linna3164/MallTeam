@@ -2,6 +2,7 @@ package com.xmu.discount.dao;
 
 import com.xmu.discount.domain.discount.PresaleRule;
 import com.xmu.discount.domain.discount.PromotionRule;
+import com.xmu.discount.exception.PresaleRuleDeleteFailException;
 import com.xmu.discount.exception.UpdatedDataFailedException;
 import com.xmu.discount.mapper.PresaleRuleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,10 +105,14 @@ public class PresaleRuleDao implements PromotionRuleDao {
      * @param id
      */
     @Override
-    public void deletePromotionRuleById(Integer id) throws UpdatedDataFailedException {
+    public void deletePromotionRuleById(Integer id) throws UpdatedDataFailedException, PresaleRuleDeleteFailException {
 
         PresaleRule grouponRule=new PresaleRule(id,true);
 
-        this.updatePromotionRuleById(grouponRule);
+        boolean res=this.updatePromotionRuleById(grouponRule);
+
+        if(!res){
+            throw new PresaleRuleDeleteFailException();
+        }
     }
 }
