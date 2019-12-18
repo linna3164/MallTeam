@@ -26,7 +26,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-//@SpringBootTest(classes = DiscountApplication.class)
+@SpringBootTest(classes = DiscountApplication.class)
 class PromotionServiceImplTest {
 
 
@@ -34,17 +34,17 @@ class PromotionServiceImplTest {
 //    @Qualifier("promotionServiceImpl")
 //    private PromotionServiceImpl promotionService;
 
-//    @Autowired
-//    @Qualifier("grouponServiceImpl")
-//    private GrouponServiceImpl grouponService;
-//
-//    @Autowired
-//    @Qualifier("presaleServiceImpl")
-//    private PresaleServiceImpl presaleService;
-//
-//     @Autowired
-//     @Qualifier("couponRuleServiceImpl")
-//     private PromotionServiceImpl couponRuleService;
+    @Autowired
+    @Qualifier("grouponServiceImpl")
+    private GrouponServiceImpl grouponService;
+
+    @Autowired
+    @Qualifier("presaleServiceImpl")
+    private PresaleServiceImpl presaleService;
+
+     @Autowired
+     @Qualifier("couponRuleServiceImpl")
+     private PromotionServiceImpl couponRuleService;
 //
 //
 //     @Test
@@ -141,6 +141,22 @@ class PromotionServiceImplTest {
         System.out.println(strategies.get(0).getLowerBound());
 
 
+    }
+
+    @Test
+    void addPresaleRule() throws UpdatedDataFailedException, SeriousException {
+
+        PresaleRule presaleRule=new PresaleRule();
+        presaleRule.setDeposit(new BigDecimal(10));
+        presaleRule.setFinalPayment(new BigDecimal(100));
+        presaleRule.setStartTime(LocalDateTime.now().plusDays(1));
+        presaleRule.setAdEndTime(LocalDateTime.now().plusDays(2));
+        presaleRule.setFinalStartTime(LocalDateTime.now().plusDays(3));
+        presaleRule.setEndTime(LocalDateTime.now().plusDays(4));
+
+
+
+        presaleService.addPromotion(presaleRule);
     }
 
     @Test

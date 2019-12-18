@@ -23,7 +23,12 @@ public class PresaleRule extends PromotionRule {
      */
     @Override
     public boolean isDisabled() {
-        return this.getDisableCode();
+        if(this.getStatusCode()){
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
     /**
@@ -153,7 +158,6 @@ public class PresaleRule extends PromotionRule {
      *判断预售是否还在进行中
      */
     private Boolean statusCode;
-    private Boolean disableCode;
     /**
      *预售商品id
      */
@@ -321,11 +325,5 @@ public class PresaleRule extends PromotionRule {
     public PresaleRule() {
     }
 
-    public Boolean getDisableCode() {
-        return disableCode;
-    }
 
-    public void setDisableCode(Boolean disableCode) {
-        this.disableCode = disableCode;
-    }
 }

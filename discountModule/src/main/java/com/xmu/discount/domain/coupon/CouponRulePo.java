@@ -73,7 +73,7 @@ public class CouponRulePo {
      */
     private String goodsList2;
     /**
-     * 是否是失效的优惠活动
+     * 是否进行中（false 是 ，true 失效）
      */
     private Boolean statusCode;
 

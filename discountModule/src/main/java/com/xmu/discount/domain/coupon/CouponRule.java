@@ -19,7 +19,12 @@ public class CouponRule extends PromotionRule {
 
     @Override
     public boolean isDisabled() {
-        return false;
+        if(this.getStatusCode()){
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
     /**
@@ -203,8 +208,6 @@ public class CouponRule extends PromotionRule {
         Set<Integer> goodsIds = new TreeSet<>();
         goodsIds.clear();
         goodsIds.addAll(this.getGoodsIds());
-        for(Integer i:goodsIds) System.out.print(i+" ");
-
 
         if (goodsIds.contains(goodsId)){
             return true;

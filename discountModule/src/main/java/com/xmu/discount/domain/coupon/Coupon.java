@@ -380,15 +380,17 @@ public class Coupon {
     }
 
     public Status getStatus() {
-        if(this.getStatusCode()==2)
+        if(this.getStatusCode()==2) {
             return Status.DISABLED;
-        else if(this.getStatusCode()==1)
+        } else if(this.getStatusCode()==1) {
             return Status.USED;
-        else if(LocalDateTime.now().isAfter(this.getEndTime()))
+        } else if(LocalDateTime.now().isAfter(this.getEndTime())) {
             return Status.EXPIRED;
-        else if(this.getStatusCode()==0) return Status.NOT_USED;
-        else
+        } else if(this.getStatusCode()==0) {
+            return Status.NOT_USED;
+        } else {
             return  Status.DISABLED;
+        }
 
     }
 

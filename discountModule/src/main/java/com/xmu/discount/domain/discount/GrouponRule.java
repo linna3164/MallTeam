@@ -3,9 +3,9 @@ package com.xmu.discount.domain.discount;
 
 //import com.alibaba.fastjson.JSON;
 import com.xmu.discount.domain.others.domain.*;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+//import com.google.gson.JsonParser;
+//import com.google.gson.JsonArray;
+//import com.google.gson.JsonObject;
 import com.xmu.discount.exception.UnsupportException;
 import com.xmu.discount.util.JacksonUtil;
 import org.apache.ibatis.type.Alias;
@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -28,7 +29,13 @@ public class GrouponRule extends PromotionRule {
      */
     @Override
     public boolean isDisabled() {
-        return this.isDisableCode();
+
+        if(this.isStatusCode()){
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
     public boolean isStrategyValid(){
@@ -82,12 +89,14 @@ public class GrouponRule extends PromotionRule {
      */
     @Override
     public boolean isWaitFinish() {
-        if(this.isStatusCode()&&super.isAlreadyEnd()){
+        if(super.isAlreadyEnd()){
+            LocalDate now=LocalDate.now();
+            this.getPromotionEndTime().toLocalDate();
+            if(now.equals(this.getPromotionEndTime().toLocalDate())){
                 return true;
+            }
         }
-        else {
-            return false;
-        }
+        return false;
     }
 
     /**
@@ -229,12 +238,12 @@ public class GrouponRule extends PromotionRule {
             return null;
         }
         else {
-            JsonParser jp = new JsonParser();
-            JsonObject jo = jp.parse(string).getAsJsonObject();
-            JsonArray messageArray = jo.get("strategy").getAsJsonArray();
+//            JsonParser jp = new JsonParser();
+//            JsonObject jo = jp.parse(string).getAsJsonObject();
+//            JsonArray messageArray = jo.get("strategy").getAsJsonArray();
 //        Object object=JSON.parse(messageArray);
 //        System.out.println(object);
-            List<GrouponRuleStrategy> strategies=JSON.parseArray(messageArray.toString(),GrouponRuleStrategy.class);
+//            List<GrouponRuleStrategy> strategies=JSON.parseArray(messageArray.toString(),GrouponRuleStrategy.class);
 
 //            jsonString = org.apache.commons.text.StringEscapeUtils.unescapeJson(jsonString);
 //            List<String> strategiesString = JacksonUtil.parseStringList(jsonString, "strategy");
@@ -321,14 +330,6 @@ public class GrouponRule extends PromotionRule {
 
     public void setStatusCode(boolean statusCode) {
         realObj.setStatusCode(statusCode);
-    }
-
-    public void setDisableCode(boolean disableCode) {
-        realObj.setDisableCode(disableCode);
-    }
-
-    public boolean isDisableCode() {
-        return realObj.isDisableCode();
     }
 
     public boolean isStatusCode() {

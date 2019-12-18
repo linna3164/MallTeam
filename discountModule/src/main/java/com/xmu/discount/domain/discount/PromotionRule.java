@@ -225,6 +225,7 @@ public abstract class PromotionRule implements Serializable {
     }
 
 
+
     /**
      * 促销活动的活动状态
      */

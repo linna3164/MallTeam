@@ -29,11 +29,10 @@ public class GrouponRulePo {
      */
     private LocalDateTime endTime;
     /**
-     * 判断团购是否还在进行中
+     * 判断团购是否还在进行中(true 是，false 失效）
      */
     private boolean statusCode;
 
-    private boolean disableCode;
     /**
      * 团购等级（满多少人组团多少折扣）
      * JSON格式: {"strategy": [{"lowerbound":xxx, "upperbound":xxx, "rate":xxx}]}, xxx为具体数值
@@ -75,9 +74,6 @@ public class GrouponRulePo {
 
 
 
-    public void setStatusCode(boolean statusCode) {
-        this.statusCode = statusCode;
-    }
 
     public String getGrouponLevelStrategy() {
         return grouponLevelStrategy;
@@ -132,11 +128,7 @@ public class GrouponRulePo {
         return statusCode;
     }
 
-    public boolean isDisableCode() {
-        return disableCode;
-    }
-
-    public void setDisableCode(boolean disableCode) {
-        this.disableCode = disableCode;
+    public void setStatusCode(boolean statusCode) {
+        this.statusCode = statusCode;
     }
 }
