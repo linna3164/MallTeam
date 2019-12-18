@@ -182,13 +182,14 @@ public class DiscountController {
 
     /**
      * 管理员添加优惠券（用户领取优惠券）
-     * @param coupon
+     * @param couponRuleId
      * @return
      */
     @PostMapping("/coupons")
-    public Object addCoupon(@RequestBody Coupon coupon) throws CouponNotFoundException, UnsupportException, PromotionNotFoundException, CouponRuleNotFoundException, UpdatedDataFailedException {
+    public Object addCoupon(@RequestParam Integer couponRuleId,HttpServletRequest request) throws CouponNotFoundException, UnsupportException, PromotionNotFoundException, CouponRuleNotFoundException, UpdatedDataFailedException {
         try {
-            coupon = couponService.addCoupon(coupon);    //直接传的coupon，参数都有
+            Integer userId = Integer.valueOf(request.getHeader("userId"));
+            Coupon coupon = couponService.addCoupon(couponRuleId,userId);    //直接传的coupon，参数都有
             if (coupon == null) {
                 return ResponseUtil.badArgumentValue();
             } else {
@@ -232,7 +233,7 @@ public class DiscountController {
         GrouponRulePo grouponRulePos=new GrouponRulePo();
         for(GrouponRule g:grouponRules) {
         GrouponRuleVo grouponRuleVo=new GrouponRuleVo();
-        grouponRuleVo.setGoodsPo(g.getGoods());
+        grouponRuleVo.setGoodsPo(g.getGoodsPo());
         grouponRuleVo.setGrouponRulePo(g.getRealObj());
         grouponRuleVos.add(grouponRuleVo);
 

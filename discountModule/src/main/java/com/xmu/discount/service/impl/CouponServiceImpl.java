@@ -106,9 +106,10 @@ public class CouponServiceImpl {
      * @param coupon
      * @return
      */
-    public Coupon addCoupon(Coupon coupon) throws CouponNotFoundException, UnsupportException, CouponRuleNotFoundException, UpdatedDataFailedException, PromotionNotFoundException {
-        List<Coupon> coupons = couponDao.listCouponByCouponRuleIdAndUserId(coupon.getCouponRuleId(), coupon.getUserId());
-        CouponRule couponRule = (CouponRule) couponRuleDao.getPromotionRuleById(coupon.getCouponRuleId());
+    public Coupon addCoupon(Integer couponRuleId,Integer userId) throws CouponNotFoundException, UnsupportException, CouponRuleNotFoundException, UpdatedDataFailedException, PromotionNotFoundException {
+        List<Coupon> coupons = couponDao.listCouponByCouponRuleIdAndUserId(couponRuleId, userId);
+        CouponRule couponRule = (CouponRule) couponRuleDao.getPromotionRuleById(couponRuleId);
+        Coupon coupon=null;
         System.out.println(couponRule);
         //找不到couponRule
         if (couponRule == null) {
@@ -117,6 +118,7 @@ public class CouponServiceImpl {
         else {
             //用户还没领取过
             if (coupons.size() == 0) {
+                coupon=couponRule.createCoupon(userId);
                 couponDao.addCoupon(coupon);
                 couponRuleDao.updatePromotionRuleById(couponRule);
                 return coupon;

@@ -68,6 +68,7 @@ public class CouponDao {
     public int addCoupon(Coupon coupon){
         coupon.setGmtCreate(LocalDateTime.now());
         coupon.setGmtModified(LocalDateTime.now());
+        coupon.setBeDeleted(false);
         return couponMapper.addCoupon(coupon);
     };
 

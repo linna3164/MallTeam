@@ -67,23 +67,24 @@ class DiscountApplicationTests {
     private CouponServiceImpl couponService;
 
 @Test
-void hah(){
-    String jsonString1="{\"goodsIds\":[1,2,3]}";
+void hah() throws PromotionNotFoundException {
+     CouponRule couponRule= (CouponRule) couponRuleDao.getPromotionRuleById(1);
+    String jsonString1=couponRule.getGoodsList1();
     List<Integer> goodsIds1= JacksonUtil.parseIntegerList(jsonString1, "goodsIds");
     System.out.println(goodsIds1.get(1));
+    System.out.println(presaleRuleDao.getPromotionRuleById(1));
     }
     @Test
     void tes() throws PromotionNotFoundException {
-//           List<CartItem> cartItems=new ArrayList<CartItem>();
-//           CartItem cartItem=new CartItem();
-//           cartItems.add(cartItem);
-//           GoodsPo goodsPo=new GoodsPo(); goodsPo.setId(2);  goodsPo.setName("hah");
-//        Product product=new Product();  product.setGoodsPo(goodsPo);
-//           cartItem.setProduct(product);
-//           List<Coupon> coupons=couponService.listAvailableCoupons(cartItems,2);
-//           for(Coupon c:coupons) System.out.println(c);
-          List<Coupon> coupons=couponService.listCouponOfUserByStatus(1, Coupon.Status.NOT_USED);
-          for(Coupon c:coupons) System.out.println(c);
+           List<CartItem> cartItems=new ArrayList<CartItem>();
+           CartItem cartItem=new CartItem();
+           cartItems.add(cartItem);
+           GoodsPo goodsPo=new GoodsPo(); goodsPo.setId(2);  goodsPo.setName("hah");
+        Product product=new Product();  product.setGoodsPo(goodsPo);
+           cartItem.setProduct(product);
+           List<Coupon> coupons=couponService.listAvailableCoupons(cartItems,2);
+           for(Coupon c:coupons) System.out.println(c);
+
     }
 
 
