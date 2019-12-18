@@ -211,7 +211,7 @@ public class DiscountController {
      * 获取某个商品的团购规则列表
      * @param page
      * @param limit
-     * @return 标准组List<GrouponRuleVo>，我们暂时是List<GrouponRule>！！！
+     * @return 标准组List<GrouponRuleVo>
      */
     @GetMapping("/grouponRules")
     public List<GrouponRulePo> getGroupRules(@RequestParam Integer goodsId, @RequestParam(defaultValue = "1") Integer page,
@@ -229,7 +229,7 @@ public class DiscountController {
     /**
      * 新建团购规则
      * @param grouponRulePo
-     * @return 标准组GrouponRulePo，我们暂时是grouponRule!!!
+     * @return 标准组GrouponRulePo
      */
     @PostMapping("/grouponRules")
     public GrouponRulePo addGrouponRule(@RequestBody GrouponRulePo grouponRulePo) throws UpdatedDataFailedException, SeriousException {
@@ -242,7 +242,7 @@ public class DiscountController {
     /**
      * 通过id获得团购规则
      * @param id
-     * @return 标准组GrouponRuleVo，我们暂时是GrouponRule!!!
+     * @return 标准组GrouponRuleVo
      */
     @GetMapping("/admin/grouponRules/{id}")
     public GrouponRulePo findGroupRuleById(@PathVariable Integer id) throws PromotionNotFoundException {
@@ -255,7 +255,7 @@ public class DiscountController {
      * 管理员修改团购规则
      * @param id
      * @param grouponRulePo
-     * @return 标准组GrouponRulePo，我们暂时是GrouponRule!!!
+     * @return 标准组GrouponRulePo
      */
     @PutMapping("/grouponRules/{id}")
     public Object modifyGrouponRuleById(@PathVariable Integer id,@RequestBody GrouponRulePo grouponRulePo) throws UpdatedDataFailedException, PromotionNotFoundException {
@@ -291,6 +291,15 @@ public class DiscountController {
                                      @RequestParam(defaultValue = "10") Integer limit){
         List<? extends PromotionRule> promotionRules=grouponService.listPromotionRuleOfType("grouponRule");
         return promotionRules;
+    }
+
+    /**
+     * 用户查看单个优惠券规则
+     * @return GrouponRuleVo
+     */
+    @GetMapping("/grouponRules/{id}")
+    public Object getGrouponRulesById(@PathVariable Integer id) throws PromotionNotFoundException {
+        return grouponService.getPromotionById(id,"grouponRule");
     }
 
 

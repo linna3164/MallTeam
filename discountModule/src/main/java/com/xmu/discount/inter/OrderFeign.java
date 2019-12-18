@@ -22,11 +22,10 @@ import java.util.List;
 public interface OrderFeign {
 
     @RequestMapping(value = "/orders/grouponOrders",method = RequestMethod.GET)
-    public Integer getGrouponOrders(GrouponRulePo grouponRulePo);
+    public Integer getGrouponOrders(@RequestBody GrouponRulePo grouponRulePo);
 
     @RequestMapping(value = "/order/grouponOrders/refund",method = RequestMethod.POST)
-    public boolean refundGrouponOrder(@RequestBody GrouponRulePo grouponRulePo,@RequestParam BigDecimal price
-    );
+    public boolean refundGrouponOrder(@RequestBody GrouponRulePo grouponRulePo,@RequestParam BigDecimal price);
 
     @RequestMapping(value = "/order/presaleRule/refund",method = RequestMethod.POST)
     public boolean refundPresaleOrder(@RequestBody PresaleRule presaleRulePo);
