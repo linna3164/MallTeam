@@ -282,11 +282,13 @@ class PromotionServiceImplTest {
     }
 
 
-
+    /**
+     * 列出商品id 的 所有 优惠券
+     */
     @Test
     void listProimotionByGoodsId() {
 
-
+        System.out.println(presaleService.listProimotionByGoodsId(1));
 
 
     }
