@@ -112,19 +112,80 @@ class PromotionServiceImplTest {
 //        PromotionRule promotionRule
 //    }
 
+    /**
+     * 获得预售规则：不存在的id，通过
+     * @throws PromotionNotFoundException
+     */
     @Test
-    void getPromotionById() {
+    void getPromotionById() throws PromotionNotFoundException {
+        PromotionRule promotionRule=presaleService.getPromotionById(1,"presaleRule");
+        assertEquals(null,promotionRule);
+    }
+
+
+    /**
+     * 正常，通过
+     * @throws PromotionNotFoundException
+     */
+    @Test
+    void getPromotionById2() throws PromotionNotFoundException {
+
+        PromotionRule promotionRule=presaleService.getPromotionById(3,"presaleRule");
+        System.out.println(promotionRule);
+        assertEquals(promotionRule,null);
+
+    }
+
+    /**
+     * 正常删除，通过
+     * @throws PromotionNotFoundException
+     * @throws UpdatedDataFailedException
+     */
+    @Test
+    void deletePromotionById() throws PromotionNotFoundException, UpdatedDataFailedException {
+            PromotionRule promotionRule=presaleService.getPromotionById(3,"presaleRule");
+            presaleService.deletePromotionById(promotionRule);
+    }
+
+//    /**
+//     * 更新不存在的，
+//     */
+//    @Test
+//    void updatepromotionRule() throws UpdatedDataFailedException {
+//
+//        presaleService.updatepromotionRule(null);
+//    }
+
+    /**
+     * 更新存在的。
+     */
+    @Test
+    void updatepromotionRule2() throws UpdatedDataFailedException, PromotionNotFoundException {
+
+//        PromotionRule promotionRule=presaleService.getPromotionById(4,"presaleRule");
+//        System.out.println(promotionRule);
+        PresaleRule presaleRule=new PresaleRule();
+        presaleRule.setId(4);
+        presaleRule.setDeposit(new BigDecimal(200));
+
+        presaleService.updatepromotionRule(presaleRule);
 
 
     }
 
+    /**
+     * 更新已经被删除的。
+     */
     @Test
-    void deletePromotionById() {
+    void updatepromotionRule3() throws UpdatedDataFailedException, PromotionNotFoundException {
 
-    }
+        PromotionRule promotionRule=presaleService.getPromotionById(3,"presaleRule");
+        PresaleRule presaleRule=new PresaleRule();
 
-    @Test
-    void updatepromotionRule() {
+        presaleRule.setDeposit(new BigDecimal(3000));
+
+        presaleService.updatepromotionRule(presaleRule);
+
     }
 
     @Test
@@ -158,6 +219,9 @@ class PromotionServiceImplTest {
 
     }
 
+
+
+
     @Test
     void addPresaleRule() throws UpdatedDataFailedException, SeriousException {
 
@@ -171,11 +235,60 @@ class PromotionServiceImplTest {
         presaleRule.setGoodsId(1);
 
 
-        presaleService.addPromotion(presaleRule);
+        PromotionRule promotionRule=presaleService.addPromotion(presaleRule);
+        System.out.println(promotionRule);
     }
 
     @Test
+    void addPresaleRule2() throws UpdatedDataFailedException, SeriousException {
+
+        PresaleRule presaleRule=new PresaleRule();
+        presaleRule.setDeposit(new BigDecimal(10));
+        presaleRule.setFinalPayment(new BigDecimal(100));
+        presaleRule.setStartTime(LocalDateTime.now().plusDays(7));
+        presaleRule.setAdEndTime(LocalDateTime.now().plusDays(8));
+        presaleRule.setFinalStartTime(LocalDateTime.now().plusDays(9));
+        presaleRule.setEndTime(LocalDateTime.now().plusDays(10));
+        presaleRule.setGoodsId(1);
+
+
+        PromotionRule promotionRule=presaleService.addPromotion(presaleRule);
+        System.out.println(promotionRule);
+    }
+
+    @Test
+    void addPresaleRule3() throws UpdatedDataFailedException, SeriousException {
+
+        PresaleRule presaleRule=new PresaleRule();
+        presaleRule.setDeposit(new BigDecimal(10));
+        presaleRule.setFinalPayment(new BigDecimal(100));
+        presaleRule.setStartTime(LocalDateTime.now().plusDays(10));
+        presaleRule.setAdEndTime(LocalDateTime.now().plusDays(11));
+        presaleRule.setFinalStartTime(LocalDateTime.now().plusDays(12));
+        presaleRule.setEndTime(LocalDateTime.now().plusDays(13));
+        presaleRule.setGoodsId(1);
+
+
+        PromotionRule promotionRule=presaleService.addPromotion(presaleRule);
+        System.out.println(promotionRule);
+    }
+
+    /**
+     * 添加
+     */
+    @Test
+    void addGrouponRule1(){
+
+    }
+
+
+
+    @Test
     void listProimotionByGoodsId() {
+
+
+
+
     }
 
     @Test

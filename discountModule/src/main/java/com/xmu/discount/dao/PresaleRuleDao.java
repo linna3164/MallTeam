@@ -52,7 +52,8 @@ public class PresaleRuleDao implements PromotionRuleDao {
         PresaleRule presaleRule=(PresaleRule)promotionRule;
         presaleRule.setGmtCreate(LocalDateTime.now());
         presaleRule.setGmtModified(LocalDateTime.now());
-
+        presaleRule.setBeDeleted(false);
+        presaleRule.setStatusCode(true);
         return presaleRuleMapper.addPresaleRule(presaleRule);
 
     }

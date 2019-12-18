@@ -75,6 +75,8 @@ public class GrouponRuleDao implements PromotionRuleDao {
         GrouponRulePo grouponRulePo=grouponRule.getRealObj();
         grouponRule.setGmtCreate(LocalDateTime.now());
         grouponRule.setGmtModified(LocalDateTime.now());
+        grouponRule.setBeDeleted(false);
+        grouponRule.setStatusCode(true);
         int res= grouponRuleMapper.addGrouponRule(grouponRulePo);
         if(res==0){
             throw new SeriousException();

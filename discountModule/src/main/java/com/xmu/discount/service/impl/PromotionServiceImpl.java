@@ -126,18 +126,20 @@ public abstract class PromotionServiceImpl {
      * @param promotionRule
      * @return
      */
-    public PromotionRule updatepromotionRule(PromotionRule promotionRule) throws UpdatedDataFailedException {
-        if(promotionRule.isOkToUpdate()){
-            String daoName=getDaoClassName(promotionRule);
+    public PromotionRule updatepromotionRule(PromotionRule promotionRule) throws UpdatedDataFailedException, PromotionNotFoundException {
+        String daoName=getDaoClassName(promotionRule);
+
+        PromotionRule pre=this.getPromotionById(promotionRule.getId(),this.getLowerRuleName(promotionRule));
+        if (pre==null){
+            throw new UpdatedDataFailedException();
+        }
+        if(pre.isOkToUpdate()){
             ((PromotionRuleDao)SpringContextUtil.getBean(daoName)).updatePromotionRuleById(promotionRule);
         }
         return promotionRule;
     }
 
-    public String getDaoClassName(PromotionRule promotionRule){
-        String name=promotionRule.getClass().getSimpleName()+"Dao";
-        return (new StringBuilder()).append(Character.toLowerCase(name.charAt(0))).append(name.substring(1)).toString();
-    }
+
 
     /**
      * 获取订单应付金额
@@ -263,7 +265,15 @@ public abstract class PromotionServiceImpl {
 //        return res;
 //    }
 
+    public String getDaoClassName(PromotionRule promotionRule){
+        String name=promotionRule.getClass().getSimpleName()+"Dao";
+        return (new StringBuilder()).append(Character.toLowerCase(name.charAt(0))).append(name.substring(1)).toString();
+    }
 
+    public String getLowerRuleName(PromotionRule promotionRule){
+        String name=promotionRule.getClass().getSimpleName();
+        return (new StringBuilder()).append(Character.toLowerCase(name.charAt(0))).append(name.substring(1)).toString();
+    }
 
 
 

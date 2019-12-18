@@ -23,6 +23,7 @@ public class PresaleRule extends PromotionRule {
      */
     @Override
     public boolean isDisabled() {
+        System.out.println(this);
         if(this.getStatusCode()){
             return false;
         }
