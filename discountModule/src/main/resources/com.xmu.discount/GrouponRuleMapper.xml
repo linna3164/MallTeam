@@ -17,15 +17,17 @@
                goods_id,
                gmt_create,
                gmt_modified,
-               is_deleted
+               is_deleted,
+               status,
+               disable
 
         from oomall_groupon_rule where id = #{id}
     </select>
 
     <insert id="addGrouponRule" parameterType="grouponRulePo" useGeneratedKeys="true" keyProperty="id">
-        insert into oomall_groupon_rule(start_time,end_time,status,groupon_level_strategy,goods_id,gmt_create,gmt_modified,is_deleted)
+        insert into oomall_groupon_rule(start_time,end_time,status,groupon_level_strategy,goods_id,gmt_create,gmt_modified,is_deleted,status,disble)
         values
-        ( #{startTime}, #{endTime}, #{statusCode}, #{grouponLevelStrategy}, #{goodsId}, #{gmtCreate}, #{gmtModified}, #{beDeleted})
+        ( #{startTime}, #{endTime}, #{statusCode}, #{grouponLevelStrategy}, #{goodsId}, #{gmtCreate}, #{gmtModified}, #{beDeleted},#{statusCode},#{disable})
     </insert>
 
     <update id="updateGrouponRuleById" parameterType="grouponRulePo">
@@ -39,6 +41,8 @@
             <if test="gmtCreate!=null">gmt_create=#{gmtCreate},</if>
             <if test="gmtModified!=null">gmt_modified=#{gmtModified},</if>
             <if test="beDeleted!=null">is_deleted=#{beDeleted},</if>
+            <if test="statusCode!=null">status=#{statusCode},</if>
+            <if test="disable!=null">disable=#{disable},</if>
         </trim>
         WHERE id=#{id}
     </update>
@@ -52,7 +56,9 @@
                goods_id,
                gmt_create,
                gmt_modified,
-               is_deleted
+               is_deleted,
+               status,
+               disable
         from oomall_groupon_rule where goods_id = #{goodsId}
     </select>
 
@@ -65,7 +71,9 @@
                goods_id,
                gmt_create,
                gmt_modified,
-               is_deleted
+               is_deleted,
+               status,
+               disable
         from oomall_groupon_rule where id!=0
     </select>
 
