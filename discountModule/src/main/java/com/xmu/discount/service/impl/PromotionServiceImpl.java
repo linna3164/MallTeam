@@ -7,10 +7,7 @@ import com.xmu.discount.dao.PromotionRuleDao;
 import com.xmu.discount.domain.coupon.Coupon;
 import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.domain.others.domain.Order;
-import com.xmu.discount.exception.PromotionNotFoundException;
-import com.xmu.discount.exception.SeriousException;
-import com.xmu.discount.exception.UnsupportException;
-import com.xmu.discount.exception.UpdatedDataFailedException;
+import com.xmu.discount.exception.*;
 import com.xmu.discount.inter.GoodsFeign;
 import com.xmu.discount.util.SpringContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,7 +121,7 @@ public abstract class PromotionServiceImpl {
      * @param promotionRule
      * @return
      */
-    public void deletePromotionById(PromotionRule promotionRule) throws UpdatedDataFailedException {
+    public void deletePromotionById(PromotionRule promotionRule) throws UpdatedDataFailedException, PresaleRuleDeleteFailException {
         if(promotionRule.beOkToDelete())
         {
             String daoName=getDaoClassName(promotionRule);

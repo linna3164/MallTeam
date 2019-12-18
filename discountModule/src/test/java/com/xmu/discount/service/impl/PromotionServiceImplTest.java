@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import com.xmu.discount.DiscountApplication;
 import com.xmu.discount.domain.coupon.CouponRule;
 import com.xmu.discount.domain.discount.*;
+import com.xmu.discount.exception.PresaleRuleDeleteFailException;
 import com.xmu.discount.exception.PromotionNotFoundException;
 import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.exception.SeriousException;
@@ -141,13 +142,13 @@ class PromotionServiceImplTest {
      * @throws UpdatedDataFailedException
      */
     @Test
-    void deletePromotionById() throws PromotionNotFoundException, UpdatedDataFailedException {
+    void deletePromotionById() throws PromotionNotFoundException, UpdatedDataFailedException, PresaleRuleDeleteFailException {
             PromotionRule promotionRule=presaleService.getPromotionById(3,"presaleRule");
             presaleService.deletePromotionById(promotionRule);
     }
 
     @Test
-    void deletePromotionById2() throws PromotionNotFoundException, UpdatedDataFailedException {
+    void deletePromotionById2() throws PromotionNotFoundException, UpdatedDataFailedException, PresaleRuleDeleteFailException {
         PromotionRule promotionRule=grouponService.getPromotionById(1,"grouponRule");
         grouponService.deletePromotionById(promotionRule);
     }

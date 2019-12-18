@@ -46,23 +46,33 @@ public class CouponServiceImpl {
     public List<Coupon> getCoupons(Integer type) {
         List<Coupon> coupons = couponDao.listCoupons();
         List<Coupon> res = new ArrayList<Coupon>();
-        if (type == 0)
+        if (type == 0) {
             for (Coupon c : coupons) {
-                if (c.getStatusCode() == 0) res.add(c);
+                if (c.getStatusCode() == 0) {
+                    res.add(c);
+                }
             }
-        else if (type == 1) {
+        } else if (type == 1) {
             for (Coupon c : coupons) {
-                if (c.getStatusCode() == 1) res.add(c);
+                if (c.getStatusCode() == 1) {
+                    res.add(c);
+                }
             }
         } else if (type == 2) {
             for (Coupon c : coupons) {
-                if (c.getStatusCode() == 2) res.add(c);
+                if (c.getStatusCode() == 2) {
+                    res.add(c);
+                }
             }
         } else if (type == 3) {
             for (Coupon c : coupons) {
-                if (c.getEndTime().isBefore(LocalDateTime.now())) res.add(c);
+                if (c.getEndTime().isBefore(LocalDateTime.now())) {
+                    res.add(c);
+                }
             }
-        } else res.addAll(coupons);
+        } else {
+            res.addAll(coupons);
+        }
         return res;
 
     }

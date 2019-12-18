@@ -88,7 +88,7 @@ void hah(){
 
 
     @Test
-    void contextLoads() throws PromotionNotFoundException, UpdatedDataFailedException, SeriousException, UnsupportException, CouponRuleNotFoundException, CouponNotFoundException {
+    void contextLoads() throws PromotionNotFoundException, UpdatedDataFailedException, SeriousException, UnsupportException, CouponRuleNotFoundException, CouponNotFoundException, PresaleRuleDeleteFailException {
 
 
         List<PromotionRule> presaleRules = (List<PromotionRule>) presaleRuleDao.listPromotions();

@@ -1,37 +1,129 @@
-#
-##mybatis:
-##  #domain对象的包
-##  type-aliases-package: com.xmu.discount.doamin.coupon
-##  #mapper。xml所在的位置
-##  mapper-locations: classpath:com.xmu.discount/*.xml
-##  configuration:
-##    #自动将SQL中查出来的带下划线的字段，转换为驼峰标志，再去匹配类中的属性
-##    map-underscore-to-camel-case: true
+server:
+  port: 3702
+
 #spring:
+#  application:
+#    name: freightService
 #  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://127.0.0.1:3306/oomall
-#    #中央数据库或者命令行
-#    data-username: ooadUser
-#    password: ooad
-#    # type: com.alibaba.druid.pool.DruidDataSource #druid连接池：数据库的连接可以设置最大连接数（连接池）、数据库的sql语句写得怎么样？？？。
-#    druid:
-#      #初始化时建立物理连接的个数
-#      initial-size: 3
-#        neophyte
-#        最小连接池数量
-#      min-idle: 3
-#      #最大连接池数量
-#      max-active: 10
-#      #获取连接时最大等待时间
-#      max-wait: 60000
-#      #配置监控页面访问登录名及密码
-#      stat-view-servlet:
-#        login-username: admin
-#        login-password: 123456
-#      filter:
-#        stat:
-#          #是否开启慢sql查询监控------查到日志，进而进行调优。
-#          log-slow-sql: true
-#          #慢SQL执行时间
-#          slow-sql-millis: 100
+#      url: jdbc:mysql://47.98.145.177:3306mall?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+#      username: root
+#      password: 123456
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      type: com.alibaba.druid.pool.DruidDataSource
+#      druid:
+#        #初始化时建立物理连接的个数
+#        initial-size: 5
+#        #  最小连接池数量
+#        min-idle: 5
+#        #最大连接池数量
+#        max-active: 5
+#        #获取连接时最大等待时间
+#        max-wait: 60000
+#        filter:
+#          stat:
+#            #是否开启慢sql查询监控
+#            log-slow-sql: true
+#            #慢SQL执行时间
+#            slow-sql-millis: 100
+#        validation-query: select 1
+#  redis:
+#    host: 101.132.152.28
+#    password: hyt123
+#    jedis:
+#      pool:
+#        max-active: 8 # 连接池最大连接数（使用负值表示没有限制）
+#        max-wait: -1ms # 连接池最大阻塞等待时间（使用负值表示没有限制）
+#        max-idle: 8 # 连接池中的最大空闲连接
+#        min-idle: 0 # 连接池中的最小空闲连接
+#    timeout: 3000ms # 连接超时时间（毫秒）
+
+spring:
+  application:
+    name: discountService
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://101.132.152.28:3306/oomall
+    username: oomall
+    password: OOAD3-4wmtnl
+    druid:
+      #初始化时建立物理连接的个数
+      initial-size: 3
+      #最小连接池数量
+      min-idle: 3
+      #最大连接池数量
+      max-active: 10
+      #获取连接时最大等待时间
+      max-wait: 60000
+      #配置监控页面访问登录名及密码
+      stat-view-servlet:
+        enabled: true
+        # 访问路径为/druid时，跳转到StatViewServlet
+        url-pattern: /druid/*
+        # 是否能够重置数据
+        reset-enable: false
+        # 需要账号密码才能访问控制台
+        login-username: admin
+        login-password: 123456
+      filter:
+        stat:
+          #是否开启慢sql查询监控
+          log-slow-sql: true
+          #慢SQL执行时间
+          slow-sql-millis: 100
+      validation-query: select 1
+
+  redis:
+    host: 101.132.152.28
+    password: hyt123
+    jedis:
+      pool:
+        max-active: 8 # 连接池最大连接数（使用负值表示没有限制）
+        max-wait: -1ms # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-idle: 8 # 连接池中的最大空闲连接
+        min-idle: 0 # 连接池中的最小空闲连接
+    timeout: 3000ms # 连接超时时间（毫秒）
+
+
+#mybatis:
+#  #domain对象的包
+#  type-aliases-package: com.xmu.freight.domain
+#  #mapper。xml所在的位置
+#  mapper-locations: classpath:com.xmu.freight.mapper/*.xml
+#  configuration:
+#    #自动将SQL中查出来的带下划线的字段，转换为驼峰标志，再去匹配类中的属性
+#    map-underscore-to-camel-case: true
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+feign:
+  hystrix:
+    enabled: false
+  client:
+    config:
+      share:
+        connectTimeout: 120000
+        readTimeout: 120000
+  compression:
+    request:
+      enabled: true
+      mime-types: text/html,application/xml,application/json
+      min-request-size: 2048
+    response:
+      enabled: true
+
+#设置熔断是为6秒
+ribbon:
+  ConnectTimeout: 60000
+  ReadTimeout: 60000
+  eureka:
+    enabled: true
+
+#指定注册中心地址
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://47.100.91.153:3500/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    ip-address: ${spring.cloud.client.ip-address}
