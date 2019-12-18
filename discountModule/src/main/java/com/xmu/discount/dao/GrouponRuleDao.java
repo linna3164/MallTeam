@@ -26,7 +26,7 @@ public class GrouponRuleDao implements PromotionRuleDao {
         GrouponRule couponRule=(GrouponRule) promotionRule;
         GrouponRule pre=new GrouponRule(couponRule.getId());
         //TODO:标准组！！！
-        pre.setDisableCode(false);
+        pre.setStatusCode(false);
         this.updatePromotionRuleById(couponRule);
     }
 

@@ -23,8 +23,6 @@
                gmt_modified,
                is_deleted,
                status,
-               disable
-
         from oomall_coupon_rule where id =#{id}
     </select>
 
@@ -44,15 +42,13 @@
                gmt_modified,
                is_deleted,
                status,
-               disable
-
         from oomall_coupon_rule where id!=0
     </select>
 
     <insert id="addCouponRule" parameterType="couponRulePo" useGeneratedKeys="true" keyProperty="id">
-        insert into oomall_coupon_rule(name, brief, begin_time, end_time, pic_url, valid_period, strategy, total, goods_list1, goods_list2, gmt_create, gmt_modified, is_deleted,status,disable)
+        insert into oomall_coupon_rule(name, brief, begin_time, end_time, pic_url, valid_period, strategy, total, goods_list1, goods_list2, gmt_create, gmt_modified, is_deleted,status)
         values
-        (#{name}, #{brief}, #{beginTime}, #{endTime}, #{picUrl}, #{validPeriod}, #{strategy}, #{total}, #{goodsList1}, #{goodsList2}, #{gmtCreate}, #{gmtModified}, #{beDeleted},#{statusCode},#{disable})
+        (#{name}, #{brief}, #{beginTime}, #{endTime}, #{picUrl}, #{validPeriod}, #{strategy}, #{total}, #{goodsList1}, #{goodsList2}, #{gmtCreate}, #{gmtModified}, #{beDeleted},#{statusCode})
     </insert>
 
     <update id="updateCouponRuleById" parameterType="couponRulePo">
@@ -72,7 +68,6 @@
             <if test="gmtModified!=null">gmt_modified=#{gmtModified},</if>
             <if test="beDeleted!=null">is_deleted=#{beDeleted},</if>
             <if test="statusCode!=null">status=#{statusCode}</if>
-            <if test="disable!=null">disable=#{disable}</if>
         </trim>
         WHERE id=#{id}
     </update>

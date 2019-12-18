@@ -314,13 +314,6 @@ public class GrouponRule extends PromotionRule {
         realObj.setStatusCode(statusCode);
     }
 
-    public void setDisableCode(boolean disableCode) {
-        realObj.setDisableCode(disableCode);
-    }
-
-    public boolean isDisableCode() {
-        return realObj.isDisableCode();
-    }
 
     public boolean isStatusCode() {
         return realObj.isStatusCode();

@@ -168,7 +168,7 @@ class PromotionServiceImplTest {
         presaleRule.setAdEndTime(LocalDateTime.now().plusDays(2));
         presaleRule.setFinalStartTime(LocalDateTime.now().plusDays(3));
         presaleRule.setEndTime(LocalDateTime.now().plusDays(4));
-
+        presaleRule.setGoodsId(1);
 
 
         presaleService.addPromotion(presaleRule);
