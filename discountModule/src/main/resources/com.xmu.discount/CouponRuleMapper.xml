@@ -3,7 +3,7 @@
 <mapper namespace="com.xmu.discount.mapper.CouponRuleMapper">
     <resultMap id="couponRule" type="couponRulePo" autoMapping="true">
         <result property="beDeleted" column="is_deleted"/>
-<!--        <result property="statusCode" column="status"/>-->
+        <result property="statusCode" column="status"/>
     </resultMap>
 
 
@@ -21,7 +21,9 @@
                goods_list2,
                gmt_create,
                gmt_modified,
-               is_deleted
+               is_deleted,
+               status,
+               disable
 
         from oomall_coupon_rule where id =#{id}
     </select>
@@ -40,16 +42,17 @@
                goods_list2,
                gmt_create,
                gmt_modified,
-               is_deleted
-
+               is_deleted,
+               status,
+               disable
 
         from oomall_coupon_rule where id!=0
     </select>
 
     <insert id="addCouponRule" parameterType="couponRulePo" useGeneratedKeys="true" keyProperty="id">
-        insert into oomall_coupon_rule(name, brief, begin_time, end_time, pic_url, valid_period, strategy, total, goods_list1, goods_list2, gmt_create, gmt_modified, is_deleted)
+        insert into oomall_coupon_rule(name, brief, begin_time, end_time, pic_url, valid_period, strategy, total, goods_list1, goods_list2, gmt_create, gmt_modified, is_deleted,status,disable)
         values
-        (#{name}, #{brief}, #{beginTime}, #{endTime}, #{picUrl}, #{validPeriod}, #{strategy}, #{total}, #{goodsList1}, #{goodsList2}, #{gmtCreate}, #{gmtModified}, #{beDeleted})
+        (#{name}, #{brief}, #{beginTime}, #{endTime}, #{picUrl}, #{validPeriod}, #{strategy}, #{total}, #{goodsList1}, #{goodsList2}, #{gmtCreate}, #{gmtModified}, #{beDeleted},#{statusCode},#{disable})
     </insert>
 
     <update id="updateCouponRuleById" parameterType="couponRulePo">
@@ -67,8 +70,9 @@
             <if test="goodsList2!=null">goods_list2=#{goodsList2},</if>
             <if test="gmtCreate!=null">gmt_create=#{gmtCreate},</if>
             <if test="gmtModified!=null">gmt_modified=#{gmtModified},</if>
-            <if test="beDeleted!=null">is_deleted=#{beDeleted}</if>
-
+            <if test="beDeleted!=null">is_deleted=#{beDeleted},</if>
+            <if test="statusCode!=null">status=#{statusCode}</if>
+            <if test="disable!=null">disable=#{disable}</if>
         </trim>
         WHERE id=#{id}
     </update>

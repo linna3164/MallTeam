@@ -50,7 +50,7 @@ class PromotionServiceImplTest {
           for(CouponRule c:couponRules)
               System.out.println(c);
           CouponRule couponRule= (CouponRule) couponRuleService.getPromotionById(1,"couponRule");
-
+            System.out.println(couponRule);
            couponRule.setBrief("改了");
 
            couponRuleService.updatepromotionRule((PromotionRule) couponRule);
