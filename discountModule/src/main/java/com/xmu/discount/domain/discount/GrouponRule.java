@@ -89,13 +89,13 @@ public class GrouponRule extends PromotionRule {
      */
     @Override
     public boolean isWaitFinish() {
-        if(super.isAlreadyEnd()){
-            LocalDate now=LocalDate.now();
-            this.getPromotionEndTime().toLocalDate();
-            if(now.equals(this.getPromotionEndTime().toLocalDate())){
-                return true;
-            }
-        }
+//        if(super.isAlreadyEnd()){
+//            LocalDate now=LocalDate.now();
+//            this.getPromotionEndTime().toLocalDate();
+//            if(now.equals(this.getPromotionEndTime().toLocalDate())){
+//                return true;
+//            }
+//        }
         return false;
     }
 

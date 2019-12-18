@@ -239,8 +239,20 @@ public abstract class PromotionServiceImpl {
     public PromotionRule addPromotion(PromotionRule promotionRule) throws UpdatedDataFailedException, SeriousException {
         //获得商品的所有促销活动
         List<? extends PromotionRule> promotionRules=this.listProimotionByGoodsId(promotionRule.getPromotionGoodsId());
+        //筛选出正在进行的或者还没开始的
+        List<PromotionRule> res=new ArrayList<>();
+        for(PromotionRule pro:promotionRules){
+            PromotionRule.ActiveStatus activeStatus=pro.getActiveStatus();
+            if(activeStatus.equals(PromotionRule.ActiveStatus.INPROCESS)||activeStatus.equals(PromotionRule.ActiveStatus.NOTSTART)){
+                continue;
+            }
+            else {
+                res.add(pro);
+            }
+        }
 
-        if(promotionRule.isOkToAdd(promotionRules)){
+        System.out.println("into addPromotion");
+        if(promotionRule.isOkToAdd(res)){
             //调用DAO层的add方法。
             String daoName=getDaoClassName(promotionRule);
             ((PromotionRuleDao)SpringContextUtil.getBean(daoName)).addPromotionRule(promotionRule);
