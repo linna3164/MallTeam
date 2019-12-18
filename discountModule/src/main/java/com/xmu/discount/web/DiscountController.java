@@ -181,15 +181,19 @@ public class DiscountController {
      */
     @PostMapping("/coupons")
     public Object addCoupon(@RequestBody Coupon coupon) throws CouponNotFoundException, UnsupportException, PromotionNotFoundException, CouponRuleNotFoundException, UpdatedDataFailedException {
-        Integer id=coupon.getUserId();
-        CouponRule couponRule= (CouponRule) couponRuleService.getPromotionById(coupon.getCouponRuleId(),"couponRule");
-        Coupon coupon1=couponService.addCoupon(coupon);    //直接传的coupon，参数都有
-        if(coupon1==null) {
-            return ResponseUtil.badArgumentValue();
-        }else {
-            return ResponseUtil.ok(coupon1);
+        try {
+            coupon = couponService.addCoupon(coupon);    //直接传的coupon，参数都有
+            if (coupon == null) {
+                return ResponseUtil.badArgumentValue();
+            } else {
+                return ResponseUtil.ok(coupon);
+            }
+        } catch (CouponRuleNotFoundException e) {
+            return ResponseUtil.CouponRuleNotFOund();
         }
+
     }
+
 
 
     /**
