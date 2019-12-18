@@ -135,7 +135,8 @@ public abstract class PromotionServiceImpl {
     }
 
     public String getDaoClassName(PromotionRule promotionRule){
-        return promotionRule.getClass().getSimpleName()+"Dao";
+        String name=promotionRule.getClass().getSimpleName()+"Dao";
+        return (new StringBuilder()).append(Character.toLowerCase(name.charAt(0))).append(name.substring(1)).toString();
     }
 
     /**
