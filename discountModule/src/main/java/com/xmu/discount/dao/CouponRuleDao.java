@@ -55,6 +55,7 @@ public class CouponRuleDao implements PromotionRuleDao  {
         couponRule.setGmtCreate(LocalDateTime.now());
         couponRule.setGmtModified(LocalDateTime.now());
         couponRule.setStatusCode(true);
+        couponRule.setBeDeleted(false);
         return couponRuleMapper.addCouponRule(couponRulePo);
     }
 
