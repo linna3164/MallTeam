@@ -59,7 +59,7 @@ public class CouponRuleServiceImpl extends PromotionServiceImpl {
             String daoName=getDaoClassName(promotionRule);
             ((PromotionRuleDao) SpringContextUtil.getBean(daoName)).addPromotionRule(promotionRule);
         }
-        return super.addPromotion(promotionRule);
+        return promotionRule;
     }
 
     /**

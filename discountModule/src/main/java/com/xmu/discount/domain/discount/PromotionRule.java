@@ -136,6 +136,7 @@ public abstract class PromotionRule implements Serializable {
      * @return
      */
     public boolean isValid(){
+        System.out.println(this.getpromotionRuleStartTime()+"    "+this.getPromotionEndTime());
         return this.getpromotionRuleStartTime().isBefore(this.getPromotionEndTime());
     }
 
