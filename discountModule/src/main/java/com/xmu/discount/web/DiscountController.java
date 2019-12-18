@@ -532,4 +532,34 @@ public class DiscountController {
         return ResponseUtil.ok(orderRes);
     }
 
+    @GetMapping("/goods/{id}/grouponRule")
+    public Object getInProcessGrouponRuleByGoodsId(@PathVariable Integer goodsId) throws SeriousException, PromotionNotFoundException {
+        PromotionRule promotionRule=grouponService.listCurrentPromotionByGoodsId(goodsId);
+        if(promotionRule==null){
+            return ResponseUtil.ok(null);
+        }
+        else if(promotionRule instanceof GrouponRule){
+            return ResponseUtil.ok((GrouponRule)promotionRule);
+        }
+        else {
+            return ResponseUtil.ok(null);
+        }
+    }
+
+    @GetMapping("/goods/{id}/presaleRule")
+    public Object getInProcessPresaleRuleByGoodsId(@PathVariable Integer goodsId) throws SeriousException, PromotionNotFoundException {
+        PromotionRule promotionRule=grouponService.listCurrentPromotionByGoodsId(goodsId);
+        if(promotionRule==null){
+            return ResponseUtil.ok(null);
+        }
+        else if(promotionRule instanceof PresaleRule){
+            return ResponseUtil.ok((GrouponRule)promotionRule);
+        }
+        else {
+            return ResponseUtil.ok(null);
+        }
+    }
+
+
+
 }
