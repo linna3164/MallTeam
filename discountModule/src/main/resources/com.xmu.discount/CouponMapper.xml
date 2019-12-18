@@ -80,7 +80,7 @@
             <if test="beDeleted!=null">is_deleted=#{beDeleted},</if>
             <if test="statusCode!=null">status=#{statusCode}</if>
         </trim>
-        where id=#{id}
+        where id=#{id} and is_deleted=0
     </update>
 
     <select id="listCouponByCouponRuleIdAndUserId" parameterType="integer" resultMap="couponMap">

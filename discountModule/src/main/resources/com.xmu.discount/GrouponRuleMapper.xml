@@ -18,7 +18,7 @@
                gmt_create,
                gmt_modified,
                is_deleted
-        from oomall_groupon_rule where id = #{id}
+        from oomall_groupon_rule where id = #{id} and is_deleted=0
     </select>
 
     <insert id="addGrouponRule" parameterType="grouponRulePo" useGeneratedKeys="true" keyProperty="id">
@@ -39,7 +39,7 @@
             <if test="gmtModified!=null">gmt_modified=#{gmtModified},</if>
             <if test="beDeleted!=null">is_deleted=#{beDeleted},</if>
         </trim>
-        WHERE id=#{id}
+        WHERE id=#{id} and is_deleted=0
     </update>
 
     <select id="listGrouponRuleByGoodsId" parameterType="Integer" resultMap="grouponRuleMap">
@@ -52,7 +52,7 @@
                gmt_create,
                gmt_modified,
                is_deleted
-        from oomall_groupon_rule where goods_id = #{goodsId}
+        from oomall_groupon_rule where goods_id = #{goodsId} and is_deleted=0
     </select>
 
     <select id="getGrouponRules" resultMap="grouponRuleMap">
@@ -65,7 +65,7 @@
                gmt_create,
                gmt_modified,
                is_deleted
-        from oomall_groupon_rule where id!=0
+        from oomall_groupon_rule where is_deleted=0
     </select>
 
 </mapper>
