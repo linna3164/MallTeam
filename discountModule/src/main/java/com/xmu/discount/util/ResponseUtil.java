@@ -67,6 +67,8 @@ public class ResponseUtil {
         return obj;
     }
 
+    public static Object CouponRuleNotFOund(){return fail(505,"找不到指定的优惠券规则");}
+
     public static Object badArgument() {
         return fail(401, "参数不对");
     }

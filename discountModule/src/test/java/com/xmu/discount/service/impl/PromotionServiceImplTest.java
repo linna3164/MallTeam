@@ -146,6 +146,12 @@ class PromotionServiceImplTest {
             presaleService.deletePromotionById(promotionRule);
     }
 
+    @Test
+    void deletePromotionById2() throws PromotionNotFoundException, UpdatedDataFailedException {
+        PromotionRule promotionRule=grouponService.getPromotionById(1,"grouponRule");
+        grouponService.deletePromotionById(promotionRule);
+    }
+
 //    /**
 //     * 更新不存在的，
 //     */
@@ -160,6 +166,20 @@ class PromotionServiceImplTest {
      */
     @Test
     void updatepromotionRule2() throws UpdatedDataFailedException, PromotionNotFoundException {
+
+//        PromotionRule promotionRule=presaleService.getPromotionById(4,"presaleRule");
+//        System.out.println(promotionRule);
+        PresaleRule presaleRule=new PresaleRule();
+        presaleRule.setId(4);
+        presaleRule.setDeposit(new BigDecimal(200));
+
+        presaleService.updatepromotionRule(presaleRule);
+
+
+    }
+
+    @Test
+    void updatepromotionRule4() throws UpdatedDataFailedException, PromotionNotFoundException {
 
 //        PromotionRule promotionRule=presaleService.getPromotionById(4,"presaleRule");
 //        System.out.println(promotionRule);
@@ -276,7 +296,21 @@ class PromotionServiceImplTest {
      * 添加
      */
     @Test
-    void addGrouponRule1(){
+    void addGrouponRule1() throws UpdatedDataFailedException, SeriousException {
+        GrouponRule grouponRule = new GrouponRule();
+        GrouponRulePo grouponRulePo = new GrouponRulePo();
+        grouponRule.setRealObj(grouponRulePo);
+        grouponRule.setStartTime(LocalDateTime.now().plusDays(100));
+        grouponRule.setEndTime(LocalDateTime.now().plusDays(500));
+        grouponRule.setStatusCode(true);
+        String string="{\"strategy\":[{\"lowerBound\":10,\"upperBound\":20,\"discountRate\":0.90},{\"lowerBound\":21,\"upperBound\":200,\"discountRate\":0.090}]}";
+        grouponRule.setGrouponLevelStragety(string);
+        grouponRule.setGoodsId(2);
+        grouponRule.setGmtCreate(LocalDateTime.now());
+        grouponRule.setGmtModified(LocalDateTime.now());
+        grouponRule.setBeDeleted(false);
+        PromotionRule promotionRule = grouponService.addPromotion(grouponRule);
+        System.out.println(promotionRule);
 
     }
 
@@ -309,10 +343,19 @@ class PromotionServiceImplTest {
     /**
      * 获取所有的预售规则列表
      */
+    /**
+     * 获得团购，通过
+     */
     @Test
     void listPromotionRuleOfType() {
 
         assertEquals(presaleService.listPromotionRuleOfType("presaleRule"),null);
+        List<?extends PromotionRule> grouponRuleList = grouponService.listPromotionRuleOfType("grouponRule");
+        for (PromotionRule promotionRule:grouponRuleList)
+        {
+            System.out.println(promotionRule);
+        }
+
     }
 
 
@@ -414,4 +457,7 @@ class PromotionServiceImplTest {
         assertEquals(strategies.get(0).getDiscountRate(),0.08);
     }
 
+    @Test
+    void addPromotion() {
+    }
 }
