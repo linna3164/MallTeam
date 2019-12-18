@@ -156,7 +156,7 @@ class PromotionServiceImplTest {
 //    }
 
     /**
-     * 更新存在的。
+     * 更新存在的。通过
      */
     @Test
     void updatepromotionRule2() throws UpdatedDataFailedException, PromotionNotFoundException {
@@ -173,7 +173,7 @@ class PromotionServiceImplTest {
     }
 
     /**
-     * 更新已经被删除的。
+     * 更新已经被删除的。通过
      */
     @Test
     void updatepromotionRule3() throws UpdatedDataFailedException, PromotionNotFoundException {
@@ -201,7 +201,7 @@ class PromotionServiceImplTest {
 
     @Test
     void getPayment() {
-        String string="{\"strategy\":[{\"lowerBound\":10,\"upperBound\":20,\"discountRate\":0.90}]}";
+        String string="{\"strategy\":[{\"lowerBound\":10,\"upperBound\":20,\"discountRate\":0.90},]}";
         JsonParser jp = new JsonParser();
         JsonObject jo = jp.parse(string).getAsJsonObject();
         JsonArray messageArray = jo.get("strategy").getAsJsonArray();
@@ -281,19 +281,24 @@ class PromotionServiceImplTest {
     }
 
 
+//    /**
+//     * 列出商品id 的 所有 优惠券
+//     */
+//    @Test
+//    void listProimotionByGoodsId() {
+//
+////        System.out.println(presaleService.listProimotionByGoodsId(1));
+//        assertEquals(presaleService.listProimotionByGoodsId(1),null);
+//
+//    }
+
+
     /**
-     * 列出商品id 的 所有 优惠券
+     *
      */
     @Test
-    void listProimotionByGoodsId() {
-
-        System.out.println(presaleService.listProimotionByGoodsId(1));
-
-
-    }
-
-    @Test
     void listCurrentPromotionByGoodsId() {
+
     }
 
     @Test
@@ -301,21 +306,31 @@ class PromotionServiceImplTest {
     }
 
 
-
+    /**
+     * 获取所有的预售规则列表
+     */
     @Test
     void listPromotionRuleOfType() {
+
+        assertEquals(presaleService.listPromotionRuleOfType("presaleRule"),null);
     }
+
+
 
     @Test
     void listPromotionRuleOfTypeInprocessWithGoods() {
     }
 
+    /**
+     *
+     */
     @Test
     void listPromotionRuleOfTypeWithGoods() {
     }
 
     @Test
     void setDisabled() {
+
     }
 
     @Test
@@ -346,5 +361,57 @@ class PromotionServiceImplTest {
     void listCurrentPromotionByGoodsId1() {
     }
 
+    /**
+     * 通过id获取团购规则
+     * @throws PromotionNotFoundException
+     */
+    @Test
+    void getGrouponRuleById() throws PromotionNotFoundException {
+        PromotionRule promotionRule=grouponService.getPromotionById(1,"grouponRule");
+        assertEquals(promotionRule,null);
+    }
+
+    @Test
+    void addGrouponRule12() throws UpdatedDataFailedException, SeriousException {
+        GrouponRule grouponRule = new GrouponRule();
+        GrouponRulePo grouponRulePo = new GrouponRulePo();
+        grouponRule.setRealObj(grouponRulePo);
+        grouponRule.setStartTime(LocalDateTime.now().plusDays(100));
+        grouponRule.setEndTime(LocalDateTime.now().plusDays(500));
+        grouponRule.setStatusCode(true);
+        String string="{\"strategy\":[{\"lowerBound\":10,\"upperBound\":20,\"discountRate\":0.90},{\"lowerBound\":21,\"upperBound\":null,\"discountRate\":0.08}]}";
+        grouponRule.setGrouponLevelStragety(string);
+        grouponRule.setGoodsId(2);
+        grouponRule.setGmtCreate(LocalDateTime.now());
+        grouponRule.setGmtModified(LocalDateTime.now());
+        grouponRule.setBeDeleted(false);
+        PromotionRule promotionRule = grouponService.addPromotion(grouponRule);
+        System.out.println(promotionRule);
+
+    }
+
+    /**
+     * 通过Id找团购规则，正常，通过
+     * @throws PromotionNotFoundException
+     */
+    @Test
+    void getGrouponRuleById2() throws PromotionNotFoundException {
+        PromotionRule promotionRule=grouponService.getPromotionById(1,"grouponRule");
+
+        assertEquals(promotionRule,null);
+    }
+
+    /**
+     * 通过id找优惠券规则，正常，通过
+     * @throws PromotionNotFoundException
+     */
+    @Test
+    void getGrouponRuleById3() throws PromotionNotFoundException {
+        PromotionRule promotionRule=grouponService.getPromotionById(7,"grouponRule");
+
+        GrouponRule grouponRule=(GrouponRule)promotionRule;
+        List<GrouponRuleStrategy> strategies=grouponRule.getStrategyList();
+        assertEquals(strategies.get(0).getDiscountRate(),0.08);
+    }
 
 }

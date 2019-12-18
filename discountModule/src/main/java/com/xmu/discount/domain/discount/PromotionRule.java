@@ -109,7 +109,7 @@ public abstract class PromotionRule implements Serializable {
         for(PromotionRule promotion:promotionRules){
             //时间和其他促销活动无冲突
             if(this.getPromotionEndTime().isBefore(promotion.getpromotionRuleStartTime())||this.getpromotionRuleStartTime().isAfter(promotion.getPromotionEndTime())){
-                continue;
+
             }
             else {
                 return false;
@@ -124,8 +124,12 @@ public abstract class PromotionRule implements Serializable {
      * @return
      */
     public boolean isOkToAdd(List<? extends PromotionRule> promotionRules){
+
+        System.out.println("into isOkToAdd");
         LocalDateTime now=LocalDateTime.now();
-        if(this.isValid()&&this.isNoConflict(promotionRules)&&this.getpromotionRuleStartTime().isAfter(now)){
+
+//        &&this.getpromotionRuleStartTime().isBefore(now)
+        if(this.isValid()&&this.isNoConflict(promotionRules)){
             return true;
         }
         return false;

@@ -26,6 +26,7 @@ public class PresaleRuleDao implements PromotionRuleDao {
      */
     @Override
     public PromotionRule getPromotionRuleById(Integer id) {
+
         return presaleRuleMapper.getPresaleRuleById(id);
     }
 
