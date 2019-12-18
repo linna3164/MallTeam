@@ -23,7 +23,7 @@
                gmt_modified,
                is_deleted,
                status
-        from oomall_coupon_rule where id =#{id}
+        from oomall_coupon_rule where id =#{id} and is_deleted=0
     </select>
 
     <select id="listCouponRules" resultMap="couponRule">
@@ -42,7 +42,7 @@
                gmt_modified,
                is_deleted,
                status
-        from oomall_coupon_rule where id!=0
+        from oomall_coupon_rule where and is_deleted=0
     </select>
 
     <insert id="addCouponRule" parameterType="couponRulePo" useGeneratedKeys="true" keyProperty="id">
@@ -69,7 +69,7 @@
             <if test="beDeleted!=null">is_deleted=#{beDeleted},</if>
             <if test="statusCode!=null">status=#{statusCode}</if>
         </trim>
-        WHERE id=#{id}
+        WHERE id=#{id} and is_deleted=0
     </update>
 
 </mapper>

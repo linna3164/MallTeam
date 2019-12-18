@@ -17,8 +17,9 @@
                gmt_create,
                gmt_modified,
                is_deleted,
-               deposit
-        from oomall_presale_rule where id = #{id}
+               deposit,
+               final_payment
+        from oomall_presale_rule where id = #{id} and is_deleted=0
     </select>
 
     <select id="getPresaleRules" resultMap="PresaleRule">
@@ -34,7 +35,7 @@
                is_deleted,
                deposit,
                final_payment
-        from oomall_presale_rule where id!=0
+        from oomall_presale_rule where id!=0 and is_deleted=0
     </select>
 
     <insert id="addPresaleRule" parameterType="presaleRule" useGeneratedKeys="true" keyProperty="id">
@@ -58,7 +59,7 @@
             <if test="finalStartTime!=null">deposit=#{deposit},</if>
             <if test="finalPayment!=null">deposit=#{deposit},</if>
         </trim>
-        WHERE id=#{id}
+        WHERE id=#{id} and is_deleted=0
     </update>
 
     <select id="listPresaleRuleByGoodsId" parameterType="Integer" resultMap="PresaleRule">
@@ -74,6 +75,6 @@
                is_deleted,
                deposit,
                final_payment
-        from oomall_presale_rule where  goods_id= #{goodsId}
+        from oomall_presale_rule where  goods_id= #{goodsId} and is_deleted=0
     </select>
 </mapper>
