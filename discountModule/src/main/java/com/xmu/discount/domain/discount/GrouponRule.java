@@ -1,11 +1,11 @@
 package com.xmu.discount.domain.discount;
 
 
-//import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSON;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.xmu.discount.domain.others.domain.*;
-//import com.google.gson.JsonParser;
-//import com.google.gson.JsonArray;
-//import com.google.gson.JsonObject;
 import com.xmu.discount.exception.UnsupportException;
 import com.xmu.discount.util.JacksonUtil;
 import org.apache.ibatis.type.Alias;
@@ -233,32 +233,14 @@ public class GrouponRule extends PromotionRule {
     public List<GrouponRuleStrategy> getStrategyList() {
         String jsonString = realObj.getGrouponLevelStrategy();
         logger.debug("jsonString = " + jsonString);
-
         if(jsonString==null){
             return null;
         }
         else {
-//            JsonParser jp = new JsonParser();
-//            JsonObject jo = jp.parse(string).getAsJsonObject();
-//            JsonArray messageArray = jo.get("strategy").getAsJsonArray();
-//        Object object=JSON.parse(messageArray);
-//        System.out.println(object);
-//            List<GrouponRuleStrategy> strategies=JSON.parseArray(messageArray.toString(),GrouponRuleStrategy.class);
-
-//            jsonString = org.apache.commons.text.StringEscapeUtils.unescapeJson(jsonString);
-//            List<String> strategiesString = JacksonUtil.parseStringList(jsonString, "strategy");
-//            List<GrouponRuleStrategy> strategies = new ArrayList<>();
-//            for (String string : strategiesString) {
-//                GrouponRuleStrategy strategy = JSON.parseObject(string, GrouponRuleStrategy.class);
-//                strategies.add(strategy);
-//                JSON.
-//                JSON.parseArray(string,Strategy.class);
-//                JsonParser jp = new JsonParser();
-//                JsonObject jo = jp.parse(jsonString).getAsJsonObject();
-//                JsonArray messageArray = jo.get("strategy").getAsJsonArray();
-//                System.out.println(messageArray);
-//                JSONArray jsonArray = JSONArray.fromObject(messageArray.getAsString());
-//            }
+            JsonParser jp = new JsonParser();
+            JsonObject jo = jp.parse(jsonString).getAsJsonObject();
+            JsonArray messageArray = jo.get("strategy").getAsJsonArray();
+            List<GrouponRuleStrategy> strategyList= JSON.parseArray(messageArray.toString(),GrouponRuleStrategy.class);
             return strategyList;
         }
     }
@@ -330,6 +312,14 @@ public class GrouponRule extends PromotionRule {
 
     public void setStatusCode(boolean statusCode) {
         realObj.setStatusCode(statusCode);
+    }
+
+    public void setDisableCode(boolean disableCode) {
+        realObj.setDisableCode(disableCode);
+    }
+
+    public boolean isDisableCode() {
+        return realObj.isDisableCode();
     }
 
     public boolean isStatusCode() {
