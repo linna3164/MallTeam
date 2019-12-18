@@ -1,15 +1,12 @@
 package com.xmu.discount.service.impl;
 
-import com.github.pagehelper.PageHelper;
 import com.xmu.discount.dao.CouponRuleDao;
 import com.xmu.discount.dao.GrouponRuleDao;
 import com.xmu.discount.dao.PresaleRuleDao;
 import com.xmu.discount.dao.PromotionRuleDao;
 import com.xmu.discount.domain.coupon.Coupon;
-import com.xmu.discount.domain.discount.GrouponRule;
 import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.domain.others.domain.Order;
-import com.xmu.discount.domain.others.domain.Payment;
 import com.xmu.discount.exception.PromotionNotFoundException;
 import com.xmu.discount.exception.SeriousException;
 import com.xmu.discount.exception.UnsupportException;
@@ -19,7 +16,6 @@ import com.xmu.discount.util.SpringContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,8 +31,8 @@ public abstract class PromotionServiceImpl {
     @Autowired
     public CouponRuleDao couponRuleDao;
 
-//    @Autowired
-//    GoodsFeign goodsFeign;
+    @Autowired
+    public GoodsFeign goodsFeign;
 
     @Autowired
     public CouponServiceImpl couponService;
@@ -57,42 +53,56 @@ public abstract class PromotionServiceImpl {
     }
 
 
-//    /**
-//     * 用户查看促销规则列表(带商品)
-//     * @return
-//     */
-//    public List<? extends PromotionRule> listPromotionRuleOfTypeInprocessWithGoods(String promotionName){
-//        List<? extends PromotionRule> promotionRules=((PromotionRuleDao)SpringContextUtil.getBean(promotionName+"Dao")).listPromotions();
-//
-//        for(PromotionRule promotionRule:promotionRules){
-//            if(promotionRule.getActiveStatus().equals(PromotionRule.ActiveStatus.INPROCESS)){
-//                promotionRule.setGoods(goodsFeign.getGoodsById(promotionRule.getId()));
-//            }
-//        }
-//        return promotionRules;
-//
-//    }
+    /**
+     * 用户查看促销规则列表(带商品)--(要用的)
+     * @return
+     */
+    public List<? extends PromotionRule> listPromotionRuleOfTypeInprocessWithGoods(String promotionName){
+        List<? extends PromotionRule> promotionRules=((PromotionRuleDao)SpringContextUtil.getBean(promotionName+"Dao")).listPromotions();
+
+        for(PromotionRule promotionRule:promotionRules){
+            if(promotionRule.getActiveStatus().equals(PromotionRule.ActiveStatus.INPROCESS)){
+                promotionRule.setGoodsPo(goodsFeign.getGoodsById(promotionRule.getId()));
+            }
+        }
+        return promotionRules;
+
+    }
 
 //    /**
-//     * 管理员看到的某种促销活动规则(带商品)
+//     * 管理员看到某种商品的某种促销活动规则(带商品)（要用的）
 //     * @return
 //     */
-//    public List<? extends PromotionRule> listPromotionRuleOfTypeWithGoods(String promotionName){
+//    public List<? extends PromotionRule> listPromotionRuleOfTypeOfGoodsIdWithGoods(String promotionName){
 //        List<? extends PromotionRule> promotionRules=grouponRuleDao.listPromotions();
+//        ((PromotionRuleDao)SpringContextUtil.getBean(promotionName+"Dao")).listPromotionRuleByGoodsId();
 //        for(PromotionRule promotionRule:promotionRules){
-//            promotionRule.setGoods(goodsFeign.getGoodsById(promotionRule.getId()));
-//
+//            promotionRule.setGoodsPo(goodsFeign.getGoodsById(promotionRule.getId()));
 //        }
 //
 //        return promotionRules;
 //    }
 
     /**
+     * 管理员看到的某种促销活动规则(带商品)（要用的）
+     * @return
+     */
+    public List<? extends PromotionRule> listPromotionRuleOfTypeWithGoods(String promotionName){
+        List<? extends PromotionRule> promotionRules=grouponRuleDao.listPromotions();
+        for(PromotionRule promotionRule:promotionRules){
+            promotionRule.setGoodsPo(goodsFeign.getGoodsById(promotionRule.getId()));
+        }
+
+        return promotionRules;
+    }
+
+
+    /**
      * 设置失效
      * @param promotionRule
      */
     public void setDisabled(PromotionRule promotionRule) throws UpdatedDataFailedException, SeriousException {
-        if(promotionRule.isOkToDisable())
+        if(promotionRule.beOkToDisable())
         {
             String daoName=getDaoClassName(promotionRule);
             ((PromotionRuleDao)SpringContextUtil.getBean(daoName)).setDisable(promotionRule);
@@ -115,7 +125,7 @@ public abstract class PromotionServiceImpl {
      * @return
      */
     public void deletePromotionById(PromotionRule promotionRule) throws UpdatedDataFailedException {
-        if(promotionRule.isOkToDelete())
+        if(promotionRule.beOkToDelete())
         {
             String daoName=getDaoClassName(promotionRule);
             ((PromotionRuleDao)SpringContextUtil.getBean(daoName)).deletePromotionRuleById(promotionRule.getId());
@@ -134,7 +144,7 @@ public abstract class PromotionServiceImpl {
         if (pre==null){
             throw new UpdatedDataFailedException();
         }
-        if(pre.isOkToUpdate()){
+        if(pre.beOkToUpdate()){
             ((PromotionRuleDao)SpringContextUtil.getBean(daoName)).updatePromotionRuleById(promotionRule);
         }
         return promotionRule;
@@ -186,22 +196,6 @@ public abstract class PromotionServiceImpl {
         return promotionRules;
     }
 
-//    /**
-//     * 获取某种状态的促销活动--带商品
-//     * @param promotionName
-//     * @param activeStatus
-//     * @return
-//     */
-//    public List<PromotionRule> listPromotionRuleOfTypeAndStatusByGoodsId(Integer goodsId,String promotionName, PromotionRule.ActiveStatus activeStatus){
-//        List<PromotionRule> promotionRules=this.listPromotionRuleOfType(promotionName);
-//        List<PromotionRule> res=new ArrayList<>();
-//        for(PromotionRule promotionRule:promotionRules){
-//            if(promotionRule.getActiveStatus().equals(PromotionRule.ActiveStatus.INPROCESS)){
-//                res.add(promotionRule);
-//            }
-//        }
-//        return res;
-//    }
 
 
     /**
@@ -252,7 +246,7 @@ public abstract class PromotionServiceImpl {
         }
 
         System.out.println("into addPromotion");
-        if(promotionRule.isOkToAdd(res)){
+        if(promotionRule.beOkToAdd(res)){
             //调用DAO层的add方法。
             String daoName=getDaoClassName(promotionRule);
             ((PromotionRuleDao)SpringContextUtil.getBean(daoName)).addPromotionRule(promotionRule);
@@ -260,23 +254,7 @@ public abstract class PromotionServiceImpl {
         return promotionRule;
     }
 
-//
-//    /**
-//     * 获取某种状态的促销活动--带商品
-//     * @param promotionName
-//     * @param activeStatus
-//     * @return
-//     */
-//    public List<PromotionRule> listPromotionRuleOfTypeAndStatus(String promotionName, PromotionRule.ActiveStatus activeStatus){
-//        List<PromotionRule> promotionRules=this.listPromotionRuleOfType(promotionName);
-//        List<PromotionRule> res=new ArrayList<>();
-//        for(PromotionRule promotionRule:promotionRules){
-//            if(promotionRule.getActiveStatus().equals(PromotionRule.ActiveStatus.INPROCESS)){
-//                res.add(promotionRule);
-//            }
-//        }
-//        return res;
-//    }
+
 
     public String getDaoClassName(PromotionRule promotionRule){
         String name=promotionRule.getClass().getSimpleName()+"Dao";

@@ -2,6 +2,7 @@ package com.xmu.discount.service.impl;
 
 import com.xmu.discount.dao.GrouponRuleDao;
 import com.xmu.discount.domain.discount.GrouponRule;
+import com.xmu.discount.domain.discount.GrouponRulePo;
 import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.others.domain.Payment;
@@ -81,37 +82,17 @@ public class GrouponServiceImpl extends PromotionServiceImpl{
         return res;
     }
 
-//    /**
-//     * 团购商品列表/ 用户可以看到没有删除且状态为上架的团购
-//     * @return
-//     */
-//    public List<? extends PromotionRule> listOnsaleGrouponGoods(){
-//        List<? extends PromotionRule> promotionRules=grouponRuleDao.listPromotions();
-//
-//        List<PromotionRule> res=new ArrayList<>();
-//        for(PromotionRule promotionRule:promotionRules){
-//            if(promotionRule.getActiveStatus().equals(PromotionRule.ActiveStatus.INPROCESS)){
-//                promotionRule.setGoods(goodsFeign.getGoodsById(promotionRule.getId()));
-//                res.add(promotionRule);
-//            }
-//        }
-//        return res;
-//
-//    }
 
-//    /**
-//     * 管理员看到的团购规则
-//     * @return
-//     */
-//    public List<? extends PromotionRule> listAllGrouponGoods(){
-//        List<? extends PromotionRule> promotionRules=grouponRuleDao.listPromotions();
-//        for(PromotionRule promotionRule:promotionRules){
-//                promotionRule.setGoods(goodsFeign.getGoodsById(promotionRule.getId()));
-//
-//        }
-//
-//        return promotionRules;
-//    }
 
+    /**
+     * 管理员查询一个商品的团购规则（不带商品）
+     * @param goodsId
+     * @return
+     */
+    public List<? extends PromotionRule> listGrouponRuleByGoodsId(Integer goodsId) {
+        List<? extends PromotionRule> grouponRules=grouponRuleDao.listPromotionRuleByGoodsId(goodsId);
+
+        return grouponRules;
+    }
 
 }

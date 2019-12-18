@@ -18,7 +18,7 @@ public class CouponRule extends PromotionRule {
 
 
     @Override
-    public boolean isDisabled() {
+    public boolean beDisabled() {
         if(this.getStatusCode()){
             return false;
         }
@@ -32,7 +32,7 @@ public class CouponRule extends PromotionRule {
      * @return
      */
     @Override
-    public boolean isWaitFinish() {
+    public boolean beWaitFinish() {
         return false;
     }
 

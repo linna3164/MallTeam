@@ -22,7 +22,7 @@ public class PresaleRule extends PromotionRule {
      * @return
      */
     @Override
-    public boolean isDisabled() {
+    public boolean beDisabled() {
         System.out.println(this);
         if(this.getStatusCode()){
             return false;
@@ -37,7 +37,7 @@ public class PresaleRule extends PromotionRule {
      * @return
      */
     @Override
-    public boolean isWaitFinish() {
+    public boolean beWaitFinish() {
         return false;
     }
 
