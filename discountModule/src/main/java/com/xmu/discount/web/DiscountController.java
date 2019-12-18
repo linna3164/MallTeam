@@ -136,10 +136,8 @@ public class DiscountController {
         System.out.println(couponRule);
         couponRuleService.deletePromotionById(couponRule);
             couponRule= (CouponRule) couponRuleService.getPromotionById(id,"couponRule");
-
-        CouponRulePo couponRulePo=couponRule.getRealObj();
-        if(couponRulePo!=null){
-            return ResponseUtil.ok(couponRulePo);
+        if(couponRule.getRealObj()==null){
+            return ResponseUtil.ok("删除成功");
         }
         else {
             return ResponseUtil.fail(713,"优惠券规则删除失败");
