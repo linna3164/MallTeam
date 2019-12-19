@@ -3,6 +3,7 @@ package com.xmu.discount.service.impl;
 import com.xmu.discount.dao.PresaleRuleDao;
 import com.xmu.discount.domain.discount.PresaleRule;
 import com.xmu.discount.domain.discount.PromotionRule;
+import com.xmu.discount.domain.others.domain.Goods;
 import com.xmu.discount.domain.others.domain.GoodsPo;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.others.domain.Payment;
@@ -57,9 +58,9 @@ public class PresaleServiceImpl extends PromotionServiceImpl{
         for(PromotionRule promotionRule:presaleRules){
 
             Object retObj = goodsFeign.getGoodsById(promotionRule.getGoodsId());
-            GoodsPo goodsPo= JacksonUtil.getBack(retObj, GoodsPo.class);
+            Goods goods=JacksonUtil.getBack(retObj, Goods.class);
 
-            promotionRule.setGoodsPo(goodsPo);
+            promotionRule.setGoodsPo(goods);
         }
         return presaleRules;
     }

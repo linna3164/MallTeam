@@ -50,7 +50,7 @@
     <insert id="addCouponRule" parameterType="couponRulePo" useGeneratedKeys="true" keyProperty="id" >
         insert into oomall_coupon_rule(name, brief, begin_time, end_time, pic_url, valid_period, strategy,collected_num, total, goods_list1, goods_list2, gmt_create, gmt_modified, is_deleted,status)
         values
-        (#{name}, #{brief}, #{beginTime}, #{endTime}, #{picUrl}, #{validPeriod}, #{strategy}, #{collected_num},#{total}, #{goodsList1}, #{goodsList2}, #{gmtCreate}, #{gmtModified}, #{beDeleted},#{statusCode})
+        (#{name}, #{brief}, #{beginTime}, #{endTime}, #{picUrl}, #{validPeriod}, #{strategy}, #{collectedNum},#{total}, #{goodsList1}, #{goodsList2}, #{gmtCreate}, #{gmtModified}, #{beDeleted},#{statusCode})
     </insert>
 
     <update id="updateCouponRuleById" parameterType="couponRulePo">

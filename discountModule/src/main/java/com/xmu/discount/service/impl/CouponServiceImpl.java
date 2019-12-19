@@ -116,7 +116,7 @@ public class CouponServiceImpl {
      * @param couponRuleId
      * @return
      */
-    public Coupon addCoupon(Integer couponRuleId,Integer userId) throws CouponNotFoundException, UnsupportException, CouponRuleNotFoundException, UpdatedDataFailedException, PromotionNotFoundException {
+    public Coupon addCoupon(Integer couponRuleId,Integer userId) throws Exception {
         List<Coupon> coupons = couponDao.listCouponByCouponRuleIdAndUserId(couponRuleId, userId);
         CouponRule couponRule = (CouponRule) couponRuleDao.getPromotionRuleById(couponRuleId);
         Coupon coupon=null;

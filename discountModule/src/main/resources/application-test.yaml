@@ -42,9 +42,9 @@ spring:
     name: discountService
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://101.132.152.28:3306/oomall
-    username: oomall
-    password: OOAD3-4wmtnl
+    url: jdbc:mysql://47.98.145.177:3306/oomall
+    username: root
+    password: 123456
     druid:
       #初始化时建立物理连接的个数
       initial-size: 2
@@ -97,7 +97,7 @@ spring:
 
 feign:
   hystrix:
-    enabled: false
+    enabled: true
   client:
     config:
       share:

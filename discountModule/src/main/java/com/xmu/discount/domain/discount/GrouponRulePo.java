@@ -1,9 +1,7 @@
 package com.xmu.discount.domain.discount;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import jdk.nashorn.internal.objects.annotations.Constructor;
+import lombok.*;
 import org.apache.ibatis.type.Alias;
 
 
@@ -17,6 +15,7 @@ import java.time.LocalDateTime;
 
 @ToString
 @EqualsAndHashCode
+@AllArgsConstructor
 @Alias("grouponRulePo")
 public class GrouponRulePo {
     private Integer id;
@@ -131,4 +130,5 @@ public class GrouponRulePo {
     public void setStatusCode(boolean statusCode) {
         this.statusCode = statusCode;
     }
+
 }

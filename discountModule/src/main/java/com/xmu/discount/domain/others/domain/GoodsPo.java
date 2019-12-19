@@ -24,6 +24,103 @@ public class GoodsPo {
      * 商品名称
      */
     private String name;
+    /**
+     * 商品序列号
+     */
+     private String goodsSn;
+    /**
+     * 商品简称
+     */
+    private String shortName;
+    /**
+     * 商品描述
+     */
+    private String description;
+    /**
+     * 商品简介
+     */
+    private String brief;
+    /**
+     * 图片链接
+     */
+    private String picUrl;
+    /**
+     * 商品详情（可以参照淘宝的商品详情页，全是图片的那种）
+     * JSON格式: {"detail": [xxx,xxx,xxx]},xxx代表图片url
+     */
+    private String detail;
+    /**
+     * 上下架状态，0表示下架，1表示上架，2表示最新，3表示最热，4表示最新且最热
+     */
+    private Boolean statusCode;
+    /**
+     * 分享链接
+     */
+    private String shareUrl;
+    /**
+     * 商品图片展示廊，就是像淘宝点进商品，滚动展示很多图片
+     * JSON格式: {"gallery": [xxx,xxx,xxx] },xxx代表图片url
+     */
+    private String gallery;
+    /**
+     * 商品分类ID
+     */
+    private Integer goodsCategoryId;
+    /**
+     * 品牌ID
+     */
+    private Integer brandId;
+    /**
+     * 商品重量
+     */
+    private BigDecimal weight;
+    /**
+     * 商品体积
+     * JSON格式: {length:xxx, width:xxx, height:xxx},xxx为具体数值,单位厘米
+     */
+    private String volume;
+    /**
+     * 特殊邮费计算模板ID
+     */
+    private Integer specialFreightId;
+    /**
+     * 0：默认模板计算邮费 1：特殊模板计算邮费
+     */
+    private Boolean beSpecial;
+    /**
+     * 该商品的最低产品价格
+     */
+    private BigDecimal price;
+
+    private Boolean beDeleted;
+    private LocalDateTime gmtCreate;
+    private LocalDateTime gmtModified;
+
+    public GoodsPo(){}
+
+    public GoodsPo(Goods goods){
+        this.setId(goods.getId());
+        this.setName(goods.getName());
+        this.setShareUrl(goods.getShareUrl());
+        this.setBrandId(goods.getBrandId());
+        this.setBeSpecial(goods.getBeSpecial());
+        this.setBrief(goods.getBrief());
+        this.setDescription(goods.getDescription());
+        this.setDetail(goods.getDetail());
+        this.setGallery(goods.getGallery());
+        this.setGmtCreate(goods.getGmtCreate());
+        this.setGmtModified(goods.getGmtModified());
+        this.setGoodsCategoryId(goods.getGoodsCategoryId());
+        this.setBeDeleted(goods.getBeDeleted());
+        this.setWeight(goods.getWeight());
+        this.setVolume(goods.getVolume());
+        this.setStatusCode(goods.getStatusCode());
+        this.setSpecialFreightId(goods.getSpecialFreightId());
+        this.setShortName(goods.getShortName());
+        this.setPicUrl(goods.getPicUrl());
+        this.setPrice(goods.getPrice());
+        this.setShortName(goods.getShortName());
+    }
 
     public Integer getId() {
         return id;
@@ -192,77 +289,4 @@ public class GoodsPo {
     public void setGmtModified(LocalDateTime gmtModified) {
         this.gmtModified = gmtModified;
     }
-
-    /**
-     * 商品序列号
-     */
-     private String goodsSn;
-    /**
-     * 商品简称
-     */
-    private String shortName;
-    /**
-     * 商品描述
-     */
-    private String description;
-    /**
-     * 商品简介
-     */
-    private String brief;
-    /**
-     * 图片链接
-     */
-    private String picUrl;
-    /**
-     * 商品详情（可以参照淘宝的商品详情页，全是图片的那种）
-     * JSON格式: {"detail": [xxx,xxx,xxx]},xxx代表图片url
-     */
-    private String detail;
-    /**
-     * 上下架状态，0表示下架，1表示上架，2表示最新，3表示最热，4表示最新且最热
-     */
-    private Boolean statusCode;
-    /**
-     * 分享链接
-     */
-    private String shareUrl;
-    /**
-     * 商品图片展示廊，就是像淘宝点进商品，滚动展示很多图片
-     * JSON格式: {"gallery": [xxx,xxx,xxx] },xxx代表图片url
-     */
-    private String gallery;
-    /**
-     * 商品分类ID
-     */
-    private Integer goodsCategoryId;
-    /**
-     * 品牌ID
-     */
-    private Integer brandId;
-    /**
-     * 商品重量
-     */
-    private BigDecimal weight;
-    /**
-     * 商品体积
-     * JSON格式: {length:xxx, width:xxx, height:xxx},xxx为具体数值,单位厘米
-     */
-    private String volume;
-    /**
-     * 特殊邮费计算模板ID
-     */
-    private Integer specialFreightId;
-    /**
-     * 0：默认模板计算邮费 1：特殊模板计算邮费
-     */
-    private Boolean beSpecial;
-    /**
-     * 该商品的最低产品价格
-     */
-    private BigDecimal price;
-
-    private Boolean beDeleted;
-    private LocalDateTime gmtCreate;
-    private LocalDateTime gmtModified;
-
 }
