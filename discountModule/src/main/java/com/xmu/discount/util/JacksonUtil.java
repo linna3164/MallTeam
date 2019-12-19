@@ -191,12 +191,6 @@ public class JacksonUtil {
     }
 
     public static<T> T getBack(Object result,Class<T>clazz){
-        String theResult= JacksonUtil.toJson(result);
-        String errno= JacksonUtil.parseString(theResult,"errno");
-        String success="0.0";
-        if(!success.equals(errno)){
-            return null;
-        }
-        return JacksonUtil.parseObject(theResult,"data",clazz);
+        return JacksonUtil.parseObject(JacksonUtil.toJson(result),"data",clazz);
     }
 }
