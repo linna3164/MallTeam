@@ -17,6 +17,7 @@ import java.util.*;
 public class CouponRule extends PromotionRule {
 
 
+
     @Override
     public boolean beDisabled() {
         if(this.getStatusCode()){
@@ -71,6 +72,10 @@ public class CouponRule extends PromotionRule {
         return null;
     }
 
+    @Override
+    public Integer getGoodsId() {
+        return null;
+    }
 
 
     /**
@@ -546,5 +551,10 @@ public class CouponRule extends PromotionRule {
                 ", timeStatus=" + timeStatus +
                 ", activeStatus=" + activeStatus +
                 '}';
+    }
+
+    @Override
+    public void setGoodsId(Integer goodsId) {
+
     }
 }

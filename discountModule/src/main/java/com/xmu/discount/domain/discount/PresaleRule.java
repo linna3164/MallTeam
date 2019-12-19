@@ -275,10 +275,12 @@ public class PresaleRule extends PromotionRule {
         this.statusCode = statusCode;
     }
 
+    @Override
     public Integer getGoodsId() {
         return goodsId;
     }
 
+    @Override
     public void setGoodsId(Integer goodsId) {
         this.goodsId = goodsId;
     }

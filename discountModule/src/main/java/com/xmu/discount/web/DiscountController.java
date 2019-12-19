@@ -9,6 +9,7 @@ import com.xmu.discount.domain.discount.GrouponRulePo;
 import com.xmu.discount.domain.discount.PresaleRule;
 import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.domain.others.domain.CartItem;
+import com.xmu.discount.domain.others.domain.GoodsPo;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.vo.GrouponRuleVo;
 import com.xmu.discount.domain.vo.GrouponRuleVo;
@@ -16,6 +17,7 @@ import com.xmu.discount.domain.vo.PresaleRuleVo;
 import com.xmu.discount.exception.*;
 import com.xmu.discount.inter.GoodsFeign;
 import com.xmu.discount.service.impl.*;
+import com.xmu.discount.util.JacksonUtil;
 import com.xmu.discount.util.ResponseUtil;
 import org.apache.catalina.util.RequestUtil;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
@@ -269,7 +271,11 @@ public class DiscountController {
         GrouponRule grouponRule=(GrouponRule) grouponService.getPromotionById(id,"grouponRule");
         GrouponRulePo grouponRulePo=grouponRule.getRealObj();
         GrouponRuleVo grouponRuleVo=new GrouponRuleVo();
-        grouponRuleVo.setGoodsPo(goodsFeign.getGoodsById(grouponRule.getGoodsId()));
+
+        Object retObj = goodsFeign.getGoodsById(grouponRule.getGoodsId());
+        GoodsPo goodsPo=JacksonUtil.getBack(retObj, GoodsPo.class);
+
+        grouponRuleVo.setGoodsPo(goodsPo);
         grouponRuleVo.setGrouponRulePo(grouponRulePo);
         if(grouponRuleVo!=null)
         {return ResponseUtil.ok(grouponRuleVo);}
@@ -287,7 +293,11 @@ public class DiscountController {
         GrouponRule grouponRule=new GrouponRule(grouponRulePo);
         grouponRule=(GrouponRule) grouponService.updatepromotionRule(grouponRule);
         GrouponRuleVo grouponRuleVo=new GrouponRuleVo();
-        grouponRuleVo.setGoodsPo(goodsFeign.getGoodsById(grouponRule.getGoodsId()));
+
+        Object retObj = goodsFeign.getGoodsById(grouponRule.getGoodsId());
+        GoodsPo goodsPo=JacksonUtil.getBack(retObj, GoodsPo.class);
+
+        grouponRuleVo.setGoodsPo(goodsPo);
         grouponRuleVo.setGrouponRulePo(grouponRule.getRealObj());
         if(grouponRuleVo==null){
             return ResponseUtil.fail(721,"团购规则修改失败");
@@ -327,7 +337,11 @@ public class DiscountController {
         {
             GrouponRuleVo grouponRuleVo=new GrouponRuleVo();
             grouponRuleVo.setGrouponRulePo(g.getRealObj());
-            grouponRuleVo.setGoodsPo(goodsFeign.getGoodsById(g.getGoodsId()));
+
+            Object retObj = goodsFeign.getGoodsById(g.getGoodsId());
+            GoodsPo goodsPo=JacksonUtil.getBack(retObj, GoodsPo.class);
+
+            grouponRuleVo.setGoodsPo(goodsPo);
             grouponRuleVos.add(grouponRuleVo);
         }
         return grouponRuleVos;
@@ -341,7 +355,11 @@ public class DiscountController {
     public Object getGrouponRulesById(@PathVariable Integer id) throws PromotionNotFoundException {
         GrouponRule promotionRule= (GrouponRule) grouponService.getPromotionById(id,"grouponRule");
         GrouponRuleVo grouponRuleVo=new GrouponRuleVo();
-        grouponRuleVo.setGoodsPo(goodsFeign.getGoodsById(promotionRule.getGoodsId()));
+
+        Object retObj = goodsFeign.getGoodsById(promotionRule.getGoodsId());
+        GoodsPo goodsPo=JacksonUtil.getBack(retObj, GoodsPo.class);
+
+        grouponRuleVo.setGoodsPo(goodsPo);
         if(grouponRuleVo==null) {
             return ResponseUtil.fail(720,"该团购规则是无效团购规则");
         }
@@ -413,7 +431,7 @@ public class DiscountController {
     @GetMapping("/admin/presaleRules")
     public Object getAllPresaleRules(@RequestParam(defaultValue = "1") Integer page,
                                                 @RequestParam(defaultValue = "10") Integer limit) {
-        List<? extends PromotionRule> presaleRules = presaleService.listPromotionRuleOfType("presaleRule");
+        List<? extends PromotionRule> presaleRules = presaleService.listPromotionRuleOfTypeWithGoods("presaleRule");
 
         List<PresaleRuleVo> presaleRuleVos = new ArrayList<>();
 

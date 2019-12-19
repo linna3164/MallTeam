@@ -317,4 +317,11 @@ public abstract class PromotionRule implements Serializable {
     public void setGoodsPo(GoodsPo goods) {
         this.goodsPo = goods;
     }
+
+
+
+
+    public abstract Integer getGoodsId();
+
+    public abstract void setGoodsId(Integer goodsId) ;
 }

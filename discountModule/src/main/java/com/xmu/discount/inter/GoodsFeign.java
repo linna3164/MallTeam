@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @FeignClient(value = "goodsService")
 public interface GoodsFeign {
-    @RequestMapping(value = "/goods/{id}",method = RequestMethod.GET)
-    public GoodsPo getGoodsById(@PathVariable Integer goodsId);
+    @RequestMapping(value = "/inner/goods/{id}",method = RequestMethod.GET)
+    public Object getGoodsById(@PathVariable Integer id);
 
 
 }

@@ -6,9 +6,11 @@ import com.xmu.discount.dao.PresaleRuleDao;
 import com.xmu.discount.dao.PromotionRuleDao;
 import com.xmu.discount.domain.coupon.Coupon;
 import com.xmu.discount.domain.discount.PromotionRule;
+import com.xmu.discount.domain.others.domain.GoodsPo;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.exception.*;
 import com.xmu.discount.inter.GoodsFeign;
+import com.xmu.discount.util.JacksonUtil;
 import com.xmu.discount.util.SpringContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,12 +61,25 @@ public abstract class PromotionServiceImpl {
 
         for(PromotionRule promotionRule:promotionRules){
             if(promotionRule.getActiveStatus().equals(PromotionRule.ActiveStatus.INPROCESS)){
-                promotionRule.setGoodsPo(goodsFeign.getGoodsById(promotionRule.getId()));
+                Object retObj = goodsFeign.getGoodsById(promotionRule.getGoodsId());
+
+                promotionRule.setGoodsPo(JacksonUtil.getBack(retObj, GoodsPo.class));
             }
         }
         return promotionRules;
 
     }
+
+    private static<T> T getBack(Object result,Class<T>clazz){
+        String theResult= JacksonUtil.toJson(result);
+        String errno= JacksonUtil.parseString(theResult,"errno");
+        String success="0.0";
+        if(!success.equals(errno)){
+            return null;
+        }
+        return JacksonUtil.parseObject(theResult,"data",clazz);
+    }
+
 
 //    /**
 //     * 管理员看到某种商品的某种促销活动规则(带商品)（要用的）
@@ -85,9 +100,13 @@ public abstract class PromotionServiceImpl {
      * @return
      */
     public List<? extends PromotionRule> listPromotionRuleOfTypeWithGoods(String promotionName){
-        List<? extends PromotionRule> promotionRules=grouponRuleDao.listPromotions();
+        List<? extends PromotionRule> promotionRules=this.listPromotionRuleOfType(promotionName);
         for(PromotionRule promotionRule:promotionRules){
-            promotionRule.setGoodsPo(goodsFeign.getGoodsById(promotionRule.getId()));
+
+            Object retObj = goodsFeign.getGoodsById(promotionRule.getGoodsId());
+            GoodsPo goodsPo=JacksonUtil.getBack(retObj, GoodsPo.class);
+
+            promotionRule.setGoodsPo(goodsPo);
         }
 
         return promotionRules;

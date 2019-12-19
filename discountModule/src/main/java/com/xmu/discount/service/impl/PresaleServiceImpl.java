@@ -3,10 +3,12 @@ package com.xmu.discount.service.impl;
 import com.xmu.discount.dao.PresaleRuleDao;
 import com.xmu.discount.domain.discount.PresaleRule;
 import com.xmu.discount.domain.discount.PromotionRule;
+import com.xmu.discount.domain.others.domain.GoodsPo;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.others.domain.Payment;
 import com.xmu.discount.exception.SeriousException;
 import com.xmu.discount.inter.OrderFeign;
+import com.xmu.discount.util.JacksonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,7 +55,11 @@ public class PresaleServiceImpl extends PromotionServiceImpl{
     public List<? extends PromotionRule> listPresaleRuleByGoodsIdWithGoods(Integer goodsId) {
         List<? extends PromotionRule> presaleRules=presaleRuleDao.listPromotionRuleByGoodsId(goodsId);
         for(PromotionRule promotionRule:presaleRules){
-            promotionRule.setGoodsPo(goodsFeign.getGoodsById(promotionRule.getId()));
+
+            Object retObj = goodsFeign.getGoodsById(promotionRule.getGoodsId());
+            GoodsPo goodsPo= JacksonUtil.getBack(retObj, GoodsPo.class);
+
+            promotionRule.setGoodsPo(goodsPo);
         }
         return presaleRules;
     }

@@ -322,6 +322,7 @@ public class GrouponRule extends PromotionRule {
         realObj.setGrouponLevelStrategy(grouponLevelStragety);
     }
 
+    @Override
     public void setGoodsId(Integer goodsId) {
         realObj.setGoodsId(goodsId);
     }
@@ -371,6 +372,7 @@ public class GrouponRule extends PromotionRule {
         return realObj.getStartTime();
     }
 
+    @Override
     public Integer getGoodsId() {
         return realObj.getGoodsId();
     }
