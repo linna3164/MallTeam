@@ -113,7 +113,7 @@ public class CouponServiceImpl {
     /**
      * 用户领取优惠券
      *
-     * @param coupon
+     * @param couponRuleId
      * @return
      */
     public Coupon addCoupon(Integer couponRuleId,Integer userId) throws CouponNotFoundException, UnsupportException, CouponRuleNotFoundException, UpdatedDataFailedException, PromotionNotFoundException {

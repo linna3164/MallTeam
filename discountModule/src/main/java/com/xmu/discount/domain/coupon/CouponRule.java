@@ -82,7 +82,7 @@ public class CouponRule extends PromotionRule {
      *创建优惠券（）
      * @return
      */
-    public Coupon createCoupon(Integer userId){
+    public Coupon createCoupon(Integer userId) throws Exception {
         if(this.canGet()){
 
             Coupon coupon=new Coupon(this,userId);
@@ -92,7 +92,9 @@ public class CouponRule extends PromotionRule {
             System.out.println(coupon);
             return coupon;
         }
-        else return null;
+        else {
+            throw new Exception();
+        }
     }
 
     /**

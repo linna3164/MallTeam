@@ -1,7 +1,7 @@
 package com.xmu.discount.service;
 
 import com.xmu.discount.domain.coupon.Coupon;
-import com.xmu.discount.domain.coupon.CouponRule;
+
 import com.xmu.discount.domain.others.domain.CartItem;
 import org.springframework.stereotype.Service;
 
