@@ -84,13 +84,15 @@ public class CouponRule extends PromotionRule {
      */
     public Coupon createCoupon(Integer userId){
         if(this.canGet()){
-            Coupon coupon=new Coupon(this,userId);
 
+            Coupon coupon=new Coupon(this,userId);
+            coupon.setCouponRuleId(this.getId());
             //已领取张数加一
             this.setCollectedNum(getCollectedNum()+1);
+            System.out.println(coupon);
             return coupon;
         }
-        return null;
+        else return null;
     }
 
     /**
