@@ -65,7 +65,7 @@ public class CouponDao {
      * @param coupon
      * @return
      */
-    public int addCoupon(Coupon coupon){
+    public boolean addCoupon(Coupon coupon){
         coupon.setGmtCreate(LocalDateTime.now());
         coupon.setGmtModified(LocalDateTime.now());
         coupon.setBeDeleted(false);
@@ -81,7 +81,7 @@ public class CouponDao {
      * @param coupon
      * @return
      */
-    public int updateCouponById(Coupon coupon)
+    public boolean updateCouponById(Coupon coupon)
     {
         coupon.setGmtModified(LocalDateTime.now());
         return couponMapper.updateCouponById(coupon);
@@ -109,7 +109,7 @@ public class CouponDao {
     }
 
 
-    public  int deleteCouponById(Integer id){
+    public  boolean deleteCouponById(Integer id){
         Coupon coupon=new Coupon();
         coupon.setId(id);
         coupon.setGmtModified(LocalDateTime.now());

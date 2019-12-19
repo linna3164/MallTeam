@@ -37,7 +37,7 @@ public interface CouponMapper {
      * @param coupon
      * @return
      */
-    int addCoupon(Coupon coupon);
+    boolean addCoupon(Coupon coupon);
 
     /**
      * 修改优惠券
@@ -45,7 +45,7 @@ public interface CouponMapper {
      * @param coupon
      * @return
      */
-    int updateCouponById(Coupon coupon);
+    boolean updateCouponById(Coupon coupon);
 
 
     /**

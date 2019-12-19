@@ -82,7 +82,7 @@ public class DiscountController {
      * @return
      */
     @PostMapping("/couponRules")
-    public Object addCouponRule(@RequestBody  CouponRulePo couponRulePo,HttpServletRequest request) throws UpdatedDataFailedException, SeriousException {
+    public Object addCouponRule(@RequestBody  CouponRulePo couponRulePo,HttpServletRequest request)  {
         CouponRule couponRule=new CouponRule(couponRulePo);
         couponRule = (CouponRule) couponRuleService.addPromotion((PromotionRule) couponRule);
         couponRulePo=couponRule.getRealObj();
@@ -100,7 +100,7 @@ public class DiscountController {
      * @return
      */
     @GetMapping("/couponRules/{id}")
-    public Object findCouponRuleById(@PathVariable Integer id) throws PromotionNotFoundException {
+    public Object findCouponRuleById(@PathVariable Integer id)  {
         CouponRule couponRule= (CouponRule) couponRuleService.getPromotionById(id,"couponRule");
         CouponRulePo couponRulePo = couponRule.getRealObj();
         if(couponRulePo!=null) {
@@ -118,7 +118,7 @@ public class DiscountController {
      * @return
      */
     @PutMapping("/couponRules/{id}")
-    public Object updateCouponRuleById(@PathVariable Integer id,@RequestBody CouponRulePo couponRulePo,HttpServletRequest request) throws UpdatedDataFailedException, PromotionNotFoundException {
+    public Object updateCouponRuleById(@PathVariable Integer id,@RequestBody CouponRulePo couponRulePo,HttpServletRequest request)  {
         CouponRule couponRule=new CouponRule(couponRulePo);
         couponRule.setId(id);
        couponRule= (CouponRule) couponRuleService.updatepromotionRule(couponRule);
@@ -137,7 +137,7 @@ public class DiscountController {
      * @return
      */
     @DeleteMapping("/couponRules/{id}")
-    public Object deleteCouponRuleById(@PathVariable Integer id,HttpServletRequest request) throws PromotionNotFoundException, UpdatedDataFailedException, PresaleRuleDeleteFailException {
+    public Object deleteCouponRuleById(@PathVariable Integer id,HttpServletRequest request)  {
        CouponRule couponRule= (CouponRule) couponRuleService.getPromotionById(id,"couponRule");
         System.out.println(couponRule);
         couponRuleService.deletePromotionById(couponRule);
@@ -189,8 +189,8 @@ public class DiscountController {
      * @return
      */
     @PostMapping("/coupons")
-    public Object addCoupon(@RequestParam Integer couponRuleId,HttpServletRequest request) throws CouponNotFoundException, UnsupportException, PromotionNotFoundException, CouponRuleNotFoundException, UpdatedDataFailedException {
-        try {
+    public Object addCoupon(@RequestParam Integer couponRuleId,HttpServletRequest request) throws GetCouponFailException {
+//        try {
             Integer userId = Integer.valueOf(request.getHeader("userId"));
             Coupon coupon = couponService.addCoupon(couponRuleId,userId);    //直接传的coupon，参数都有
             if (coupon == null) {
@@ -198,9 +198,9 @@ public class DiscountController {
             } else {
                 return ResponseUtil.ok(coupon);
             }
-        } catch (CouponRuleNotFoundException e) {
-            return ResponseUtil.fail(714,"优惠券领取失败");
-        }
+//        } catch (CouponRuleNotFoundException e) {
+//            return ResponseUtil.fail(714,"优惠券领取失败");
+//        }
 
     }
 
@@ -212,7 +212,7 @@ public class DiscountController {
      * @return
      */
     @GetMapping("/coupons/availableCoupons")
-    public List<Coupon> getAvailableCoupons(@RequestBody List<CartItem> cartItems, HttpServletRequest request) throws PromotionNotFoundException {
+    public List<Coupon> getAvailableCoupons(@RequestBody List<CartItem> cartItems, HttpServletRequest request) {
         Integer userId = Integer.valueOf(request.getHeader("userId"));
           return couponService.listAvailableCoupons(cartItems,userId);
     }
@@ -229,7 +229,7 @@ public class DiscountController {
      */
     @GetMapping("/grouponRules")
     public List<GrouponRuleVo> getGroupRules(@RequestParam Integer goodsId, @RequestParam(defaultValue = "1") Integer page,
-                                             @RequestParam(defaultValue = "10") Integer limit) throws SeriousException, PromotionNotFoundException {
+                                             @RequestParam(defaultValue = "10") Integer limit)  {
         PageHelper.startPage(page,limit);
         List<GrouponRule> grouponRules= (List<GrouponRule>) grouponService.listPromotionRuleOfTypeWithGoods("grouponRule");
         List<GrouponRuleVo>  grouponRuleVos=new ArrayList<GrouponRuleVo>();
@@ -251,7 +251,7 @@ public class DiscountController {
      * @return 标准组GrouponRulePo
      */
     @PostMapping("/grouponRules")
-    public Object addGrouponRule(@RequestBody GrouponRulePo grouponRulePo) throws UpdatedDataFailedException, SeriousException {
+    public Object addGrouponRule(@RequestBody GrouponRulePo grouponRulePo) {
         GrouponRule grouponRule=new GrouponRule(grouponRulePo);
         grouponRule=(GrouponRule) grouponService.addPromotion(grouponRule);
         grouponRulePo=grouponRule.getRealObj();
@@ -268,7 +268,7 @@ public class DiscountController {
      * @return 标准组GrouponRuleVo
      */
     @GetMapping("/admin/grouponRules/{id}")
-    public Object findGroupRuleById(@PathVariable Integer id) throws PromotionNotFoundException {
+    public Object findGroupRuleById(@PathVariable Integer id)  {
         GrouponRule grouponRule=(GrouponRule) grouponService.getPromotionById(id,"grouponRule");
         GrouponRulePo grouponRulePo=grouponRule.getRealObj();
         GrouponRuleVo grouponRuleVo=new GrouponRuleVo();
@@ -290,7 +290,7 @@ public class DiscountController {
      * @return 标准组GrouponRulePo
      */
     @PutMapping("/grouponRules/{id}")
-    public Object modifyGrouponRuleById(@PathVariable Integer id,@RequestBody GrouponRulePo grouponRulePo) throws UpdatedDataFailedException, PromotionNotFoundException {
+    public Object modifyGrouponRuleById(@PathVariable Integer id,@RequestBody GrouponRulePo grouponRulePo) {
         GrouponRule grouponRule=new GrouponRule(grouponRulePo);
         grouponRule=(GrouponRule) grouponService.updatepromotionRule(grouponRule);
         GrouponRuleVo grouponRuleVo=new GrouponRuleVo();
@@ -314,14 +314,20 @@ public class DiscountController {
      * @return 无
      */
     @DeleteMapping("/grouponRules/{id}")
-    public Object deleteGroupRule(@PathVariable Integer id) throws PromotionNotFoundException, UpdatedDataFailedException, PresaleRuleDeleteFailException {
+    public Object deleteGroupRule(@PathVariable Integer id) throws GrouponRuleDeleteFailException, CouponRuleDeleteFailException, PresaleRuleDeleteFailException, GrouponRuleUpdateFailException {
 
-        PromotionRule promotionRule=grouponService.getPromotionById(id,"grouponRule");
-        if(promotionRule==null) {return ResponseUtil.fail(723,"团购规则删除失败");}
-        else {
-            grouponService.deletePromotionById(promotionRule);
-            return ResponseUtil.ok(grouponService.getPromotionById(id, "grouponRule"));
+        PromotionRule promotionRule= null;
+        try {
+            promotionRule = grouponService.getPromotionById(id,"grouponRule");
+        } catch (PresaleRuleUnValidException e) {
+            throw new GrouponRuleDeleteFailException();
         }
+//        if(promotionRule==null) {return ResponseUtil.fail(723,"团购规则删除失败");}
+//        else {
+            grouponService.deletePromotionById(promotionRule);
+
+        return ResponseUtil.ok();
+//        }
     }
 
     /**
@@ -353,8 +359,13 @@ public class DiscountController {
      * @return GrouponRuleVo
      */
     @GetMapping("/grouponRules/{id}")
-    public Object getGrouponRulesById(@PathVariable Integer id) throws PromotionNotFoundException {
-        GrouponRule promotionRule= (GrouponRule) grouponService.getPromotionById(id,"grouponRule");
+    public Object getGrouponRulesById(@PathVariable Integer id) throws GrouponRuleUnValidException {
+        GrouponRule promotionRule= null;
+        try {
+            promotionRule = (GrouponRule) grouponService.getPromotionById(id,"grouponRule");
+        } catch (PresaleRuleUnValidException e) {
+            throw new GrouponRuleUnValidException();
+        }
         GrouponRuleVo grouponRuleVo=new GrouponRuleVo();
 
         Object retObj = goodsFeign.getGoodsById(promotionRule.getGoodsId());
@@ -407,7 +418,7 @@ public class DiscountController {
     @GetMapping("/presaleRules")
     public Object getAllPresaleRules(@RequestParam(defaultValue = "1") Integer page,
                                                 @RequestParam(defaultValue = "10") Integer limit,
-                                                @RequestParam Integer goodsId) throws SeriousException, PromotionNotFoundException {
+                                                @RequestParam Integer goodsId)  {
         PageHelper.startPage(page,limit);
         List<? extends PromotionRule> presaleRules= presaleService.listPresaleRuleByGoodsId(goodsId);
         List<GrouponRuleVo> grouponRuleVos=new ArrayList<>();
@@ -446,20 +457,16 @@ public class DiscountController {
         return ResponseUtil.ok(presaleRules);
     }
 
-        /**
-         * 管理员发布预售信息
-         * @param presaleRule//body中包含startTime; adEndTime; finalStartTime; endTime; statusCode; goodsId; deposit,,finalPayment
-         * @return
-         * @throws UpdatedDataFailedException
-         */
+    /**
+     * 管理员发布预售信息
+     * @param presaleRule//body中包含startTime; adEndTime; finalStartTime; endTime; statusCode; goodsId; deposit,,finalPayment
+     * @return
+     */
     @PostMapping("/presaleRules")
-    public Object addPresaleRule(@RequestBody PresaleRule presaleRule) throws UpdatedDataFailedException, SeriousException {
+    public Object addPresaleRule(@RequestBody PresaleRule presaleRule) throws PresaleRuleAddFailException, GrouponRuleAddFailException, CouponRuleAddFailException {
         PresaleRule presaleRule1=(PresaleRule)presaleService.addPromotion(presaleRule);
-        if(presaleRule1==null) {
-            return ResponseUtil.badArgument();
-        } else {
-            return ResponseUtil.ok(presaleRule1);
-        }
+
+        return ResponseUtil.ok(presaleRule1);
     }
 
     /**
@@ -467,52 +474,47 @@ public class DiscountController {
      * @param presaleRule
      * @param id
      * @return
-     * @throws UpdatedDataFailedException
      */
     @PutMapping("/presaleRules/{id}")
-    public Object updatePresaleRuleById(@RequestBody PresaleRule presaleRule,@PathVariable Integer id) throws UpdatedDataFailedException, PromotionNotFoundException {
+    public Object updatePresaleRuleById(@RequestBody PresaleRule presaleRule,@PathVariable Integer id) throws PresaleRuleUnValidException, PresaleRuleUpdateFailException, CouponRuleUpdateFailException, GrouponRuleUpdateFailException {
         presaleRule.setId(id);
         PresaleRule presaleRule1=(PresaleRule) presaleService.updatepromotionRule(presaleRule);
-        if(presaleRule1==null) {
-            return ResponseUtil.badArgument();
-        } else {
-            return ResponseUtil.ok(presaleRule1);
-        }
+
+        return ResponseUtil.ok(presaleRule1);
     }
 
     /**
      * 查看预售信息详情
      * @param id
      * @return
-     * @throws PromotionNotFoundException
      */
     @GetMapping("/presaleRules/{id}")
-    public Object getPresaleRuleById(@PathVariable Integer id) throws PromotionNotFoundException {
+    public Object getPresaleRuleById(@PathVariable Integer id) throws PresaleRuleUnValidException {
         PresaleRule presaleRule=(PresaleRule) presaleService.getPromotionById(id,"presaleRule");
-        if(presaleRule==null) {
-            return ResponseUtil.badArgumentValue();
-        } else {
-            return ResponseUtil.ok(presaleRule);
-        }
+
+        return ResponseUtil.ok(presaleRule);
     }
 
     /**
      * 管理员通过id删除预售信息
      * @param id
      * @return
-     * @throws PromotionNotFoundException
      */
     @DeleteMapping("/presaleRules/{id}")
-    public Object deletePresaleRuleById(@PathVariable Integer id) throws PromotionNotFoundException, UpdatedDataFailedException, PresaleRuleDeleteFailException {
-        PresaleRule presaleRule=(PresaleRule)presaleService.getPromotionById(id,"presaleRule"); //为什么会有name这个参数
-      if(presaleRule!=null) {
+    public Object deletePresaleRuleById(@PathVariable Integer id) throws PresaleRuleDeleteFailException, CouponRuleDeleteFailException, GrouponRuleDeleteFailException, GrouponRuleUpdateFailException {
+        PresaleRule presaleRule= null; //为什么会有name这个参数
+        try {
+            presaleRule = (PresaleRule)presaleService.getPromotionById(id,"presaleRule");
+        } catch (PresaleRuleUnValidException e) {
+            throw new PresaleRuleDeleteFailException();
+        }
+        if(presaleRule!=null) {
           presaleService.deletePromotionById(presaleRule);
-          presaleRule = (PresaleRule) presaleService.getPromotionById(id, "presaleRule");
-          return ResponseUtil.ok(presaleRule);
-      }
-      else {
-          return ResponseUtil.badArgumentValue();
-      }
+          return ResponseUtil.ok();
+        }
+        else {
+            throw new PresaleRuleDeleteFailException();
+        }
     }
 
     /**
@@ -546,14 +548,19 @@ public class DiscountController {
      * @return
      */
     @PostMapping("/discount/orders")
-    public Object getPayment(Order order) throws SeriousException, UnsupportException, PromotionNotFoundException {
+    public Object getPayment(Order order){
         Order orderRes=presaleService.getPayment(order);
         return ResponseUtil.ok(orderRes);
     }
 
+    /**
+     * 获取商品当前的团购规则
+     * @param id
+     * @return
+]     */
     @GetMapping("/goods/{id}/grouponRule")
-    public Object getInProcessGrouponRuleByGoodsId(@PathVariable Integer goodsId) throws SeriousException, PromotionNotFoundException {
-        PromotionRule promotionRule=grouponService.listCurrentPromotionByGoodsId(goodsId);
+    public Object getInProcessGrouponRuleByGoodsId(@PathVariable Integer id) {
+        PromotionRule promotionRule=grouponService.listCurrentPromotionByGoodsId(id);
         if(promotionRule==null){
             return ResponseUtil.ok(null);
         }
@@ -565,9 +572,14 @@ public class DiscountController {
         }
     }
 
+    /**
+     * 获取商品当前的预售规则
+     * @param id
+     * @return
+     */
     @GetMapping("/goods/{id}/presaleRule")
-    public Object getInProcessPresaleRuleByGoodsId(@PathVariable Integer goodsId) throws SeriousException, PromotionNotFoundException {
-        PromotionRule promotionRule=grouponService.listCurrentPromotionByGoodsId(goodsId);
+    public Object getInProcessPresaleRuleByGoodsId(@PathVariable Integer id){
+        PromotionRule promotionRule=grouponService.listCurrentPromotionByGoodsId(id);
         if(promotionRule==null){
             return ResponseUtil.ok(null);
         }

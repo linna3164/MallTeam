@@ -83,9 +83,9 @@ public class CouponServiceImpl {
      * @param couponRule
      * @return
      */
-    public List<Coupon> listCouponByCouponRuleId(CouponRule couponRule) throws SeriousException {
+    public List<Coupon> listCouponByCouponRuleId(CouponRule couponRule) throws CouponRuleUnValidException {
         if (couponRule == null) {
-            throw new SeriousException();
+            throw new CouponRuleUnValidException();
         } else {
             return couponDao.listCouponByCouponRuleId(couponRule.getId());
         }
@@ -97,7 +97,7 @@ public class CouponServiceImpl {
      * @param couponRule
      * @return
      */
-    public List<Coupon> listCouponByCouponRuleIdAndStatus(CouponRule couponRule, Coupon.Status status) throws SeriousException {
+    public List<Coupon> listCouponByCouponRuleIdAndStatus(CouponRule couponRule, Coupon.Status status) throws CouponRuleUnValidException {
         List<Coupon> coupons = this.listCouponByCouponRuleId(couponRule);
 
         List<Coupon> res = new ArrayList<>();
@@ -113,29 +113,34 @@ public class CouponServiceImpl {
     /**
      * 用户领取优惠券
      *
-     * @param coupon
+     * @param couponRuleId
+     * @param userId
      * @return
      */
-    public Coupon addCoupon(Integer couponRuleId,Integer userId) throws CouponNotFoundException, UnsupportException, CouponRuleNotFoundException, UpdatedDataFailedException, PromotionNotFoundException {
+    public Coupon addCoupon(Integer couponRuleId,Integer userId) throws GetCouponFailException {
         List<Coupon> coupons = couponDao.listCouponByCouponRuleIdAndUserId(couponRuleId, userId);
         CouponRule couponRule = (CouponRule) couponRuleDao.getPromotionRuleById(couponRuleId);
         Coupon coupon=null;
         System.out.println(couponRule);
         //找不到couponRule
         if (couponRule == null) {
-            throw new CouponRuleNotFoundException();
+            throw new GetCouponFailException();
         }
         else {
             //用户还没领取过
             if (coupons.size() == 0) {
                 coupon=couponRule.createCoupon(userId);
                 couponDao.addCoupon(coupon);
-                couponRuleDao.updatePromotionRuleById(couponRule);
+                try {
+                    couponRuleDao.updatePromotionRuleById(couponRule);
+                } catch (CouponRuleUpdateFailException e) {
+                    throw new GetCouponFailException();
+                }
                 return coupon;
             }
             //用户领取过了
             else {
-                return null;
+                throw new GetCouponFailException();
             }
         }
 
@@ -190,7 +195,7 @@ public class CouponServiceImpl {
      * @param cartItems
      * @return
      */
-    public List<Coupon> listAvailableCoupons(List<CartItem> cartItems,Integer userId ) throws PromotionNotFoundException {
+    public List<Coupon> listAvailableCoupons(List<CartItem> cartItems,Integer userId )   {
         List<Coupon>  coupons=couponDao.listCouponOfUser(userId);
         List<Coupon> coupons1=new ArrayList<Coupon>();
         for(Coupon c:coupons)

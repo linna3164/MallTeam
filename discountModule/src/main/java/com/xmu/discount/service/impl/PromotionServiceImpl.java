@@ -39,7 +39,7 @@ public abstract class PromotionServiceImpl {
     /**
      * 活动实效后的行为
      */
-    public  abstract void toDoSomthingAfterDisable(PromotionRule promotionRule) throws SeriousException;
+    public  abstract void toDoSomthingAfterDisable(PromotionRule promotionRule) throws CouponRuleSetDisableFailException;
 
 
     /**
@@ -117,7 +117,7 @@ public abstract class PromotionServiceImpl {
      * 设置失效
      * @param promotionRule
      */
-    public void setDisabled(PromotionRule promotionRule) throws UpdatedDataFailedException, SeriousException {
+    public void setDisabled(PromotionRule promotionRule) throws PresaleRuleSetDisableFailException, GrouponRuleUpdateFailException, CouponRuleSetDisableFailException {
         if(promotionRule.beOkToDisable())
         {
             String daoName=getDaoClassName(promotionRule);
@@ -131,7 +131,7 @@ public abstract class PromotionServiceImpl {
      * @param id
      * @return
      */
-    public PromotionRule getPromotionById(Integer id,String promotionName) throws PromotionNotFoundException {
+    public PromotionRule getPromotionById(Integer id,String promotionName) throws PresaleRuleUnValidException {
         return ((PromotionRuleDao)SpringContextUtil.getBean(promotionName+"Dao")).getPromotionRuleById(id);
     }
 
@@ -140,12 +140,13 @@ public abstract class PromotionServiceImpl {
      * @param promotionRule
      * @return
      */
-    public void deletePromotionById(PromotionRule promotionRule) throws UpdatedDataFailedException, PresaleRuleDeleteFailException {
+    public boolean deletePromotionById(PromotionRule promotionRule) throws PresaleRuleDeleteFailException, CouponRuleDeleteFailException, GrouponRuleDeleteFailException, GrouponRuleUpdateFailException {
         if(promotionRule.beOkToDelete())
         {
             String daoName=getDaoClassName(promotionRule);
-            ((PromotionRuleDao)SpringContextUtil.getBean(daoName)).deletePromotionRuleById(promotionRule.getId());
+            return ((PromotionRuleDao)SpringContextUtil.getBean(daoName)).deletePromotionRuleById(promotionRule.getId());
         }
+        return false;
     }
 
     /**
@@ -153,17 +154,20 @@ public abstract class PromotionServiceImpl {
      * @param promotionRule
      * @return
      */
-    public PromotionRule updatepromotionRule(PromotionRule promotionRule) throws UpdatedDataFailedException, PromotionNotFoundException {
+    public PromotionRule updatepromotionRule(PromotionRule promotionRule) throws PresaleRuleUnValidException, PresaleRuleUpdateFailException, GrouponRuleUpdateFailException, CouponRuleUpdateFailException {
         String daoName=getDaoClassName(promotionRule);
 
         PromotionRule pre=this.getPromotionById(promotionRule.getId(),this.getLowerRuleName(promotionRule));
         if (pre==null){
-            throw new UpdatedDataFailedException();
+            return null;
         }
         if(pre.beOkToUpdate()){
             ((PromotionRuleDao)SpringContextUtil.getBean(daoName)).updatePromotionRuleById(promotionRule);
+            return this.getPromotionById(promotionRule.getId(),this.getLowerRuleName(promotionRule));
         }
-        return promotionRule;
+        else {
+            return null;
+        }
     }
 
 
@@ -173,7 +177,7 @@ public abstract class PromotionServiceImpl {
      * @param order
      * @return
      */
-    public Order getPayment(Order order) throws SeriousException, UnsupportException, PromotionNotFoundException {
+    public Order getPayment(Order order)    {
 
         //获得订单商品当前的促销活动规则
         PromotionRule promotionRule=this.listCurrentPromotionByGoodsId(order.getOrderItemList().get(0).getProduct().getGoodsId());
@@ -219,7 +223,7 @@ public abstract class PromotionServiceImpl {
      * @param goodsId
      * @return
      */
-    public PromotionRule listCurrentPromotionByGoodsId(Integer goodsId) throws PromotionNotFoundException ,SeriousException {
+    public PromotionRule listCurrentPromotionByGoodsId(Integer goodsId)    {
         //活动商品的所有促销活动
         List<? extends PromotionRule> promotionRules=this.listProimotionByGoodsId(goodsId);
         for(PromotionRule promotionRule:promotionRules){
@@ -233,8 +237,7 @@ public abstract class PromotionServiceImpl {
         }
         //促销活动大于1个
         else  if(promotionRules.size()>1){
-            throw new SeriousException();
-
+            return null;
         }
         else{
             return  promotionRules.get(0);
@@ -246,7 +249,7 @@ public abstract class PromotionServiceImpl {
      * @param promotionRule
      * @return
      */
-    public PromotionRule addPromotion(PromotionRule promotionRule) throws UpdatedDataFailedException, SeriousException {
+    public PromotionRule addPromotion(PromotionRule promotionRule) throws PresaleRuleAddFailException, CouponRuleAddFailException, GrouponRuleAddFailException {
         //获得商品的所有促销活动
         List<? extends PromotionRule> promotionRules=this.listProimotionByGoodsId(promotionRule.getPromotionGoodsId());
         //筛选出正在进行的或者还没开始的

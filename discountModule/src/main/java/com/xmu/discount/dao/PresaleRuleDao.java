@@ -2,8 +2,7 @@ package com.xmu.discount.dao;
 
 import com.xmu.discount.domain.discount.PresaleRule;
 import com.xmu.discount.domain.discount.PromotionRule;
-import com.xmu.discount.exception.PresaleRuleDeleteFailException;
-import com.xmu.discount.exception.UpdatedDataFailedException;
+import com.xmu.discount.exception.*;
 import com.xmu.discount.mapper.PresaleRuleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -26,9 +25,13 @@ public class PresaleRuleDao implements PromotionRuleDao {
      * @return
      */
     @Override
-    public PromotionRule getPromotionRuleById(Integer id) {
+    public PromotionRule getPromotionRuleById(Integer id) throws PresaleRuleUnValidException {
 
-        return presaleRuleMapper.getPresaleRuleById(id);
+        PromotionRule promotionRule=presaleRuleMapper.getPresaleRuleById(id);
+        if(promotionRule==null){
+            throw new PresaleRuleUnValidException();
+        }
+        return promotionRule;
     }
 
     /**
@@ -49,14 +52,20 @@ public class PresaleRuleDao implements PromotionRuleDao {
      * @return
      */
     @Override
-    public int addPromotionRule(PromotionRule promotionRule) {
+    public boolean addPromotionRule(PromotionRule promotionRule) throws PresaleRuleAddFailException {
 
         PresaleRule presaleRule=(PresaleRule)promotionRule;
         presaleRule.setGmtCreate(LocalDateTime.now());
         presaleRule.setGmtModified(LocalDateTime.now());
         presaleRule.setBeDeleted(false);
         presaleRule.setStatusCode(true);
-        return presaleRuleMapper.addPresaleRule(presaleRule);
+        if ( presaleRuleMapper.addPresaleRule(presaleRule)){
+            return true;
+        }
+        else {
+            throw new PresaleRuleAddFailException();
+        }
+
 
     }
 
@@ -76,27 +85,32 @@ public class PresaleRuleDao implements PromotionRuleDao {
      * @return
      */
     @Override
-    public boolean updatePromotionRuleById(PromotionRule promotionRule) throws UpdatedDataFailedException {
+    public boolean updatePromotionRuleById(PromotionRule promotionRule) throws PresaleRuleUpdateFailException {
 
         PresaleRule presaleRule=(PresaleRule) promotionRule;
         presaleRule.setGmtModified(LocalDateTime.now());
 
-        int res=presaleRuleMapper.updatePresaleRuleById((PresaleRule) promotionRule);
-        if(res==0){
-            throw new UpdatedDataFailedException();
-        }
-        else{
+        if(presaleRuleMapper.updatePresaleRuleById((PresaleRule) promotionRule)){
             return true;
         }
+        else {
+            throw new PresaleRuleUpdateFailException();
+        }
+
     }
 
     @Override
-    public void  setDisable(PromotionRule promotionRule) throws UpdatedDataFailedException {
+    public void  setDisable(PromotionRule promotionRule) throws PresaleRuleSetDisableFailException {
 
         PresaleRule presaleRule=(PresaleRule) promotionRule;
         PresaleRule pre=new PresaleRule(presaleRule.getId());
         pre.setStatusCode(false);
-        this.updatePromotionRuleById(presaleRule);
+
+        try {
+            this.updatePromotionRuleById(presaleRule);
+        } catch (PresaleRuleUpdateFailException e) {
+            throw new PresaleRuleSetDisableFailException();
+        }
     }
 
 
@@ -105,14 +119,15 @@ public class PresaleRuleDao implements PromotionRuleDao {
      * @param id
      */
     @Override
-    public void deletePromotionRuleById(Integer id) throws UpdatedDataFailedException, PresaleRuleDeleteFailException {
+    public boolean deletePromotionRuleById(Integer id) throws PresaleRuleDeleteFailException {
 
         PresaleRule grouponRule=new PresaleRule(id,true);
 
-        boolean res=this.updatePromotionRuleById(grouponRule);
-
-        if(!res){
+        try {
+            updatePromotionRuleById(grouponRule);
+        } catch (PresaleRuleUpdateFailException e) {
             throw new PresaleRuleDeleteFailException();
         }
+        return true;
     }
 }

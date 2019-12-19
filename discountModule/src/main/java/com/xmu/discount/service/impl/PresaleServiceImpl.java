@@ -6,7 +6,6 @@ import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.domain.others.domain.GoodsPo;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.others.domain.Payment;
-import com.xmu.discount.exception.SeriousException;
 import com.xmu.discount.inter.OrderFeign;
 import com.xmu.discount.util.JacksonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,7 @@ public class PresaleServiceImpl extends PromotionServiceImpl{
      * @param promotionRule
      */
     @Override
-    public void toDoSomthingAfterDisable(PromotionRule promotionRule) throws SeriousException {
+    public void toDoSomthingAfterDisable(PromotionRule promotionRule)   {
 
         orderFeign.refundPresaleOrder((PresaleRule) promotionRule);
     }

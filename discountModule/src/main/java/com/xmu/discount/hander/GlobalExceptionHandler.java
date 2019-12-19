@@ -15,51 +15,93 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(value = BadArgumentException.class)
+
+
+    //=============================================================
+    @ExceptionHandler(value = PresaleRuleAddFailException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Object badArgumentException()
+    public Object presaleRuleAddException()
     {
-        return ResponseUtil.badArgument();
+        return ResponseUtil.fail(732,"预售规则添加失败");
     }
 
-    @ExceptionHandler(value = BadArgumentValueException.class)
+    @ExceptionHandler(value = PresaleRuleDeleteFailException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Object badArgumentValueException()
+    public Object presaleRuleDeleteFailException ()
     {
-        return ResponseUtil.badArgumentValue();
+        return ResponseUtil.fail(733,"预售规则删除失败");
     }
 
-    @ExceptionHandler(value = InvalidOperationException.class)
+    @ExceptionHandler(value = PresaleRuleUpdateFailException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Object invalidOperationException()
+    public Object presaleRuleUpdateFailException ()
     {
-        return ResponseUtil.fail();
+        return ResponseUtil.fail(731,"预售规则修改失败");
     }
 
-    @ExceptionHandler(value = SeriousException.class)
+    @ExceptionHandler(value = PresaleRuleUnValidException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Object seriousException()
+    public Object presaleRuleUnValidException ()
     {
-        return ResponseUtil.serious();
-    }
-    @ExceptionHandler(value = UnsupportException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Object unsupportException()
-    {
-        return ResponseUtil.unsupport();
-    }
-    @ExceptionHandler(value = UpdatedDataFailedException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Object updatedDataFailedException()
-    {
-        return ResponseUtil.updatedDataFailed();
-    }
-    @ExceptionHandler(value = UpdatedDateExpiredException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Object updatedDateExpiredException()
-    {
-        return ResponseUtil.updatedDateExpired();
+        return ResponseUtil.fail(730,"该预售规则是无效团购规则");
     }
 
+    //================================================================
+    @ExceptionHandler(value = GrouponRuleAddFailException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Object grouponRuleAddFailException()
+    {
+        return ResponseUtil.fail(722,"团购规则添加失败");
+    }
+
+    @ExceptionHandler(value = GrouponRuleDeleteFailException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Object grouponRuleDeleteFailException ()
+    {
+        return ResponseUtil.fail(723,"团购规则删除失败");
+    }
+
+    @ExceptionHandler(value = GrouponRuleUpdateFailException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Object grouponRuleUpdateFailException ()
+    {
+        return ResponseUtil.fail(721,"团购规则修改失败");
+    }
+
+    @ExceptionHandler(value = GrouponRuleUnValidException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Object grouponRuleUnValidException ()
+    {
+        return ResponseUtil.fail(720,"该团购规则是无效团购规则");
+    }
+
+    //========================================================================
+    @ExceptionHandler(value = CouponRuleAddFailException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Object couponRuleAddFailException()
+    {
+        return ResponseUtil.fail(712,"优惠券规则添加失败");
+    }
+
+    @ExceptionHandler(value = CouponRuleDeleteFailException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Object couponRuleDeleteFailException ()
+    {
+        return ResponseUtil.fail(713,"优惠券规则删除失败");
+    }
+
+    @ExceptionHandler(value = CouponRuleUpdateFailException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Object couponRuleUpdateFailException ()
+    {
+        return ResponseUtil.fail(711,"优惠券规则修改失败");
+    }
+
+    @ExceptionHandler(value = CouponRuleUnValidException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Object couponRuleUnValidException ()
+    {
+        return ResponseUtil.fail(710,"该优惠券规则是无效优惠券规则");
+    }
 }
 

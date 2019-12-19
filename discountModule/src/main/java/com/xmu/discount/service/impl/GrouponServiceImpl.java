@@ -6,7 +6,6 @@ import com.xmu.discount.domain.discount.GrouponRulePo;
 import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.others.domain.Payment;
-import com.xmu.discount.exception.SeriousException;
 import com.xmu.discount.inter.GoodsFeign;
 import com.xmu.discount.inter.OrderFeign;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +34,9 @@ public class GrouponServiceImpl extends PromotionServiceImpl{
     /**
      *
      * @param promotionRule
-     * @throws SeriousException
      */
     @Override
-    public void toDoSomthingAfterDisable(PromotionRule promotionRule) throws SeriousException {
+    public void toDoSomthingAfterDisable(PromotionRule promotionRule)   {
 
     }
 

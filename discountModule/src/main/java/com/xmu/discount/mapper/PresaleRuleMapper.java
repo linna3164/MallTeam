@@ -28,7 +28,7 @@ public interface PresaleRuleMapper {
      * @param presaleRule
      * @return
      */
-    int addPresaleRule(PresaleRule presaleRule);
+    boolean addPresaleRule(PresaleRule presaleRule);
 
     /**
      * 查询一个商品的预售规则
@@ -41,5 +41,5 @@ public interface PresaleRuleMapper {
      * 修改预售规则
      * @return
      */
-    int updatePresaleRuleById(PresaleRule presaleRule);
+    boolean updatePresaleRuleById(PresaleRule presaleRule);
 }

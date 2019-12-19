@@ -24,7 +24,7 @@ public interface GrouponRuleMapper {
      * @param grouponRule
      * @return
      */
-    int addGrouponRule(GrouponRulePo grouponRule);
+    boolean addGrouponRule(GrouponRulePo grouponRule);
 
     /**
      * 查询一个商品的团购规则
@@ -43,6 +43,6 @@ public interface GrouponRuleMapper {
      * 修改团购规则
      * @return
      */
-    int updateGrouponRuleById(GrouponRulePo grouponRule);
+    boolean updateGrouponRuleById(GrouponRulePo grouponRule);
 
 }

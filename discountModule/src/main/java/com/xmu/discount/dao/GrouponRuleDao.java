@@ -3,9 +3,10 @@ package com.xmu.discount.dao;
 import com.xmu.discount.domain.discount.GrouponRule;
 import com.xmu.discount.domain.discount.GrouponRulePo;
 import com.xmu.discount.domain.discount.PromotionRule;
-import com.xmu.discount.exception.PromotionNotFoundException;
-import com.xmu.discount.exception.SeriousException;
-import com.xmu.discount.exception.UpdatedDataFailedException;
+
+import com.xmu.discount.exception.GrouponRuleAddFailException;
+import com.xmu.discount.exception.GrouponRuleDeleteFailException;
+import com.xmu.discount.exception.GrouponRuleUpdateFailException;
 import com.xmu.discount.mapper.GrouponRuleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -22,10 +23,9 @@ public class GrouponRuleDao implements PromotionRuleDao {
 
 
     @Override
-    public void setDisable(PromotionRule promotionRule) throws UpdatedDataFailedException {
+    public void setDisable(PromotionRule promotionRule) throws GrouponRuleUpdateFailException {
         GrouponRule couponRule=(GrouponRule) promotionRule;
         GrouponRule pre=new GrouponRule(couponRule.getId());
-        //TODO:标准组！！！
         pre.setStatusCode(false);
         this.updatePromotionRuleById(couponRule);
     }
@@ -36,15 +36,12 @@ public class GrouponRuleDao implements PromotionRuleDao {
      * @return
      */
     @Override
-    public PromotionRule  getPromotionRuleById(Integer id) throws PromotionNotFoundException {
+    public PromotionRule  getPromotionRuleById(Integer id)   {
 
        GrouponRulePo grouponRulePo = grouponRuleMapper.getGrouponRuleById(id);
        GrouponRule grouponRule=new GrouponRule();
         grouponRule.setRealObj(grouponRulePo);
         PromotionRule promotionRule=(PromotionRule) grouponRule;
-        if(promotionRule==null){
-            throw new PromotionNotFoundException();
-        }
         return promotionRule;
     }
 
@@ -70,20 +67,20 @@ public class GrouponRuleDao implements PromotionRuleDao {
      * @return
      */
     @Override
-    public int addPromotionRule(PromotionRule promotionRule) throws SeriousException {
+    public boolean addPromotionRule(PromotionRule promotionRule) throws GrouponRuleAddFailException {
         GrouponRule grouponRule=(GrouponRule)promotionRule;
         GrouponRulePo grouponRulePo=grouponRule.getRealObj();
         grouponRule.setGmtCreate(LocalDateTime.now());
         grouponRule.setGmtModified(LocalDateTime.now());
         grouponRule.setBeDeleted(false);
         grouponRule.setStatusCode(true);
-        int res= grouponRuleMapper.addGrouponRule(grouponRulePo);
-        if(res==0){
-            throw new SeriousException();
+        if(grouponRuleMapper.addGrouponRule(grouponRulePo)){
+            return true;
         }
-        else{
-            return res;
+        else {
+            throw new GrouponRuleAddFailException();
         }
+
     }
 
     /**
@@ -106,16 +103,15 @@ public class GrouponRuleDao implements PromotionRuleDao {
      * @return
      */
     @Override
-    public boolean updatePromotionRuleById(PromotionRule promotionRule) throws UpdatedDataFailedException {
+    public boolean updatePromotionRuleById(PromotionRule promotionRule) throws GrouponRuleUpdateFailException {
         GrouponRule grouponRule=(GrouponRule)promotionRule;
         grouponRule.setGmtModified(LocalDateTime.now());
         GrouponRulePo grouponRulePo=grouponRule.getRealObj();
-        int res=grouponRuleMapper.updateGrouponRuleById(grouponRulePo);
-        if(res==0){
-            throw new UpdatedDataFailedException();
-        }
-        else{
+        if(grouponRuleMapper.updateGrouponRuleById(grouponRulePo)){
             return true;
+        }
+        else {
+            throw new GrouponRuleUpdateFailException();
         }
 
     }
@@ -126,10 +122,16 @@ public class GrouponRuleDao implements PromotionRuleDao {
      * @param id
      */
     @Override
-    public void deletePromotionRuleById(Integer id) throws UpdatedDataFailedException {
+    public boolean deletePromotionRuleById(Integer id) throws GrouponRuleDeleteFailException {
         GrouponRulePo grouponRule=new GrouponRulePo(id,true);
         GrouponRule grouponRule1=new GrouponRule();
         grouponRule1.setRealObj(grouponRule);
-        this.updatePromotionRuleById(grouponRule1);
+        try {
+            this.updatePromotionRuleById(grouponRule1);
+        } catch (GrouponRuleUpdateFailException e) {
+            throw new GrouponRuleDeleteFailException();
+        }
+        return true;
+
     }
 }

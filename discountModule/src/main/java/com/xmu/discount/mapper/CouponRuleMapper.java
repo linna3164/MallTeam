@@ -31,7 +31,7 @@ public interface CouponRuleMapper {
      * @param couponRule
      * @return
      */
-    int addCouponRule(CouponRulePo couponRule);
+    boolean addCouponRule(CouponRulePo couponRule);
 
     /**
      * 修改优惠券规则
@@ -39,6 +39,6 @@ public interface CouponRuleMapper {
      * @param couponRule
      * @return
      */
-    int updateCouponRuleById(CouponRulePo couponRule);
+    boolean updateCouponRuleById(CouponRulePo couponRule);
 
 }

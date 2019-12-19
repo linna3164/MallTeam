@@ -6,8 +6,8 @@ import com.xmu.discount.dao.PromotionRuleDao;
 import com.xmu.discount.domain.coupon.Coupon;
 import com.xmu.discount.domain.coupon.CouponRule;
 import com.xmu.discount.domain.discount.PromotionRule;
-import com.xmu.discount.exception.SeriousException;
-import com.xmu.discount.exception.UpdatedDataFailedException;
+
+import com.xmu.discount.exception.*;
 import com.xmu.discount.util.SpringContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,9 +32,14 @@ public class CouponRuleServiceImpl extends PromotionServiceImpl {
      * @param promotionRule
      */
     @Override
-    public void toDoSomthingAfterDisable(PromotionRule promotionRule) throws SeriousException {
+    public void toDoSomthingAfterDisable(PromotionRule promotionRule) throws CouponRuleSetDisableFailException {
         //找到该优惠券规则未使用的优惠券
-        List<Coupon> couponList=couponService.listCouponByCouponRuleIdAndStatus((CouponRule) promotionRule,Coupon.Status.NOT_USED);
+        List<Coupon> couponList= null;
+        try {
+            couponList = couponService.listCouponByCouponRuleIdAndStatus((CouponRule) promotionRule, Coupon.Status.NOT_USED);
+        } catch (CouponRuleUnValidException e) {
+            throw new CouponRuleSetDisableFailException();
+        }
 
         for(Coupon coupon:couponList){
             Coupon cou=new Coupon(coupon.getId());
@@ -48,11 +53,10 @@ public class CouponRuleServiceImpl extends PromotionServiceImpl {
      * 管理员新增优惠券规则
      * @param promotionRule
      * @return
-     * @throws UpdatedDataFailedException
      */
 
     @Override
-    public PromotionRule addPromotion(PromotionRule promotionRule) throws UpdatedDataFailedException, SeriousException {
+    public PromotionRule addPromotion(PromotionRule promotionRule) throws CouponRuleAddFailException, PresaleRuleAddFailException, GrouponRuleAddFailException {
         if(promotionRule.beOkToAdd(null)){
             //调用DAO层的add方法。
             String daoName=getDaoClassName(promotionRule);

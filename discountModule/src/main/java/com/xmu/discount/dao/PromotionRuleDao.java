@@ -1,24 +1,21 @@
 package com.xmu.discount.dao;
 
 import com.xmu.discount.domain.discount.PromotionRule;
-import com.xmu.discount.exception.PresaleRuleDeleteFailException;
-import com.xmu.discount.exception.PromotionNotFoundException;
-import com.xmu.discount.exception.SeriousException;
-import com.xmu.discount.exception.UpdatedDataFailedException;
+import com.xmu.discount.exception.*;
 
 import java.util.List;
 
 public interface PromotionRuleDao {
 
 
-    public void  setDisable(PromotionRule promotionRule) throws UpdatedDataFailedException;
+    public void  setDisable(PromotionRule promotionRule) throws PresaleRuleSetDisableFailException, CouponRuleSetDisableFailException, GrouponRuleUpdateFailException;
 
     /**
      * 用id找促销规则
      * @param id
      * @return
      */
-    PromotionRule getPromotionRuleById(Integer id) throws PromotionNotFoundException;
+    PromotionRule getPromotionRuleById(Integer id) throws PresaleRuleUnValidException;
 
     /**
      * 查看所有促销规则
@@ -30,7 +27,7 @@ public interface PromotionRuleDao {
      * @param promotionRule
      * @return
      */
-    int addPromotionRule(PromotionRule promotionRule) throws SeriousException;
+    boolean addPromotionRule(PromotionRule promotionRule) throws PresaleRuleAddFailException, CouponRuleAddFailException, GrouponRuleAddFailException;
 
     /**
      * 查询一个商品的促销规则
@@ -43,12 +40,12 @@ public interface PromotionRuleDao {
      * 修改促销规则
      * @return
      */
-    boolean updatePromotionRuleById(PromotionRule promotionRule) throws UpdatedDataFailedException;
+    boolean updatePromotionRuleById(PromotionRule promotionRule) throws PresaleRuleUpdateFailException, CouponRuleUpdateFailException, GrouponRuleUpdateFailException;
 
 
     /**
      * 删除促销活动
      * @param id
      */
-    void deletePromotionRuleById(Integer id) throws UpdatedDataFailedException, PresaleRuleDeleteFailException;
+    boolean deletePromotionRuleById(Integer id) throws PresaleRuleDeleteFailException, CouponRuleDeleteFailException, GrouponRuleUpdateFailException, GrouponRuleDeleteFailException;
 }

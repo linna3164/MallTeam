@@ -3,8 +3,11 @@ package com.xmu.discount.dao;
 import com.xmu.discount.domain.coupon.CouponRule;
 import com.xmu.discount.domain.coupon.CouponRulePo;
 import com.xmu.discount.domain.discount.PromotionRule;
-import com.xmu.discount.exception.PromotionNotFoundException;
-import com.xmu.discount.exception.UpdatedDataFailedException;
+
+import com.xmu.discount.exception.CouponRuleAddFailException;
+import com.xmu.discount.exception.CouponRuleDeleteFailException;
+import com.xmu.discount.exception.CouponRuleSetDisableFailException;
+import com.xmu.discount.exception.CouponRuleUpdateFailException;
 import com.xmu.discount.mapper.CouponRuleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,16 +24,19 @@ public class CouponRuleDao implements PromotionRuleDao  {
 
 
     @Override
-    public void setDisable(PromotionRule promotionRule) throws UpdatedDataFailedException {
+    public void setDisable(PromotionRule promotionRule) throws CouponRuleSetDisableFailException {
         CouponRule couponRule=(CouponRule) promotionRule;
         CouponRule pre=new CouponRule(couponRule.getId());
-        //TODO:标准组！！！
         pre.setStatusCode(false);
-        this.updatePromotionRuleById(couponRule);
+        try {
+            this.updatePromotionRuleById(couponRule);
+        } catch (CouponRuleUpdateFailException e) {
+            throw new CouponRuleSetDisableFailException();
+        }
     }
 
     @Override
-    public PromotionRule getPromotionRuleById(Integer id) throws PromotionNotFoundException {
+    public PromotionRule getPromotionRuleById(Integer id)   {
         CouponRulePo couponRulePo=couponRuleMapper.getCouponRuleById(id);
         CouponRule couponRule=new CouponRule(couponRulePo);
         return couponRule;
@@ -49,15 +55,19 @@ public class CouponRuleDao implements PromotionRuleDao  {
     }
 
     @Override
-    public int addPromotionRule(PromotionRule promotionRule) {
+    public boolean addPromotionRule(PromotionRule promotionRule) throws CouponRuleAddFailException {
         CouponRule couponRule=(CouponRule)promotionRule;
         CouponRulePo couponRulePo=couponRule.getRealObj();
         couponRule.setGmtCreate(LocalDateTime.now());
         couponRule.setGmtModified(LocalDateTime.now());
         couponRule.setStatusCode(true);
         couponRule.setBeDeleted(false);
-        int n=couponRuleMapper.addCouponRule(couponRulePo);
-        return n;
+        if(couponRuleMapper.addCouponRule(couponRulePo)){
+            return true;
+        }
+        else {
+            throw new CouponRuleAddFailException();
+        }
     }
 
     @Override
@@ -73,17 +83,17 @@ public class CouponRuleDao implements PromotionRuleDao  {
     }
 
     @Override
-    public boolean updatePromotionRuleById(PromotionRule promotionRule) throws UpdatedDataFailedException {
+    public boolean updatePromotionRuleById(PromotionRule promotionRule) throws CouponRuleUpdateFailException {
         CouponRule couponRule=(CouponRule)promotionRule;
         CouponRulePo couponRulePo=couponRule.getRealObj();
         couponRulePo.setGmtModified(LocalDateTime.now());
-        int res= couponRuleMapper.updateCouponRuleById(couponRulePo);
-        if(res==0){
-            throw new UpdatedDataFailedException();
-        }
-        else{
+        if(couponRuleMapper.updateCouponRuleById(couponRulePo)){
             return true;
         }
+        else {
+            throw new CouponRuleUpdateFailException();
+        }
+
     }
 
 
@@ -129,9 +139,14 @@ public class CouponRuleDao implements PromotionRuleDao  {
      * @param id
      */
     @Override
-    public void deletePromotionRuleById(Integer id) {
+    public boolean deletePromotionRuleById(Integer id) throws CouponRuleDeleteFailException {
         CouponRulePo couponRule=new CouponRulePo(id,true);
         couponRule.setGmtModified(LocalDateTime.now());
-        couponRuleMapper.updateCouponRuleById(couponRule);
+        if(couponRuleMapper.updateCouponRuleById(couponRule)){
+            return true;
+        }
+        else {
+            throw new CouponRuleDeleteFailException();
+        }
     }
 }
