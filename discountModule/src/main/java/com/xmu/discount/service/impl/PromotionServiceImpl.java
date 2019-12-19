@@ -6,6 +6,7 @@ import com.xmu.discount.dao.PresaleRuleDao;
 import com.xmu.discount.dao.PromotionRuleDao;
 import com.xmu.discount.domain.coupon.Coupon;
 import com.xmu.discount.domain.discount.PromotionRule;
+import com.xmu.discount.domain.others.domain.Goods;
 import com.xmu.discount.domain.others.domain.GoodsPo;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.exception.*;
@@ -62,8 +63,8 @@ public abstract class PromotionServiceImpl {
         for(PromotionRule promotionRule:promotionRules){
             if(promotionRule.getActiveStatus().equals(PromotionRule.ActiveStatus.INPROCESS)){
                 Object retObj = goodsFeign.getGoodsById(promotionRule.getGoodsId());
-
-                promotionRule.setGoodsPo(JacksonUtil.getBack(retObj, GoodsPo.class));
+                Goods goods=JacksonUtil.getBack(retObj, Goods.class);
+                promotionRule.setGoodsPo(new GoodsPo(goods));
             }
         }
         return promotionRules;
@@ -104,9 +105,9 @@ public abstract class PromotionServiceImpl {
         for(PromotionRule promotionRule:promotionRules){
 
             Object retObj = goodsFeign.getGoodsById(promotionRule.getGoodsId());
-            GoodsPo goodsPo=JacksonUtil.getBack(retObj, GoodsPo.class);
+            Goods goods=JacksonUtil.getBack(retObj, Goods.class);
 
-            promotionRule.setGoodsPo(goodsPo);
+            promotionRule.setGoodsPo(new GoodsPo(goods));
         }
 
         return promotionRules;
