@@ -239,8 +239,7 @@ public class Coupon {
                 ", gmtCreate=" + gmtCreate +
                 ", gmtModified=" + gmtModified +
                 ", beDeleted=" + beDeleted +
-                ", status=" + status +
-                ", couponRule=" + couponRule +
+
                 '}';
     }
 
