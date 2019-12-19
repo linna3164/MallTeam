@@ -25,12 +25,9 @@ public class PresaleRuleDao implements PromotionRuleDao {
      * @return
      */
     @Override
-    public PromotionRule getPromotionRuleById(Integer id) throws PresaleRuleUnValidException {
+    public PromotionRule getPromotionRuleById(Integer id)  {
 
         PromotionRule promotionRule=presaleRuleMapper.getPresaleRuleById(id);
-        if(promotionRule==null){
-            throw new PresaleRuleUnValidException();
-        }
         return promotionRule;
     }
 

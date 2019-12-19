@@ -82,7 +82,7 @@ public class DiscountController {
      * @return
      */
     @PostMapping("/couponRules")
-    public Object addCouponRule(@RequestBody  CouponRulePo couponRulePo,HttpServletRequest request)  {
+    public Object addCouponRule(@RequestBody  CouponRulePo couponRulePo,HttpServletRequest request) throws PresaleRuleAddFailException, GrouponRuleAddFailException, CouponRuleAddFailException {
         CouponRule couponRule=new CouponRule(couponRulePo);
         couponRule = (CouponRule) couponRuleService.addPromotion((PromotionRule) couponRule);
         couponRulePo=couponRule.getRealObj();
@@ -118,7 +118,7 @@ public class DiscountController {
      * @return
      */
     @PutMapping("/couponRules/{id}")
-    public Object updateCouponRuleById(@PathVariable Integer id,@RequestBody CouponRulePo couponRulePo,HttpServletRequest request)  {
+    public Object updateCouponRuleById(@PathVariable Integer id,@RequestBody CouponRulePo couponRulePo,HttpServletRequest request) throws GrouponRuleUpdateFailException, PresaleRuleUpdateFailException, CouponRuleUpdateFailException, PresaleRuleUnValidException {
         CouponRule couponRule=new CouponRule(couponRulePo);
         couponRule.setId(id);
        couponRule= (CouponRule) couponRuleService.updatepromotionRule(couponRule);
@@ -137,17 +137,16 @@ public class DiscountController {
      * @return
      */
     @DeleteMapping("/couponRules/{id}")
-    public Object deleteCouponRuleById(@PathVariable Integer id,HttpServletRequest request)  {
+    public Object deleteCouponRuleById(@PathVariable Integer id,HttpServletRequest request) throws CouponRuleDeleteFailException, PresaleRuleDeleteFailException, GrouponRuleDeleteFailException, GrouponRuleUpdateFailException {
        CouponRule couponRule= (CouponRule) couponRuleService.getPromotionById(id,"couponRule");
         System.out.println(couponRule);
+        if(couponRule==null){
+            throw new CouponRuleDeleteFailException();
+        }
         couponRuleService.deletePromotionById(couponRule);
-            couponRule= (CouponRule) couponRuleService.getPromotionById(id,"couponRule");
-        if(couponRule.getRealObj()==null){
-            return ResponseUtil.ok("删除成功");
-        }
-        else {
-            return ResponseUtil.fail(713,"优惠券规则删除失败");
-        }
+
+        return ResponseUtil.ok("删除成功");
+
     }
 
     /**
@@ -251,7 +250,7 @@ public class DiscountController {
      * @return 标准组GrouponRulePo
      */
     @PostMapping("/grouponRules")
-    public Object addGrouponRule(@RequestBody GrouponRulePo grouponRulePo) {
+    public Object addGrouponRule(@RequestBody GrouponRulePo grouponRulePo) throws CouponRuleAddFailException, GrouponRuleAddFailException, PresaleRuleAddFailException {
         GrouponRule grouponRule=new GrouponRule(grouponRulePo);
         grouponRule=(GrouponRule) grouponService.addPromotion(grouponRule);
         grouponRulePo=grouponRule.getRealObj();
@@ -268,7 +267,7 @@ public class DiscountController {
      * @return 标准组GrouponRuleVo
      */
     @GetMapping("/admin/grouponRules/{id}")
-    public Object findGroupRuleById(@PathVariable Integer id)  {
+    public Object findGroupRuleById(@PathVariable Integer id) throws PresaleRuleUnValidException {
         GrouponRule grouponRule=(GrouponRule) grouponService.getPromotionById(id,"grouponRule");
         GrouponRulePo grouponRulePo=grouponRule.getRealObj();
         GrouponRuleVo grouponRuleVo=new GrouponRuleVo();
@@ -278,9 +277,9 @@ public class DiscountController {
 
         grouponRuleVo.setGoodsPo(goodsPo);
         grouponRuleVo.setGrouponRulePo(grouponRulePo);
-        if(grouponRuleVo!=null)
-        {return ResponseUtil.ok(grouponRuleVo);}
-        else {return ResponseUtil.fail(710,"该团购规则是无效团购规则");}
+//        if(grouponRuleVo!=null)
+        return ResponseUtil.ok(grouponRuleVo);
+//        else {return ResponseUtil.fail(710,"该团购规则是无效团购规则");}
     }
 
     /**
@@ -290,7 +289,7 @@ public class DiscountController {
      * @return 标准组GrouponRulePo
      */
     @PutMapping("/grouponRules/{id}")
-    public Object modifyGrouponRuleById(@PathVariable Integer id,@RequestBody GrouponRulePo grouponRulePo) {
+    public Object modifyGrouponRuleById(@PathVariable Integer id,@RequestBody GrouponRulePo grouponRulePo) throws GrouponRuleUpdateFailException, PresaleRuleUpdateFailException, CouponRuleUpdateFailException, PresaleRuleUnValidException {
         GrouponRule grouponRule=new GrouponRule(grouponRulePo);
         grouponRule=(GrouponRule) grouponService.updatepromotionRule(grouponRule);
         GrouponRuleVo grouponRuleVo=new GrouponRuleVo();
@@ -300,12 +299,8 @@ public class DiscountController {
 
         grouponRuleVo.setGoodsPo(goodsPo);
         grouponRuleVo.setGrouponRulePo(grouponRule.getRealObj());
-        if(grouponRuleVo==null){
-            return ResponseUtil.fail(721,"团购规则修改失败");
-        }
-        else {
-            return ResponseUtil.ok(grouponRuleVo);
-        }
+
+        return ResponseUtil.ok(grouponRuleVo);
     }
 
     /**
@@ -316,18 +311,15 @@ public class DiscountController {
     @DeleteMapping("/grouponRules/{id}")
     public Object deleteGroupRule(@PathVariable Integer id) throws GrouponRuleDeleteFailException, CouponRuleDeleteFailException, PresaleRuleDeleteFailException, GrouponRuleUpdateFailException {
 
-        PromotionRule promotionRule= null;
-        try {
-            promotionRule = grouponService.getPromotionById(id,"grouponRule");
-        } catch (PresaleRuleUnValidException e) {
-            throw new GrouponRuleDeleteFailException();
-        }
-//        if(promotionRule==null) {return ResponseUtil.fail(723,"团购规则删除失败");}
-//        else {
-            grouponService.deletePromotionById(promotionRule);
+        PromotionRule promotionRule=promotionRule = grouponService.getPromotionById(id,"grouponRule");
 
-        return ResponseUtil.ok();
-//        }
+        if(promotionRule==null) {return ResponseUtil.fail(723,"团购规则删除失败");}
+        else {
+            grouponService.deletePromotionById(promotionRule);
+            return ResponseUtil.ok();
+        }
+
+
     }
 
     /**
@@ -360,10 +352,9 @@ public class DiscountController {
      */
     @GetMapping("/grouponRules/{id}")
     public Object getGrouponRulesById(@PathVariable Integer id) throws GrouponRuleUnValidException {
-        GrouponRule promotionRule= null;
-        try {
-            promotionRule = (GrouponRule) grouponService.getPromotionById(id,"grouponRule");
-        } catch (PresaleRuleUnValidException e) {
+        GrouponRule promotionRule = (GrouponRule) grouponService.getPromotionById(id,"grouponRule");
+
+        if(promotionRule==null){
             throw new GrouponRuleUnValidException();
         }
         GrouponRuleVo grouponRuleVo=new GrouponRuleVo();
@@ -372,12 +363,8 @@ public class DiscountController {
         GoodsPo goodsPo=JacksonUtil.getBack(retObj, GoodsPo.class);
 
         grouponRuleVo.setGoodsPo(goodsPo);
-        if(grouponRuleVo==null) {
-            return ResponseUtil.fail(720,"该团购规则是无效团购规则");
-        }
-        else {
-            return ResponseUtil.ok(grouponRuleVo);
-        }
+
+        return ResponseUtil.ok(grouponRuleVo);
     }
 
 
@@ -502,19 +489,14 @@ public class DiscountController {
      */
     @DeleteMapping("/presaleRules/{id}")
     public Object deletePresaleRuleById(@PathVariable Integer id) throws PresaleRuleDeleteFailException, CouponRuleDeleteFailException, GrouponRuleDeleteFailException, GrouponRuleUpdateFailException {
-        PresaleRule presaleRule= null; //为什么会有name这个参数
-        try {
-            presaleRule = (PresaleRule)presaleService.getPromotionById(id,"presaleRule");
-        } catch (PresaleRuleUnValidException e) {
+        PresaleRule presaleRule = (PresaleRule)presaleService.getPromotionById(id,"presaleRule");
+
+        if(presaleRule==null){
             throw new PresaleRuleDeleteFailException();
         }
-        if(presaleRule!=null) {
-          presaleService.deletePromotionById(presaleRule);
-          return ResponseUtil.ok();
-        }
-        else {
-            throw new PresaleRuleDeleteFailException();
-        }
+        presaleService.deletePromotionById(presaleRule);
+        return ResponseUtil.ok();
+
     }
 
     /**
@@ -548,7 +530,7 @@ public class DiscountController {
      * @return
      */
     @PostMapping("/discount/orders")
-    public Object getPayment(Order order){
+    public Object getPayment(Order order) throws SubmitOrderFailException {
         Order orderRes=presaleService.getPayment(order);
         return ResponseUtil.ok(orderRes);
     }
@@ -590,6 +572,38 @@ public class DiscountController {
             return ResponseUtil.ok(null);
         }
     }
+
+    /**
+     * 设置团购活动失效
+     * @param id
+     * @return Return  responseUtil.ok()
+     */
+    @PostMapping("/grouponRules/{id/}invalid")
+    public Object setGrouponRuleDisable(@PathVariable Integer id){
+
+    }
+
+
+    /**
+     * 设置优惠券活动失效
+     * @param id
+     * @return Return  responseUtil.ok()
+     */
+    @PostMapping("/couponRules/{id}/invalid")
+    public Object setCouponRuleDisable(@PathVariable Integer id){
+
+    }
+
+    /**
+     * 设置预售活动失效
+     * @param id
+     * @return Return  responseUtil.ok()
+     */
+    @PostMapping("/presaleRules/{id}/invalid")
+    public Object setPresaleRuleDisable(@PathVariable Integer id){
+
+    }
+
 
 
 

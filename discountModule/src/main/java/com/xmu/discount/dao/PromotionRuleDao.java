@@ -15,7 +15,7 @@ public interface PromotionRuleDao {
      * @param id
      * @return
      */
-    PromotionRule getPromotionRuleById(Integer id) throws PresaleRuleUnValidException;
+    PromotionRule getPromotionRuleById(Integer id);
 
     /**
      * 查看所有促销规则
@@ -47,5 +47,5 @@ public interface PromotionRuleDao {
      * 删除促销活动
      * @param id
      */
-    boolean deletePromotionRuleById(Integer id) throws PresaleRuleDeleteFailException, CouponRuleDeleteFailException, GrouponRuleUpdateFailException, GrouponRuleDeleteFailException;
+    boolean deletePromotionRuleById(Integer id) throws PresaleRuleDeleteFailException, CouponRuleDeleteFailException, GrouponRuleDeleteFailException;
 }

@@ -32,13 +32,13 @@ public class CouponRuleServiceImpl extends PromotionServiceImpl {
      * @param promotionRule
      */
     @Override
-    public void toDoSomthingAfterDisable(PromotionRule promotionRule) throws CouponRuleSetDisableFailException {
+    public void toDoSomthingAfterDisable(PromotionRule promotionRule) throws PromotionRuleSetDisableException {
         //找到该优惠券规则未使用的优惠券
         List<Coupon> couponList= null;
         try {
             couponList = couponService.listCouponByCouponRuleIdAndStatus((CouponRule) promotionRule, Coupon.Status.NOT_USED);
         } catch (CouponRuleUnValidException e) {
-            throw new CouponRuleSetDisableFailException();
+            throw new PromotionRuleSetDisableException();
         }
 
         for(Coupon coupon:couponList){

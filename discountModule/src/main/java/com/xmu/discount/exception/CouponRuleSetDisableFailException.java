@@ -1,4 +1,4 @@
 package com.xmu.discount.exception;
 
-public class CouponRuleSetDisableFailException extends Throwable {
+public class CouponRuleSetDisableFailException extends PromotionRuleSetDisableException {
 }

@@ -4,7 +4,7 @@ import com.xmu.discount.domain.discount.PromotionRule;
 import com.xmu.discount.domain.others.domain.GoodsPo;
 import com.xmu.discount.domain.others.domain.Order;
 import com.xmu.discount.domain.others.domain.OrderItem;
-import com.xmu.discount.exception.UnsupportException;
+import com.xmu.discount.exception.GetCouponFailException;
 import com.xmu.discount.util.JacksonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +38,7 @@ public class CouponRule extends PromotionRule {
     }
 
     @Override
-    public Order getPayment(Order order) throws UnsupportException {
+    public Order getPayment(Order order)  {
         logger.debug("cacuCouponPrice参数: Order = "+ order + "couponSn = "+order.getCouponId());
 
         List<OrderItem> validItems = this.getValidItems(order.getOrderItemList());
@@ -82,7 +82,7 @@ public class CouponRule extends PromotionRule {
      *创建优惠券（）
      * @return
      */
-    public Coupon createCoupon(Integer userId) throws Exception {
+    public Coupon createCoupon(Integer userId) throws GetCouponFailException {
         if(this.canGet()){
 
             Coupon coupon=new Coupon(this,userId);
@@ -93,7 +93,8 @@ public class CouponRule extends PromotionRule {
             return coupon;
         }
         else {
-            throw new Exception();
+            throw new GetCouponFailException();
+
         }
     }
 

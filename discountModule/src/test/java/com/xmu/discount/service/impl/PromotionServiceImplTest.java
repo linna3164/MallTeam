@@ -7,11 +7,8 @@ import com.google.gson.JsonObject;
 import com.xmu.discount.DiscountApplication;
 import com.xmu.discount.domain.coupon.CouponRule;
 import com.xmu.discount.domain.discount.*;
-import com.xmu.discount.exception.PresaleRuleDeleteFailException;
-import com.xmu.discount.exception.PromotionNotFoundException;
+import com.xmu.discount.exception.*;
 import com.xmu.discount.domain.discount.PromotionRule;
-import com.xmu.discount.exception.SeriousException;
-import com.xmu.discount.exception.UpdatedDataFailedException;
 import com.xmu.discount.util.JacksonUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,10 +111,10 @@ class PromotionServiceImplTest {
 
     /**
      * 获得预售规则：不存在的id，通过
-     * @throws PromotionNotFoundException
+     * @throws
      */
     @Test
-    void getPromotionById() throws PromotionNotFoundException {
+    void getPromotionById()   {
         PromotionRule promotionRule=presaleService.getPromotionById(1,"presaleRule");
         assertEquals(null,promotionRule);
     }
@@ -125,10 +122,10 @@ class PromotionServiceImplTest {
 
     /**
      * 正常，通过
-     * @throws PromotionNotFoundException
+     * @throws
      */
     @Test
-    void getPromotionById2() throws PromotionNotFoundException {
+    void getPromotionById2()   {
 
         PromotionRule promotionRule=presaleService.getPromotionById(3,"presaleRule");
         System.out.println(promotionRule);
@@ -138,17 +135,17 @@ class PromotionServiceImplTest {
 
     /**
      * 正常删除，通过
-     * @throws PromotionNotFoundException
-     * @throws UpdatedDataFailedException
+     * @throws
+     * @throws
      */
     @Test
-    void deletePromotionById() throws PromotionNotFoundException, UpdatedDataFailedException, PresaleRuleDeleteFailException {
+    void deletePromotionById() throws GrouponRuleUpdateFailException, PresaleRuleDeleteFailException, CouponRuleDeleteFailException, GrouponRuleDeleteFailException {
             PromotionRule promotionRule=presaleService.getPromotionById(3,"presaleRule");
             presaleService.deletePromotionById(promotionRule);
     }
 
     @Test
-    void deletePromotionById2() throws PromotionNotFoundException, UpdatedDataFailedException, PresaleRuleDeleteFailException {
+    void deletePromotionById2() throws GrouponRuleUpdateFailException, PresaleRuleDeleteFailException, CouponRuleDeleteFailException, GrouponRuleDeleteFailException {
         PromotionRule promotionRule=grouponService.getPromotionById(1,"grouponRule");
         grouponService.deletePromotionById(promotionRule);
     }
@@ -166,7 +163,7 @@ class PromotionServiceImplTest {
      * 更新存在的。通过
      */
     @Test
-    void updatepromotionRule2() throws UpdatedDataFailedException, PromotionNotFoundException {
+    void updatepromotionRule2() throws GrouponRuleUpdateFailException, PresaleRuleUpdateFailException, CouponRuleUpdateFailException, PresaleRuleUnValidException {
 
 //        PromotionRule promotionRule=presaleService.getPromotionById(4,"presaleRule");
 //        System.out.println(promotionRule);
@@ -180,7 +177,7 @@ class PromotionServiceImplTest {
     }
 
     @Test
-    void updatepromotionRule4() throws UpdatedDataFailedException, PromotionNotFoundException {
+    void updatepromotionRule4() throws GrouponRuleUpdateFailException, PresaleRuleUpdateFailException, CouponRuleUpdateFailException, PresaleRuleUnValidException {
 
 //        PromotionRule promotionRule=presaleService.getPromotionById(4,"presaleRule");
 //        System.out.println(promotionRule);
@@ -197,7 +194,7 @@ class PromotionServiceImplTest {
      * 更新已经被删除的。通过
      */
     @Test
-    void updatepromotionRule3() throws UpdatedDataFailedException, PromotionNotFoundException {
+    void updatepromotionRule3() throws GrouponRuleUpdateFailException, PresaleRuleUpdateFailException, CouponRuleUpdateFailException, PresaleRuleUnValidException {
 
         PromotionRule promotionRule=presaleService.getPromotionById(3,"presaleRule");
         PresaleRule presaleRule=new PresaleRule();
@@ -243,7 +240,7 @@ class PromotionServiceImplTest {
 
 
     @Test
-    void addPresaleRule() throws UpdatedDataFailedException, SeriousException {
+    void addPresaleRule() throws CouponRuleAddFailException, GrouponRuleAddFailException, PresaleRuleAddFailException {
 
         PresaleRule presaleRule=new PresaleRule();
         presaleRule.setDeposit(new BigDecimal(10));
@@ -260,15 +257,15 @@ class PromotionServiceImplTest {
     }
 
     @Test
-    void addPresaleRule2() throws UpdatedDataFailedException, SeriousException {
+    void addPresaleRule2() throws CouponRuleAddFailException, GrouponRuleAddFailException, PresaleRuleAddFailException {
 
         PresaleRule presaleRule=new PresaleRule();
         presaleRule.setDeposit(new BigDecimal(10));
         presaleRule.setFinalPayment(new BigDecimal(100));
-        presaleRule.setStartTime(LocalDateTime.now().plusDays(7));
-        presaleRule.setAdEndTime(LocalDateTime.now().plusDays(8));
-        presaleRule.setFinalStartTime(LocalDateTime.now().plusDays(9));
-        presaleRule.setEndTime(LocalDateTime.now().plusDays(10));
+        presaleRule.setStartTime(LocalDateTime.now().plusDays(70));
+        presaleRule.setAdEndTime(LocalDateTime.now().plusDays(80));
+        presaleRule.setFinalStartTime(LocalDateTime.now().plusDays(90));
+        presaleRule.setEndTime(LocalDateTime.now().plusDays(100));
         presaleRule.setGoodsId(1);
 
 
@@ -277,7 +274,7 @@ class PromotionServiceImplTest {
     }
 
     @Test
-    void addPresaleRule3() throws UpdatedDataFailedException, SeriousException {
+    void addPresaleRule3() throws CouponRuleAddFailException, GrouponRuleAddFailException, PresaleRuleAddFailException {
 
         PresaleRule presaleRule=new PresaleRule();
         presaleRule.setDeposit(new BigDecimal(10));
@@ -297,7 +294,7 @@ class PromotionServiceImplTest {
      * 添加
      */
     @Test
-    void addGrouponRule1() throws UpdatedDataFailedException, SeriousException {
+    void addGrouponRule1() throws CouponRuleAddFailException, GrouponRuleAddFailException, PresaleRuleAddFailException {
         GrouponRule grouponRule = new GrouponRule();
         GrouponRulePo grouponRulePo = new GrouponRulePo();
         grouponRule.setRealObj(grouponRulePo);
@@ -407,16 +404,16 @@ class PromotionServiceImplTest {
 
     /**
      * 通过id获取团购规则
-     * @throws PromotionNotFoundException
+     * @throws
      */
     @Test
-    void getGrouponRuleById() throws PromotionNotFoundException {
+    void getGrouponRuleById()   {
         PromotionRule promotionRule=grouponService.getPromotionById(1,"grouponRule");
         assertEquals(promotionRule,null);
     }
 
     @Test
-    void addGrouponRule12() throws UpdatedDataFailedException, SeriousException {
+    void addGrouponRule12() throws CouponRuleAddFailException, GrouponRuleAddFailException, PresaleRuleAddFailException {
         GrouponRule grouponRule = new GrouponRule();
         GrouponRulePo grouponRulePo = new GrouponRulePo();
         grouponRule.setRealObj(grouponRulePo);
@@ -436,10 +433,10 @@ class PromotionServiceImplTest {
 
     /**
      * 通过Id找团购规则，正常，通过
-     * @throws PromotionNotFoundException
+     * @throws
      */
     @Test
-    void getGrouponRuleById2() throws PromotionNotFoundException {
+    void getGrouponRuleById2()   {
         PromotionRule promotionRule=grouponService.getPromotionById(1,"grouponRule");
 
         assertEquals(promotionRule,null);
@@ -447,10 +444,10 @@ class PromotionServiceImplTest {
 
     /**
      * 通过id找优惠券规则，正常，通过
-     * @throws PromotionNotFoundException
+     * @throws
      */
     @Test
-    void getGrouponRuleById3() throws PromotionNotFoundException {
+    void getGrouponRuleById3()  {
         PromotionRule promotionRule=grouponService.getPromotionById(7,"grouponRule");
 
         GrouponRule grouponRule=(GrouponRule)promotionRule;

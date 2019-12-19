@@ -2,7 +2,7 @@ package com.xmu.discount.domain.discount;
 
 import com.xmu.discount.domain.others.domain.GoodsPo;
 import com.xmu.discount.domain.others.domain.Order;
-import com.xmu.discount.exception.UnsupportException;
+import com.xmu.discount.exception.SubmitOrderFailException;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -186,7 +186,7 @@ public abstract class PromotionRule implements Serializable {
      * @param order 订单
      * @return
      */
-    public abstract Order getPayment(Order order) throws UnsupportException;
+    public abstract Order getPayment(Order order) throws SubmitOrderFailException;
 
     /**
      * 获得促销开始的时间

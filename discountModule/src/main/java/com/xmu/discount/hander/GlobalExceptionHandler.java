@@ -103,5 +103,12 @@ public class GlobalExceptionHandler {
     {
         return ResponseUtil.fail(710,"该优惠券规则是无效优惠券规则");
     }
+
+    @ExceptionHandler(value = SubmitOrderFailException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Object submitOrderFailException ()
+    {
+        return ResponseUtil.fail(710,"提交订单计算优惠金额时发生错误");
+    }
 }
 

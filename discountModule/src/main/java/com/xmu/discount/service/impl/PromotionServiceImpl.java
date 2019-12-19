@@ -39,7 +39,7 @@ public abstract class PromotionServiceImpl {
     /**
      * 活动实效后的行为
      */
-    public  abstract void toDoSomthingAfterDisable(PromotionRule promotionRule) throws CouponRuleSetDisableFailException;
+    public  abstract void toDoSomthingAfterDisable(PromotionRule promotionRule) throws CouponRuleSetDisableFailException, PromotionRuleSetDisableException;
 
 
     /**
@@ -117,12 +117,19 @@ public abstract class PromotionServiceImpl {
      * 设置失效
      * @param promotionRule
      */
-    public void setDisabled(PromotionRule promotionRule) throws PresaleRuleSetDisableFailException, GrouponRuleUpdateFailException, CouponRuleSetDisableFailException {
+    public void setDisabled(PromotionRule promotionRule) throws PromotionRuleSetDisableException {
         if(promotionRule.beOkToDisable())
         {
             String daoName=getDaoClassName(promotionRule);
-            ((PromotionRuleDao)SpringContextUtil.getBean(daoName)).setDisable(promotionRule);
+            try {
+                ((PromotionRuleDao)SpringContextUtil.getBean(daoName)).setDisable(promotionRule);
+            } catch (GrouponRuleUpdateFailException e) {
+                throw new PromotionRuleSetDisableException();
+            }
             this.toDoSomthingAfterDisable(promotionRule);
+        }
+        else {
+            throw new PromotionRuleSetDisableException();
         }
     }
 
@@ -131,7 +138,7 @@ public abstract class PromotionServiceImpl {
      * @param id
      * @return
      */
-    public PromotionRule getPromotionById(Integer id,String promotionName) throws PresaleRuleUnValidException {
+    public PromotionRule getPromotionById(Integer id,String promotionName)  {
         return ((PromotionRuleDao)SpringContextUtil.getBean(promotionName+"Dao")).getPromotionRuleById(id);
     }
 
@@ -177,7 +184,7 @@ public abstract class PromotionServiceImpl {
      * @param order
      * @return
      */
-    public Order getPayment(Order order)    {
+    public Order getPayment(Order order) throws SubmitOrderFailException {
 
         //获得订单商品当前的促销活动规则
         PromotionRule promotionRule=this.listCurrentPromotionByGoodsId(order.getOrderItemList().get(0).getProduct().getGoodsId());

@@ -6,7 +6,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.xmu.discount.domain.others.domain.*;
-import com.xmu.discount.exception.UnsupportException;
+import com.xmu.discount.exception.SubmitOrderFailException;
 import com.xmu.discount.util.JacksonUtil;
 import org.apache.ibatis.type.Alias;
 import org.slf4j.Logger;
@@ -172,12 +172,12 @@ public class GrouponRule extends PromotionRule {
      * @return
      */
     @Override
-    public Order getPayment(Order order) throws UnsupportException{
+    public Order getPayment(Order order) throws SubmitOrderFailException {
         List<OrderItem> orderItems = order.getOrderItemList();
         BigDecimal finalPrice = new BigDecimal(0);
 
         if(orderItems.size()!=1){
-             throw new UnsupportException();
+             throw new SubmitOrderFailException();
         }
         else {
            OrderItem orderItem=orderItems.get(0);
