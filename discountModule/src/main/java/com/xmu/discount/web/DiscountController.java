@@ -123,6 +123,7 @@ public class DiscountController {
         CouponRule couponRule=new CouponRule(couponRulePo);
         couponRule.setId(id);
        couponRule= (CouponRule) couponRuleService.updatepromotionRule(couponRule);
+       if(couponRule==null) {return ResponseUtil.fail(710,"该优惠券是无效优惠券规则，或在活动期间");}
        couponRulePo=couponRule.getRealObj();
        if(couponRulePo==null) {
            return returnResult(new Log(Integer.valueOf(request.getHeader("userId")),request.getHeader("ip"),2,"管理员修改优惠券规则",0,id),ResponseUtil.fail(711,"优惠券规则修改失败"));
