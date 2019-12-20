@@ -15,6 +15,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author  ln
+ * @Description 团购活动相关的dao
+ * @ate 2019/12/10
+ */
 @Repository
 public class GrouponRuleDao implements PromotionRuleDao {
 

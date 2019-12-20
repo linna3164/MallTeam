@@ -14,6 +14,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * @author  ln
+ * @Description 优惠券规则活动相关的service
+ * @ate 2019/12/10
+ */
 @Service
 public class CouponRuleServiceImpl extends PromotionServiceImpl {
 

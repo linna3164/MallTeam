@@ -18,7 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * @author  ln
+ * @Description 团购活动相关的service
+ * @ate 2019/12/10
  */
 @Service
 public class GrouponServiceImpl extends PromotionServiceImpl{
