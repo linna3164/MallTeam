@@ -192,7 +192,9 @@ public abstract class PromotionServiceImpl {
         //没有促销活动
         if(promotionRule==null){
             //没有用优惠券
+            System.out.println("没有优惠活动");
            if(order.getCouponId()==null){
+               System.out.println("没有优惠券");
                return order;
            }
            //有用优惠券

@@ -144,11 +144,13 @@ public class DiscountController {
         CouponRule couponRule= (CouponRule) couponRuleService.getPromotionById(id,"couponRule");
         System.out.println(couponRule);
         if(couponRule==null){
-            return returnResult(new Log(Integer.valueOf(request.getHeader("userId")),request.getHeader("ip"),3,"管理员通过id删除优惠券规则",1,id),ResponseUtil.ok("删除成功"));
+            return returnResult(new Log(Integer.valueOf(request.getHeader("userId")),request.getHeader("ip"),3,"管理员通过id删除优惠券规则",0,id),ResponseUtil.fail(710,"该优惠券规则是无效优惠券规则"));
         }
-        couponRuleService.deletePromotionById(couponRule);
-
-        return returnResult(new Log(Integer.valueOf(request.getHeader("userId")),request.getHeader("ip"),3,"管理员通过id删除优惠券规则",0,id),ResponseUtil.fail(713,"优惠券规则删除失败"));
+        boolean success=couponRuleService.deletePromotionById(couponRule);
+        if(success) {
+             return returnResult(new Log(Integer.valueOf(request.getHeader("userId")),request.getHeader("ip"),3,"管理员通过id删除优惠券规则",1,id),ResponseUtil.ok("优惠券规则删除成功"));
+        }
+        else return returnResult(new Log(Integer.valueOf(request.getHeader("userId")),request.getHeader("ip"),3,"管理员通过id删除优惠券规则",0,id),ResponseUtil.fail(713,"优惠券规则删除失败"));
 
     }
 
@@ -209,10 +211,12 @@ public class DiscountController {
     @PostMapping("/coupons")
     public Object addCoupon(@RequestParam Integer couponRuleId,HttpServletRequest request) throws GetCouponFailException {
         Integer userId = Integer.valueOf(request.getHeader("userId"));
-        Coupon coupon = couponService.addCoupon(couponRuleId,userId);    //直接传的coupon，参数都有
+        Coupon coupon = couponService.addCoupon(couponRuleId,userId);    //直接传的couponRule
         if (coupon == null) {
             return ResponseUtil.badArgumentValue();
         } else {
+            List<Coupon> coupons=couponService.listUnUsedCouponOfUser(userId);
+            coupon=coupons.get(coupons.size()-1);
             return ResponseUtil.ok(coupon);
         }
     }

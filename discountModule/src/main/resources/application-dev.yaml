@@ -30,27 +30,27 @@ spring:
           slow-sql-millis: 100
       validation-query: select 1
 
-#eureka:
-#  instance:
-#    #    hostname: localhost
-#    #   其他服务获取此服务时不响应服务名称，而是响应该服务的ip
-#    prefer-ip-address: true
-#  client:
-#    service-url:
-#      defaultZone: http://60.205.212.233:8761/eureka/
-#      lease-expiration-duration-in-seconds: 90
-#      #   服务续约(renew)的间隔，默认为30秒
-#      lease-renewal-interval-in-seconds: 30
-#
-#hystrix:
-#  command:
-#    default:
-#      execution:
-#        isolation:
-#          thread:
-#            timeoutInMilliseconds: 15000
-#
-#
-#feign:
-#  hystrix:
-#    enabled: true
+eureka:
+  instance:
+    #    hostname: localhost
+    #   其他服务获取此服务时不响应服务名称，而是响应该服务的ip
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://60.205.212.233:8761/eureka/
+      lease-expiration-duration-in-seconds: 90
+      #   服务续约(renew)的间隔，默认为30秒
+      lease-renewal-interval-in-seconds: 30
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 15000
+
+
+feign:
+  hystrix:
+    enabled: true

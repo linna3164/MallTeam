@@ -21,6 +21,8 @@ public class OrderItem extends OrderItemPo {
 
     private Product product;
 
+    public OrderItem(){}
+
     public void setProduct(Product product) {
         this.product = product;
     }
@@ -47,6 +49,7 @@ public class OrderItem extends OrderItemPo {
 
         this.setGmtCreate(LocalDateTime.now());
     }
+
 
     @Override
     public Object clone() throws CloneNotSupportedException {

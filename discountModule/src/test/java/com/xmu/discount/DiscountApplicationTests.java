@@ -1,71 +1,84 @@
-//package com.xmu.discount;
-//
-//import com.xmu.discount.dao.CouponDao;
-//import com.xmu.discount.dao.CouponRuleDao;
-//import com.xmu.discount.dao.GrouponRuleDao;
-//import com.xmu.discount.dao.PresaleRuleDao;
-//import com.xmu.discount.domain.coupon.Coupon;
-//import com.xmu.discount.domain.coupon.CouponRule;
-//import com.xmu.discount.domain.coupon.CouponRulePo;
-//import com.xmu.discount.domain.discount.GrouponRule;
-//import com.xmu.discount.domain.discount.GrouponRulePo;
-//import com.xmu.discount.domain.discount.PresaleRule;
-//import com.xmu.discount.domain.discount.PromotionRule;
-//import com.xmu.discount.domain.others.domain.CartItem;
-//import com.xmu.discount.domain.others.domain.GoodsPo;
-//import com.xmu.discount.domain.others.domain.Product;
-//import com.xmu.discount.exception.*;
-//import com.xmu.discount.service.CouponService;
-//import com.xmu.discount.service.impl.CouponRuleServiceImpl;
-//import com.xmu.discount.service.impl.CouponServiceImpl;
-//import com.xmu.discount.service.impl.GrouponServiceImpl;
-//import com.xmu.discount.service.impl.PromotionServiceImpl;
-//import com.xmu.discount.util.JacksonUtil;
-//import org.junit.jupiter.api.Test;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.beans.factory.annotation.Qualifier;
-//import org.springframework.boot.test.context.SpringBootTest;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//@SpringBootTest
-//class DiscountApplicationTests {
-//
-////    @Autowired
-////    @Qualifier("promotionServiceImpl")
-////    private PromotionServiceImpl discountService;
-////
-////    @Autowired
-////    private CouponServiceImpl couponService;
-////
-////    @Autowired
-////    private CouponRuleServiceImpl couponRuleService;
-////
-////    @Autowired
-////    @Qualifier("grouponServiceImpl")
-////    private PromotionServiceImpl grouponService;
-////
-////    @Autowired
-////    @Qualifier("presaleServiceImpl")
-////    private PromotionServiceImpl presaleService;
-//
-//
+package com.xmu.discount;
+
+import com.xmu.discount.dao.CouponDao;
+import com.xmu.discount.dao.CouponRuleDao;
+import com.xmu.discount.dao.GrouponRuleDao;
+import com.xmu.discount.dao.PresaleRuleDao;
+import com.xmu.discount.domain.coupon.Coupon;
+import com.xmu.discount.domain.coupon.CouponRule;
+import com.xmu.discount.domain.coupon.CouponRulePo;
+import com.xmu.discount.domain.discount.GrouponRule;
+import com.xmu.discount.domain.discount.GrouponRulePo;
+import com.xmu.discount.domain.discount.PresaleRule;
+import com.xmu.discount.domain.discount.PromotionRule;
+import com.xmu.discount.domain.others.domain.*;
+import com.xmu.discount.exception.*;
+import com.xmu.discount.service.CouponService;
+import com.xmu.discount.service.impl.CouponRuleServiceImpl;
+import com.xmu.discount.service.impl.CouponServiceImpl;
+import com.xmu.discount.service.impl.GrouponServiceImpl;
+import com.xmu.discount.service.impl.PromotionServiceImpl;
+import com.xmu.discount.util.JacksonUtil;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@SpringBootTest
+class DiscountApplicationTests {
+
 //    @Autowired
-//    private CouponDao couponDao;
-//
-//    @Autowired
-//    private CouponRuleDao couponRuleDao;
-//
-//    @Autowired
-//    private GrouponRuleDao grouponRuleDao;
-//
-//    @Autowired
-//    private PresaleRuleDao presaleRuleDao;
+//    @Qualifier("promotionServiceImpl")
+//    private PromotionServiceImpl discountService;
 //
 //    @Autowired
 //    private CouponServiceImpl couponService;
 //
+//    @Autowired
+//    private CouponRuleServiceImpl couponRuleService;
+//
+//    @Autowired
+//    @Qualifier("grouponServiceImpl")
+//    private PromotionServiceImpl grouponService;
+//
+//    @Autowired
+//    @Qualifier("presaleServiceImpl")
+//    private PromotionServiceImpl presaleService;
+
+
+    @Autowired
+    private CouponDao couponDao;
+
+    @Autowired
+    private CouponRuleDao couponRuleDao;
+
+    @Autowired
+    private GrouponRuleDao grouponRuleDao;
+
+    @Autowired
+    private PresaleRuleDao presaleRuleDao;
+
+    @Autowired
+    private CouponServiceImpl couponService;
+
+
+    @Test
+    void h(){
+        Order order=new Order();
+        OrderItem orderItem=new OrderItem();
+        orderItem.setProduct(new Product());
+        orderItem.getProduct().setGoodsPo(new GoodsPo());
+        orderItem.getProduct().getGoodsPo().setId(297);
+        order.setCouponId(1);
+        orderItem.setId(1);
+       List<OrderItem> orderItems=new ArrayList<>();
+       orderItems.add(orderItem);
+        order.setOrderItemList(orderItems);
+        System.out.println(JacksonUtil.toJson(order));
+    }
 //@Test
 //void hah() throws PromotionNotFoundException {
 //     CouponRule couponRule= (CouponRule) couponRuleDao.getPromotionRuleById(1);
@@ -86,8 +99,8 @@
 //           for(Coupon c:coupons) System.out.println(c);
 //
 //    }
-//
-//
+
+
 //    @Test
 //    void contextLoads() throws PromotionNotFoundException, UpdatedDataFailedException, SeriousException, UnsupportException, CouponRuleNotFoundException, CouponNotFoundException, PresaleRuleDeleteFailException {
 //
@@ -107,7 +120,7 @@
 //        for(Coupon c:coupons) System.out.println(c);
 //        Coupon coupon=couponDao.getCouponById(1);
 //        System.out.println(coupon);
-//        int i=couponDao.deleteCouponById(1);
+//        boolean i=couponDao.deleteCouponById(1);
 //        if(i==0) System.out.println("删除失败");
 //        coupon.setBeDeleted(false);
 //        couponDao.updateCouponById(coupon);
@@ -148,5 +161,5 @@
 //
 //
 //    }
-//
-//}
+
+}
