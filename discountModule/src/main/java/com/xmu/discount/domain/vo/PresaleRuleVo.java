@@ -5,6 +5,10 @@ import com.xmu.discount.domain.discount.PresaleRule;
 import com.xmu.discount.domain.others.domain.GoodsPo;
 import com.xmu.discount.domain.others.domain.PresaleRuleSt;
 
+/**
+ * 预售规则vo
+ * @author api标准组
+ */
 public class PresaleRuleVo {
 
     private PresaleRuleSt presaleRule;

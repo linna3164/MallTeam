@@ -1,5 +1,8 @@
 package com.xmu.discount.exception;
 
+/**
+ * @author lenovo
+ */
 public class GrouponRuleAddFailException extends Exception {
 
     public GrouponRuleAddFailException() {

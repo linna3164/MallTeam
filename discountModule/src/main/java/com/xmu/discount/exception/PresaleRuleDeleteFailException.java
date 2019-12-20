@@ -1,5 +1,8 @@
 package com.xmu.discount.exception;
 
+/**
+ * @author lenovo
+ */
 public class PresaleRuleDeleteFailException extends Exception {
     public PresaleRuleDeleteFailException() {
     }

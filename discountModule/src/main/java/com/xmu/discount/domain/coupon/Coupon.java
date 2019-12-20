@@ -13,8 +13,10 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * @author nanaLin
- */
+ * 优惠券
+ * @author: nanaLin
+ * @date: Created in 18:00 2019/11/10
+ **/
 @Alias("coupon")
 public class Coupon {
 

@@ -36,6 +36,7 @@ import java.util.Map;
  * <li> 7xx，管理后台后端业务错误码，
  * 具体见litemall-wx-api模块的WxResponseCode。
  * </ul>
+ * @author litemall
  */
 public class ResponseUtil {
     public static Object ok() {
@@ -67,7 +68,7 @@ public class ResponseUtil {
         return obj;
     }
 
-    public static Object CouponRuleNotFOund(){return fail(505,"找不到指定的优惠券规则");}
+    public static Object couponRuleNotFOund(){return fail(505,"找不到指定的优惠券规则");}
 
     public static Object badArgument() {
         return fail(401, "参数不对");

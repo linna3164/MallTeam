@@ -9,8 +9,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * @Author: Êı¾İ¿âÓë¶ÔÏóÄ£ĞÍ±ê×¼×é
- * @Description: ¸¶¿î¼ÇÂ¼
+ * @Author: æ•°æ®åº“ä¸å¯¹è±¡æ¨¡å‹æ ‡å‡†ç»„
+ * @Description: ä»˜æ¬¾è®°å½•
  * @Date: Created in 16:00 2019/12/11
  **/
 
@@ -22,35 +22,35 @@ public class Payment {
 
     private Integer id;
     /**
-     * ¸¶¿î½ğ¶î
+     * ä»˜æ¬¾é‡‘é¢
      */
     private BigDecimal actualPrice;
      /**
-     * ¸¶¿îÇşµÀ£¬Î¢ĞÅ£¬ÒøĞĞµÈµÈ
+     * ä»˜æ¬¾æ¸ é“ï¼Œå¾®ä¿¡ï¼Œé“¶è¡Œç­‰ç­‰
      */
     private Integer payChannel;
     /**
-     * ÊÇ·ñ¸¶¿î³É¹¦,0²»³É¹¦£¬1³É¹¦
+     * æ˜¯å¦ä»˜æ¬¾æˆåŠŸ,0ä¸æˆåŠŸï¼Œ1æˆåŠŸ
      */
     private Boolean beSuccessful;
     /**
-     * ¸¶¿îÊ±¼ä
+     * ä»˜æ¬¾æ—¶é—´
      */
     private LocalDateTime payTime;
     /**
-     * ¸¶¿î±àºÅ£¬´ÓÖ§¸¶ÇşµÀ»ñµÃµÄ
+     * ä»˜æ¬¾ç¼–å·ï¼Œä»æ”¯ä»˜æ¸ é“è·å¾—çš„
      */
     private String paySn;
     /**
-     * ¸¶¿îµÄ¿ªÊ¼Ê±¼ä £¨ÔÚ¿ªÊ¼Ê±¼äºÍ½áÊøÊ±¼äÖ®¼ä²Å¿ÉÒÔ¸¶¿î£©
+     * ä»˜æ¬¾çš„å¼€å§‹æ—¶é—´ ï¼ˆåœ¨å¼€å§‹æ—¶é—´å’Œç»“æŸæ—¶é—´ä¹‹é—´æ‰å¯ä»¥ä»˜æ¬¾ï¼‰
      */
     private LocalDateTime beginTime;
     /**
-     * ¸¶¿îµÄ½áÊøÊ±¼ä
+     * ä»˜æ¬¾çš„ç»“æŸæ—¶é—´
      */
     private LocalDateTime endTime;
     /**
-     * ¶©µ¥Id
+     * è®¢å•Id
      */
     private Integer orderId;
     private LocalDateTime gmtCreate;

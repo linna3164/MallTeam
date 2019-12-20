@@ -57,10 +57,8 @@ public class GrouponServiceImpl extends PromotionServiceImpl{
         for(GrouponRule grouponRule:grouponRuleList)
         {
 
-//                Integer numstest = orderFeign.getGrouponOrders(grouponRule.getRealObj());
                 System.out.println("into try");
 
-//            catch (Exception e){
                 System.out.println("into catch");
 
                 Integer nums = orderFeign.getGrouponOrders(grouponRule.getRealObj());

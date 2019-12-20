@@ -1,5 +1,8 @@
 package com.xmu.discount.exception;
 
+/**
+ * @author lenovo
+ */
 public class CouponSetDisableFailException extends Exception {
     public CouponSetDisableFailException() {
     }

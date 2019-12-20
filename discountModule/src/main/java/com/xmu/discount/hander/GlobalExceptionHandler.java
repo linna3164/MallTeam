@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @author zhouzhongjun
+ * @author ln
  */
 @ControllerAdvice
 @RestController
@@ -17,7 +17,10 @@ public class GlobalExceptionHandler {
 
 
 
-    //=============================================================
+    /****************************************************
+     * 生成代码
+     ****************************************************/
+
     @ExceptionHandler(value = PresaleRuleAddFailException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Object presaleRuleAddException()
@@ -46,7 +49,10 @@ public class GlobalExceptionHandler {
         return ResponseUtil.fail(730,"该预售规则是无效团购规则");
     }
 
-    //================================================================
+    /****************************************************
+     * 生成代码
+     ****************************************************/
+
     @ExceptionHandler(value = GrouponRuleAddFailException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Object grouponRuleAddFailException()
@@ -75,7 +81,11 @@ public class GlobalExceptionHandler {
         return ResponseUtil.fail(720,"该团购规则是无效团购规则");
     }
 
-    //========================================================================
+
+    /****************************************************
+     * 生成代码
+     ****************************************************/
+
     @ExceptionHandler(value = CouponRuleAddFailException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Object couponRuleAddFailException()

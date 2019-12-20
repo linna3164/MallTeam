@@ -16,6 +16,11 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
 
+/**
+ * 团购规则
+ * @author: nanaLin
+ * @date: Created in 18:00 2019/11/10
+ **/
 @Alias("grouponRule")
 public class GrouponRule extends PromotionRule {
 
@@ -271,7 +276,10 @@ public class GrouponRule extends PromotionRule {
 
 
 
-    //******生成代码*****
+    /****************************************************
+     * 生成代码
+     ****************************************************/
+
     public GrouponRulePo getRealObj() {
         return realObj;
     }

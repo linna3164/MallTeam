@@ -14,6 +14,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
+/**
+ * 优惠券规则
+ * @author: nanaLin
+ * @date: Created in 18:00 2019/11/10
+ **/
 public class CouponRule extends PromotionRule {
 
 
@@ -413,9 +418,7 @@ public class CouponRule extends PromotionRule {
         this.realObj = realObj;
     }
 
-//    public boolean canEqual(Object other) {
-//        return realObj.canEqual(other);
-//    }
+
 
     @Override
     public Integer getId() {

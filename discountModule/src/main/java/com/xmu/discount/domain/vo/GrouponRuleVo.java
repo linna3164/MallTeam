@@ -3,6 +3,10 @@ package com.xmu.discount.domain.vo;
 import com.xmu.discount.domain.discount.GrouponRulePo;
 import com.xmu.discount.domain.others.domain.GoodsPo;
 
+/**
+ * 团购规则vo
+ * @author api标准组
+ */
 public class GrouponRuleVo {
     private GrouponRulePo grouponRulePo;
     private GoodsPo goodsPo;

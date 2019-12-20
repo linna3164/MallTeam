@@ -4,6 +4,11 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
 
+/**
+ * number策略
+ * @author: nanaLin
+ * @date: Created in 18:00 2019/11/10
+ **/
 public class NumberStrategy extends AbstractCouponStrategy {
 
     /**

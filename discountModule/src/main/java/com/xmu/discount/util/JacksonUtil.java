@@ -13,6 +13,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * @author ln
+ */
 public class JacksonUtil {
 
     private static final Log logger = LogFactory.getLog(JacksonUtil.class);

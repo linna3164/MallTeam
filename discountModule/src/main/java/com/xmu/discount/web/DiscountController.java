@@ -23,7 +23,6 @@ import org.aspectj.apache.bcel.classfile.Module;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -168,7 +167,9 @@ public class DiscountController {
         PageHelper.startPage(page,limit);
         List<CouponRule> couponRules= (List<CouponRule>) couponRuleService.listPromotionRuleOfType("couponRule");
         List<CouponRulePo> couponRulePos=new ArrayList<CouponRulePo>();
-        for(CouponRule c:couponRules)  couponRulePos.add(c.getRealObj());
+        for(CouponRule c:couponRules) {
+            couponRulePos.add(c.getRealObj());
+        }
         return ResponseUtil.ok(couponRulePos);
     }
 
@@ -214,11 +215,12 @@ public class DiscountController {
      * @return
      */
     @PostMapping("/coupons")
-    public Object addCoupon(@RequestBody Coupon couponI,HttpServletRequest request) throws GetCouponFailException {
+    public Object addCoupon(@RequestBody Coupon couponi,HttpServletRequest request) throws GetCouponFailException {
 
-        Integer couponRuleId=couponI.getCouponRuleId();
+        Integer couponRuleId=couponi.getCouponRuleId();
         Integer userId = Integer.valueOf(request.getHeader("userId"));
-        Coupon coupon = couponService.addCoupon(couponRuleId,userId);    //直接传的couponRule
+        //直接传的couponRule
+        Coupon coupon = couponService.addCoupon(couponRuleId,userId);
         if (coupon == null) {
             return ResponseUtil.fail(714,"用户领取优惠券失败");
         } else {
@@ -534,7 +536,7 @@ public class DiscountController {
     }
 
     @GetMapping("/admin/presaleRules/{id}")
-    public Object AdminGetPresaleRuleById(@PathVariable Integer id)  {
+    public Object adminGetPresaleRuleById(@PathVariable Integer id)  {
 
         System.out.println("into presaleRule/id");
         PresaleRule presaleRule=(PresaleRule) presaleService.getPromotionById(id,"presaleRule");

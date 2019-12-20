@@ -14,6 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * 预售规则策略
+ * @author: nanaLin
+ * @date: Created in 18:00 2019/11/10
+ **/
 @Alias("presaleRule")
 public class PresaleRule extends PromotionRule {
 

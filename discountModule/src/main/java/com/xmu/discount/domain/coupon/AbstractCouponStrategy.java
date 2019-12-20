@@ -52,15 +52,18 @@ import java.util.List;
     public boolean isOkToUse(List<OrderItem> validItems){
 
         //优惠商品的总价和数量
-        BigDecimal totalPrice = BigDecimal.ZERO;//可用优惠券明细的订单item的总价
-        Integer totalQuantity = 0;//可用优惠券明细的订单item的总数量
+        //可用优惠券明细的订单item的总价
+        BigDecimal totalPrice = BigDecimal.ZERO;
+        //可用优惠券明细的订单item的总数量
+        Integer totalQuantity = 0;
 
         Iterator<OrderItem> itemIterator = validItems.iterator();
 
         while (itemIterator.hasNext()){
             OrderItem item = itemIterator.next();
             logger.debug("总价 totalPrice="+ totalPrice + " 总数 totalQuantitiy = "+totalQuantity);
-            totalPrice = totalPrice.add(item.getPrice().multiply(BigDecimal.valueOf(item.getNumber())));//可优惠总价
+            //可优惠总价
+            totalPrice = totalPrice.add(item.getPrice().multiply(BigDecimal.valueOf(item.getNumber())));
             totalQuantity += item.getNumber();
         }
 
@@ -108,7 +111,6 @@ import java.util.List;
             for (OrderItem item: discountItems){
                 //按照比例分配，可能会出现精度误差，在后面补偿到第一个货品上
                 BigDecimal dealPrice = this.getDealPrice(item.getPrice(), totalPrice);//每一项商品的每一项
-//                item.setpromotionRulesn(couponSn);
                 logger.debug("优惠价格 dealPrice="+ dealPrice);
                 item.setDealPrice(dealPrice);
                 dealTotalPrice = dealTotalPrice.add(dealPrice.multiply(BigDecimal.valueOf(item.getNumber())));//每一项的优惠价格
