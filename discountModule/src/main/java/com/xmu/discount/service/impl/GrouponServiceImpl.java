@@ -47,19 +47,31 @@ public class GrouponServiceImpl extends PromotionServiceImpl{
      * 间和goodsid检查所有买了这个商品的order，返给discount模块就
      * 行
      */
-    @Scheduled(cron = "0 10 0 ? * *")
+    @Scheduled(cron = "0 0 0 ? * *")
     public void caculateGroupon(){
+
+        System.out.println("into groupon1");
         List<GrouponRule> grouponRuleList = listNeedCalcuGrouponRule();
         for(GrouponRule grouponRule:grouponRuleList)
         {
-            Integer nums = orderFeign.getGrouponOrders(grouponRule.getRealObj());
-            BigDecimal rate = grouponRule.cacuGrouponRefund(nums);
 
-            orderFeign.refundGrouponOrder(grouponRule.getRealObj(),rate);
+//                Integer numstest = orderFeign.getGrouponOrders(grouponRule.getRealObj());
+                System.out.println("into try");
 
-            //设置团购规则为已经结束（finish）
-//            grouponRule.setStatusCode(false);
-        }
+//            catch (Exception e){
+                System.out.println("into catch");
+
+                Integer nums = orderFeign.getGrouponOrders(grouponRule.getRealObj());
+                BigDecimal rate = grouponRule.cacuGrouponRefund(nums);
+
+
+                System.out.println("nums:"+nums);
+                System.out.println("rate"+rate);
+
+                orderFeign.refundGrouponOrder(grouponRule.getRealObj(),rate);
+
+            }
+
 
 
     }
@@ -83,6 +95,8 @@ public class GrouponServiceImpl extends PromotionServiceImpl{
                 res.add((GrouponRule) promotionRule);
             }
         }
+
+        System.out.println(res);
         return res;
     }
 

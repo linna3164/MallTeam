@@ -1,5 +1,5 @@
 server:
-  port: 3702
+  port: 3703
 
 #spring:
 #  application:
@@ -42,9 +42,9 @@ spring:
     name: discountService
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://47.98.145.177:3306/oomall
-    username: root
-    password: 123456
+    url: jdbc:mysql://60.205.212.233:3306/oomall?serverTimezone=UTC
+    username: chao
+    password: 123
     druid:
       #初始化时建立物理连接的个数
       initial-size: 2
@@ -84,20 +84,17 @@ spring:
     timeout: 3000ms # 连接超时时间（毫秒）
 
 
-#mybatis:
-#  #domain对象的包
-#  type-aliases-package: com.xmu.freight.domain
-#  #mapper。xml所在的位置
-#  mapper-locations: classpath:com.xmu.freight.mapper/*.xml
-#  configuration:
-#    #自动将SQL中查出来的带下划线的字段，转换为驼峰标志，再去匹配类中的属性
-#    map-underscore-to-camel-case: true
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 
 feign:
   hystrix:
     enabled: true
+    command:
+      default:
+        execution:
+          isolation:
+            thread:
+              timeoutInMilliseconds: 120000
   client:
     config:
       share:
@@ -113,10 +110,14 @@ feign:
 
 #设置熔断是为6秒
 ribbon:
-  ConnectTimeout: 60000
-  ReadTimeout: 60000
+  eager-load:
+    enabled: true
+    clients: orderService
+  ConnectTimeout: 120000
+  ReadTimeout: 120000
   eureka:
     enabled: true
+
 
 #指定注册中心地址
 eureka:
