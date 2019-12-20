@@ -150,7 +150,9 @@ public class DiscountController {
         if(success) {
              return returnResult(new Log(Integer.valueOf(request.getHeader("userId")),request.getHeader("ip"),3,"管理员通过id删除优惠券规则",1,id),ResponseUtil.ok("优惠券规则删除成功"));
         }
-        else return returnResult(new Log(Integer.valueOf(request.getHeader("userId")),request.getHeader("ip"),3,"管理员通过id删除优惠券规则",0,id),ResponseUtil.fail(713,"优惠券规则删除失败"));
+        else {
+            return returnResult(new Log(Integer.valueOf(request.getHeader("userId")),request.getHeader("ip"),3,"管理员通过id删除优惠券规则",0,id),ResponseUtil.fail(713,"优惠券规则删除失败"));
+        }
 
     }
 
@@ -187,19 +189,19 @@ public class DiscountController {
 
         PageHelper.startPage(page,limit);
         if(type==0){
-            return couponService.listUnUsedCouponOfUser(userId);
+            return ResponseUtil.ok(couponService.listUnUsedCouponOfUser(userId));
         }
         else if(type==1){
-            return couponService.listUsedCouponOfUser(userId);
+            return ResponseUtil.ok(couponService.listUsedCouponOfUser(userId));
         }
         else if(type==2){
-            return couponService.listDisabledCouponOfUser(userId);
+            return ResponseUtil.ok(couponService.listDisabledCouponOfUser(userId));
         }
         else if(type==3){
-            return couponService.listOverDueCouponOfUser(userId);
+            return ResponseUtil.ok(couponService.listOverDueCouponOfUser(userId));
         }
         else {
-            return null;
+            return ResponseUtil.ok(null);
         }
     }
 

@@ -13,6 +13,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +58,7 @@ public class GrouponServiceImpl extends PromotionServiceImpl{
             orderFeign.refundGrouponOrder(grouponRule.getRealObj(),rate);
 
             //设置团购规则为已经结束（finish）
-            grouponRule.setStatusCode(false);
+//            grouponRule.setStatusCode(false);
         }
 
 
@@ -72,8 +73,13 @@ public class GrouponServiceImpl extends PromotionServiceImpl{
         List<? extends PromotionRule> promotionRules=grouponRuleDao.listPromotions();
 
         List<GrouponRule> res=new ArrayList<>();
+        LocalDate yesterday=LocalDate.now().minusDays(1);
+
         for(PromotionRule promotionRule:promotionRules){
-            if(promotionRule.getActiveStatus().equals(PromotionRule.ActiveStatus.WAITFINISH)){
+
+            LocalDate endDay=promotionRule.getPromotionEndTime().toLocalDate();
+
+            if(endDay.equals(yesterday)){
                 res.add((GrouponRule) promotionRule);
             }
         }
