@@ -5,6 +5,11 @@ import com.xmu.discount.exception.*;
 
 import java.util.List;
 
+/**
+ * @author  ln
+ * @Description 促销活动相关的dao
+ * @ate 2019/12/10
+ */
 public interface PromotionRuleDao {
 
 

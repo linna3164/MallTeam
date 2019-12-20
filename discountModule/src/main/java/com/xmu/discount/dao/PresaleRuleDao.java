@@ -11,6 +11,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author  ln
+ * @Description 预售活动相关的dao
+ * @ate 2019/12/10
+ */
 @Repository
 public class PresaleRuleDao implements PromotionRuleDao {
 

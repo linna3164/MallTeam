@@ -9,6 +9,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * @author  ln
+ * @Description 促销活动相关的service
+ * @ate 2019/12/10
+ */
 @Service
 public interface PromotionService {
 

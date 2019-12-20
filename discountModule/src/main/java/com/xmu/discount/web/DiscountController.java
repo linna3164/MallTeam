@@ -19,9 +19,11 @@ import com.xmu.discount.service.impl.*;
 import com.xmu.discount.util.JacksonUtil;
 import com.xmu.discount.util.ResponseUtil;
 import org.apache.catalina.util.RequestUtil;
+import org.aspectj.apache.bcel.classfile.Module;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -183,14 +185,15 @@ public class DiscountController {
      * @return
      */
     @GetMapping("/coupons")
-    public Object getCoupons(@RequestParam Integer type,@RequestParam(defaultValue = "1") Integer page,
-                                   @RequestParam(defaultValue = "10") Integer limit,HttpServletRequest request){
+    public Object getCoupons(@RequestParam(required = false) Integer type, @RequestParam(defaultValue = "1") Integer page,
+                             @RequestParam(defaultValue = "10") Integer limit, HttpServletRequest request){
         Integer userId = Integer.valueOf(request.getHeader("userId"));
 
         PageHelper.startPage(page,limit);
         if(type==0){
             return ResponseUtil.ok(couponService.listUnUsedCouponOfUser(userId));
         }
+
         else if(type==1){
             return ResponseUtil.ok(couponService.listUsedCouponOfUser(userId));
         }
@@ -249,7 +252,7 @@ public class DiscountController {
      * @return 标准组List<GrouponRuleVo>
      */
     @GetMapping("/grouponRules")
-    public Object getGroupRules(@RequestParam Integer goodsId, @RequestParam(defaultValue = "1") Integer page,
+    public Object getGroupRules(@RequestParam (required = false)Integer goodsId, @RequestParam(defaultValue = "1") Integer page,
                                              @RequestParam(defaultValue = "10") Integer limit,HttpServletRequest request)  {
         PageHelper.startPage(page,limit);
         List<GrouponRule> grouponRules= (List<GrouponRule>) grouponService.listPromotionRuleOfTypeWithGoods("grouponRule");
@@ -428,7 +431,7 @@ public class DiscountController {
     @GetMapping("/presaleRules")
     public Object getAllPresaleRules(@RequestParam(defaultValue = "1") Integer page,
                                                 @RequestParam(defaultValue = "10") Integer limit,
-                                                @RequestParam Integer goodsId,HttpServletRequest request)  {
+                                                @RequestParam (required= false)Integer goodsId,HttpServletRequest request)  {
         PageHelper.startPage(page,limit);
         List<? extends PromotionRule> presaleRules= presaleService.listPresaleRuleByGoodsId(goodsId);
         List<GrouponRuleVo> grouponRuleVos=new ArrayList<>();
@@ -454,7 +457,7 @@ public class DiscountController {
     public Object getAllPresaleRules(@RequestParam(defaultValue = "1") Integer page,
                                                 @RequestParam(defaultValue = "10") Integer limit,HttpServletRequest request) {
         List<? extends PromotionRule> presaleRules = presaleService.listPromotionRuleOfTypeWithGoods("presaleRule");
-
+        PageHelper.startPage(page,limit);
         List<PresaleRuleVo> presaleRuleVos = new ArrayList<>();
 
         for (PromotionRule promotionRule : presaleRules) {
@@ -589,6 +592,7 @@ public class DiscountController {
     @GetMapping("/presaleGoods")
     public Object getOnsalePresaleRules(@RequestParam(defaultValue = "1") Integer page,
                                                 @RequestParam(defaultValue = "10") Integer limit){
+        PageHelper.startPage(page,limit);
         List<? extends PromotionRule> presaleRules = presaleService.listPromotionRuleOfTypeInprocessWithGoods("presaleRule");
 
         List<PresaleRuleVo> presaleRuleVos = new ArrayList<>();

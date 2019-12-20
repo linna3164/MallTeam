@@ -7,6 +7,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * @author  ln
+ * @Description 团购活动相关的接口
+ * @ate 2019/12/10
+ */
 @Mapper
 @Component
 public interface CouponRuleMapper {

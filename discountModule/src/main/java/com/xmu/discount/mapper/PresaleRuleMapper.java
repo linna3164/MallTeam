@@ -6,6 +6,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * @author  ln
+ * @Description 预售活动相关的mapper接口
+ * @ate 2019/12/10
+ */
 @Component
 @Mapper
 public interface PresaleRuleMapper {
