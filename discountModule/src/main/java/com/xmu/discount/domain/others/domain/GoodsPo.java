@@ -99,27 +99,32 @@ public class GoodsPo {
     public GoodsPo(){}
 
     public GoodsPo(Goods goods){
-        this.setId(goods.getId());
-        this.setName(goods.getName());
-        this.setShareUrl(goods.getShareUrl());
-        this.setBrandId(goods.getBrandId());
-        this.setBeSpecial(goods.getBeSpecial());
-        this.setBrief(goods.getBrief());
-        this.setDescription(goods.getDescription());
-        this.setDetail(goods.getDetail());
-        this.setGallery(goods.getGallery());
-        this.setGmtCreate(goods.getGmtCreate());
-        this.setGmtModified(goods.getGmtModified());
-        this.setGoodsCategoryId(goods.getGoodsCategoryId());
-        this.setBeDeleted(goods.getBeDeleted());
-        this.setWeight(goods.getWeight());
-        this.setVolume(goods.getVolume());
-        this.setStatusCode(goods.getStatusCode());
-        this.setSpecialFreightId(goods.getSpecialFreightId());
-        this.setShortName(goods.getShortName());
-        this.setPicUrl(goods.getPicUrl());
-        this.setPrice(goods.getPrice());
-        this.setShortName(goods.getShortName());
+        if(goods==null){
+
+        }
+        else {
+            this.setId(goods.getId());
+            this.setName(goods.getName());
+            this.setShareUrl(goods.getShareUrl());
+            this.setBrandId(goods.getBrandId());
+            this.setBeSpecial(goods.getBeSpecial());
+            this.setBrief(goods.getBrief());
+            this.setDescription(goods.getDescription());
+            this.setDetail(goods.getDetail());
+            this.setGallery(goods.getGallery());
+            this.setGmtCreate(goods.getGmtCreate());
+            this.setGmtModified(goods.getGmtModified());
+            this.setGoodsCategoryId(goods.getGoodsCategoryId());
+            this.setBeDeleted(goods.getBeDeleted());
+            this.setWeight(goods.getWeight());
+            this.setVolume(goods.getVolume());
+            this.setStatusCode(goods.getStatusCode());
+            this.setSpecialFreightId(goods.getSpecialFreightId());
+            this.setShortName(goods.getShortName());
+            this.setPicUrl(goods.getPicUrl());
+            this.setPrice(goods.getPrice());
+            this.setShortName(goods.getShortName());
+        }
     }
 
     public Integer getId() {

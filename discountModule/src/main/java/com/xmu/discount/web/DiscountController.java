@@ -167,7 +167,7 @@ public class DiscountController {
         List<CouponRule> couponRules= (List<CouponRule>) couponRuleService.listPromotionRuleOfType("couponRule");
         List<CouponRulePo> couponRulePos=new ArrayList<CouponRulePo>();
         for(CouponRule c:couponRules)  couponRulePos.add(c.getRealObj());
-        return couponRulePos;
+        return ResponseUtil.ok(couponRulePos);
     }
 
     /**
@@ -207,15 +207,17 @@ public class DiscountController {
 
     /**
      * 管理员添加优惠券（用户领取优惠券）
-     * @param couponRuleId
+     * @param couponI
      * @return
      */
     @PostMapping("/coupons")
-    public Object addCoupon(@RequestParam Integer couponRuleId,HttpServletRequest request) throws GetCouponFailException {
+    public Object addCoupon(@RequestBody Coupon couponI,HttpServletRequest request) throws GetCouponFailException {
+
+        Integer couponRuleId=couponI.getCouponRuleId();
         Integer userId = Integer.valueOf(request.getHeader("userId"));
         Coupon coupon = couponService.addCoupon(couponRuleId,userId);    //直接传的couponRule
         if (coupon == null) {
-            return ResponseUtil.badArgumentValue();
+            return ResponseUtil.fail(714,"用户领取优惠券失败");
         } else {
             List<Coupon> coupons=couponService.listUnUsedCouponOfUser(userId);
             coupon=coupons.get(coupons.size()-1);
@@ -516,7 +518,12 @@ public class DiscountController {
             presaleRuleVo.setPresaleRule(new PresaleRuleSt(presaleRule));
             Object retObj = goodsFeign.getGoodsById(presaleRule.getGoodsId());
             Goods goods=JacksonUtil.getBack(retObj, Goods.class);
-            presaleRuleVo.setGoodsPo(new GoodsPo(goods));
+            if(goods==null){
+                presaleRuleVo.setGoodsPo(null);
+            }
+            else {
+                presaleRuleVo.setGoodsPo(new GoodsPo(goods));
+            }
             return ResponseUtil.ok(presaleRuleVo);
         } else {
             return ResponseUtil.fail(730,"该优惠券规则无效");
@@ -534,6 +541,12 @@ public class DiscountController {
             presaleRuleVo.setPresaleRule(new PresaleRuleSt(presaleRule));
             Object retObj = goodsFeign.getGoodsById(presaleRule.getGoodsId());
             Goods goods=JacksonUtil.getBack(retObj, Goods.class);
+            if(goods==null){
+                presaleRuleVo.setGoodsPo(null);
+            }
+            else {
+                presaleRuleVo.setGoodsPo(new GoodsPo(goods));
+            }
             presaleRuleVo.setGoodsPo(new GoodsPo(goods));
             return ResponseUtil.ok(presaleRuleVo);
         } else {
@@ -554,8 +567,12 @@ public class DiscountController {
     public Object deletePresaleRuleById(@PathVariable Integer id) throws GrouponRuleUpdateFailException, PresaleRuleDeleteFailException, CouponRuleDeleteFailException, GrouponRuleDeleteFailException {
         PresaleRule presaleRule=(PresaleRule)presaleService.getPromotionById(id,"presaleRule"); //为什么会有name这个参数
       if(presaleRule!=null) {
-          presaleService.deletePromotionById(presaleRule);
+          boolean success=presaleService.deletePromotionById(presaleRule);
 //          presaleRule = (PresaleRule) presaleService.getPromotionById(id, "presaleRule");
+          if(!success){
+              return ResponseUtil.fail(733,"预售规则删除失败");
+
+          }
           return ResponseUtil.ok();
       }
       else {
@@ -605,8 +622,8 @@ public class DiscountController {
      * @return
 ]     */
     @GetMapping("/goods/{id}/grouponRule")
-    public Object getInProcessGrouponRuleByGoodsId(@PathVariable Integer goodsId)  {
-        PromotionRule promotionRule=grouponService.listCurrentPromotionByGoodsId(goodsId);
+    public Object getInProcessGrouponRuleByGoodsId(@PathVariable Integer id)  {
+        PromotionRule promotionRule=grouponService.listCurrentPromotionByGoodsId(id);
         if(promotionRule==null){
             return ResponseUtil.ok(null);
         }
@@ -624,13 +641,13 @@ public class DiscountController {
      * @return
      */
     @GetMapping("/goods/{id}/presaleRule")
-    public Object getInProcessPresaleRuleByGoodsId(@PathVariable Integer goodsId)  {
-        PromotionRule promotionRule=grouponService.listCurrentPromotionByGoodsId(goodsId);
+    public Object getInProcessPresaleRuleByGoodsId(@PathVariable Integer id)  {
+        PromotionRule promotionRule=presaleService.listCurrentPromotionByGoodsId(id);
         if(promotionRule==null){
             return ResponseUtil.ok(null);
         }
         else if(promotionRule instanceof PresaleRule){
-            return ResponseUtil.ok((GrouponRule)promotionRule);
+            return ResponseUtil.ok((PresaleRule)promotionRule);
         }
         else {
             return ResponseUtil.ok(null);

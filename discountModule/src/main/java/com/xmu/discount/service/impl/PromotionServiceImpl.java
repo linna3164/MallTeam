@@ -60,14 +60,16 @@ public abstract class PromotionServiceImpl {
     public List<? extends PromotionRule> listPromotionRuleOfTypeInprocessWithGoods(String promotionName){
         List<? extends PromotionRule> promotionRules=((PromotionRuleDao)SpringContextUtil.getBean(promotionName+"Dao")).listPromotions();
 
+        List<PromotionRule> res=new ArrayList<>();
         for(PromotionRule promotionRule:promotionRules){
             if(promotionRule.getActiveStatus().equals(PromotionRule.ActiveStatus.INPROCESS)){
                 Object retObj = goodsFeign.getGoodsById(promotionRule.getGoodsId());
                 Goods goods=JacksonUtil.getBack(retObj, Goods.class);
                 promotionRule.setGoodsPo(new GoodsPo(goods));
+                res.add(promotionRule);
             }
         }
-        return promotionRules;
+        return res;
 
     }
 
@@ -236,21 +238,24 @@ public abstract class PromotionServiceImpl {
     public PromotionRule listCurrentPromotionByGoodsId(Integer goodsId)    {
         //活动商品的所有促销活动
         List<? extends PromotionRule> promotionRules=this.listProimotionByGoodsId(goodsId);
+        List<PromotionRule> res=new ArrayList<>();
+//        System.out.println("size:"+promotionRules.size());
         for(PromotionRule promotionRule:promotionRules){
             if(promotionRule.getActiveStatus().equals(PromotionRule.ActiveStatus.INPROCESS)) {
-                promotionRules.remove(promotionRule);
+                res.add(promotionRule);
             }
         }
         //没有促销活动
-        if(promotionRules.size()==0){
+        if(res.size()==0){
             return null;
         }
         //促销活动大于1个
-        else  if(promotionRules.size()>1){
+        else  if(res.size()>1){
             return null;
         }
         else{
-            return  promotionRules.get(0);
+            System.out.println("service is success");
+            return  res.get(0);
         }
     }
 
