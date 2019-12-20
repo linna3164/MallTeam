@@ -36,7 +36,6 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/discount")
 public class DiscountController {
 
 
@@ -458,7 +457,7 @@ public class DiscountController {
         for (PromotionRule promotionRule : presaleRules) {
             PresaleRuleVo presaleRuleVo = new PresaleRuleVo();
             PresaleRule presaleRule = (PresaleRule) promotionRule;
-            presaleRuleVo.setPresaleRule(presaleRule);
+            presaleRuleVo.setPresaleRule(new PresaleRuleSt(presaleRule));
             presaleRuleVo.setGoodsPo(presaleRule.getGoodsPo());
             presaleRuleVos.add(presaleRuleVo);
         }
@@ -475,7 +474,7 @@ public class DiscountController {
     public Object addPresaleRule(@RequestBody PresaleRule presaleRule,HttpServletRequest request) throws CouponRuleAddFailException, GrouponRuleAddFailException, PresaleRuleAddFailException {
         PresaleRule presaleRule1=(PresaleRule)presaleService.addPromotion(presaleRule);
         if(presaleRule1==null) {
-            return returnResult(new Log(Integer.valueOf(request.getHeader("userId")),request.getHeader("ip"),1,"管理员发布预售信息",0,null),ResponseUtil.badArgument());
+            return returnResult(new Log(Integer.valueOf(request.getHeader("userId")),request.getHeader("ip"),1,"管理员发布预售信息",0,null),ResponseUtil.fail(732,"预售规则添加失败"));
         } else {
             return returnResult(new Log(Integer.valueOf(request.getHeader("userId")),request.getHeader("ip"),0,"管理员发布预售信息",1,presaleRule1.getId()),ResponseUtil.ok(presaleRule1));
         }
@@ -493,7 +492,7 @@ public class DiscountController {
         presaleRule.setId(id);
         PresaleRule presaleRule1=(PresaleRule) presaleService.updatepromotionRule(presaleRule);
         if(presaleRule1==null) {
-            return returnResult(new Log(Integer.valueOf(request.getHeader("userId")),request.getHeader("ip"),2,"管理员修改预售信息",0,id),ResponseUtil.badArgument());
+            return returnResult(new Log(Integer.valueOf(request.getHeader("userId")),request.getHeader("ip"),2,"管理员修改预售信息",0,id),ResponseUtil.fail(731,"预售规则修改失败"));
         } else {
             return returnResult(new Log(Integer.valueOf(request.getHeader("userId")),request.getHeader("ip"),2,"管理员修改预售信息",1,id),ResponseUtil.ok(presaleRule1));
         }
@@ -507,13 +506,42 @@ public class DiscountController {
      */
     @GetMapping("/presaleRules/{id}")
     public Object getPresaleRuleById(@PathVariable Integer id)  {
+
+        System.out.println("into presaleRule/id");
         PresaleRule presaleRule=(PresaleRule) presaleService.getPromotionById(id,"presaleRule");
-        if(presaleRule==null) {
-            return ResponseUtil.badArgumentValue();
+        if(presaleRule!=null) {
+
+            PresaleRuleVo presaleRuleVo=new PresaleRuleVo();
+            presaleRuleVo.setPresaleRule(new PresaleRuleSt(presaleRule));
+            Object retObj = goodsFeign.getGoodsById(presaleRule.getGoodsId());
+            Goods goods=JacksonUtil.getBack(retObj, Goods.class);
+            presaleRuleVo.setGoodsPo(new GoodsPo(goods));
+            return ResponseUtil.ok(presaleRuleVo);
         } else {
-            return ResponseUtil.ok(presaleRule);
+            return ResponseUtil.fail(730,"该优惠券规则无效");
         }
     }
+
+    @GetMapping("/admin/presaleRules/{id}")
+    public Object AdminGetPresaleRuleById(@PathVariable Integer id)  {
+
+        System.out.println("into presaleRule/id");
+        PresaleRule presaleRule=(PresaleRule) presaleService.getPromotionById(id,"presaleRule");
+        if(presaleRule!=null) {
+
+            PresaleRuleVo presaleRuleVo=new PresaleRuleVo();
+            presaleRuleVo.setPresaleRule(new PresaleRuleSt(presaleRule));
+            Object retObj = goodsFeign.getGoodsById(presaleRule.getGoodsId());
+            Goods goods=JacksonUtil.getBack(retObj, Goods.class);
+            presaleRuleVo.setGoodsPo(new GoodsPo(goods));
+            return ResponseUtil.ok(presaleRuleVo);
+        } else {
+            return ResponseUtil.fail(730,"该优惠券规则无效");
+        }
+    }
+
+
+
 
     /**
      * 管理员通过id删除预售信息
@@ -526,11 +554,11 @@ public class DiscountController {
         PresaleRule presaleRule=(PresaleRule)presaleService.getPromotionById(id,"presaleRule"); //为什么会有name这个参数
       if(presaleRule!=null) {
           presaleService.deletePromotionById(presaleRule);
-          presaleRule = (PresaleRule) presaleService.getPromotionById(id, "presaleRule");
-          return ResponseUtil.ok(presaleRule);
+//          presaleRule = (PresaleRule) presaleService.getPromotionById(id, "presaleRule");
+          return ResponseUtil.ok();
       }
       else {
-          return ResponseUtil.badArgumentValue();
+          return ResponseUtil.fail(733,"预售规则删除失败");
       }
     }
 
@@ -545,14 +573,14 @@ public class DiscountController {
                                                 @RequestParam(defaultValue = "10") Integer limit){
         List<? extends PromotionRule> presaleRules = presaleService.listPromotionRuleOfTypeInprocessWithGoods("presaleRule");
 
-        List<GrouponRuleVo> grouponRuleVos = new ArrayList<>();
+        List<PresaleRuleVo> presaleRuleVos = new ArrayList<>();
 
         for (PromotionRule promotionRule : presaleRules) {
-            GrouponRuleVo grouponRuleVo = new GrouponRuleVo();
-            GrouponRule grouponRule = (GrouponRule) promotionRule;
-            grouponRuleVo.setGrouponRulePo(grouponRule.getRealObj());
-            grouponRuleVo.setGoodsPo(grouponRule.getGoodsPo());
-            grouponRuleVos.add(grouponRuleVo);
+            PresaleRuleVo presaleRuleVo = new PresaleRuleVo();
+            PresaleRule presaleRule = (PresaleRule) promotionRule;
+            presaleRuleVo.setPresaleRule(new PresaleRuleSt(presaleRule));
+            presaleRuleVo.setGoodsPo(presaleRule.getGoodsPo());
+            presaleRuleVos.add(presaleRuleVo);
         }
         return ResponseUtil.ok(presaleRules);
 
@@ -564,8 +592,8 @@ public class DiscountController {
      * @param order
      * @return
      */
-    @PostMapping("/discount/orders")
-    public Object getPayment(Order order) throws SubmitOrderFailException {
+    @PostMapping("/orders")
+    public Object getPayment(@RequestBody  Order order) throws SubmitOrderFailException {
         Order orderRes=presaleService.getPayment(order);
         return ResponseUtil.ok(orderRes);
     }

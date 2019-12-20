@@ -3,18 +3,19 @@ package com.xmu.discount.domain.vo;
 
 import com.xmu.discount.domain.discount.PresaleRule;
 import com.xmu.discount.domain.others.domain.GoodsPo;
+import com.xmu.discount.domain.others.domain.PresaleRuleSt;
 
 public class PresaleRuleVo {
 
-    private PresaleRule presaleRule;
+    private PresaleRuleSt presaleRule;
 
     private GoodsPo goodsPo;
 
-    public PresaleRule getPresaleRule() {
+    public PresaleRuleSt getPresaleRule() {
         return presaleRule;
     }
 
-    public void setPresaleRule(PresaleRule presaleRule) {
+    public void setPresaleRule(PresaleRuleSt presaleRule) {
         this.presaleRule = presaleRule;
     }
 

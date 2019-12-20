@@ -88,13 +88,7 @@ spring:
 
 feign:
   hystrix:
-    enabled: true
-    command:
-      default:
-        execution:
-          isolation:
-            thread:
-              timeoutInMilliseconds: 120000
+    enabled: false
   client:
     config:
       share:
@@ -110,11 +104,8 @@ feign:
 
 #设置熔断是为6秒
 ribbon:
-  eager-load:
-    enabled: true
-    clients: orderService
-  ConnectTimeout: 120000
-  ReadTimeout: 120000
+  ConnectTimeout: 60000
+  ReadTimeout: 60000
   eureka:
     enabled: true
 
@@ -126,5 +117,6 @@ eureka:
       defaultZone: http://47.100.91.153:3500/eureka/
   instance:
     prefer-ip-address: true
-    instance-id: ${spring.cloud.client.ip-address}:${server.port}
-    ip-address: ${spring.cloud.client.ip-address}
+    ip-address: 192.168.1.176
+#    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+#    ip-address: ${spring.cloud.client.ip-address}
