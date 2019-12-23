@@ -1,6 +1,7 @@
 package com.xmu.discount.web;
 
 import com.github.pagehelper.PageHelper;
+import com.google.inject.internal.cglib.core.$ClassNameReader;
 import com.xmu.discount.domain.coupon.Coupon;
 import com.xmu.discount.domain.coupon.CouponRule;
 import com.xmu.discount.domain.coupon.CouponRulePo;
@@ -569,16 +570,16 @@ public class DiscountController {
      * @throws
      */
     @DeleteMapping("/presaleRules/{id}")
-    public Object deletePresaleRuleById(@PathVariable Integer id) throws GrouponRuleUpdateFailException, PresaleRuleDeleteFailException, CouponRuleDeleteFailException, GrouponRuleDeleteFailException {
+    public Object deletePresaleRuleById(@PathVariable Integer id,HttpServletRequest request) throws GrouponRuleUpdateFailException, PresaleRuleDeleteFailException, CouponRuleDeleteFailException, GrouponRuleDeleteFailException {
         PresaleRule presaleRule=(PresaleRule)presaleService.getPromotionById(id,"presaleRule");
       if(presaleRule!=null) {
           boolean success=presaleService.deletePromotionById(presaleRule);
 //          presaleRule = (PresaleRule) presaleService.getPromotionById(id, "presaleRule");
           if(!success){
-              return ResponseUtil.fail(733,"预售规则删除失败");
+              return returnResult(new Log(Integer.valueOf(request.getHeader("userId")),request.getHeader("ip"),0,"管理员删除预售规则",0,id),ResponseUtil.fail(733,"预售规则删除失败"));
 
           }
-          return ResponseUtil.ok();
+          return returnResult(new Log(Integer.valueOf(request.getHeader("userId")),request.getHeader("ip"),0,"管理员删除预售规则",1,id),ResponseUtil.ok());
       }
       else {
           return ResponseUtil.fail(733,"预售规则删除失败");
@@ -684,15 +685,15 @@ public class DiscountController {
      * @return Return  responseUtil.ok()
      */
     @PostMapping("/grouponRules/{id/}invalid")
-    public Object setGrouponRuleDisable(@PathVariable Integer id) throws PromotionRuleSetDisableException {
+    public Object setGrouponRuleDisable(@PathVariable Integer id,HttpServletRequest request) throws PromotionRuleSetDisableException {
 
         GrouponRule grouponRule=(GrouponRule) grouponService.getPromotionById(id,"grouponRule");
         if(grouponRule==null){
-            return ResponseUtil.fail();
+            return returnResult(new Log(Integer.valueOf(request.getHeader("userId")),request.getHeader("ip"),2,"管理员设置团购活动失效",0,id),ResponseUtil.fail());
         }
         else{
             grouponService.setDisabled(grouponRule);
-            return ResponseUtil.ok();
+            return returnResult(new Log(Integer.valueOf(request.getHeader("userId")),request.getHeader("ip"),2,"管理员设置团购活动失效",1,id),ResponseUtil.ok());
         }
     }
 
@@ -703,14 +704,14 @@ public class DiscountController {
      * @return Return  responseUtil.ok()
      */
     @PostMapping("/couponRules/{id}/invalid")
-    public Object setCouponRuleDisable(@PathVariable Integer id) throws PromotionRuleSetDisableException {
+    public Object setCouponRuleDisable(@PathVariable Integer id,HttpServletRequest request) throws PromotionRuleSetDisableException {
         CouponRule couponRule=(CouponRule) couponRuleService.getPromotionById(id,"couponRule");
         if(couponRule==null){
-            return ResponseUtil.fail();
+            return returnResult(new Log(Integer.valueOf(request.getHeader("userId")),request.getHeader("ip"),2,"管理员设置优惠券规则失效",0,id),ResponseUtil.fail());
         }
         else{
             grouponService.setDisabled(couponRule);
-            return ResponseUtil.ok();
+            return returnResult(new Log(Integer.valueOf(request.getHeader("userId")),request.getHeader("ip"),2,"管理员设置优惠券规则失效",1,id),ResponseUtil.ok());
         }
     }
 
@@ -720,14 +721,14 @@ public class DiscountController {
      * @return Return  responseUtil.ok()
      */
     @PostMapping("/presaleRules/{id}/invalid")
-    public Object setPresaleRuleDisable(@PathVariable Integer id) throws PromotionRuleSetDisableException {
+    public Object setPresaleRuleDisable(@PathVariable Integer id,HttpServletRequest request) throws PromotionRuleSetDisableException {
         PresaleRule presaleRule=(PresaleRule) presaleService.getPromotionById(id,"presaleRule");
         if(presaleRule==null){
-            return ResponseUtil.fail();
+            return returnResult(new Log(Integer.valueOf(request.getHeader("userId")),request.getHeader("ip"),2,"管理员设置预售活动失效",0,id),ResponseUtil.fail());
         }
         else{
             grouponService.setDisabled(presaleRule);
-            return ResponseUtil.ok();
+            return returnResult(new Log(Integer.valueOf(request.getHeader("userId")),request.getHeader("ip"),2,"管理员设置预售活动失效",1,id),ResponseUtil.ok());
         }
     }
 
