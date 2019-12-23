@@ -27,10 +27,15 @@ public interface PromotionRuleDao {
      * @return
      */
     List<? extends PromotionRule> listPromotions();
+
+
     /**
      * 添加促销规则
      * @param promotionRule
      * @return
+     * @throws PresaleRuleAddFailException
+     * @throws CouponRuleAddFailException
+     * @throws GrouponRuleAddFailException
      */
     boolean addPromotionRule(PromotionRule promotionRule) throws PresaleRuleAddFailException, CouponRuleAddFailException, GrouponRuleAddFailException;
 
@@ -41,9 +46,14 @@ public interface PromotionRuleDao {
      */
     List<? extends PromotionRule> listPromotionRuleByGoodsId(Integer goodsId);
 
+
     /**
      * 修改促销规则
+     * @param promotionRule
      * @return
+     * @throws PresaleRuleUpdateFailException
+     * @throws CouponRuleUpdateFailException
+     * @throws GrouponRuleUpdateFailException
      */
     boolean updatePromotionRuleById(PromotionRule promotionRule) throws PresaleRuleUpdateFailException, CouponRuleUpdateFailException, GrouponRuleUpdateFailException;
 
@@ -51,6 +61,10 @@ public interface PromotionRuleDao {
     /**
      * 删除促销活动
      * @param id
+     * @return
+     * @throws PresaleRuleDeleteFailException
+     * @throws CouponRuleDeleteFailException
+     * @throws GrouponRuleDeleteFailException
      */
     boolean deletePromotionRuleById(Integer id) throws PresaleRuleDeleteFailException, CouponRuleDeleteFailException, GrouponRuleDeleteFailException;
 }

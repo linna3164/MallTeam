@@ -1,5 +1,5 @@
 server:
-  port: 3703
+  port: 8022
 
 #spring:
 #  application:
@@ -41,10 +41,12 @@ spring:
   application:
     name: discountService
   datasource:
+#    hikari:
+#      maximum-pool-size: 10
+    url: jdbc:mysql://47.52.88.176:3306/DB1_7?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone = Asia/Shanghai
+    username: user1_7
+    password: ooad7
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://47.52.88.176:3306/DB3_3
-    username: user3_3
-    password: ooad3
     druid:
       #初始化时建立物理连接的个数
       initial-size: 2
@@ -114,11 +116,11 @@ ribbon:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://47.100.91.153:3500/eureka/
+      defaultZone: http://112.124.5.232:8011/eureka/
   instance:
     prefer-ip-address: true
-#    ip-address: 192.168.1.181
+    #    ip-address: 192.168.1.181
     ip-address: 60.205.212.233
-    non-secure-port: 3703
+    non-secure-port: 8022
 #    instance-id: ${spring.cloud.client.ip-address}:${server.port}
 #    ip-address: ${spring.cloud.client.ip-address}

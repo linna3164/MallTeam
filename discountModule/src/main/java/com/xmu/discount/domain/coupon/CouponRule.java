@@ -167,7 +167,7 @@ public class CouponRule extends PromotionRule {
         List<OrderItem> validItems = new ArrayList<OrderItem>(items.size());
         for (OrderItem item: items){
             GoodsPo goods = item.getProduct().getGoodsPo();
-            System.out.println(goods);  //测试
+            System.out.println(goods);
             logger.debug("goods = "+goods);
             if (this.isCanUsedOnGoods(goods.getId())){
                 validItems.add(item);
@@ -314,7 +314,7 @@ public class CouponRule extends PromotionRule {
     private static final Logger logger = LoggerFactory.getLogger(CouponRule.class);
     private static final Integer MAXIDNUMS=2500;
 
-    private Object couponStrategy;//标准组
+    private Object couponStrategy;
     private CouponRulePo realObj;
     /**
      * 时间类型

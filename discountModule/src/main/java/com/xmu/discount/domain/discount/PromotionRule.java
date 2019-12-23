@@ -14,8 +14,11 @@ import java.util.List;
  * @date 2019/11/26 10:39
  */
 public abstract class PromotionRule implements Serializable {
-//    private static final Logger logger = LoggerFactory.getLogger();
 
+    /**
+     * 获取id
+     * @return
+     */
     public abstract Integer getId();
 
 
@@ -78,7 +81,7 @@ public abstract class PromotionRule implements Serializable {
     public abstract  boolean beWaitFinish();
 
 
-    /**
+    /**t
      * 判断活动是否失效
      * @return
      */
@@ -185,6 +188,7 @@ public abstract class PromotionRule implements Serializable {
      * 返回应付金额
      * @param order 订单
      * @return
+     * @throws SubmitOrderFailException
      */
     public abstract Order getPayment(Order order) throws SubmitOrderFailException;
 
@@ -243,13 +247,13 @@ public abstract class PromotionRule implements Serializable {
          */
         INPROCESS("进行中", 1),
         /**
-         *未结束
+         *未完成
          */
-        WAITFINISH("未结束",2),
+        WAITFINISH("未完成",2),
         /**"
-         * 已结束
+         * 已完成
          */
-        DONE("已结束", 3),
+        DONE("已完成", 3),
         /**
          * 失效
          */
@@ -319,9 +323,15 @@ public abstract class PromotionRule implements Serializable {
     }
 
 
-
-
+    /**
+     * 获取商品id
+     * @return
+     */
     public abstract Integer getGoodsId();
 
+    /**
+     * 设置商品id
+     * @param goodsId
+     */
     public abstract void setGoodsId(Integer goodsId) ;
 }

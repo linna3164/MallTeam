@@ -23,8 +23,7 @@ mybatis:
 
 spring:
   profiles:
-    active: test
-
+    active: yidi
 
 #zuul:
 #  routes:

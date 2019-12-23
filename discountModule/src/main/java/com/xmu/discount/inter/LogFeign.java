@@ -12,8 +12,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @version 1.0
  * @date 2019/12/16 20:28
  */
-@FeignClient(value = "logService")
+@FeignClient(name = "logService",url = "http://101.132.152.28:3410")
 public interface LogFeign {
+
+    /**
+     * 添加日志
+     * @param log
+     * @return
+     */
     @RequestMapping(value = "/log",method = RequestMethod.POST,consumes = "application/json;charset=UTF-8")
     public Object addLog(@RequestBody Log log);
 }

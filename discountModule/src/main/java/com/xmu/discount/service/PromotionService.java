@@ -44,9 +44,11 @@ public interface PromotionService {
      */
     PromotionRule addPromotion(PromotionRule promotionRule);
 
+
     /**
      * 根据id获取促销规则(controller 传优惠券名)
      * @param id
+     * @param promotionName
      * @return
      */
     PromotionRule getPromotionById(Integer id,String promotionName);

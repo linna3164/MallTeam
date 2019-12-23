@@ -46,6 +46,7 @@ public interface GrouponRuleMapper {
 
     /**
      * 修改团购规则
+     * @param grouponRule
      * @return
      */
     boolean updateGrouponRuleById(GrouponRulePo grouponRule);

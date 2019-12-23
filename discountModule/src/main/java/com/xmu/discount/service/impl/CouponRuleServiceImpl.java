@@ -85,7 +85,8 @@ public class CouponRuleServiceImpl extends PromotionServiceImpl {
             if(coupon.getStatus().equals(Coupon.Status.NOT_USED)){
                 Coupon newCoupon=new Coupon();
                 newCoupon.setId(coupon.getId());
-                newCoupon.setStatusCode(3);//TODO:不知道失效的code标准组更新了没
+                //不知道失效的code标准组更新了没
+                newCoupon.setStatusCode(3);
                 //更新状态为已失效
                 couponDao.updateCouponById(newCoupon);
             }

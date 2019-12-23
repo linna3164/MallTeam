@@ -44,6 +44,7 @@ public interface PresaleRuleMapper {
 
     /**
      * 修改预售规则
+     * @param presaleRule
      * @return
      */
     boolean updatePresaleRuleById(PresaleRule presaleRule);

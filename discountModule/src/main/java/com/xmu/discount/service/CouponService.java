@@ -24,6 +24,10 @@ public interface CouponService {
      */
     Coupon findCouponById(Integer id);
 
+    /**
+     * 获取所有的优惠券
+     * @return
+     */
     List<Coupon> getCoupons();
     /**
      * 用户领取优惠券
@@ -51,5 +55,10 @@ public interface CouponService {
      */
     List<Coupon> listUnUsedCouponOfUser(Integer userId);
 
+    /**
+     * 用户查找可用优惠券
+     * @param cartItems
+     * @return
+     */
     List<Coupon> listAvailableCoupons(List<CartItem> cartItems);
 }

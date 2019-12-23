@@ -65,9 +65,7 @@ public class GrouponRule extends PromotionRule {
                     return false;
                 }
             }
-//            if(strategies.get(strategies.size()-1).getUpperBound()!=null){
-//                return false;
-//            }
+
         }
 
         return true;
@@ -93,31 +91,11 @@ public class GrouponRule extends PromotionRule {
      */
     @Override
     public boolean beWaitFinish() {
-//        if(super.beAlreadyEnd()){
-//            LocalDate now=LocalDate.now();
-//            this.getPromotionEndTime().toLocalDate();
-//            if(now.equals(this.getPromotionEndTime().toLocalDate())){
-//                return true;
-//            }
-//        }
+
         return false;
     }
 
-//    /**
-//     * 团购活动已经正常结束
-//     * @return
-//     */
-//    @Override
-//    public boolean beFinished() {
-//
-//        //进行中
-//        if(this.isStatusCode()){
-//            return false;
-//        }
-//        else {
-//            return true;
-//        }
-//    }
+
 
     private GrouponRulePo realObj;
 

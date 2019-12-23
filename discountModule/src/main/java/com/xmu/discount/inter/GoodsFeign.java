@@ -11,8 +11,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @version 1.0
  * @date 2019/12/17 1:28
  */
-@FeignClient(value = "goodsInfoService")
+@FeignClient(name = "goodsInfoService",
+            url = "http://47.100.91.153:3090")
 public interface GoodsFeign {
+    /**
+     * 获取商品
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "/inner/goods/{id}",method = RequestMethod.GET)
     public Object getGoodsById(@PathVariable Integer id);
 

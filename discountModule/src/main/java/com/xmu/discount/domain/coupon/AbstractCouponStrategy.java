@@ -26,7 +26,7 @@ import java.util.List;
      * @param totalQuantity 总数量
      * @return true- 已经满足， false - 不满足
      */
-    protected abstract boolean isEnough(BigDecimal totalPrice, Integer totalQuantity);
+        protected abstract boolean isEnough(BigDecimal totalPrice, Integer totalQuantity);
 
     /**
      * 计算折扣后的价格
@@ -83,8 +83,10 @@ import java.util.List;
     public List<OrderItem> cacuDiscount(List<OrderItem> validItems, String couponSn){
         logger.debug("cacuDiscount的参数： validItems"+ validItems +" couponSn = "+couponSn);
         //优惠商品的总价和数量
-        BigDecimal totalPrice = BigDecimal.ZERO;//可用优惠券明细的订单item的总价
-        Integer totalQuantity = 0;//可用优惠券明细的订单item的总数量
+        //可用优惠券明细的订单item的总价
+        BigDecimal totalPrice = BigDecimal.ZERO;
+        //可用优惠券明细的订单item的总数量
+        Integer totalQuantity = 0;
 
         //优惠的货品
         List<OrderItem> discountItems = new ArrayList<>(validItems.size());
@@ -94,7 +96,8 @@ import java.util.List;
         while (itemIterator.hasNext()){
             OrderItem item = itemIterator.next();
             logger.debug("总价 totalPrice="+ totalPrice + " 总数 totalQuantitiy = "+totalQuantity);
-            totalPrice = totalPrice.add(item.getPrice().multiply(BigDecimal.valueOf(item.getNumber())));//可优惠总价
+            //可优惠总价
+            totalPrice = totalPrice.add(item.getPrice().multiply(BigDecimal.valueOf(item.getNumber())));
             totalQuantity += item.getNumber();
             discountItems.add(item);
         }
@@ -110,10 +113,12 @@ import java.util.List;
         if (enough) {
             for (OrderItem item: discountItems){
                 //按照比例分配，可能会出现精度误差，在后面补偿到第一个货品上
-                BigDecimal dealPrice = this.getDealPrice(item.getPrice(), totalPrice);//每一项商品的每一项
+                //每一项商品的每一项
+                BigDecimal dealPrice = this.getDealPrice(item.getPrice(), totalPrice);
                 logger.debug("优惠价格 dealPrice="+ dealPrice);
                 item.setDealPrice(dealPrice);
-                dealTotalPrice = dealTotalPrice.add(dealPrice.multiply(BigDecimal.valueOf(item.getNumber())));//每一项的优惠价格
+                //每一项的优惠价格
+                dealTotalPrice = dealTotalPrice.add(dealPrice.multiply(BigDecimal.valueOf(item.getNumber())));
                 logger.debug("总优惠价 dealTotalPrice="+ dealTotalPrice);
                 logger.debug("优惠明细 item="+ item);
             }

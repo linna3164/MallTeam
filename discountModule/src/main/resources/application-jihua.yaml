@@ -42,9 +42,9 @@ spring:
     name: discountService
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://47.52.88.176:3306/DB3_3
-    username: user3_3
-    password: ooad3
+    url: jdbc:mysql://47.52.88.176:3306/DB1_5?useUnicode=true&characterEncoding=UTF-8
+    username: user1_5
+    password: ooad5
     druid:
       #初始化时建立物理连接的个数
       initial-size: 2
@@ -114,10 +114,10 @@ ribbon:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://47.100.91.153:3500/eureka/
+      defaultZone: http://101.37.30.146:8761/eureka/
   instance:
     prefer-ip-address: true
-#    ip-address: 192.168.1.181
+    #    ip-address: 192.168.1.181
     ip-address: 60.205.212.233
     non-secure-port: 3703
 #    instance-id: ${spring.cloud.client.ip-address}:${server.port}

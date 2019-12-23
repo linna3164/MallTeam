@@ -211,7 +211,7 @@ public class DiscountController {
 
     /**
      * 管理员添加优惠券（用户领取优惠券）
-     * @param couponI
+     * @param couponi
      * @return
      */
     @PostMapping("/coupons")
@@ -570,7 +570,7 @@ public class DiscountController {
      */
     @DeleteMapping("/presaleRules/{id}")
     public Object deletePresaleRuleById(@PathVariable Integer id) throws GrouponRuleUpdateFailException, PresaleRuleDeleteFailException, CouponRuleDeleteFailException, GrouponRuleDeleteFailException {
-        PresaleRule presaleRule=(PresaleRule)presaleService.getPromotionById(id,"presaleRule"); //为什么会有name这个参数
+        PresaleRule presaleRule=(PresaleRule)presaleService.getPromotionById(id,"presaleRule");
       if(presaleRule!=null) {
           boolean success=presaleService.deletePromotionById(presaleRule);
 //          presaleRule = (PresaleRule) presaleService.getPromotionById(id, "presaleRule");

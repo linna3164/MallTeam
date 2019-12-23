@@ -44,6 +44,9 @@ public abstract class PromotionServiceImpl {
 
     /**
      * 活动实效后的行为
+     * @param promotionRule
+     * @throws CouponRuleSetDisableFailException
+     * @throws PromotionRuleSetDisableException
      */
     public  abstract void toDoSomthingAfterDisable(PromotionRule promotionRule) throws CouponRuleSetDisableFailException, PromotionRuleSetDisableException;
 
@@ -244,7 +247,6 @@ public abstract class PromotionServiceImpl {
         //活动商品的所有促销活动
         List<? extends PromotionRule> promotionRules=this.listProimotionByGoodsId(goodsId);
         List<PromotionRule> res=new ArrayList<>();
-//        System.out.println("size:"+promotionRules.size());
         for(PromotionRule promotionRule:promotionRules){
             if(promotionRule.getActiveStatus().equals(PromotionRule.ActiveStatus.INPROCESS)) {
                 res.add(promotionRule);
